@@ -1,0 +1,1487 @@
+10.1016/j.jmp.2004.01.002
+Response time (RT), the time taken to complete a task, is a common dependent variable in experimental psychology and has been used repeatedly to draw inferences about the nature of mental processing. Most researchers tend to analyze the mean RT, but a growing number of researchers are examining whole RT distributions as a means of providing more extensive and insightful tests of cognitive and perceptual theories (e.g.,  Ashby, Tien, & Balakrishnan, 1993 ;  Dzhafarov, 1992 ;  Hockley, 1984 ;  Logan, 1992 ;  Luce, 1986 ;  Ratcliff, 1978 ;  Ratcliff & Rouder, 1998, 2000 ,  Rouder, 2000 ;  Spieler, Balota, & Faust, 1996 ;  Theeuwes, 1992, 1994 ;  Townsend & Nozawa, 1995 ;  Van Zandt, Colonius, & Proctor, 2000 ). For many paradigms and research questions, it is advantageous to use several participants and estimate a  group  response time distribution that reflects the distribution of an average or typical participant. To this end, it is imperative to have a set of statistically rigorous tools for forming group response time distributions.
+
+Andrews and Heathcote's (2001)  study on the effects of word frequency in identifying words is a recent example of constructing group RT distributions. Participants typically identify high-frequency words (e.g., cat) more quickly than low-frequency words (e.g., lynx), and this frequency advantage holds true for a variety of tasks such as naming, lexical decision, and deciding whether a word denotes an animate or inanimate object. Andrews and Heathcote's goal was to assess the loci of word frequency effects. They asked whether there was one common mechanism for word frequency effects that operated in all of these tasks. Their approach was to construct group RT distributions. From these group distributions, Andrews and Heathcote estimated parameters related to the “average” location and skew. Based on the patterns of changes in these parameters, Andrews and Heathcote were able to make detailed statements about loci of word frequency effects across a number of tasks.
+
+The current state-of-the art in forming group response time distributions is a non-parametric technique called Vincentizing ( Vincent, 1912 ). The goal of this paper is to provide a theorem about the sampling distributions of parameters obtained from Vincentizing. There are actually two different variants in the literature that are referred to as Vincentizing ( Heathcote, 1996 ;  Van Zandt, 2000 ). The first is the technique of averaging quantiles 
+                         1 
+                      
+                      
+                         1 
+                         The term “quantile” is used to generalize the notion of quartiles, quantiles, deciles, percentiles, etc. In general, given 0< p <1, the  p th quantile is defined to be a value  Q  such that fraction  p  of the population or data set lies at or below  Q  and fraction 1− p  lies above  Q . Thus the median is the quantile with  p =0.5, the third quartile corresponds to  p =0.75, etc. 
+                       across individual RT distributions to produce a group distribution. For example, the 10th percentile of the group distribution is the average of the 10th percentiles across all of the participants. This averaging procedure is applied to several quantiles until a reasonable group distribution is obtained. In the second variant, quantities called “Vincentiles” are averaged across participants. A Vincentile is the mean of observations between neighboring order statistics. For example, the 15% Vincentile is the mean of all observations between the 10th and 20th percentile. In practice, the two variants yield highly similar results, and occasionally authors do not specify which variant was used. We refer to the method of averaging either Vincentiles or quantiles across participants as Vincentizing. In this paper, we will be concerned exclusively with the variant of Vincentizing in which quantiles are averaged, where we can apply the well-known asymptotic distribution of sample quantiles. In contrast, we know of no statistical development about the distribution of Vincentiles.
+
+Ratcliff (1979)  provided a landmark study of Vincentizing. He found that the location, scale and shape of the group distribution roughly convey information about averaged location, scale, and shape of the individual distributions. Because of this property, Vincentizing has become a more frequently used tool in cognitive and perceptual psychology (e.g.,  Heathcote, Popiel, & Mewhort, 1991 ;  Logan, 1992 ;  Ratcliff & Rouder, 2000 ;  Rouder, Ratcliff, & McKoon, 2000 ;  Spieler, Balota, & Faust, 1996, 2000 ). The main advantage of Vincentizing is that it can be used in cases in which there are several individuals but only a few observations per individual. In contrast, it may be difficult if not impossible to estimate parameters from individuals with only a few observations. Vincentizing is therefore most useful in cases in which there are too few observations per individual to estimate each individual's distribution directly.
+
+The main disadvantage of Vincentizing is the sampling properties of averaged quantiles are unknown. Without a theory of the sampling distribution of averaged quantiles, it is impossible to do inference on estimated group parameters without nonparametric or bootstrap methods. This deficit in the field motivates the current paper. In the following section we establish a theorem about averaged quantiles for  location-scale  distributions. The theorem implies that generalized least-squares regression (GLS) can be used to estimate the location and scale parameters of the group distribution. Generalized least squares also provides accurate estimates of parameter standard errors, which makes inference both possible and practical. Then, in the subsequent section, we show, through a small Monte Carlo study, that the quantile averaging/generalized least-squares method is both feasible and for large classes of models superior to other candidate methods including maximum likelihood. Finally, we show that for location-scale distributions, quantile averaging is unnecessary; the same parameter estimates can be obtained by fitting each individual's quantiles with GLS and averaging individual parameter estimates. This result is somewhat ironic. Vincentizing only yields consistent estimators for location-scale families ( Thomas & Ross, 1980 ); yet, in this case it is unnecessary. We conclude with a discussion of when researchers can profitably use Vincentizing.
+
+The goal in this section is to establish a theorem about the sample distributions of parameters estimated from averaged quantiles. We consider only location-scale families of random variables as it is only for these families that quantile averaging yields consistent parameter estimates ( Thomas & Ross, 1980 ). First, we define a location-scale family of random variables; then we derive the sampling properties of averaged quantiles. With these sampling properties, it is relatively straightforward to provide an efficient means of estimating location and scale parameters as well as to provide an asymptotic result about their sampling distributions.
+
+Suppose each of several random variables,  T 
+                         
+                            j 
+                         , has a two-parameter distribution with parameters  ψ 
+                         
+                            j 
+                          and  θ 
+                         
+                            j 
+                         , −∞< ψ 
+                         
+                            j 
+                         <∞,  θ 
+                         
+                            j 
+                         >0. The collection is called a location-scale family if the distribution of  V 
+                         
+                            j 
+                         =( T 
+                         
+                            j 
+                         − ψ 
+                         
+                            j 
+                         )/ θ 
+                         
+                            j 
+                          is the same for all  j . We refer to the distribution of  V  as the standard distribution. Denote the cumulative distribution function (cdf) of  T 
+                         
+                            j 
+                          as  F ( t ; ψ 
+                         
+                            j 
+                         , θ 
+                         
+                            j 
+                         ) and the cdf of the standard distribution as  G . It follows that the collection of  T 
+                         
+                            j 
+                          is a location-scale family if and only if 
+                            
+                               (1) 
+                               F(t;ψ j ,θ j )=G 
+                                     
+                                     
+                                        t−ψ j 
+                                        
+                                        θ j 
+                                        
+                                     
+                                     
+                                  . 
+                            
+                         Location-scale families generally have probability density functions (pdf), in which case the density of  T 
+                         
+                            j 
+                          has the form 
+                            
+                               (2) 
+                               f(t;ψ j ,θ j )= 
+                                     1 
+                                     θ j 
+                                     
+                                  
+                                  g 
+                                     
+                                     
+                                        t−ψ j 
+                                        
+                                        θ j 
+                                        
+                                     
+                                     
+                                  , 
+                            
+                         where  g  is the pdf of the standard distribution  V .
+
+Many common distributions are location-scale families. For example, the collection of all normal distributions is a location scale family; the mean is the location parameter and the standard deviation is the scale parameter. The collection of exponential distributions is an example of a scale family (with location set to zero); the scale parameter is the standard deviation (or inverse of the rate parameter). Although there are important families that are not location-scale, sometimes one of the parameters in these families can be regarded as fixed and the result is a location-scale family. One example is the three-parameter Weibull distribution with cdf 
+                            
+                               (3) 
+                               F(t;ψ,θ,β)=1− exp 
+                                  
+                                     
+                                     
+                                        
+                                        
+                                           t−ψ 
+                                           θ 
+                                        
+                                        
+                                     
+                                     β 
+                                     
+                                  ,t>ψ 
+                                  and 
+                                  0 
+                                  elsewhere , 
+                            
+                         with location parameter −∞< ψ <∞ and scale and shape parameters  θ , β >0. In many cases, the shape parameter can be taken as a single value across all individuals, resulting in a location-scale family. We have found that a Weibull with a shape parameter set to 2.0 well-approximates RT data ( Rouder, Sun, Speckman, Lu, & Zhou, 2003 ). Another example of a location-scale family is the three parameter gamma when the number of stages is held constant (perhaps at 2). However, the Ex-Gaussian ( Hohle, 1965 ), a popular three-parameter random variable for response time, is not a location-scale distribution.
+
+We assume that the data for each individual come from a common location-scale family, but each person has his or her own unique location and scale parameters. Let  F 
+                         
+                            j 
+                          denote the cdf for the  j th person's RT. Then 
+                            
+                               F j (t)=F(t;ψ j ,θ j )=G 
+                                     
+                                     
+                                        t−ψ j 
+                                        
+                                        θ j 
+                                        
+                                     
+                                     
+                                  .
+
+Vincentizing consists of averaging select quantile statistics across individuals. To make these notions precise, we review notions of population and sample quantiles. If a distribution has cdf  G , the quantile function  Q ( p ), defined for 0< p <1, is the inverse of the cdf,  Q ( p )= G 
+                         −1 ( p ). If  G  is not one-to-one, the definition is taken to be  Q ( p )=inf{ x : G ( x )⩾ p }. In the cases of continuous distributions considered here,  G  will be one-to-one for  G ( x )>0. When  F ( t ; ψ , θ ) is a member of a location-scale family, it follows from  (1)  that 
+                            
+                               (4) 
+                               F −1 (p;ψ j ,θ j )=ψ j +θ j Q(p), 
+                            
+                         where  Q  is the quantile function of the standard distribution,  G . Then the  p th quantile of person  j , say  Q 
+                         
+                            j 
+                         ( p )= F 
+                         
+                            j 
+                         
+                         −1 ( p ), satisfies 
+                            
+                               (5) 
+                               Q j (p)=ψ j +θ j Q(p). 
+                            
+                         As in  Thomas and Ross (1980) , the average of these theoretical quantiles across subjects satisfies 
+                            
+                               (6) 
+                               
+                                  
+                                     1 
+                                     m 
+                                  
+                                  
+                                     ∑ 
+                                     j=1 
+                                     m 
+                                  
+                                  Q j (p)= 
+                                     ψ 
+                                     ̄ 
+                                  + 
+                                     θ 
+                                     ̄ 
+                                  Q(p), 
+                            
+                         where  
+                            
+                               ψ 
+                               ̄ 
+                            = 
+                               1 
+                               m 
+                            ∑ j=1 
+                            m ψ j 
+                          and  
+                            
+                               θ 
+                               ̄ 
+                            = 
+                               1 
+                               m 
+                            ∑ j=1 
+                            m θ j 
+                         . But this is exactly the quantile function of the distribution with cdf  F ∗ (t)=F(t; 
+                               ψ 
+                               ̄ 
+                            , 
+                               θ 
+                               ̄ 
+                            ) , which can thus be taken to be a  group distribution  in the sense that it is a kind of average distribution for the  m  individuals in the group. Thomas and Ross also showed that location-scale families are the only families of distributions with this averaging property.
+
+In practice, this averaging procedure is applied to sample quantiles rather than theoretical quantiles. There is no unique definition of a sample quantile, but the large sample theory employed here applies for a number of different definitions. To be specific, let  T 
+                         1 ,…, T 
+                         
+                            n 
+                          denote independent observations from an RT distribution with cdf  F , and let  T 
+                         (1) <⋯< T 
+                         ( n )  denote the  ordered  responses. Following  Hyndman and Fan (1996) , a number of common definitions of the  p th sample quantile have the form 
+                            
+                               (7) 
+                               
+                                  
+                                     Q 
+                                     ̂ 
+                                  (p)=(1−γ)T ( j) +γT ( j+1) , 
+                            
+                         where 
+                            
+                               (8) 
+                               
+                                  
+                                     j−s 
+                                     n 
+                                  ⩽p< 
+                                  
+                                     j−s+1 
+                                     n 
+                                  
+                               
+                            
+                         for some integer −∞< s <∞ and  γ ∈[0,1]. For example, the sample median is usually defined to be 0.5{ T 
+                         (0.5 n ) + T 
+                         (0.5 n +1) } for  n  even and  T 
+                         (0.5( n +1))  for  n  odd. The first case corresponds to  s =0 and  γ =0.5, while the second has  s =0.5 and  γ =0. We use the sample quantiles as defined in  (7)  in the following statistical development.
+
+Although Thomas and Ross's result is informative, it pertains to quantile averaging at the population level and not at the sample level. In this section, we derive the sampling distribution of sample averaged quantiles, which we express as a theorem. The theorem leads, almost directly, to an efficient means of parameter estimation. Before stating the theorem and its consequences, we provide needed preliminary notation.
+
+Preliminary notation . In practice, a researcher must first choose a set of quantiles (or percentiles). For example,  Rouder et al. (2000)  chose the 10th, 30th, 50th, 70th, and 90th percentiles, that is the quantiles defined for  p =0.1,0.3,0.5,0.7, and 0.9. In general, we assume Vincentizing based on  K  quantiles with 0< p 
+                         1 <⋯< p 
+                         
+                            K 
+                         <1. Let  
+                            
+                               Q 
+                               ̂ 
+                            
+                            j (p k )  denote the  k th sample quantile for the  j th individual. Let  Y ( p 
+                         
+                            k 
+                         ) denote the corresponding averaged (i.e. Vincentized) quantile, that is, 
+                            
+                               (9) 
+                               Y(p k )= 
+                                     1 
+                                     m 
+                                  
+                                  
+                                  
+                                     ∑ 
+                                     j=1 
+                                     m 
+                                  
+                                  
+                                  
+                                     Q 
+                                     ̂ 
+                                  
+                                  j (p k ).
+
+In stating the theorem, let  
+                            Y 
+                            n =(Y(p 1 ),…,Y(p K ))′  denote the vector of Vincentized quantiles when there are  n  observations per individual. The asymptotic mean of  
+                            Y 
+                            n 
+                          will be shown to be  
+                            Zη 
+                         , where  
+                            η =( 
+                               ψ 
+                               ̄ 
+                            , 
+                               θ 
+                               ̄ 
+                            )′  is an unknown parameter vector and 
+                            
+                               (10) 
+                               
+                                  Z = 
+                                     
+                                     
+                                        
+                                           1 
+                                           Q(p 1 ) 
+                                        
+                                        
+                                           ⋮ 
+                                           ⋮ 
+                                        
+                                        
+                                           1 
+                                           Q(p K ) 
+                                        
+                                     
+                                     
+                                  
+                               
+                            
+                         is a fixed, known  K ×2 matrix. The asymptotic covariance matrix is a scale multiple of 
+                            
+                               (11) 
+                               
+                                  
+                                     Σ 
+                                  = 
+                                     
+                                     
+                                        
+                                           
+                                              
+                                                 p 1 (1−p 1 ) 
+                                                 g(Q(p 1 )) 2 
+                                                 
+                                              
+                                           
+                                           
+                                              
+                                                 p 1 (1−p 2 ) 
+                                                 g(Q(p 1 ))g(Q(p 2 )) 
+                                              
+                                           
+                                           ⋯ 
+                                           
+                                              
+                                                 p 1 (1−p K ) 
+                                                 g(Q(p 1 ))g(Q(p K )) 
+                                              
+                                           
+                                        
+                                        
+                                           
+                                              
+                                                 p 1 (1−p 2 ) 
+                                                 g(Q(p 1 ))g(Q(p 2 )) 
+                                              
+                                           
+                                           
+                                              
+                                                 p 2 (1−p 2 ) 
+                                                 g(Q(p 2 )) 2 
+                                                 
+                                              
+                                           
+                                           ⋯ 
+                                           
+                                              
+                                                 p 2 (1−p K ) 
+                                                 g(Q(p 2 ))g(Q(p K )) 
+                                              
+                                           
+                                        
+                                        
+                                           ⋮ 
+                                           ⋮ 
+                                           ⋱ 
+                                           ⋮ 
+                                        
+                                        
+                                           
+                                              
+                                                 p 1 (1−p K ) 
+                                                 g(Q(p 1 ))g(Q(p K )) 
+                                              
+                                           
+                                           
+                                              
+                                                 p 2 (1−p K ) 
+                                                 g(Q(p 2 ))g(Q(p K )) 
+                                              
+                                           
+                                           ⋯ 
+                                           
+                                              
+                                                 p K (1−p K ) 
+                                                 g(Q(p K )) 2 
+                                                 
+                                              
+                                           
+                                        
+                                     
+                                     
+                                  .
+
+With this notation, it is now possible to express the theorem about the sampling distribution of averaged quantiles. In the statement of the theorem, we need a technical condition on the number of order statistics used in the definitions of the quantiles in  (7) and (8) . We assume that the integer  s  in the definition is bounded for all  p 
+                         
+                            k 
+                          and  n . In many definitions, | s |⩽1. 
+                            Theorem 
+                            
+                               Assume  
+                               g ( Q ( p 
+                               
+                                  k 
+                               ))>0  and  
+                               
+                                  
+                                     Q 
+                                     ̂ 
+                                  (p k )  
+                               satisfies  
+                               (7)  
+                               and  
+                               (8)  
+                               with  | s |⩽ r  
+                               for some fixed  
+                               r <∞,  k =1,…, K ,  j =1,…, m ,  and all  
+                               n .  Then for fixed  
+                               m , 
+                                  
+                                     (12) 
+                                     
+                                        
+                                           n 
+                                        { Y 
+                                        n − Zη } 
+                                           → 
+                                           
+                                              L 
+                                           
+                                        N( 0 ,σ 2 
+                                        
+                                           Σ 
+                                        ) as n→∞, 
+                                  
+                               
+                               where  
+                               
+                                  0 =(0,0) T 
+                                
+                               and 
+                               
+                                  
+                                     σ 2 = 
+                                           1 
+                                           m 2 
+                                           
+                                        
+                                        
+                                        
+                                           ∑ 
+                                           j=1 
+                                           m 
+                                        
+                                        θ j 
+                                        2 .
+
+Assume  
+                               g ( Q ( p 
+                               
+                                  k 
+                               ))>0  and  
+                               
+                                  
+                                     Q 
+                                     ̂ 
+                                  (p k )  
+                               satisfies  
+                               (7)  
+                               and  
+                               (8)  
+                               with  | s |⩽ r  
+                               for some fixed  
+                               r <∞,  k =1,…, K ,  j =1,…, m ,  and all  
+                               n .  Then for fixed  
+                               m , 
+                                  
+                                     (12) 
+                                     
+                                        
+                                           n 
+                                        { Y 
+                                        n − Zη } 
+                                           → 
+                                           
+                                              L 
+                                           
+                                        N( 0 ,σ 2 
+                                        
+                                           Σ 
+                                        ) as n→∞, 
+                                  
+                               
+                               where  
+                               
+                                  0 =(0,0) T 
+                                
+                               and 
+                               
+                                  
+                                     σ 2 = 
+                                           1 
+                                           m 2 
+                                           
+                                        
+                                        
+                                        
+                                           ∑ 
+                                           j=1 
+                                           m 
+                                        
+                                        θ j 
+                                        2 .
+
+Before proving the theorem we discuss its implication, namely that we can use  (12)  as the approximate likelihood of the parameters  
+                            
+                               ψ 
+                               ̄ 
+                            
+                          and  
+                            
+                               θ 
+                               ̄ 
+                            
+                         . Inference for these parameters is then a straightforward application from multivariate normality, where by the Gauss Markov theorem, generalized least squares provides efficient estimates (e.g.,  Christensen, 1996 ) in the following way.
+
+We treat  
+                            Y 
+                          as if it has a multivariate normal distribution with mean  
+                            Zη 
+                          and variance–covariance matrix  τ 
+                               Σ 
+                            
+                         , where  τ = σ 
+                         2 / n  is an unknown parameter. Under these assumptions, the usual estimate (best linear unbiased estimate) of  
+                            η 
+                          is 
+                            
+                               (13) 
+                               
+                                  
+                                     
+                                        η 
+                                     
+                                     ̂ 
+                                  =( Z ′ 
+                                     Σ 
+                                  
+                                  −1 
+                                  Z ) −1 
+                                  Z ′ 
+                                     Σ 
+                                  
+                                  −1 
+                                  Y , 
+                            
+                         and the distribution of  
+                            
+                               
+                                  η 
+                               
+                               ̂ 
+                            =( 
+                               ψ 
+                               ̂ 
+                            , 
+                               θ 
+                               ̂ 
+                            )′  is approximately  N( η ,τ( Z ′ 
+                               Σ 
+                            
+                            −1 
+                            Z ) −1 ) . Moreover, 
+                            
+                               (14) 
+                               
+                                  
+                                     τ 
+                                     ̂ 
+                                  =( Y − Z 
+                                  
+                                     
+                                        η 
+                                     
+                                     ̂ 
+                                  )′ 
+                                     Σ 
+                                  
+                                  −1 ( Y − Z 
+                                  
+                                     
+                                        η 
+                                     
+                                     ̂ 
+                                  )/(K−2)= Y ′{ 
+                                     Σ 
+                                  
+                                  −1 − 
+                                     Σ 
+                                  
+                                  −1 
+                                  Z ( Z ′ 
+                                     Σ 
+                                  
+                                  −1 
+                                  Z ) −1 
+                                  Z ′ 
+                                     Σ 
+                                  
+                                  −1 } Y /(K−2) 
+                            
+                         is an unbiased estimate of  τ . Letting 
+                            
+                               (15) 
+                               
+                                  S =[s ij ]= 
+                                     τ 
+                                     ̂ 
+                                  ( Z ′ 
+                                     Σ 
+                                  
+                                  −1 
+                                  Z ) −1 , 
+                            
+                         approximate confidence intervals for  
+                            
+                               ψ 
+                               ̄ 
+                            
+                          and  
+                            
+                               θ 
+                               ̄ 
+                            
+                          are given by  
+                            
+                               ψ 
+                               ̂ 
+                            ±t α/2,K−2 
+                            
+                               s 11 
+                               
+                            
+                          and  
+                            
+                               θ 
+                               ̂ 
+                            ±t α/2,K−2 
+                            
+                               s 22 
+                               
+                            
+                         , respectively.
+
+This result is closely related to the method introduced by  Mosteller (1946)  for “inefficient” estimates of parameters of the normal distribution based on selected order statistics from a single sample. Mosteller's work has been extended by a number of authors to various distributions. These authors also consider optimal choice of quantiles; see  Eubank (1981)  for further discussion and references. 
+                            Proof of Theorem 1 
+                            We begin with quantiles defined by  (7)  for  s =0 and  γ =1, that is,  
+                                  
+                                     Q 
+                                     ̂ 
+                                  
+                                  j (p)  is the ⌈ pn ⌉ order statistic. By the asymptotic limit theorem for sample quantiles (see for example  Sen & Singer, 1993, p. 169, Theorem 4.4.3 ), the  j th person's quantiles have joint asymptotic distribution 
+                                  
+                                     (16) 
+                                     
+                                        
+                                           n 
+                                        
+                                        
+                                           
+                                           
+                                              
+                                                 
+                                                    
+                                                       Q 
+                                                       ̂ 
+                                                    
+                                                    j (p 1 )−Q j (p 1 ) 
+                                              
+                                              
+                                                 ⋮ 
+                                              
+                                              
+                                                 
+                                                    
+                                                       Q 
+                                                       ̂ 
+                                                    
+                                                    j (p K )−Q j (p K ) 
+                                              
+                                           
+                                           
+                                        
+                                        
+                                           → 
+                                           
+                                              L 
+                                           
+                                        N( 0 , 
+                                           
+                                              
+                                                 Σ 
+                                              
+                                           
+                                           ̃ 
+                                        
+                                        j ) 
+                                        as 
+                                        n→∞, 
+                                  
+                               where  
+                                  
+                                     
+                                        
+                                           Σ 
+                                        
+                                     
+                                     ̃ 
+                                  
+                                  j 
+                                is the  K × K  matrix with ( r , s ) element 
+                                  
+                                     
+                                        
+                                           p r (1−p s ) 
+                                           f j {Q j (p r )}f j {Q j (1−p s )} 
+                                        . 
+                                  
+                               Using  (2) and (5) , this covariance term simplifies to 
+                                  
+                                     
+                                        
+                                           θ j 
+                                              2 p r (1−p s ) 
+                                           g{Q(p r )}g{Q(1−p s )} 
+                                        , 
+                                  
+                               giving the asymptotic covariance  θ j 
+                                  2 
+                                  
+                                     Σ 
+                                  
+                               , where  
+                                  
+                                     Σ 
+                                  
+                                is defined in  (11) . Consequently, Slutsky's Theorem allows us to average over  j  to obtain 
+                                  
+                                     (17) 
+                                     
+                                        
+                                           n 
+                                        
+                                        
+                                           
+                                           
+                                              
+                                                 m −1 {∑ j=1 
+                                                    m 
+                                                    
+                                                    
+                                                       Q 
+                                                       ̂ 
+                                                    
+                                                    j (p 1 )−Q j (p 1 )} 
+                                              
+                                              
+                                                 ⋮ 
+                                              
+                                              
+                                                 m −1 {∑ j=1 
+                                                    m 
+                                                    
+                                                    
+                                                       Q 
+                                                       ̂ 
+                                                    
+                                                    j (p K )−Q j (p K )} 
+                                              
+                                           
+                                           
+                                        
+                                        
+                                           → 
+                                           
+                                              L 
+                                           
+                                        N 
+                                           
+                                           0 , 
+                                              ∑ j θ j 
+                                                 2 
+                                              
+                                              m 2 
+                                              
+                                           
+                                           
+                                              Σ 
+                                           
+                                           
+                                        
+                                        
+                                        as 
+                                        n→∞. 
+                                  
+                               The theorem for this case now follows from  (6) and (9) . 
+                            To extend this result to arbitrary  s  and  γ  as defined in  (7) and (8) , we need a simple extension of  (16) . Because we are not aware of a reference, a short proof is included here. Again let  T 
+                               (1) ,…, T 
+                               ( n )  denote the order statistics for person  j . It is well known (e.g.  Ferguson, 1996 ) that these order statistics have the same joint distribution as  Q 
+                               
+                                  j 
+                               ( U 
+                               (1) ),…, Q 
+                               
+                                  j 
+                               ( U 
+                               ( n ) ), where  U 
+                               (1) ,…, U 
+                               ( n )  are the order statistics from a random sample of uniformly distributed random variables on [0, 1]. Furthermore,  U (i) 
+                                  
+                                     = 
+                                     
+                                        D 
+                                     
+                                  X i /∑ j=1 
+                                  n X i 
+                               ,  i =1,…, n , where the  X 
+                               
+                                  i 
+                                are independent exponentially distributed (Gamma(1, 1)) random variables. For fixed integer  r >0, it follows that 
+                                  
+                                     n(U (⌈pn⌉+r) −U (⌈pn⌉) ) 
+                                           = 
+                                           
+                                              L 
+                                           
+                                        
+                                        
+                                        
+                                           n∑ i=1 
+                                              r X i 
+                                           
+                                           ∑ j=1 
+                                              n X j 
+                                           
+                                        
+                                        
+                                           → 
+                                           
+                                              L 
+                                           
+                                        
+                                        
+                                        Gamma (r,1). 
+                                  
+                               Consequently,  
+                                  
+                                     n 
+                                  (U (⌈pn⌉+r) −U (⌈pn⌉) )→0  in probability. Using the delta method, the assumption on  g , and the fact that  
+                                  
+                                     Q 
+                                     ̂ 
+                                  
+                                  j (p)→Q j (p)  in probability, it follows that 
+                                  
+                                     
+                                        
+                                           n 
+                                        (T (⌈pn⌉+r) −T (⌈pn⌉) )→0 
+                                  
+                               in probability as well. A similar results holds for fixed  r <0. Now choose  r <∞ so that | s |< r  for all  n  in  (8)  ( s  can depend on  n ). Then using  (7)  again, 
+                                  
+                                     
+                                        
+                                           n 
+                                        | 
+                                           Q 
+                                           ̂ 
+                                        
+                                        j (p)−T (⌈pn⌉) |⩽ 
+                                           n 
+                                        {(1−γ)|T ( j) −T (⌈pn⌉) |+ γ|T ( j+1) −T (⌈pn⌉) |}. 
+                                  
+                               There are several possibilities. If  j⩽⌈np⌉⩽ j+1 , the right side is bounded by 
+                                  
+                                     
+                                        
+                                           n 
+                                        (|T (⌈pn⌉−r) −T (⌈pn⌉) |+|T (⌈pn⌉+r) −T (⌈pn⌉) |)→0 
+                                  
+                               in probability. The same bound holds for  s +1<⌈ pn ⌉ or  s >⌈ pn ⌉. Thus convergence holds uniformly over the finite set of quantiles  p 
+                               1 ,…, p 
+                               
+                                  K 
+                               , and the general case of the theorem follows from another application of Slutsky's theorem.
+
+We begin with quantiles defined by  (7)  for  s =0 and  γ =1, that is,  
+                                  
+                                     Q 
+                                     ̂ 
+                                  
+                                  j (p)  is the ⌈ pn ⌉ order statistic. By the asymptotic limit theorem for sample quantiles (see for example  Sen & Singer, 1993, p. 169, Theorem 4.4.3 ), the  j th person's quantiles have joint asymptotic distribution 
+                                  
+                                     (16) 
+                                     
+                                        
+                                           n 
+                                        
+                                        
+                                           
+                                           
+                                              
+                                                 
+                                                    
+                                                       Q 
+                                                       ̂ 
+                                                    
+                                                    j (p 1 )−Q j (p 1 ) 
+                                              
+                                              
+                                                 ⋮ 
+                                              
+                                              
+                                                 
+                                                    
+                                                       Q 
+                                                       ̂ 
+                                                    
+                                                    j (p K )−Q j (p K ) 
+                                              
+                                           
+                                           
+                                        
+                                        
+                                           → 
+                                           
+                                              L 
+                                           
+                                        N( 0 , 
+                                           
+                                              
+                                                 Σ 
+                                              
+                                           
+                                           ̃ 
+                                        
+                                        j ) 
+                                        as 
+                                        n→∞, 
+                                  
+                               where  
+                                  
+                                     
+                                        
+                                           Σ 
+                                        
+                                     
+                                     ̃ 
+                                  
+                                  j 
+                                is the  K × K  matrix with ( r , s ) element 
+                                  
+                                     
+                                        
+                                           p r (1−p s ) 
+                                           f j {Q j (p r )}f j {Q j (1−p s )} 
+                                        . 
+                                  
+                               Using  (2) and (5) , this covariance term simplifies to 
+                                  
+                                     
+                                        
+                                           θ j 
+                                              2 p r (1−p s ) 
+                                           g{Q(p r )}g{Q(1−p s )} 
+                                        , 
+                                  
+                               giving the asymptotic covariance  θ j 
+                                  2 
+                                  
+                                     Σ 
+                                  
+                               , where  
+                                  
+                                     Σ 
+                                  
+                                is defined in  (11) . Consequently, Slutsky's Theorem allows us to average over  j  to obtain 
+                                  
+                                     (17) 
+                                     
+                                        
+                                           n 
+                                        
+                                        
+                                           
+                                           
+                                              
+                                                 m −1 {∑ j=1 
+                                                    m 
+                                                    
+                                                    
+                                                       Q 
+                                                       ̂ 
+                                                    
+                                                    j (p 1 )−Q j (p 1 )} 
+                                              
+                                              
+                                                 ⋮ 
+                                              
+                                              
+                                                 m −1 {∑ j=1 
+                                                    m 
+                                                    
+                                                    
+                                                       Q 
+                                                       ̂ 
+                                                    
+                                                    j (p K )−Q j (p K )} 
+                                              
+                                           
+                                           
+                                        
+                                        
+                                           → 
+                                           
+                                              L 
+                                           
+                                        N 
+                                           
+                                           0 , 
+                                              ∑ j θ j 
+                                                 2 
+                                              
+                                              m 2 
+                                              
+                                           
+                                           
+                                              Σ 
+                                           
+                                           
+                                        
+                                        
+                                        as 
+                                        n→∞. 
+                                  
+                               The theorem for this case now follows from  (6) and (9) .
+
+To extend this result to arbitrary  s  and  γ  as defined in  (7) and (8) , we need a simple extension of  (16) . Because we are not aware of a reference, a short proof is included here. Again let  T 
+                               (1) ,…, T 
+                               ( n )  denote the order statistics for person  j . It is well known (e.g.  Ferguson, 1996 ) that these order statistics have the same joint distribution as  Q 
+                               
+                                  j 
+                               ( U 
+                               (1) ),…, Q 
+                               
+                                  j 
+                               ( U 
+                               ( n ) ), where  U 
+                               (1) ,…, U 
+                               ( n )  are the order statistics from a random sample of uniformly distributed random variables on [0, 1]. Furthermore,  U (i) 
+                                  
+                                     = 
+                                     
+                                        D 
+                                     
+                                  X i /∑ j=1 
+                                  n X i 
+                               ,  i =1,…, n , where the  X 
+                               
+                                  i 
+                                are independent exponentially distributed (Gamma(1, 1)) random variables. For fixed integer  r >0, it follows that 
+                                  
+                                     n(U (⌈pn⌉+r) −U (⌈pn⌉) ) 
+                                           = 
+                                           
+                                              L 
+                                           
+                                        
+                                        
+                                        
+                                           n∑ i=1 
+                                              r X i 
+                                           
+                                           ∑ j=1 
+                                              n X j 
+                                           
+                                        
+                                        
+                                           → 
+                                           
+                                              L 
+                                           
+                                        
+                                        
+                                        Gamma (r,1). 
+                                  
+                               Consequently,  
+                                  
+                                     n 
+                                  (U (⌈pn⌉+r) −U (⌈pn⌉) )→0  in probability. Using the delta method, the assumption on  g , and the fact that  
+                                  
+                                     Q 
+                                     ̂ 
+                                  
+                                  j (p)→Q j (p)  in probability, it follows that 
+                                  
+                                     
+                                        
+                                           n 
+                                        (T (⌈pn⌉+r) −T (⌈pn⌉) )→0 
+                                  
+                               in probability as well. A similar results holds for fixed  r <0. Now choose  r <∞ so that | s |< r  for all  n  in  (8)  ( s  can depend on  n ). Then using  (7)  again, 
+                                  
+                                     
+                                        
+                                           n 
+                                        | 
+                                           Q 
+                                           ̂ 
+                                        
+                                        j (p)−T (⌈pn⌉) |⩽ 
+                                           n 
+                                        {(1−γ)|T ( j) −T (⌈pn⌉) |+ γ|T ( j+1) −T (⌈pn⌉) |}. 
+                                  
+                               There are several possibilities. If  j⩽⌈np⌉⩽ j+1 , the right side is bounded by 
+                                  
+                                     
+                                        
+                                           n 
+                                        (|T (⌈pn⌉−r) −T (⌈pn⌉) |+|T (⌈pn⌉+r) −T (⌈pn⌉) |)→0 
+                                  
+                               in probability. The same bound holds for  s +1<⌈ pn ⌉ or  s >⌈ pn ⌉. Thus convergence holds uniformly over the finite set of quantiles  p 
+                               1 ,…, p 
+                               
+                                  K 
+                               , and the general case of the theorem follows from another application of Slutsky's theorem.
+
+To illustrate the implications of the above theorem, we demonstrate its application to a Weibull distribution  (3)  with fixed shape parameter  β . The three-parameter Weibull is a flexible form that has been used by several researchers (e.g.,  Chechile, 2001 ;  Logan 1992 ;  Hale, Myerson, Robertson & Zar-Kessler, 2002 ;  Rouder et al., 2003 ). The three-parameter Weibull is not a location-scale family. To make such a family, we fixed the shape to a constant  β . We have found that for college-aged students performing simple tasks, the shape parameter of the Weibull is around  β =2. This value also agrees well with the reported fits of  Logan (1992)  and is used by  Chechile (2001) . With this fixed-shape Weibull, we can apply the theorem. The degree to which the fixed shape is valid or nearly valid is a function of the task. It may be correct or near correct for homogeneous groups doing relatively simple tasks. It may break down in tasks in which there may be differing strategies across individuals (e.g., solving crossword puzzles).
+
+The Weibull distribution  (3)  with fixed shape  β >0 has base cdf  G ( v )=1− e 
+                      − v 
+                         
+                            β 
+                         
+                      ,  v ⩾0. Thus  g ( v )= βv 
+                      
+                         β −1 
+                      e 
+                      − v 
+                         
+                            β 
+                         
+                      ,  v >0, and 
+                         
+                            (18) 
+                            Q(p)={− log (1−p)} 1/β . 
+                         
+                      As a result, 
+                         
+                            (19) 
+                            g(Q(p))=βQ(p) β−1 
+                               exp {−Q(p) β }=β(1−p){− log (1−p)} (β−1)/β . 
+                         
+                      For the special case  β =2, 
+                         
+                            g{Q(p)}=2(1−p){− log (1−p)} 1/2 . 
+                         
+                      With these expressions,  (13)  can be used to estimate the group location and scale parameters. Computations for generalized least squares estimation can be carried out using the Splus statistics package (Insightful Corp.) or the public domain R statistics program, and code is available at  
+                         wwww.missouri.edu/~pcl 
+                      .
+
+If  β  is unknown, it can be estimated using the approximate likelihood of the vector of Vincentized quantiles  
+                         Y 
+                      . Let  
+                         Z (β)  be given by  (10)  with  Q  in  (18) , and let  
+                         
+                            Σ 
+                         (β)  be given by  (11)  using  (19) . Setting  τ =∑ 
+                         j =1 
+                      
+                         m 
+                      
+                      θ 
+                      
+                         j 
+                      
+                      2 /( nm 
+                      2 ), the approximate log likelihood of  
+                         Y 
+                       is equivalent to 
+                         
+                            − 
+                                  τ 
+                                  2 
+                               ( Y − Z (β) η )′ 
+                                  Σ 
+                               (β) −1 ( Y − Z (β) η )− 
+                                  K 
+                                  2 
+                               
+                               
+                               log τ− 
+                                  1 
+                                  2 
+                               
+                               
+                               log | 
+                                  Σ 
+                               (β)|. 
+                         
+                      After maximizing in  
+                         η 
+                       and  τ  using  (13) and (14) , the likelihood is equivalent to 
+                         
+                            − 
+                                  K 
+                                  2 
+                               
+                               
+                               log ( Y ′[ 
+                                  Σ 
+                               (β) −1 − 
+                                  Σ 
+                               (β) −1 
+                               Z (β){ Z (β)′ 
+                                  Σ 
+                               (β) −1 
+                               Z (β)} −1 
+                               Z (β)′ 
+                                  Σ 
+                               (β) −1 ] Y )− 
+                                  1 
+                                  2 
+                               
+                               
+                               log | 
+                                  Σ 
+                               (β)|. 
+                         
+                      Maximizing this expression over  β >0 gives an estimate of the common scale parameter to use for the data set.
+
+To test the behavior of the quantile averaging/generalized least-squares method with finite samples, we performed a small Monte Carlo study in which the estimates from a laboratory data set served as “true values” for location and scale parameters. 
+                         2 
+                      
+                      
+                         2 
+                         Data come from the calibration phase of an implicit learning experiment performed by Michael Stadler. Participants were given one of four simple stimuli (an asterisk at one of four locations on a computer screen) and had to make one of four responses by pressing a key on a computer keyboard. Each stimulus was mapped to a unique response. Eighty participants responded to 120 such trials.  Rouder et al. (2003)  used MLE to estimate Weibull location, scale, and shape parameters. In this paper, we use Rouder et al.'s MLE location and scale parameter estimates as “true values”. Further details about the data-set and the hierarchical model can be found in Rouder et al. We are grateful to Michael Stadler for use of his data. 
+                       Group true values were obtained by averaging all the individuals’ true values. Simulated data consisted of 10,000 replicates of 20 observations for each of 80 participants. Data were analyzed separately for each replicate.
+
+There is one remaining issue to implement the generalized least-squares method: the algorithm for finding sample quantiles.  Eqs. (7) and (8)  are broad and include many standard algorithms. Surprisingly, the form of this algorithm will have a noticeable effect on parameter estimation. Hence, the issue must be addressed with care and we document two methods. A fuller treatment of quantile estimators is given by  Hyndman and Fan (1996) .
+
+In the simulation study, we took  
+                         
+                            p 
+                         =(0.1,0.3,0.5,0.7,0.9) . This is a fairly conventional set that has been previously used (e.g.,  Ratcliff & Rouder, 2000 ;  Rouder et al., 2000 ). Given that there are 20 observations per person, one approach is to average the 2nd, 6th, 10th, 14th and 18th ranked observation. This uses the naive rule of taking ranks 20 p 
+                      
+                         i 
+                       for  i =1,…,5. But, these quantile estimators are systematically biased low. We used the following procedure to get approximately unbiased quantile estimators. Let  V 
+                      (1) <⋯< V 
+                      ( n )  denote the order statistics of a sample of size  n  from the base distribution  G , and let  q 
+                      
+                         i : n 
+                      = E ( V 
+                      ( i ) ) be the expected value of the  i th order statistic. (This is the “score” used in nonparametric statistics.) For the Weibull distribution, we estimated these scores by a simple Monte Carlo procedure. We took 100,000 random samples of size  n =20 from the base Weibull distribution with  ψ =0 and  θ =1, and we ordered each sample. We then calculated the average of each order statistic. The result was  q 
+                      2:20 ≈0.3007, etc. We then computed  p 
+                      
+                         i 
+                      = G ( q 
+                      
+                         i : n 
+                      ),  i =1,…, K , to obtain the quantiles estimated for which the chosen order statistics were unbiased. The result for the ranks (2,6,10,14,18) was  p =(0.0867,0.2825,0.4789,0.6756,0.8722). To get more accurate estimates of the group parameters  ( 
+                            ψ 
+                            ̄ 
+                         , 
+                            θ 
+                            ̄ 
+                         ) , one can replace the nominal values of  
+                         
+                            p 
+                         
+                       by these new estimates.
+
+This calculation of exact target probabilities  
+                         p 
+                       is appropriate when all persons in the study have the same number of responses. In cases where this is not true, we explored two alternative methods for obtaining less biased quantile estimators. The first method is commonly used in statistics packages (e.g. PROC UNIVARIATE in SAS). Suppose  p ( n +1)= i + c , where  i  is an integer and 0⩽ c <1. Then take  
+                         
+                            Q 
+                            ̂ 
+                         
+                         j (p)=(1−c)T (i), j +cT (i+1), j 
+                      , where  T (1), j <⋯<T (n), j 
+                       are the order statistics for person  j . The estimator is unbiased when sampling from a uniform distribution. For example, with  n =20, the quantile corresponding to  p =0.1 has rank 0.1(21)=2.1. The resulting sample quantile for  p =0.1 is 0.9 Y 
+                      2 +0.1 Y 
+                      3 . Quantiles from this method are termed “uniform quantiles” in the upcoming analysis since they are unbiased estimators for the uniform distribution. The second method again uses simulation to get virtually unbiased quantile estimators. As above, use Monte Carlo simulation to estimate the scores  q 
+                      1: n 
+                      ,…, q 
+                      
+                         n : n 
+                       for the base distribution  G . If  i  is the integer such that  q 
+                      
+                         i : n 
+                      ⩽ Q ( p )< q 
+                      ( i +1): n 
+                      , let  c =( Q ( p )− q 
+                      
+                         i : n 
+                      )/( q 
+                      ( i +1): n 
+                      − q 
+                      
+                         i : n 
+                      ) and take  
+                         
+                            Q 
+                            ̃ 
+                         
+                         j (p)=(1−c)T (i), j +cT (i+1), j 
+                      . For example, suppose  n =20 and  p =0.1. Using the fixed shape Weibull in  (18)  with  β =2,  Q (0.1)=0.3246. From simulation based on 100,000 trials,  q 
+                      2:20 ≈0.3007, and  q 
+                      3:20 ≈0.3809, so  c ≈0.298, and the estimated quantile is  
+                         
+                            Q 
+                            ̃ 
+                         
+                         j (0.1)=0.702T (2), j +0.298T (3), j 
+                      . Quantiles from this method will be termed “unbiased quantiles”. This method can be used for each individual separately if there are unequal numbers of observations. It can be shown that the asymptotics leading to the theorem also hold for both of these modified definitions of sample quantiles.
+
+We also tested two different estimation alternatives: ordinary least squares based on the approximate model  E( Y 
+                         n )= Zη 
+                       from the theorem and an ML-based method. Since OLS is simpler to implement than generalized least squares, we were interested in comparing the results with those obtained by the optimal method. We were also interested in comparing the results based on quantile averaging with direct application of maximum likelihood to each person's data. In the ML-based method, each individual's location and scale parameters were directly estimated with MLE. 
+                         3 
+                      
+                      
+                         3 
+                         The negative log-likelihood function was minimized with repeated applications of the simplex algorithm ( Nelder & Mead, 1965 ). 
+                       Then, these individual estimates were averaged to produce group estimates. ML has theoretical optimal properties, at least for large samples from “regular” distributions. Thus, given all the data, it might be surmised that the ML-based method would be better than any method following reduction to a few estimated quantiles. However, the usual large sample optimality results do not apply to Weibull distributions. The problem is that the location parameter defines the lower bound on the distribution.
+
+For each replicate, we calculated estimation errors—the signed difference between an estimate and the “true” value.  Fig. 1 
+                       shows histograms of the estimation errors for four different methods. The top row shows results from generalized least squares with the unbiased quantiles. These appear to have little bias and are the most efficient (i.e. smallest variance) estimates among those tested. In fact, the mean error in location and scale is less than  0.07 
+                         ms 
+                       (this small amount is not statistically different from 0). Perhaps surprisingly, the OLS method with unbiased quantiles did virtually as well as the GLS method; it had no detectable bias and was only slightly more variable. When the uniform quantiles were used, there was noticeable bias on the order of  10 
+                         ms 
+                      . Once again, the histogram of OLS estimates was virtually identical to that of GLS estimates. As can be seen, the algorithm for estimating quantiles affected the bias in the parameter estimates.
+
+The most biased method was the ML-based method, which resulted in bias of about  12 
+                         ms 
+                      . Although this was the largest bias of all methods, we were actually surprised by this small degree of bias and relative efficiency. The reason for our surprise is that ML-based estimation is virtually impossible with the three-parameter Weibull with 20 observations per participant ( Smith & Naylor, 1987 ;  Rouder et al., 2003 ;  Rouder & Speckman , in press). The degree of instability with the three-parameter Weibull typically leads to a massive instability—parameter estimates vary by several orders of magnitude. Our simulation shows that estimation with the fixed-shape Weibull is far more feasible and not subject to this type of massive instability. Hence, the bias present in the ML estimates is not caused by instability in numerical estimation and reflects the simple fact that ML is somewhat biased at these small sample sizes.
+
+The histograms show the accuracy of estimation. Researchers concerned with inference need to be able to estimate standard errors and construct confidence intervals as well. The standard errors for the parameter estimates are derived from  (14) . We checked on the accuracy of this approximation in the simulation.  Eq. (14)  was used to calculate standard error estimates on each replicate of the simulation. The average over all simulations is shown in the column labeled “Average std. error” in  Table 1 .  The goal is to see whether this estimate provides a reasonable approximation to the underlying standard deviation of the parameters. The sampling standard deviation of each parameter estimate can be estimated from the simulation (it is the standard deviation of the histograms), and the results are shown in the column labeled “Estimated std. dev.” The results for the current simulation for five quantiles are shown under the label of “Five quantiles”. Only the GLS and OLS methods with unbiased quantiles are included in the table as these are the only methods that yielded parameter estimates with negligible bias.
+
+For GLS, estimates from  (14)  modestly underestimate the true values. But, for OLS, the underestimation is more severe. Underestimation of variability is quite problematic as it tends to an underestimation of confidence intervals and a greater likelihood of Type I errors.
+
+To assess how underestimation of standard errors affects inference, we computed 95%  t -interval confidence intervals for  
+                         
+                            ψ 
+                            ̄ 
+                         
+                       and  
+                         
+                            θ 
+                            ̄ 
+                         
+                       for each replicate, and we recorded the proportion of times the confidence intervals contained the true parameters. The result is labeled “Coverage prob.” in  Table 1 . Coverage is critical for inference and if the coverage is too low, then the researcher has an increased chance of mis-localizing the true parameter. For GLS, the coverages are between 0.94 and 0.942 for nominal 95% confidence levels with three degrees of freedom. (This means that the standard errors calculated with the normal approximation are quite accurate, even with samples as small as 20 per subject.) The same is not true for OLS. The more severe underestimation of parameter variability leads to a much lower coverage rate, between 0.796 and 0.840 for nominal 95% confidence intervals. This low coverage translates to an increased actual Type I error rate over the nominal 0.05 significance level—as high as 0.20 in this application. Researchers cannot trust inference based on OLS.
+
+The reason that OLS underestimates parameter variability is that it fails to account for correlation in the quantiles. It was initially hoped that the probability targets spacing was sufficiently great to reduce substantial correlation, but this is not the case. To more forcefully demonstrate this divergence between GLS and OLS, we performed a final simulation to maximize the correlation between quantiles by choosing as many target probabilities as possible. We quantile averaged the 2nd through 19th ranked observations. Using results in  Csörgő (1983) , the Theorem can be extended to cover this case as well. We then simulated the associated probability targets and performed GLS and OLS estimation. Once again, both estimators are virtually unbiased. In fact, mean errors were on the order of a few microseconds.  Table 1  shows standard error estimates from both  (14)  and the simulations directly. The same pattern is evident with slight underestimation of variance for GLS and severe underestimation for OLS. The coverage proportions were also computed. For GLS, the coverage was around 0.948 for both parameters. For OLS, the increased correlation resulted in coverage rates less than 0.50. That is, for OLS there is an actual Type I error over 0.50 for a nominal significance level of 0.05. In our opinion, the results for GLS are very encouraging. They suggest that the asymptotics work well even with as few as 20 observations per individual.
+
+The theorem shows that generalized least squares is an efficient means of estimating location and scale parameters from sample quantiles. In the previous application, we applied the theorem to averaged quantiles, but it can be applied to estimate quantiles from individual participants as well. The parameters estimated from individual's sample quantiles can then be averaged to yield estimates of  ( 
+                            ψ 
+                            ̄ 
+                         , 
+                            θ 
+                            ̄ 
+                         ) . Which method gives better group parameter estimates, averaging each person's estimated parameters or estimation based on averaged quantiles? The Theorem shows that GLS is (at least asymptotically) the most efficient method based on the average quantiles. Perhaps surprisingly, the GLS method can also be viewed as a parameter averaging method. To see this, let  
+                         X 
+                         j =( 
+                            Q 
+                            ̂ 
+                         
+                         j (p 1 ),…, 
+                            Q 
+                            ̂ 
+                         
+                         j (p K ))  denote the estimated quantiles for person  j =1,…, m . Then 
+                         
+                            
+                               Y = 
+                                  1 
+                                  m 
+                               
+                               
+                               
+                                  ∑ 
+                                  i=1 
+                                  m 
+                               
+                               
+                               X 
+                               i 
+                            
+                         
+                      and consequently from  (13) 
+                      
+                         
+                            
+                               
+                                  
+                                     η 
+                                  
+                                  ̂ 
+                               = 
+                                  1 
+                                  m 
+                               
+                               
+                               
+                                  ∑ 
+                                  i=1 
+                                  m 
+                               
+                               
+                               
+                                  
+                                     η 
+                                  
+                                  ̂ 
+                               
+                               i 
+                               
+                               where 
+                               
+                               
+                                  
+                                     η 
+                                  
+                                  ̂ 
+                               
+                               i =( Z ′ 
+                                  Σ 
+                               
+                               −1 
+                               Z ) −1 
+                               Z ′ 
+                                  Σ 
+                               
+                               −1 
+                               X 
+                               i . 
+                         
+                      In other words,  
+                         
+                            η 
+                            ̂ 
+                         
+                       is the average of the estimates  
+                         
+                            
+                               η 
+                            
+                            ̂ 
+                         
+                         i =( 
+                            ψ 
+                            ̂ 
+                         
+                         i , 
+                            θ 
+                            ̂ 
+                         
+                         i )′ , which are calculated by GLS for each individual in the sample. (The individual estimates are the quantile-based estimates studied, for example, by  Eubank (1981) .) That is, for the GLS method, averaging parameters estimated from individual's quantiles or estimating parameters from averaged quantiles yield identical estimates for location-scale families. This result strikes us as ironic. It is only for location-scale that quantile averaging yields consistent estimators. Yet, in this case, quantile averaging offers no advantage over averaging individual's GLS estimates. Thus, in the context of location-scale families, the issue is not whether quantile averaging is better than parameter averaging, it is simply how best to estimate individual parameters.
+
+Maximum likelihood is widely known to have good properties (best possible in an asymptotic sense) under suitable regularity conditions. In fact, the MLE of  ( 
+                            ψ 
+                            ̄ 
+                         , 
+                            η 
+                            ̄ 
+                         )  is the average of the individual MLEs. For certain distributions, it is known to be optimal. For example, if the RT distributions are exponential with  ψ 
+                      
+                         j 
+                      = c  fixed before hand, MLE is known to be minimum variance unbiased (see e.g.  Lehmann, 1991 ), hence parameter averaging will be also. In this case, averaging MLEs will be more efficient than averaging the GLS quantile estimates of the Theorem. However, our simulation shows that averaging MLEs is not necessarily the best procedure for small samples with the Weibull distribution. In fact, because the support of the three-parameter Weibull with shape fixed depends on the location parameter, the regularity conditions for the oft-cited optimality of MLE do not hold. Moreover, the asymptotic justification for the MLE does not always result in good small sample properties. Thus our simulation shows that it is worthwhile to investigate alternative estimators, at least for modest sized samples.
+
+We have presented an asymptotic result allowing researchers to calculate estimated standard errors for Vincentized estimates using averaged quantiles. These results also suggest that generalized least squares is an efficient means of estimation and inference for large samples per individual. This efficiency is supported with Monte Carlo simulations. Perhaps surprisingly, the results appear to hold for samples even as small as 20 per individual. Competing methods, either ML-based or OLS, were inferior in that they were either biased or had poor properties for inference.
+
+Although quantile averaging with GLS is a suitable means for estimation of and inference about grouped parameters in location-scale models of response time, it is not necessary. For the general least squares approach presented here, parameter averaging individual estimates yields the same exact estimates. This result is ironic. Location-scale families are the only ones in which quantile averaging yields consistent estimators, yet, even here, quantile averaging is not superior to averaging individual parameter estimates.
+
+Although Vincentizing is unnecessary with location-scale families, it may still be useful in practice with non-location-scale family distributions, especially if there are a few samples per individual and the distribution is irregular.  Rouder and Speckman  (in press), for example, show through Monte Carlo simulation that Vincentizing is superior to averaging individual parameters for estimating group-average parameters from a three-parameter Weibull distribution. Yet, it is inferior to parameter averaging for the ex-Gaussian or shifted Wald distributions. Researchers who use Vincentizing with non-location-scale families should bear in mind that the estimators are inconsistent. Although the efficiency of a Vincentized estimate may be superior to a consistent method for small samples, asymptotically, the consistent method with be superior. Therefore, we recommend that Vincentizing be used sparingly and only in conjunction with simulations that show its clear advantage for a given distribution at a given sample size.
+
+Vincentizing is a classical method. There are newer computational methods that allow researchers the practical ability to model individuals and treatments simultaneously. Particularly promising examples include Bayesian Hiearchical Modeling (e.g.,  Gelman, Carlin, Stern, & Rubin, 1995 ; RT applications by  Rouder et al., 2003 ) and proportional hazard function modeling ( Therneau & Grambsch, 2000 ; RT applications by  Wenger, Schuster, Petersen, & Petersen , in press). However, in situations where Vincentizing is adequate, the ability to compute approximate standard errors will allow researchers to perform inference and hence better interpret their data.
+
+We are grateful to Michael Stadler who allowed us use of his data and to Andrew Heathcote who provided helpful comments. This research is supported by National Science Foundation Grant SES-0095919 to J. Rouder, D. Sun, and P. Speckman, University of Missouri Research Board Grant 00-77 to J. Rouder, and National Science Foundation grant DMS-9972598 to D. Sun and P. Speckman.

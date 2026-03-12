@@ -1,0 +1,3367 @@
+10.1016/j.jmp.2008.03.002
+One of the primary tasks in mathematical psychology is to evaluate formal theories, or models, of mental processing. This model evaluation procedure is complicated because it requires a delicate balance between several relevant criteria ( Jacobs & Grainger, 1994 ), including descriptive and explanatory adequacy, generality, simplicity, and falsifiability. In this article, we focus on one particular criterion,  model generalizability , that has received considerable attention in the modeling literature. Furthermore, we will discuss two specific methods — the Bayes factor, and the generalization criterion — that assess different aspects of model generalizability.
+
+The remainder of this article is divided into five sections (Sections  2–6 ). In  2 , we present an overview of Bayes factors, and their use in psychology. In  3 , we offer a simple numerical example to show how Bayes factors can be very sensitive to prior assumptions. In  4 , we discuss model generalizability, and the generalization criterion. In particular, we will show how model generalizability can be defined at different levels ( local  versus  global ). In  5 , we present various analyses of a dataset that involves retention functions, and apply some alternative Bayesian methods (other than Bayes factors) that may be useful for evaluating competing models. In  6 , we conclude by relating the present research to the broader statistical modeling literature.
+
+Recently, psychologists have begun to embrace the Bayesian approach to model selection ( Lee & Wagenmakers, 2005 ). The most popular tool in psychology for Bayesian model selection is the Bayes factor ( Myung & Pitt, 1997 ), which is closely related to the Bayesian information criterion (BIC), and the Minimum Description Length (MDL) criterion. Together, these criteria have been used widely within mathematical psychology, in areas such as: information integration ( Myung & Pitt, 1997 ), multidimensional scaling ( Lee, 2001 ), categorization ( Pitt, Myung, & Zhang, 2002 ), problem solving ( Vickers, Lee, Dry, & Hughes, 2003 ), memory ( Lee, 2004 ), decision processes ( Lee & Cummins, 2004 ), individual differences ( Lee & Webb, 2005 ), and response time distributions ( Rouder, Lu, Speckman, Sun, & Jiang, 2005 ). Clearly, an investigation of the assumptions underlying Bayes factors (and related methods) has significant implications for researchers across several domains. We attempt such an investigation in this article. Specifically, we conclude that Bayes factors can be very sensitive to prior assumptions, and that this prior sensitivity is related to a specific form of model generalizability.
+
+Before we define the Bayes factor, it is worthwhile to clarify what we mean by a  model . The term “model” is commonly used to denote a set of sampling distributions that are related in some way (e.g.,  Grünwald (2007) ,  Wasserman (2000) ). Strictly speaking, this set is not a model, but a model class ( Su, Myung, & Pitt, 2005 ), also known as a model family ( Dempster, 1997 ), a model structure ( Domingos, 1999 ), or a model type ( Wagenmakers, Ratcliff, Gomez, & Iverson, 2004 ). A model class consists of a collection of models in which each model corresponds to a distinct sampling distribution. Our definition of “model” here corresponds to what others have called a “point hypothesis” or “simple hypothesis” ( Grünwald, 2007 , p. 15). Although we will sometimes, for convenience, use “model” when we actually mean “model class”, the reader is advised to keep this distinction in mind.
+
+The Bayes factor is an extension of the standard likelihood ratio, where the likelihood is defined as the probability of the observed data, given a model with specified parameter values. Whereas the likelihood ratio compares two models by their respective likelihoods, the Bayes factor compares two model classes by their respective marginal likelihoods. The marginal likelihood for a model class is a weighted average of the likelihood, and is computed across all the parameter values represented by the prior distribution. In brief, a Bayes factor is a likelihood ratio for two model classes.
+
+Following  Spiegelhalter, Best, Carlin, and van der Linde (2002) , we posit a true distribution  
+                         
+                            
+                               p 
+                            
+                            
+                               t 
+                            
+                         
+                         
+                            ( 
+                            Y 
+                            ) 
+                         
+                       for unobserved future data  
+                         Y 
+                      , from which the observed data  
+                         y 
+                       was sampled. This distribution has been called the  environmental distribution  ( Golden, 2000 ), the  operating model  ( Zucchini, 2000 ), or more simply, the “truth” ( Myung, Balasubramanian, & Pitt, 2000 ). The truth can be approximated by a model class  
+                         M 
+                       that specifies a family of models  
+                         p 
+                         
+                            ( 
+                            y 
+                            | 
+                            θ 
+                            ) 
+                         
+                      , indexed by parameter vector  
+                         θ 
+                      . Each model in  
+                         M 
+                       represents a candidate model for  
+                         
+                            
+                               p 
+                            
+                            
+                               t 
+                            
+                         
+                         
+                            ( 
+                            Y 
+                            ) 
+                         
+                      . For any model class, we assume, following  Golden (2000) , that there exists a unique model  
+                         p 
+                         
+                            ( 
+                            y 
+                            | 
+                            
+                               
+                                  θ 
+                               
+                               
+                                  t 
+                               
+                            
+                            ) 
+                         
+                      , called the  pseudo-true model  ( Sawa, 1978 ), which minimizes the Kullback–Leibler divergence from  
+                         
+                            
+                               p 
+                            
+                            
+                               t 
+                            
+                         
+                         
+                            ( 
+                            Y 
+                            ) 
+                         
+                      .
+
+The Bayes factor approach to model selection proceeds as follows. Assume that a model class  
+                         M 
+                       can be specified for some observed data  
+                         y 
+                       by a likelihood function,  
+                         L 
+                         
+                            ( 
+                            θ 
+                            ) 
+                         
+                      , which gives the probability of observing  
+                         y 
+                       as a function of  
+                         θ 
+                      . Bayesian analysis begins with a prior density,  
+                         π 
+                         
+                            ( 
+                            θ 
+                            ) 
+                         
+                      , which represents one’s uncertainty about the true parameter before observing any data. (We will use the terms “density” and “distribution” interchangeably, where the intended meaning should be clear from the context). Once the data are observed, Bayes’ theorem can be applied to produce an updated posterior density,  
+                         π 
+                         
+                            ( 
+                            θ 
+                            | 
+                            y 
+                            ) 
+                         
+                      :  
+                         
+                            (1) 
+                            
+                               π 
+                               
+                                  ( 
+                                  θ 
+                                  | 
+                                  y 
+                                  ) 
+                               
+                               = 
+                               
+                                  
+                                     L 
+                                     
+                                        ( 
+                                        θ 
+                                        ) 
+                                     
+                                     π 
+                                     
+                                        ( 
+                                        θ 
+                                        ) 
+                                     
+                                  
+                                  
+                                     ∫ 
+                                     L 
+                                     
+                                        ( 
+                                        θ 
+                                        ) 
+                                     
+                                     π 
+                                     
+                                        ( 
+                                        θ 
+                                        ) 
+                                     
+                                     
+                                        d 
+                                     
+                                     θ 
+                                  
+                               
+                               . 
+                            
+                         
+                       The denominator on the right hand side of Eq.  (1)  is known as the  marginal  or  integrated  likelihood. The marginal likelihood is the probability of the data, averaged across the prior distribution, or  
+                         p 
+                         
+                            ( 
+                            y 
+                            | 
+                            M 
+                            ) 
+                         
+                      . Now, suppose we wish to use the data  
+                         y 
+                       to compare two competing model classes,  
+                         
+                            
+                               M 
+                            
+                            
+                               1 
+                            
+                         
+                       and  
+                         
+                            
+                               M 
+                            
+                            
+                               2 
+                            
+                         
+                      . In the Bayesian framework, we can ascertain the posterior probability of each model class given the data, or  
+                         p 
+                         
+                            ( 
+                            M 
+                            | 
+                            y 
+                            ) 
+                         
+                      . The models can compared by the ratio of posterior probabilities, or  posterior odds ratio , which is computed as:
+
+(2) 
+                            
+                               
+                                  
+                                     p 
+                                     
+                                        ( 
+                                        
+                                           
+                                              M 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                        | 
+                                        y 
+                                        ) 
+                                     
+                                  
+                                  
+                                     p 
+                                     
+                                        ( 
+                                        
+                                           
+                                              M 
+                                           
+                                           
+                                              1 
+                                           
+                                        
+                                        | 
+                                        y 
+                                        ) 
+                                     
+                                  
+                               
+                               = 
+                               
+                                  
+                                     p 
+                                     
+                                        ( 
+                                        y 
+                                        | 
+                                        
+                                           
+                                              M 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                        ) 
+                                     
+                                  
+                                  
+                                     p 
+                                     
+                                        ( 
+                                        y 
+                                        | 
+                                        
+                                           
+                                              M 
+                                           
+                                           
+                                              1 
+                                           
+                                        
+                                        ) 
+                                     
+                                  
+                               
+                               × 
+                               
+                                  
+                                     p 
+                                     
+                                        ( 
+                                        
+                                           
+                                              M 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                        ) 
+                                     
+                                  
+                                  
+                                     p 
+                                     
+                                        ( 
+                                        
+                                           
+                                              M 
+                                           
+                                           
+                                              1 
+                                           
+                                        
+                                        ) 
+                                     
+                                  
+                               
+                               . 
+                            
+                         
+                       The first quantity on the right hand side of Eq.  (2)  is the ratio of marginal likelihoods, or the Bayes factor, denoted by  
+                         
+                            
+                               B 
+                            
+                            
+                               21 
+                            
+                         
+                      . The second quantity on the right hand side of Eq.  (2)  is the prior odds ratio. When there is no prior preference for either model, the prior odds ratio will be equal to 1, and the posterior odds reduces to the Bayes factor. More generally, the Bayes factor is the multiplier which transforms the prior odds into the posterior odds ( Lavine & Schervish, 1999 ).
+
+A Bayes factor comparing two model classes is typically interpreted as quantifying the extent to which the data support, or provide evidence for, one model class over another ( Lee & Wagenmakers, 2005; Wagenmakers & Grünwald, 2006 ). We suggest that this interpretation can sometimes be misleading; a Bayes factor merely indicates which model class,  averaged over its prior distribution , is more likely to have generated the data. In particular, a Bayes factor does not indicate which model class is more likely to contain the true model that generated the data. To clarify this distinction, we offer a simple numerical example.
+
+The evaluation of competing models is typically reported in a familiar format comprising four progressive stages: (1) model specification, (2) parameter estimation, (3) model selection, and (4) sensitivity analysis. In the following example, we will describe how the Bayesian approach can be applied at each of these four stages. We will emphasize, in particular, the importance of sensitivity analysis: a task in which researchers check whether conclusions derived from their initial assumptions would hold under different assumptions.
+
+Consider an experiment in which a decision maker chooses repeatedly between two alternatives,  
+                         X 
+                       and  
+                         Y 
+                      . (For example,  
+                         X 
+                       may be a correct response, and  
+                         Y 
+                       may be an incorrect response). Suppose we are interested in determining, for this individual, his or her true rate for choosing  
+                         X 
+                      . Despite the apparent simplicity of this example, the statistical model presented here is equivalent to one that is often used in psychology to describe binary choices (e.g.,  Kuss, Jäkel, and Wichmann (2005) ,  Lee and Webb (2005) ,  Rouder and Lu (2005) ).
+
+We begin by formulating two competing models for the true rate,  
+                            
+                               
+                                  θ 
+                               
+                               
+                                  t 
+                               
+                            
+                         . The first model is the null hypothesis,  
+                            
+                               
+                                  H 
+                               
+                               
+                                  0 
+                               
+                            
+                         , that the decision maker is indifferent between  
+                            X 
+                          and  
+                            Y 
+                         , that is,  
+                            
+                               
+                                  θ 
+                               
+                               
+                                  t 
+                               
+                            
+                            = 
+                            0.5 
+                         . (We believe that the null hypothesis is a psychologically plausible one, so it is valid to assign non-zero probability mass to the null value). The second model is the alternative hypothesis,  
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                         , that the decision maker is biased: that is, the true rate is somewhere between 0 and 1, but is not precisely 0.5 ( 
+                            
+                               
+                                  θ 
+                               
+                               
+                                  t 
+                               
+                            
+                            ≠ 
+                            0.5 
+                         ). We assume, for simplicity, that these two hypotheses are equally likely before the data are observed. In other words, the prior probabilities for each model are equal:  
+                            P 
+                            
+                               ( 
+                               
+                                  
+                                     H 
+                                  
+                                  
+                                     0 
+                                  
+                               
+                               ) 
+                            
+                            / 
+                            P 
+                            
+                               ( 
+                               
+                                  
+                                     H 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                               ) 
+                            
+                            = 
+                            1 
+                         .
+
+We first demonstrate parameter estimation for  
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                         , and will then deal with  
+                            
+                               
+                                  H 
+                               
+                               
+                                  0 
+                               
+                            
+                         . Out of  
+                            n 
+                            = 
+                            100 
+                          independent trials, the number of times  
+                            X 
+                          is chosen is  
+                            r 
+                            = 
+                            60 
+                          (and the number of times  
+                            Y 
+                          is chosen is  
+                            n 
+                            − 
+                            r 
+                            = 
+                            40 
+                         ). The probability of the data as a function of the rate  
+                            θ 
+                          is given by the binomial likelihood function,  
+                            
+                               (3) 
+                               
+                                  L 
+                                  
+                                     ( 
+                                     θ 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        
+                                           n 
+                                        
+                                        
+                                           r 
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        θ 
+                                     
+                                     
+                                        r 
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           ( 
+                                           1 
+                                           − 
+                                           θ 
+                                           ) 
+                                        
+                                     
+                                     
+                                        n 
+                                        − 
+                                        r 
+                                     
+                                  
+                                  .
+
+Bayesian analysis requires that we specify a prior distribution for  
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                         . The most commonly used prior is the uniform distribution  
+                            π 
+                            
+                               ( 
+                               θ 
+                               ) 
+                            
+                            = 
+                            1 
+                         , where  
+                            0 
+                            ≤ 
+                            θ 
+                            
+                            ≤ 
+                            1 
+                          (see dashed line in  Fig. 1 
+                         (A)). Because the prior for  
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                          is a continuous density, the probability that the rate is precisely 0.5 is zero. This uniform distribution can be expressed as a Beta  
+                            
+                               ( 
+                               
+                                  
+                                     a 
+                                  
+                                  
+                                     0 
+                                  
+                               
+                               , 
+                               
+                                  
+                                     b 
+                                  
+                                  
+                                     0 
+                                  
+                               
+                               ) 
+                            
+                          distribution, where  
+                            
+                               
+                                  a 
+                               
+                               
+                                  0 
+                               
+                            
+                            = 
+                            
+                               
+                                  b 
+                               
+                               
+                                  0 
+                               
+                            
+                            = 
+                            1 
+                         . 
+                            2 
+                         
+                         
+                            2 
+                            Given  
+                                  θ 
+                                is distributed as Beta ( 
+                                  a 
+                                  , 
+                                  b 
+                               ) implies that  
+                                  π 
+                                  
+                                     ( 
+                                     θ 
+                                     | 
+                                     a 
+                                     , 
+                                     b 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        Γ 
+                                        
+                                           ( 
+                                           a 
+                                           + 
+                                           b 
+                                           ) 
+                                        
+                                     
+                                     
+                                        Γ 
+                                        
+                                           ( 
+                                           a 
+                                           ) 
+                                        
+                                        Γ 
+                                        
+                                           ( 
+                                           b 
+                                           ) 
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        θ 
+                                     
+                                     
+                                        a 
+                                        − 
+                                        1 
+                                     
+                                  
+                                  
+                                  
+                                     
+                                        
+                                           ( 
+                                           1 
+                                           − 
+                                           θ 
+                                           ) 
+                                        
+                                     
+                                     
+                                        b 
+                                        − 
+                                        1 
+                                     
+                                  
+                               , where  
+                                  Γ 
+                                  
+                                     ( 
+                                     x 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        ∫ 
+                                     
+                                     
+                                        0 
+                                     
+                                     
+                                        ∞ 
+                                     
+                                  
+                                  
+                                     
+                                        t 
+                                     
+                                     
+                                        x 
+                                        − 
+                                        1 
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           e 
+                                        
+                                     
+                                     
+                                        − 
+                                        t 
+                                     
+                                  
+                                  
+                                     d 
+                                  
+                                  t 
+                               . 
+                         Assuming a binomial likelihood, the posterior is  
+                            
+                               Beta 
+                            
+                            
+                               ( 
+                               
+                                  
+                                     a 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                               , 
+                               
+                                  
+                                     b 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                               ) 
+                            
+                         , where  
+                            
+                               
+                                  a 
+                               
+                               
+                                  1 
+                               
+                            
+                            = 
+                            
+                               
+                                  a 
+                               
+                               
+                                  0 
+                               
+                            
+                            + 
+                            r 
+                            = 
+                            61 
+                          and  
+                            
+                               
+                                  b 
+                               
+                               
+                                  1 
+                               
+                            
+                            = 
+                            
+                               
+                                  b 
+                               
+                               
+                                  0 
+                               
+                            
+                            + 
+                            n 
+                            − 
+                            r 
+                            = 
+                            41 
+                          (e. g.  Gill, 2002 , p. 68).
+
+The prior and posterior densities for this example are shown in  Fig. 1 (A). We can infer from this posterior that there is a 0.98 probability that  
+                            
+                               
+                                  θ 
+                               
+                               
+                                  t 
+                               
+                            
+                          is greater than 0.5, and an approximate 95% credible interval is given by [0.501, 0.691], which just excludes the null value.
+
+Because  
+                            
+                               
+                                  H 
+                               
+                               
+                                  0 
+                               
+                            
+                          has no free parameters, there is no parameter to estimate. Although this makes it a parsimonious model, it is also completely inflexible: no matter how much data are observed, the assumed rate of the null hypothesis remains fixed. In contrast, the free parameter of  
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                          has enabled substantial learning from the data: given  
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                         , we are almost certain that the true rate is between 0.5 and 0.7.
+
+To decide between these two hypotheses,  Lee and Wagenmakers (2005)  advocated the use of Bayes factors, which is the ratio of the marginal likelihoods for each hypothesis. We report Bayes factors for  
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                          (in the numerator) over  
+                            
+                               
+                                  H 
+                               
+                               
+                                  0 
+                               
+                            
+                          (in the denominator): a Bayes factor greater than 1 means that the data provide greater evidence for  
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                         , whereas a Bayes factor less than 1 means that the data provide greater evidence for  
+                            
+                               
+                                  H 
+                               
+                               
+                                  0 
+                               
+                            
+                         . The resulting Bayes factor for  
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                          over  
+                            
+                               
+                                  H 
+                               
+                               
+                                  0 
+                               
+                            
+                          is:  
+                            
+                               (4) 
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        10 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        
+                                           
+                                              ∫ 
+                                           
+                                           
+                                              0 
+                                           
+                                           
+                                              1 
+                                           
+                                        
+                                        L 
+                                        
+                                           ( 
+                                           θ 
+                                           ) 
+                                        
+                                        π 
+                                        
+                                           ( 
+                                           θ 
+                                           ) 
+                                        
+                                        
+                                           d 
+                                        
+                                        θ 
+                                     
+                                     
+                                        L 
+                                        
+                                           ( 
+                                           0.5 
+                                           ) 
+                                        
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        1 
+                                        / 
+                                        
+                                           ( 
+                                           n 
+                                           + 
+                                           1 
+                                           ) 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              
+                                                 n 
+                                              
+                                              
+                                                 r 
+                                              
+                                           
+                                        
+                                        
+                                        
+                                           
+                                              
+                                                 ( 
+                                                 0.5 
+                                                 ) 
+                                              
+                                           
+                                           
+                                              r 
+                                           
+                                        
+                                        
+                                        
+                                           
+                                              
+                                                 ( 
+                                                 0.5 
+                                                 ) 
+                                              
+                                           
+                                           
+                                              n 
+                                              − 
+                                              r 
+                                           
+                                        
+                                     
+                                  
+                                  = 
+                                  0.91 
+                                  , 
+                               
+                            
+                          which slightly favors  
+                            
+                               
+                                  H 
+                               
+                               
+                                  0 
+                               
+                            
+                         , but indicates little preference for either hypothesis (see  Wagenmakers et al., 2004 ).
+
+One may be skeptical about whether the posterior distribution for  
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                          is simply a result of the assumed prior distribution. To be convincing, Bayesian inferences should be accompanied by a routine sensitivity analysis to check whether alternative priors (e.g., those corresponding to beliefs that other researchers may hold) would have produced different conclusions. In this light, we considered three other prior distributions: the Jeffreys prior ( Fig. 1 (B)), the Haldane prior ( Fig. 1 (C)), and an informative prior ( Fig. 1 (D)).
+
+The uniform, Jeffreys, and Haldane priors are often regarded as “non-informative”, because they all express a specific form of ignorance about the true rate. We briefly mention some of the arguments that have been put forward for each prior. The uniform prior is the unique distribution that assigns equal prior probability for each of the possible counts: in this example, ranging from 0 to 100 ( Geisser, 1984 ). The Jeffreys prior distribution — Beta(0.5, 0,5) — is invariant to reparamaterization; for example, if the data are transformed to a different scale, the Jeffreys prior does not change ( Navarro, Pitt, & Myung, 2004 ). The Haldane prior distribution — Beta(0, 0) — is a uniform prior on the log-odds scale ( Zhu & Lu, 2004 ), and is often regarded as the prior that represents “complete ignorance” about a true rate ( Lee & Wagenmakers, 2005 ). Because the Beta(0, 0) distribution is improper (i.e., does not integrate to a finite value), the marginal likelihood is undefined, so we used the Beta(0.05, 0.05) distribution as a proper approximation to the Haldane. Finally, we also investigated an informative prior distribution — Beta(3, 2) — which expressed the belief that rates over 0.5 are more probable than rates under 0.5.
+
+Although the four prior distributions in  Fig. 1  appear very different from each other, the resulting posterior distributions are almost identical. For all four distributions, the true rate is almost certainly higher than the null rate:  
+                            P 
+                            
+                               ( 
+                               
+                                  
+                                     θ 
+                                  
+                                  
+                                     t 
+                                  
+                               
+                               > 
+                               0.5 
+                               ) 
+                            
+                            ≈ 
+                            0.98 
+                         . If each prior distribution represented the prior belief for one of four individuals, all four individuals — after observing the data — would arrive at almost the same conclusions about the true rate. This convergence has occurred because the information contained in the data (i.e. the likelihood) has overwhelmed the priors. The robustness of these posterior inferences, across different prior assumptions, indicates that these data are very informative about the value of the true rate.
+
+Just as we computed posterior distributions from a range of different priors, we also computed the marginal likelihoods for each prior. In contrast to the posterior distributions, the marginal likelihoods are highly sensitive to the prior. The Bayes factors in favor of  
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                          over  
+                            
+                               
+                                  H 
+                               
+                               
+                                  0 
+                               
+                            
+                         , for the four different priors, were as follows: uniform (0.91), Jeffreys (0.60), Haldane (0.09), and informative (1.55). These Bayes factors range from less much than 1 (strongly favoring  
+                            
+                               
+                                  H 
+                               
+                               
+                                  0 
+                               
+                            
+                         ), to approximately 1 (indifferent between  
+                            
+                               
+                                  H 
+                               
+                               
+                                  0 
+                               
+                            
+                          and  
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                         ), to slightly greater than 1 (slightly favoring  
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                         ). With equal prior probabilities on  
+                            
+                               
+                                  H 
+                               
+                               
+                                  0 
+                               
+                            
+                          and  
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                         , the posterior probability of  
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                          is 0.48 (uniform), 0.38 (Jeffreys), 0.08 (Haldane), and 0.61 (informative).
+
+In this example, the three non-informative prior distributions are symmetric Beta distributions. In  Fig. 2 
+                         , we show how posterior probabilities calculated from Beta 
+                            
+                               ( 
+                               c 
+                               , 
+                               c 
+                               ) 
+                            
+                          priors vary as a function of  
+                            c 
+                         . The solid line is the posterior probability that the decision maker is unbiased ( 
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                         ), calculated by Bayes factors, and assuming equal prior probabilities for  
+                            
+                               
+                                  H 
+                               
+                               
+                                  0 
+                               
+                            
+                          and  
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                         . Notice that the posterior probability for  
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                          approaches zero as  
+                            c 
+                          approaches 0; that is, as the prior distribution approaches the improper Beta(0, 0). The dashed line is the posterior probability, given  
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                         , that  
+                            θ 
+                          is greater than 0.5. This decreases very slightly as  
+                            c 
+                          increases, but is basically close to 0.98 for all values of  
+                            c 
+                          in this range.
+
+Whether one concludes, on the basis of the Bayes factors, that the decision maker is biased or not, depends heavily on the assumed prior distribution for  
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                         ; the less certain we are a priori of the value of  
+                            θ 
+                         , the more certain we are a posteriori that it is 0.5. This divergence contrasts with the close similarity between the posterior probabilities  
+                            P 
+                            
+                               ( 
+                               
+                                  
+                                     θ 
+                                  
+                                  
+                                     t 
+                                  
+                               
+                               > 
+                               0.5 
+                               ) 
+                            
+                          calculated from all prior distributions within this range, and with the resulting interpretation that there is strong evidence in favor of  
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                         . Although this prior sensitivity is not necessarily undesirable (see  Myung and Pitt (1997)  for discussion), we believe that it should be explicitly acknowledged whenever a Bayes factor is reported.
+
+Except in certain restricted cases, accurate and efficient computation of the marginal likelihood can be difficult ( Han & Carlin, 2001 ), so researchers often rely on asymptotic approximations. The most popular approximation to  
+                            − 
+                            2 
+                            log 
+                            
+                            P 
+                            
+                               ( 
+                               y 
+                               | 
+                               M 
+                               ) 
+                            
+                          is the  Bayesian Information Criterion  (BIC) ( Raftery, 1995; Schwarz, 1978; Wagenmakers, 2007 ):  
+                            
+                               (5) 
+                               
+                                  B 
+                                  I 
+                                  C 
+                                  = 
+                                  − 
+                                  2 
+                                  
+                                  log 
+                                  
+                                  L 
+                                  
+                                     ( 
+                                     
+                                        
+                                           θ 
+                                        
+                                        
+                                           ˆ 
+                                        
+                                     
+                                     ) 
+                                  
+                                  + 
+                                  d 
+                                  
+                                  log 
+                                  
+                                  n 
+                                  , 
+                               
+                            
+                          where  
+                            L 
+                            
+                               ( 
+                               
+                                  
+                                     θ 
+                                  
+                                  
+                                     ˆ 
+                                  
+                               
+                               ) 
+                            
+                          is the maximized likelihood,  
+                            d 
+                          is the number of parameters, and  
+                            n 
+                          is the sample size. The BIC can be interpreted as the sum of a badness-of-fit term,  
+                            − 
+                            2 
+                            
+                            log 
+                            
+                            L 
+                            
+                               ( 
+                               
+                                  
+                                     θ 
+                                  
+                                  
+                                     ˆ 
+                                  
+                               
+                               ) 
+                            
+                         , and a complexity penalty term,  
+                            d 
+                            
+                            log 
+                            
+                            n 
+                         , so models with smaller BIC values are preferred. Although the BIC is expressed on the deviance scale, differences in BIC can be easily converted into (approximate) Bayes factors by the following transformation:  
+                            
+                               (6) 
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        21 
+                                     
+                                  
+                                  = 
+                                  exp 
+                                  
+                                     [ 
+                                     − 
+                                     
+                                        
+                                           1 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     
+                                        ( 
+                                        B 
+                                        I 
+                                        
+                                           
+                                              C 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                        − 
+                                        B 
+                                        I 
+                                        
+                                           
+                                              C 
+                                           
+                                           
+                                              1 
+                                           
+                                        
+                                        ) 
+                                     
+                                     ] 
+                                  
+                                  . 
+                               
+                            
+                          When the BIC approximation was applied to this example, the resulting Bayes factor in favor of  
+                            
+                               
+                                  H 
+                               
+                               
+                                  1 
+                               
+                            
+                          over  
+                            
+                               
+                                  H 
+                               
+                               
+                                  0 
+                               
+                            
+                          was 0.75, suggesting a slight preference for  
+                            
+                               
+                                  H 
+                               
+                               
+                                  0 
+                               
+                            
+                         . One apparent advantage of the Bayes factor derived from the BIC is that it absolves researchers from having to specify their own prior distributions. This advantage comes at a price, however, because the BIC approximation implicitly assumes a prior which is similar to the Jeffreys prior ( Wasserman, 2000 ). In many cases, this assumption may diverge significantly from the researcher’s prior beliefs (see  Weakliem (1999)  for discussion). Whether such a prior is reasonable in any given context must still be justified by researchers to their audience.
+
+An advocate of the BIC may argue that this criterion assumes a plausible, if conservative, non-informative prior ( Raftery, 1999 ). Although such a prior may be plausible under certain conditions, this argument alone cannot be used to justify the interpretation of the resulting Bayes factor. As we demonstrated earlier, each of the non-informative priors (the uniform, Jeffreys, and Haldane) could be considered plausible, but each of them produced a different Bayes factor.
+
+Another argument for the use of BIC is that it is relatively simple to compute. Although this is an important pragmatic consideration, there are many existing criteria, such as the Akaike information criterion (AIC), that are just as simple to compute ( Wagenmakers & Farrell, 2004 ). Indeed, we suggest that whenever BIC is presented for model comparisons, researchers could also calculate other information criteria such as the AIC (see  Penny, Stephan, Mechelli, and Friston (2004)  for an example). In the model selection literature, it is well-known that BIC tends to favor simpler models, whereas AIC tends to favor more complex models ( Kass & Raftery, 1995 ). Reporting both BIC and AIC may therefore serve as a crude form of sensitivity analysis: if the two criteria select the same model, one can be more confident that the final decision was not overly dependent on an assumed prior.
+
+The dependence of the Bayes factor on the prior suggests that some  objective  or  reference  prior should be useful as a baseline measure (e.g.  Bernardo & Rueda, 2002 ). This “Objective Bayesian” approach ( Berger, 2006 ) does not preclude the use of more informative priors, and allows the additional effect of subjective information to be readily assessed. Many sophisticated rules have been proposed for determining objective priors ( Kass & Wasserman, 1996 ), as well as variants of ordinary Bayes factors that do not require subjective specification of priors, such as the  intrinsic  Bayes factor ( Berger & Perrichi, 1996 ), and the  fractional  Bayes factor ( O’Hagan, 1995 ). Although we find the Objective Bayesian approach appealing, one is still left with the “subjective” dilemma of choosing between the many formal rules available for specifying priors. This issue is still actively debated in the Bayesian statistics literature ( Berger, 2006 ), but is beyond the scope of the present article.
+
+The sensitivity analysis revealed that the effect of priors on parameter inferences is different from their effect on Bayes factors. In obtaining posteriors, priors can usually be conceived as representing some minimal amount of information, whose influence will be outweighed as more data are observed. When the data are highly informative or precise, the posterior density converges to the likelihood, and the effect of the prior may be negligible. In contrast, the marginal likelihood is highly sensitive to prior assumptions ( Aitkin, 1997, 2001; Kass, 1993; Sinharay & Stern, 2002 ). The divergence between posterior distributions and Bayes factors is sometimes known as the Jeffreys–Lindley paradox ( Lindley, 1957; Robert, 1993; Shafer, 1982 ). The pervasive nature of this divergence means that one is often forced to choose between inferences by posterior distributions, or inferences by Bayes factors ( Kass & Raftery, 1995 ).
+
+The example that we chose here was elementary, and involved only a single parameter. Models in psychology are typically more complex, and involve many more parameters. In these cases, the sensitivity of marginal likelihoods to the assumed joint prior distribution of the parameters becomes even more critical. We repeat the advice of  Myung and Pitt (1997)  that whenever Bayes factors are presented for model comparisons, they should be calculated, ideally, for a wide range of plausible priors. Such a sensitivity analysis may be difficult to implement in complex cognitive models, but is nonetheless important for any definitive conclusions to be made. To our knowledge, this advice is rarely followed in the field of psychology.
+
+In the next section, we will examine how this prior sensitivity relates to model generalizability.
+
+In the mathematical psychology literature ( Myung, 2000; Myung et al., 2000; Pitt & Myung, 2002; Pitt, Kim, & Myung, 2003; Preacher, 2006; Wagenmakers, Grünwald, & Steyvers, 2006 ), it has been argued that Bayes factors offer a useful method for assessing model generalizability, which has been described as “a model’s ability to accurately predict future, as yet unseen, data samples from the same process that generated the currently observed sample” ( Su et al., 2005 , p. 11). The concept of a future (or replicate) dataset — denoted here by  
+                         
+                            
+                               Y 
+                            
+                            
+                               
+                                  rep 
+                               
+                            
+                         
+                       — is also common in the statistics literature: “an independent replicate dataset  
+                         
+                            
+                               Y 
+                            
+                            
+                               
+                                  rep 
+                               
+                            
+                         
+                      , derived from the same data-generating mechanism as gave rise to the observed data” ( Spiegelhalter et al., 2002 , p. 602).
+
+Following  Su et al. (2005) , we can formally define generalizability as:  
+                         
+                            (7) 
+                            
+                               − 
+                               
+                                  
+                                     E 
+                                  
+                                  
+                                     t 
+                                  
+                               
+                               
+                                  [ 
+                                  D 
+                                  
+                                     ( 
+                                     
+                                        
+                                           p 
+                                        
+                                        
+                                           t 
+                                        
+                                     
+                                     
+                                        ( 
+                                        Y 
+                                        ) 
+                                     
+                                     , 
+                                     p 
+                                     
+                                        ( 
+                                        Y 
+                                        | 
+                                        
+                                           
+                                              θ 
+                                           
+                                           
+                                              ˆ 
+                                           
+                                        
+                                        ) 
+                                     
+                                     ) 
+                                  
+                                  ] 
+                               
+                               , 
+                            
+                         
+                       where  
+                         D 
+                         
+                            ( 
+                            f 
+                            , 
+                            g 
+                            ) 
+                         
+                       is a function (e.g., Kullback–Leibler divergence) that measures the discrepancy between two distributions  
+                         f 
+                       and  
+                         g 
+                      . The quantity in Eq.  (7)  is the (negative)  expected overall discrepancy  ( Zucchini, 2000 ) between the true model  
+                         
+                            
+                               p 
+                            
+                            
+                               t 
+                            
+                         
+                         
+                            ( 
+                            Y 
+                            ) 
+                         
+                       and the best-fitting model  
+                         p 
+                         
+                            ( 
+                            Y 
+                            | 
+                            
+                               
+                                  θ 
+                               
+                               
+                                  ˆ 
+                               
+                            
+                            ) 
+                         
+                       within a model class, averaged over all possible datasets  
+                         
+                            
+                               Y 
+                            
+                            
+                               
+                                  rep 
+                               
+                            
+                         
+                       that could be observed under the true model. Although the definition of  
+                         
+                            
+                               Y 
+                            
+                            
+                               
+                                  rep 
+                               
+                            
+                         
+                       appears, at first glance, to be straightforward, there does not appear to be a single agreed-upon definition. Rather, model generalizability can be defined at different levels.
+
+In simulation studies of generalizability ( Myung, 2000; Myung et al., 2000; Pitt et al., 2002 ), researchers have assumed one particular definition of  
+                            
+                               
+                                  Y 
+                               
+                               
+                                  
+                                     rep 
+                                  
+                               
+                            
+                         . In those simulations, an initial dataset (corresponding to the observed data) is first generated from a known, true model with fixed parameter values:  
+                            y 
+                            ∼ 
+                            p 
+                            
+                               ( 
+                               Y 
+                               | 
+                               
+                                  
+                                     θ 
+                                  
+                                  
+                                     t 
+                                  
+                               
+                               ) 
+                            
+                         . A future dataset is then generated from the same model:  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     rep 
+                                  
+                               
+                            
+                            ∼ 
+                            p 
+                            
+                               ( 
+                               Y 
+                               | 
+                               
+                                  
+                                     θ 
+                                  
+                                  
+                                     t 
+                                  
+                               
+                               ) 
+                            
+                         . Parameter estimates are derived by fitting the candidate models (e.g., by maximum likelihood) to the initial dataset. These parameter estimates are then used to generate predictions for the future dataset, and the corresponding prediction errors yield a measure of discrepancy that can be used to compare models.
+
+In real datasets, the true model is unknown, so future data are unavailable. To overcome this difficulty, one can use a cross-validation method ( Camstra & Boomsba, 1992 ), in which the available data are first divided into two samples: a calibration sample, and a validation sample. Once fitted to the calibration sample, models can then be compared on how well they predict the validation sample.
+
+Busemeyer and Wang (2000)  criticized the cross-validation criterion, because the calibration and test samples are taken from the same experimental design. In a series of simulation studies, Myung and colleagues ( Myung, 2000; Myung, Pitt, & Kim, 2005; Pitt et al., 2002 ) have shown that the cross-validation criterion can perform poorly in certain scenarios. Busemeyer and Wang suggested that models could instead be assessed on how well they generalize to new experimental designs (see  Rieskamp, Busemeyer, and Laine (2003)  for an application to reinforcement learning models). Competing models are forced to extrapolate, or interpolate, to unseen experimental conditions. For example, in a regression context, a new design may correspond to different values of the independent variable.
+
+To use the generalization criterion, one first divides the complete design into a calibration design, and a generalization design. Parameter estimates are derived from the calibration design, to produce predictions for the generalization design. The models can then be compared on the discrepancies computed in the generalization stage. In this context, model generalizability refers to the ability to predict future data that are generated from the same model (with the same parameter value) that generated the observed data:  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     rep 
+                                  
+                               
+                            
+                            ∼ 
+                            p 
+                            
+                               ( 
+                               Y 
+                               | 
+                               
+                                  
+                                     θ 
+                                  
+                                  
+                                     t 
+                                  
+                               
+                               ) 
+                            
+                         . Borrowing some terminology from  Pitt, Kim, Navarro, and Myung (2006) , we call this ability  local model generalizability . According to  Busemeyer and Wang (2000) , the assumption of  parameter invariance  is critical to the application of the generalization criterion; that is, the parameter values are assumed to be invariant across the calibration and generalization design conditions.
+
+The definition of  
+                            
+                               
+                                  Y 
+                               
+                               
+                                  
+                                     rep 
+                                  
+                               
+                            
+                          that is implied by the calculation of a Bayes factor is different to that described above. In this case, future data refers to data that are generated from a  distribution  of models whose parameter values are sampled from the prior distribution:  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     rep 
+                                  
+                               
+                            
+                            ∼ 
+                            p 
+                            
+                               ( 
+                               Y 
+                               | 
+                               M 
+                               ) 
+                            
+                            = 
+                            ∫ 
+                            p 
+                            
+                               ( 
+                               Y 
+                               | 
+                               θ 
+                               ) 
+                            
+                            p 
+                            
+                               ( 
+                               θ 
+                               ) 
+                            
+                            
+                            
+                               d 
+                            
+                            θ 
+                         . We call this ability  global model generalizability .
+
+Global model generalizability can be understood by examining the  prior predictive  distributions  
+                            p 
+                            
+                               ( 
+                               Y 
+                               | 
+                               M 
+                               ) 
+                            
+                         , which give the probabilities of observables (rather than of parameters). In  Fig. 3 
+                         , we plot these distributions for the hypothetical example from the previous section. The Bayes factors are simply the ratios of probabilities at the observed count ( 
+                            r 
+                            = 
+                            60 
+                         ). The use of marginal likelihoods for model comparisons can therefore be justified if the prior predictive distributions represent the  
+                            
+                               
+                                  Y 
+                               
+                               
+                                  
+                                     rep 
+                                  
+                               
+                            
+                          of interest. This is because Bayes factors “address how well the prior has predicted the observed data” ( Spiegelhalter et al., 2002 , p. 636 ). If the prior distribution for a model class is mis-specified, however, the resulting marginal likelihood may not provide an appropriate measure of evidence.
+
+Defending the use of Bayes factors,  Raftery and Zheng (2003)  argued that the optimality of a Bayes factor is guaranteed whenever a researcher’s prior distribution exactly matches the “practical distribution of the parameters” (p. 932). It is well-known to Bayesian statisticians that Bayes factors are optimal under such conditions ( Bernardo & Smith, 1994 , p. 389). However, the skeptical reader may rightly wonder how this optimality could ever be achieved in practice, given that no researcher is omniscient. Indeed,  Gelman and Rubin (1999, p. 405)  challenged the BIC for this reason:  
+                            ...a model selected by the BIC should outperform models selected by other criteria (e.g., by  
+                                  
+                                     
+                                        χ 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                                tests) in the sense of having smaller out-of-sample prediction errors. This result is correct (from Bayes’s theorem)  if  the prior distribution is correct, but...the BIC corresponds to one particular choice of prior distribution, and there is no reason for this result to hold if the actual data came from a different model... 
+                          We leave such epistemological issues aside, but merely point out that the use of Bayes factors implies a strong commitment to the prior predictive distributions as a representation of the potential future datasets.
+
+Notice in  Fig. 3  that although the prior predictive distribution for the null hypothesis is binomial, the distributions for the alternative hypotheses are beta-binomial. From a local model perspective, these beta-binomial distributions do not make appropriate predictions for the observed data, because the true model is assumed to be binomial. For example, in  Fig. 3 (A), the Bayes factor is comparing the null binomial model with a discrete uniform distribution for  
+                            r 
+                         . A uniform distribution would not be observed, however, if the experiment were repeated on  this  decision maker; instead, it might observed if the experiment were repeated on a  population  of decision makers, whose preferences were uniformly distributed.
+
+The distinction between local and global model generalizability provides some insight into Lindley’s paradox. Whereas parameter inferences are concerned with the true model that generated the observed data, Bayes factors are concerned with the distribution of models from which the true model was sampled. For example, when the prior distribution is improper, the marginal likelihood is not well defined, and global model generalizability cannot be meaningfully assessed. In contrast, parameter inference (and local model generalizability) is possible with an improper prior, as long as the resulting posterior is proper.
+
+In previous discussions of the local-global distinction, researchers have raised concerns about the use of local methods. For example,  Pitt et al. (2006)  argued that local methods are limited because they focus on model predictions at (or around) a particular point in parameter space, whereas global methods are preferable because they focus on model predictions across all parameter values. We suggest that these characteristics could also be viewed as reflecting an advantage for local methods, and a disadvantage for global methods. Global (but not local) methods are critically dependent on regions of the prior parameter space that could have generated the observed data, but did not (i.e. yield negligible likelihood); in some scenarios, researchers will be interested  only  in those parameter values that could have generated the observed data. We will give some examples of such scenarios later in this article.
+
+In the following sections, we briefly mention two other methods that, like Bayes factors, assess global model generalizability. The first method is the  normalized maximum likelihood  (NML) criterion, which is derived from the MDL principle ( Myung, Navarro, & Pitt, 2006; Rissanen, 2001 ). The second method is the  accumulative prediction error  (APE) criterion, which is derived from prequential analysis ( Dawid, 1991; Wagenmakers et al., 2006 ). It is interesting that these three methods (Bayes factors, NML, and APE) can be made formally equivalent in terms of prediction error for future data, even though they were motivated by different principles (see  Grünwald (2007)  for further details). This formal equivalence suggests that it may be useful to view all three methods as assessing global model generalizability.
+
+According to the MDL principle, the goal of model selection is to identify the model (class) that permits the greatest compression of the observed data. An important development in the MDL literature is the normalized maximum likelihood criterion:  
+                               
+                                  (8) 
+                                  
+                                     N 
+                                     M 
+                                     L 
+                                     = 
+                                     − 
+                                     log 
+                                     f 
+                                     
+                                        ( 
+                                        x 
+                                        | 
+                                        
+                                           
+                                              
+                                                 
+                                                    θ 
+                                                 
+                                                 
+                                                    x 
+                                                 
+                                              
+                                           
+                                           
+                                              ˆ 
+                                           
+                                        
+                                        ) 
+                                     
+                                     + 
+                                     log 
+                                     ∫ 
+                                     f 
+                                     
+                                        ( 
+                                        x 
+                                        | 
+                                        
+                                           
+                                              
+                                                 
+                                                    θ 
+                                                 
+                                                 
+                                                    y 
+                                                 
+                                              
+                                           
+                                           
+                                              ˆ 
+                                           
+                                        
+                                        ) 
+                                     
+                                     
+                                        d 
+                                     
+                                     y 
+                                     , 
+                                  
+                               
+                             where  
+                               
+                                  
+                                     
+                                        
+                                           θ 
+                                        
+                                        
+                                           y 
+                                        
+                                     
+                                  
+                                  
+                                     ˆ 
+                                  
+                               
+                             denotes the maximum likelihood estimate for the dataset  
+                               y 
+                            . The first term in Eq.  (8)  is a measure of badness-of-fit, while the second term represents a penalty for complexity. This complexity term is the logarithm of the sum of maximum likelihoods provided by a model class for all potential datasets that could be observed in an experiment. Thus, a complex model class is penalized for its ability to fit many data patterns well.  Balasubramanian (1997)  has shown that asymptotically, for large sample sizes, model selection by the NML criterion is equivalent to model selection by Bayes factors, assuming a noninformative Jeffreys prior for each model class.
+
+Global model generalizability can also be understood from a sequential prediction, or  prequential  perspective ( Dawid, 1984 ). For example,  Wagenmakers et al. (2006)  proposed that models can be selected on the basis of  accumulative prediction error  (APE). The primary motivation of the APE method is to select the model that can best predict “the next unseen data point” ( Wagenmakers et al., 2006 , p. 149). This method can be summarized by the following steps: (1) Set  
+                               i 
+                               − 
+                               1 
+                             to be the smallest number of observations that make the model identifiable; (2) Based on the first  
+                               i 
+                               − 
+                               1 
+                             observations, calculate a prediction for the next observation  
+                               i 
+                            ; (3) Calculate the prediction error for observation  
+                               i 
+                            ; (4) Increase  
+                               i 
+                             by 1, and repeat steps 2 and 3; (5) The sum of all the one-step-ahead prediction errors is called the APE.
+
+The APE method is equivalent to model selection by Bayes factors under the following conditions: (1) Given a proper prior distribution,  
+                               i 
+                               − 
+                               1 
+                               = 
+                               0 
+                            ; (2) Based on the first  
+                               i 
+                               − 
+                               1 
+                             observations, make a (probabilistic) prediction for the next observation  
+                               i 
+                            ; (3) Calculate the prediction error for observation  
+                               i 
+                            , assuming a logarithmic loss function; (4) Increase  
+                               i 
+                             by 1, and repeat steps 2 and 3; (5) The accumulated logarithmic loss is equal to minus the log marginal likelihood.
+
+To further illustrate the local–global distinction, we present an example that compares two model classes, where one involves an inequality constraint (also known as a directional hypothesis). 
+                               3 
+                            
+                            
+                               3 
+                               We thank Michael Lee for suggesting this example to us. 
+                             From a local model perspective, the two model classes are equally supported by the data, because they will yield essentially the same prediction errors for future data. In contrast, the three global methods described above (the Bayes factor, the NML criterion, and the APE method) will exhibit a preference for one model class over the other.
+
+Assume that the decision maker is now given the same choice between  
+                            X 
+                          and  
+                            Y 
+                          under two experimental conditions. In condition 1, option  
+                            X 
+                          is chosen  
+                            
+                               
+                                  r 
+                               
+                               
+                                  1 
+                               
+                            
+                          times out of  
+                            
+                               
+                                  n 
+                               
+                               
+                                  1 
+                               
+                            
+                          trials, and in condition 2,  
+                            X 
+                          is chosen  
+                            
+                               
+                                  r 
+                               
+                               
+                                  2 
+                               
+                            
+                          times out of  
+                            
+                               
+                                  n 
+                               
+                               
+                                  2 
+                               
+                            
+                          trials. The true rates (i.e. choice proportions) in conditions 1 and 2 are represented by the parameters  
+                            
+                               
+                                  θ 
+                               
+                               
+                                  1 
+                               
+                            
+                          and  
+                            
+                               
+                                  θ 
+                               
+                               
+                                  2 
+                               
+                            
+                         , respectively. The parameter space is the unit square (see  Fig. 4 
+                         ), where the x-axis corresponds to  
+                            
+                               
+                                  θ 
+                               
+                               
+                                  1 
+                               
+                            
+                         , and the y-axis corresponds to  
+                            
+                               
+                                  θ 
+                               
+                               
+                                  2 
+                               
+                            
+                         .
+
+We specify two different models for these data. The first model,  
+                            
+                               
+                                  M 
+                               
+                               
+                                  1 
+                               
+                            
+                         , states that  
+                            
+                               
+                                  θ 
+                               
+                               
+                                  1 
+                               
+                            
+                            ≠ 
+                            
+                               
+                                  θ 
+                               
+                               
+                                  2 
+                               
+                            
+                         , while the second model,  
+                            
+                               
+                                  M 
+                               
+                               
+                                  2 
+                               
+                            
+                          states that  
+                            
+                               
+                                  θ 
+                               
+                               
+                                  1 
+                               
+                            
+                            > 
+                            
+                               
+                                  θ 
+                               
+                               
+                                  2 
+                               
+                            
+                         . Suppose that in  
+                            
+                               
+                                  M 
+                               
+                               
+                                  1 
+                               
+                            
+                         , a uniform prior is assigned over the parameter space (the unit square), while in  
+                            
+                               
+                                  M 
+                               
+                               
+                                  2 
+                               
+                            
+                         , a uniform prior assigned over only the bottom-right half of the unit square. In condition 1, the decision maker chooses  
+                            X 
+                          900 times out of 1000 trials ( 
+                            
+                               
+                                  r 
+                               
+                               
+                                  1 
+                               
+                            
+                            = 
+                            900 
+                            , 
+                            
+                               
+                                  n 
+                               
+                               
+                                  1 
+                               
+                            
+                            = 
+                            1000 
+                         ), while in condition 2, he or she chooses  
+                            X 
+                          100 times out of 1000 trials ( 
+                            
+                               
+                                  r 
+                               
+                               
+                                  2 
+                               
+                            
+                            = 
+                            100 
+                            , 
+                            
+                               
+                                  n 
+                               
+                               
+                                  2 
+                               
+                            
+                            = 
+                            1000 
+                         ). The posterior distributions (represented by the tight contours in  Fig. 4 ) for both  
+                            
+                               
+                                  M 
+                               
+                               
+                                  1 
+                               
+                            
+                          and  
+                            
+                               
+                                  M 
+                               
+                               
+                                  2 
+                               
+                            
+                          are almost identical. Thus, the posterior parameter inferences from both models are the same:  
+                            
+                               
+                                  θ 
+                               
+                               
+                                  1 
+                               
+                            
+                          is almost certain to be higher than  
+                            
+                               
+                                  θ 
+                               
+                               
+                                  2 
+                               
+                            
+                         .
+
+With respect to future data from the true model (i.e., data that are generated from  this  decision maker under  these  conditions),  
+                            
+                               
+                                  M 
+                               
+                               
+                                  1 
+                               
+                            
+                          and  
+                            
+                               
+                                  M 
+                               
+                               
+                                  2 
+                               
+                            
+                          will make the same predictions. In consequence, both models will yield the same prediction errors, and are therefore indistinguishable in terms of local model generalizability. In contrast, the three global methods would all favor the constrained model,  
+                            
+                               
+                                  M 
+                               
+                               
+                                  2 
+                               
+                            
+                         , over the unconstrained model,  
+                            
+                               
+                                  M 
+                               
+                               
+                                  1 
+                               
+                            
+                         .
+
+Bayes factor . If  
+                            
+                               
+                                  Y 
+                               
+                               
+                                  
+                                     rep 
+                                  
+                               
+                            
+                          refers to future data from the prior predictive distributions, then the observed data provide greater evidence for  
+                            
+                               
+                                  M 
+                               
+                               
+                                  2 
+                               
+                            
+                         . Specifically, the Bayes factor favors  
+                            
+                               
+                                  M 
+                               
+                               
+                                  2 
+                               
+                            
+                          over  
+                            
+                               
+                                  M 
+                               
+                               
+                                  1 
+                               
+                            
+                          by a factor of 2, which reflects the ratio of the prior ordinates. ( Myung and Pitt (1997) ; see also,  Klugkist, Laudy, and Hoijtink (2005)  and  Pitt et al. (2002) ) argued that model classes with wider parameter spaces are more complex, and must therefore be penalized for this additional complexity. As we argued above, however, this conclusion rests on the assumption that the prior predictive distributions adequately represent  
+                            
+                               
+                                  Y 
+                               
+                               
+                                  
+                                     rep 
+                                  
+                               
+                            
+                         .
+
+NML . According to Eq.  (8) , the NML criterion will prefer  
+                            
+                               
+                                  M 
+                               
+                               
+                                  2 
+                               
+                            
+                          over  
+                            
+                               
+                                  M 
+                               
+                               
+                                  1 
+                               
+                            
+                         : While the two model classes have the same badness-of-fit term,  
+                            
+                               
+                                  M 
+                               
+                               
+                                  1 
+                               
+                            
+                          will produce a larger complexity penalty term. This is because  
+                            
+                               
+                                  M 
+                               
+                               
+                                  1 
+                               
+                            
+                          would provide a better fit than  
+                            
+                               
+                                  M 
+                               
+                               
+                                  2 
+                               
+                            
+                          whenever  
+                            
+                               
+                                  r 
+                               
+                               
+                                  1 
+                               
+                            
+                            / 
+                            
+                               
+                                  n 
+                               
+                               
+                                  1 
+                               
+                            
+                            < 
+                            
+                               
+                                  r 
+                               
+                               
+                                  2 
+                               
+                            
+                            / 
+                            
+                               
+                                  n 
+                               
+                               
+                                  2 
+                               
+                            
+                         . From a local model perspective, this conclusion is curious because  
+                            
+                               
+                                  M 
+                               
+                               
+                                  1 
+                               
+                            
+                          is being penalized for being able to fit well datasets that will probably never be observed, given what is now known about  
+                            
+                               
+                                  θ 
+                               
+                               
+                                  1 
+                               
+                            
+                          and  
+                            
+                               
+                                  θ 
+                               
+                               
+                                  2 
+                               
+                            
+                         . The behavior of the NML criterion is therefore similar to that of Bayes factors, which depends on parameter values that could have generated the data, but did not.
+
+APE . The APE method will also prefer  
+                            
+                               
+                                  M 
+                               
+                               
+                                  2 
+                               
+                            
+                          over  
+                            
+                               
+                                  M 
+                               
+                               
+                                  1 
+                               
+                            
+                          because the latter will be penalized for making larger prediction errors in the initial stages. The intuition behind the APE method is “that a good indicator for prediction error to as yet unseen data is the sum (or equivalently, the average) of the previous prediction errors” ( Wagenmakers et al., 2006 , p. 150). This intuition can be misleading, however, when models are continually learning from the data, and improving their predictions with each observation. In this example, the prediction errors for the “next unseen data point” will be the same for both  
+                            
+                               
+                                  M 
+                               
+                               
+                                  1 
+                               
+                            
+                          and  
+                            
+                               
+                                  M 
+                               
+                               
+                                  2 
+                               
+                            
+                         , even though the sum of previous prediction errors is larger in  
+                            
+                               
+                                  M 
+                               
+                               
+                                  1 
+                               
+                            
+                          than in  
+                            
+                               
+                                  M 
+                               
+                               
+                                  2 
+                               
+                            
+                         .
+
+So far in this article, we have compared nested models on hypothetical datasets. In the next section, we compare a set of non-nested models on a real dataset involving retention (or forgetting) functions. In particular, we will contrast the conclusions from Bayes factors with those from a number of alternative criteria that assess local model generalizability.
+
+One of the long-standing questions driving memory research is how to characterize the time-course of forgetting or retention of information. Historically, attempts to evaluate candidate retention functions have relied solely on goodness-of-fit measures (e.g.,  Rubin and Wenzel (1996) ,  Wixted and Ebbesen (1997) ). More recently,  Lee (2004)  used Bayes factors to compare five standard models from this literature for the 210 published datasets collated by Rubin and Wenzel. We focus here on a single dataset: one that Lee chose as a case study. 
+                         4 
+                      
+                      
+                         4 
+                         We thank David Rubin for providing these data.
+
+Squire (1989)  examined how long-term recognition memory for names of television shows depended on when (in years) the show was last broadcast. Let  
+                         
+                            
+                               y 
+                            
+                            
+                               i 
+                            
+                         
+                         
+                            ( 
+                            i 
+                            = 
+                            1 
+                            , 
+                            … 
+                            , 
+                            15 
+                            ) 
+                         
+                       denote recognition accuracy, measured in average proportion correct, and  
+                         
+                            
+                               t 
+                            
+                            
+                               i 
+                            
+                         
+                       denote the time intervals, measured in proportion of 15 years. Each model is indexed by two parameters,  
+                         m 
+                       and  
+                         b 
+                      , related to the mean accuracy  
+                         
+                            
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     ˆ 
+                                  
+                               
+                            
+                            
+                               i 
+                            
+                         
+                       for each time interval  
+                         
+                            
+                               t 
+                            
+                            
+                               i 
+                            
+                         
+                      . The five models were the linear:  
+                         
+                            
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     ˆ 
+                                  
+                               
+                            
+                            
+                               i 
+                            
+                         
+                         = 
+                         b 
+                         − 
+                         m 
+                         
+                            
+                               t 
+                            
+                            
+                               i 
+                            
+                         
+                      , hyperbolic:  
+                         
+                            
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     ˆ 
+                                  
+                               
+                            
+                            
+                               i 
+                            
+                         
+                         = 
+                         1 
+                         / 
+                         
+                            ( 
+                            m 
+                            
+                               
+                                  t 
+                               
+                               
+                                  i 
+                               
+                            
+                            + 
+                            b 
+                            ) 
+                         
+                      , exponential:  
+                         
+                            
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     ˆ 
+                                  
+                               
+                            
+                            
+                               i 
+                            
+                         
+                         = 
+                         b 
+                         exp 
+                         
+                            ( 
+                            − 
+                            m 
+                            
+                               
+                                  t 
+                               
+                               
+                                  i 
+                               
+                            
+                            ) 
+                         
+                      , logarithmic:  
+                         
+                            
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     ˆ 
+                                  
+                               
+                            
+                            
+                               i 
+                            
+                         
+                         = 
+                         b 
+                         − 
+                         m 
+                         ln 
+                         
+                            
+                               t 
+                            
+                            
+                               i 
+                            
+                         
+                      , and the power:  
+                         
+                            
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     ˆ 
+                                  
+                               
+                            
+                            
+                               i 
+                            
+                         
+                         = 
+                         b 
+                         
+                            
+                               t 
+                            
+                            
+                               i 
+                            
+                            
+                               − 
+                               m 
+                            
+                         
+                      .
+
+For each model, the observed proportions  
+                         
+                            
+                               y 
+                            
+                            
+                               i 
+                            
+                         
+                       were assumed to arise from a Normal sampling distribution with mean  
+                         
+                            
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     ˆ 
+                                  
+                               
+                            
+                            
+                               i 
+                            
+                         
+                      , and common variance  
+                         
+                            
+                               s 
+                            
+                            
+                               2 
+                            
+                         
+                       for all time intervals. Given the sample standard deviations reported in  Squire (1989) ,  Lee (2004)  argued that a reasonable estimate of  
+                         s 
+                       was 0.25. Importantly, his conclusions regarding model comparisons were robust across a broad range of estimates for  
+                         s 
+                      .
+
+The models were compared by Bayes factors, and uniform priors were assigned to the parameters  
+                         m 
+                       and  
+                         b 
+                       on the interval [0, 2]. Under this prior specification, the hyperbolic model had the highest integrated likelihood, and the Bayes factors for the hyperbolic compared to the other models were 3.4, 6.7, 13.0, and 16.4 for the exponential, linear, power, and logarithmic models, respectively.  Lee (2004, p. 315)  concluded that, “at the estimated level of data precision, the hyperbolic model constitutes the best balance between fit and inherent complexity, and is most strongly supported by  Squire ’s ( 1989 ) data.”
+
+The balance between fit and model complexity can be understood by rewriting the marginal likelihood as ( Chib, 1995 ):  
+                         
+                            (9) 
+                            
+                               p 
+                               
+                                  ( 
+                                  y 
+                                  ) 
+                               
+                               = 
+                               L 
+                               
+                                  ( 
+                                  θ 
+                                  ) 
+                               
+                               
+                                  [ 
+                                  
+                                     
+                                        p 
+                                        
+                                           ( 
+                                           θ 
+                                           ) 
+                                        
+                                     
+                                     
+                                        p 
+                                        
+                                           ( 
+                                           θ 
+                                           | 
+                                           y 
+                                           ) 
+                                        
+                                     
+                                  
+                                  ] 
+                               
+                               , 
+                            
+                         
+                       which holds for all values of  
+                         θ 
+                      , such as the maximum likelihood estimate  
+                         
+                            
+                               θ 
+                            
+                            
+                               ˆ 
+                            
+                         
+                      . The marginal likelihood adjusts the maximized likelihood by a factor  
+                         p 
+                         
+                            ( 
+                            
+                               
+                                  θ 
+                               
+                               
+                                  ˆ 
+                               
+                            
+                            ) 
+                         
+                         / 
+                         p 
+                         
+                            ( 
+                            
+                               
+                                  θ 
+                               
+                               
+                                  ˆ 
+                               
+                            
+                            | 
+                            y 
+                            ) 
+                         
+                      , known as the  Occam factor  ( Jaynes, 2003; Mackay, 2003; Sivia, 1996 ), which penalizes a model for the amount of information gained from the data about  
+                         
+                            
+                               θ 
+                            
+                            
+                               ˆ 
+                            
+                         
+                      . The ranking of the five models - according to fit, complexity, and marginal likelihood - are reported in  Table 1 
+                      .
+
+The Bayes factors reported by  Lee (2004)  are meaningful if one accepts the prior distributions that were used to compute them. However, consideration of theoretical boundary conditions ( Wickens, 1998 ) suggests that the assumed priors may not be consistent with known constraints. A theorist recommending the exponential model, for example, could argue that because the mean accuracy cannot exceed 1 or fall below 0, it is unfair to penalize the exponential model for regions of the prior that do not reflect this fundamental constraint. For the exponential model, we examined the predicted means (of proportion correct recall) at all possible parameter values, using a grid from 0 to 2, and increasing in steps of 0.005, for both  
+                         m 
+                       and  
+                         b 
+                      . In  Fig. 5 
+                      , the parameter values that generate impossible predictions (i.e. less than 0, or greater than 1) are shaded in gray. (We also plot the contours of the posterior distribution, which are concentrated within the unshaded region). Reducing the prior range for  
+                         b 
+                       from [0, 2] to [0, 1] would automatically double the prior ordinate and the marginal likelihood in favor of the exponential model, even though this would have no effect on the posterior parameter inferences.
+
+Supporters of the other models could, similarly, argue for more reasonable priors, which would dramatically change the marginal likelihoods. For example, memory researchers would have good reason to be suspicious of the assumed priors because the resulting Bayes factors favored the linear model over the logarithmic and the power models. We produced similar plots for the linear model ( Fig. 6 
+                      ), the hyperbolic model ( Fig. 7 
+                      ), the logarithmic model ( Fig. 8 
+                      ), and the power model ( Fig. 9 
+                      ). Clearly, the Bayes factors reported above depend critically on the assumption that all five models share the same uniform priors, which includes many parameter values that produce unreasonable (impossible) predictions for a recall experiment. We will show, below, that application of the generalization criterion does not depend on such prior assumptions.
+
+To apply the generalization criterion to the retention data, we decided to partition the complete dataset into two samples: a calibration design comprising 7 data points, and a generalization design comprising the remaining 8 data points. Rather than relying on a single partition, we used a variant of the generalization criterion ( Busemeyer & Wang, 2000 , p. 187) in which we examined all  
+                         
+                            
+                               
+                                  15 
+                               
+                               
+                                  7 
+                               
+                            
+                         
+                         = 
+                         6435 
+                       partitions. For each partition, the five models were first fitted by maximum likelihood to the calibration design, and were then tested on the generalization design. (We chose a generalization set size of 8 to maximize the number of possible partitions. The arbitrary nature of this choice will be addressed in the next section).
+
+For example,  Fig. 10 
+                       illustrates one generalization test of the linear function. The linear model was first fitted to 7 time points (years 1, 2, 3, 5, 6, 11, 12), and the best-fitting parameter estimates were used to make predictions for the remaining 8 points.
+
+The procedure shown in  Fig. 10  was repeated for all possible partitions and for all five models. For each generalization test, we computed a generalization deviance: twice the negative log likelihood of the data in the generalization sample, given the best-fitting parameter values from the calibration stage. In  Fig. 11 
+                      , we plot the empirical cumulative distributions of the generalization deviances for each of the five models. (The negative deviance values result from the likelihood computations using the normal probability density rather than the actual probability of the data).
+
+The generalization criterion analysis produced the following order of the models (from best to worst): logarithmic, power, hyperbolic, exponential, linear. This ordering is very different from that produced by the Bayes factor analysis.  Lee (2004, p. 314)  argued that:  
+                         the ability of the power and logarithmic models to fit the data may have less to do with the functions they use being the appropriate ones to capture the retention data, and more to do with the functions being sufficiently flexible to accommodate any data (including data that would never be observed in a memory recall experiment) by adjusting their parameter values. 
+                       The generalization criterion analysis here does not support this argument, because the functions cannot adjust their parameter values in the generalization stage. Ironically, the marginal likelihoods reported above could be criticized for this reason, because the likelihoods were averaged over models whose predictions would never be observed in a recall experiment.
+
+To directly compare these two analyses, we transformed the median generalization deviances, and the Bayes factors, into their respective model weights ( Wagenmakers & Farrell, 2004 ). For the generalization deviances, the model weights,  
+                         
+                            
+                               w 
+                            
+                            
+                               i 
+                            
+                         
+                      , were computed as:  
+                         
+                            (10) 
+                            
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     i 
+                                  
+                               
+                               = 
+                               exp 
+                               
+                                  { 
+                                  − 
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                                  
+                                     
+                                        Δ 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  } 
+                               
+                               / 
+                               
+                                  
+                                     ∑ 
+                                  
+                                  
+                                     k 
+                                     = 
+                                     1 
+                                  
+                                  
+                                     K 
+                                  
+                               
+                               exp 
+                               
+                                  { 
+                                  − 
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                                  
+                                     
+                                        Δ 
+                                     
+                                     
+                                        k 
+                                     
+                                  
+                                  } 
+                               
+                               , 
+                            
+                         
+                       where  
+                         
+                            
+                               Δ 
+                            
+                            
+                               i 
+                            
+                         
+                       is the difference between the median deviance for model  
+                         i 
+                       and the median deviance for the logarithmic model (i.e. the lowest median deviance obtained for the set of  
+                         K 
+                       candidate models). For the Bayes factors, the model weights were computed as:  
+                         
+                            (11) 
+                            
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     i 
+                                  
+                               
+                               = 
+                               
+                                  
+                                     B 
+                                  
+                                  
+                                     i 
+                                  
+                               
+                               / 
+                               
+                                  
+                                     ∑ 
+                                  
+                                  
+                                     k 
+                                     = 
+                                     1 
+                                  
+                                  
+                                     K 
+                                  
+                               
+                               
+                                  
+                                     B 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                               , 
+                            
+                         
+                       where  
+                         
+                            
+                               B 
+                            
+                            
+                               i 
+                            
+                         
+                       denotes the Bayes factor in favor of model  
+                         i 
+                       over the hyperbolic model. The model weights, plotted in  Fig. 12 
+                      , can be interpreted as the probabilities that a particular model (class) is the “best”.
+
+The different patterns of model weights provide a clear demonstration of the distinction between global and local model generalizability. Advocates of the Bayes factor approach may object to this generalization criterion analysis, because we have relied on maximum likelihood methods.  Busemeyer and Wang (2000)  proposed a Bayesian variant of the generalization criterion, but we did not use this variant because we wished to demonstrate an application that did not require assumptions about prior distributions. Another potential criticism of the generalization criterion is that it requires an arbitrary decision to split the observed data into two samples, and it is not clear what calibration or generalization set size would be best. To address these criticisms, we re-analyzed the full dataset using a number of Bayesian methods that address local model generalizability.
+
+In the modern statistical toolbox, the Bayes factor is but one of many Bayesian methods available for model comparison. For example, a number of methods have been developed in which the object of interest is the posterior, rather than the prior, distribution. (It is beyond the scope of this article to provide a detailed description of these methods, but all are commonly used in the applied statistics literature). Such methods include: (1) the posterior predictive loss criterion (( Gelfand & Ghosh, 1998 ), see also,  Karabatsos (2006) ), the deviance information criterion (( Spiegelhalter et al., 2002 ); see  Myung, Karabatsos, and Iverson (2005)  and  Karabatsos and Batchelder (2003)  for applications in psychology), and (3) the posterior likelihood ratio ( Aitkin, 1997; Aitkin, Boys, & Chadwick, 2005; Congdon, 2005; Dempster, 1997; Fox, 2005 ). The common rationale underlying these Bayesian methods can be summarized as follows: Given that the posterior, rather than the prior, distribution of a model is ultimately reported and used for further inference, it is the posterior distribution that should be evaluated for the purposes of model comparison. All of these alternative methods are related to the generalization criterion in that they are designed to assess local model generalizability.
+
+According to  Gelfand and Ghosh (1998) , models can be compared via a loss function that penalizes models for imprecise posterior predictions, and for posterior predictions that depart from the observed data. For squared error loss, the criterion can be expressed as:  
+                               
+                                  (12) 
+                                  
+                                     
+                                        
+                                           D 
+                                        
+                                        
+                                           k 
+                                        
+                                     
+                                     = 
+                                     
+                                        
+                                           k 
+                                        
+                                        
+                                           k 
+                                           + 
+                                           1 
+                                        
+                                     
+                                     G 
+                                     + 
+                                     P 
+                                     , 
+                                  
+                               
+                             where  
+                               
+                                  (13) 
+                                  
+                                     G 
+                                     = 
+                                     
+                                        
+                                           ∑ 
+                                        
+                                        
+                                           l 
+                                           = 
+                                           1 
+                                        
+                                        
+                                           n 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              [ 
+                                              E 
+                                              
+                                                 ( 
+                                                 
+                                                    
+                                                       Y 
+                                                    
+                                                    
+                                                       l 
+                                                       , 
+                                                       r 
+                                                       e 
+                                                       p 
+                                                    
+                                                 
+                                                 | 
+                                                 y 
+                                                 ) 
+                                              
+                                              − 
+                                              
+                                                 
+                                                    y 
+                                                 
+                                                 
+                                                    l 
+                                                    , 
+                                                    o 
+                                                    b 
+                                                    s 
+                                                 
+                                              
+                                              ] 
+                                           
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     , 
+                                  
+                               
+                             and  
+                               
+                                  (14) 
+                                  
+                                     P 
+                                     = 
+                                     
+                                        
+                                           ∑ 
+                                        
+                                        
+                                           l 
+                                           = 
+                                           1 
+                                        
+                                        
+                                           n 
+                                        
+                                     
+                                     
+                                        V ar 
+                                     
+                                     
+                                        ( 
+                                        
+                                           
+                                              Y 
+                                           
+                                           
+                                              l 
+                                              , 
+                                              r 
+                                              e 
+                                              p 
+                                           
+                                        
+                                        | 
+                                        y 
+                                        ) 
+                                     
+                                     . 
+                                  
+                               
+                             Note that  
+                               G 
+                             is a badness-of-fit term,  
+                               P 
+                             is a penalty term, and  
+                               k 
+                             is a weight that adjusts the relative importance of these two terms. Typically,  
+                               
+                                  
+                                     D 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                             is computed for a range of values of  
+                               k 
+                             (e.g., 1,3, and 9).
+
+For convenience, we transformed predicted and observed proportions into percentages. The mean and variance of the posterior predictive distributions were computed using 10 000 Monte Carlo samples from the posterior distributions. The posterior predictive loss values are reported in  Table 2 
+                             in order of preference, from the “best” model (logarithmic) to the “worst” (linear).
+
+The five models do not differ in terms of the model complexity measure,  
+                               P 
+                            . In other words, the precisions of their respective posterior predictions are essentially equivalent. This view of model complexity contrasts with that shown in  Table 1 , which revealed how the Occam factor penalty varied across models. As we argued above, however, this penalty depends on the assumption that all five models share the same uniform prior, and (as is clear from  Figs. 5  to  9 ) this assumption does not allow a fair comparison of the models. The complexity term in the posterior predictive loss criterion does not depend as heavily on such prior assumptions. As  Lee (2004)  noted, any vague or diffuse prior would produce the same posterior distributions (and therefore, the same posterior predictive statistics) because the data quickly dominate the prior through the likelihood function. As the five models do not differ on the complexity measure  
+                               P 
+                            , the preference ordering derives from the goodness-of-fit measure  
+                               G 
+                            , which is the same as that produced by the maximized likelihoods ( Table 1 ). In sum, the posterior predictive loss criterion favors models that make precise (posterior) predictions that are close to the observed data. In the case of these retention data, it arrives at the same conclusions as that of the generalization criterion.
+
+The idea of posterior predictive loss is also pursued, in a more heuristic fashion, by  Spiegelhalter et al. (2002) , who proposed the  deviance information criterion  (DIC):
+
+(15) 
+                                     
+                                        D 
+                                        I 
+                                        C 
+                                        = 
+                                        D 
+                                        
+                                           ( 
+                                           
+                                              
+                                                 θ 
+                                              
+                                              ¯ 
+                                           
+                                           ) 
+                                        
+                                        + 
+                                        2 
+                                        
+                                        
+                                           
+                                              p 
+                                           
+                                           
+                                              D 
+                                           
+                                        
+                                        , 
+                                     
+                                  
+                                  
+                                     (16) 
+                                     
+                                        
+                                           
+                                              p 
+                                           
+                                           
+                                              D 
+                                           
+                                        
+                                        = 
+                                        
+                                           
+                                              D 
+                                              
+                                                 ( 
+                                                 θ 
+                                                 ) 
+                                              
+                                           
+                                           ¯ 
+                                        
+                                        − 
+                                        D 
+                                        
+                                           ( 
+                                           
+                                              
+                                                 θ 
+                                              
+                                              ¯ 
+                                           
+                                           ) 
+                                        
+                                        . 
+                                     
+                                  
+                               
+                             The DIC is composed of a badness-of-fit term  
+                               D 
+                               
+                                  ( 
+                                  
+                                     
+                                        θ 
+                                     
+                                     ¯ 
+                                  
+                                  ) 
+                               
+                            , which is the deviance at the posterior mean  
+                               
+                                  
+                                     θ 
+                                  
+                                  ¯ 
+                               
+                            , and a complexity penalty term  
+                               2 
+                               
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     D 
+                                  
+                               
+                            , where  
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     D 
+                                  
+                               
+                             is the “effective number of parameters”. This is calculated by subtracting  
+                               D 
+                               
+                                  ( 
+                                  
+                                     
+                                        θ 
+                                     
+                                     ¯ 
+                                  
+                                  ) 
+                               
+                             from  
+                               
+                                  
+                                     D 
+                                     
+                                        ( 
+                                        θ 
+                                        ) 
+                                     
+                                  
+                                  ¯ 
+                               
+                            , the mean of the posterior deviance. The DIC can be regarded as a Bayesian analog to the familiar AIC. It is often more convenient to compute DIC as:  
+                               
+                                  
+                                     (17) 
+                                     
+                                        D 
+                                        I 
+                                        C 
+                                        = 
+                                        
+                                           
+                                              D 
+                                              
+                                                 ( 
+                                                 θ 
+                                                 ) 
+                                              
+                                           
+                                           ¯ 
+                                        
+                                        + 
+                                        
+                                           
+                                              p 
+                                           
+                                           
+                                              D 
+                                           
+                                        
+                                        , 
+                                     
+                                  
+                                  
+                                     (18) 
+                                     
+                                        
+                                           
+                                              p 
+                                           
+                                           
+                                              D 
+                                           
+                                        
+                                        = 
+                                        0.5 
+                                        × 
+                                        
+                                           V ar 
+                                        
+                                        
+                                           [ 
+                                           D 
+                                           
+                                              ( 
+                                              θ 
+                                              ) 
+                                           
+                                           ] 
+                                        
+                                        , 
+                                     
+                                  
+                               
+                             where  
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     D 
+                                  
+                               
+                             is simply half the variance of the posterior deviance ( Congdon, 2005; Sturtz, Ligges, & Gelman, 2005 ). The DIC values for the five retention functions are reported in  Table 3 
+                            .
+
+The DIC values reported here use the definition of  
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     D 
+                                  
+                               
+                             in Eq.  (18) ; the same results were found using the definition in Eq.  (16) . Notice that the variance of the posterior deviance, which is equal to twice the number of effective parameters (i.e., two), is the same for all five models. This pattern suggests that the models are equally complex, because they all exhibit the same degree of posterior uncertainty with respect to the likelihood. In multilevel models, or models with parameter constraints, the number of effective parameters will not necessarily be equal to the number of nominal parameters.
+
+Following guidelines put forward for AIC,  Spiegelhalter et al. (2002)  suggested that models within 1–2 of the lowest DIC deserve consideration, while models within 3–7 have considerably less support. According to these guidelines, the DIC favors the logarithmic and power models over the three remaining models. Like the posterior predictive loss criterion, the DIC gives the same preference ordering as given by the generalization criterion for the five retention functions.
+
+Aitkin et al. (2005) , proposed that models can be compared by the posterior distribution of the likelihood ( Aitkin, 1997; Dempster, 1997 ). The posterior likelihood approach may be regarded as a compromise between the maximized likelihood and the marginal likelihood approaches. On one hand, the maximized likelihood represents an upper bound, and so is necessarily an overestimate of the evidence in favor of a model class. On the other hand, the marginal likelihood underestimates the evidence in favor of a model class, because it is averaged over regions of prior parameter space that yield near-zero likelihood. Rather than maximizing or integrating the likelihood to produce a single-value summary, we can make an inference about the true likelihood (or equivalently, the true deviance) in the usual Bayesian fashion by examining its posterior distribution. In this way, only those models that could have generated the data are compared.  Fig. 13 
+                             plots the posterior deviance distribution for the five retention functions, based on 10 000 posterior samples. These distributions exhibit the same preference ordering as that of the generalization criterion.
+
+The logarithmic and hyperbolic models can be directly compared as follows. Suppose we draw a sample from each model posterior, and compute a likelihood ratio or a deviance difference. This single deviance difference is merely a sample from the  posterior distribution  of the deviance difference. By repeating this process, we can obtain the posterior distribution to estimate a credible interval. For example, the 95% credible interval for the deviance difference in favor of the logarithmic model over the hyperbolic model is (0.8, 12.7), which indicates anything from a very weak preference to a strong preference for the logarithmic model (see  Kass and Raftery (1995)  for interpretation of deviance differences). In  Table 4 
+                            , we report the corresponding credible intervals for the deviance difference between the logarithmic model and the other four models.
+
+Like the posterior predictive loss criterion and the DIC (but unlike the Bayes factor), the posterior likelihood ratio favors the logarithmic model over the hyperbolic model. In addition, the posterior likelihood ratio also provides an interval of uncertainty regarding this preference, which is fully compatible with the intervals that would be reported for model parameters.
+
+In this article, we have investigated the assumptions that underlie two model selection criteria: the Bayes factor, and the generalization criterion. Although both criteria are said to assess model generalizability, we have shown that they can yield divergent conclusions. This divergence can be attributed to the distinction between two kinds of model generalizability: local and global. The definition of model generalizability in Eq.  (7)  allows for various interpretations, depending on how a researcher defines  
+                         
+                            
+                               Y 
+                            
+                            
+                               
+                                  rep 
+                               
+                            
+                         
+                      , the future datasets of interest. Thus, local and global definitions of generalizability will be equivalent only when there is no parametric uncertainty (e.g., comparing two fully-specified models), where  
+                         
+                            
+                               Y 
+                            
+                            
+                               
+                                  rep 
+                               
+                            
+                         
+                       is unambiguous.
+
+We are not the first to propose that the generalizability can be defined at various levels. For example,  Spiegelhalter et al. (2002)  suggested that in hierarchical models, there is ambiguity in how the likelihood is defined (the “focus” of the model), depending on whether the random effects are integrated out. Choosing the model focus, they argued, depends on whether the researcher wishes to make future predictions for the upper-level units or for the lower-level units. This issue is currently an active area of research in Bayesian statistics ( Celeux, Forbes, Robert, & Titterington, 2006; Trevisani & Gelfand, 2003 ). We do not wish to claim that one level of analysis is more appropriate than than another, but rather that the local-global distinction — following ( Pitt et al., 2006 ) and ( Wagenmakers et al., 2004 ) — is one that deserves wider recognition in the mathematical psychology literature. Which level is more appropriate in any given context depends on the researcher’s goals.
+
+As we pointed out earlier, the conflict between Bayesian model selection and parameter inference (known as Lindley’s paradox) means that researchers are sometimes forced to choose one or the other. For example, some Bayesian statisticians prefer the latter approach, in which “models are compared not by posterior probabilities but rather by their predictive accuracy for intended purposes” ( Gelman & Rubin, 1995 , p. 172). In this approach, the focus is on model building and model checking, rather than on model selection. One of the consequences of this posterior predictive approach is that with increasing data, the contribution of the prior distribution to posterior inferences gradually diminishes. This contrasts with the prior predictive approach: “[t]he difference between the posterior and prior predictive replications is that the former treats the prior distribution as an outmoded first guess, whereas the latter treats the prior distribution as a true ‘population distribution’ ” ( Gelman, Meng, & Stern, 1996 , p. 756). In fact, Bayes factors play no role in this approach because they are thought be a “distraction” to the information contained in the posterior distributions ( Gelman, Carlin, Stern, & Rubin, 2003 , p. 185). We suggest that the inherent conflict embodied by Lindley’s paradox is not between Bayesian model selection and parameter inference, but between global and local model generalizability: model selection methods that assess local generalizability are largely compatible with this model building approach.

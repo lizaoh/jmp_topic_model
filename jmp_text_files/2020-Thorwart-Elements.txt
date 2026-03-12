@@ -1,0 +1,855 @@
+10.1016/j.jmp.2019.102310
+The MATLAB program code for the IEM implementation in the Associative Learning Theories Simulator 4.0 (ALTSim 4.0) is available online under:  htps://www.uni-marburg.de/en/fb04/team-lachnit/simulation-software-for-associative-learning-models/altsim/altsim-4.0 . All files necessary for and specifying the details of the described simulations can be downloaded under  http://uni-marburg.de/qsJXb .
+
+Learning predictive relationships between stimuli and events has been investigated in causal and contingency learning procedures, where these events are referred to as cues and outcomes, or within the context of Pavlovian conditioning, where they are referred to as conditioned and unconditioned stimuli (CS and US), respectively. One question investigated by associative learning researchers has been how stimuli are encoded and processed when human and non-human animals learn about them as predictive cues. If eating a fruit salad repeatedly results in feeling sick, one could encode this situation as fruit salad resulting in sickness. Alternatively, one could encodethis as apples causing sickness, as do bananas, grapes and peaches. The first solution is based on a  configural , the latter on a so called  elemental  stimulus representation. In the Pavlovian conditioning laboratory, this question is investigated by presenting a stimulus configuration that consist, for example, of a tone, a light and a vibration stimulus and is followed by a shock ( Brandon, Vogel, & Wagner, 2000 ). Most models of predictive learning in human and non-human animals have adopted the elemental view according to which the learner will learn something about the relationship between tone, light and vibration with the shock (e.g.,  Rescorla & Wagner, 1972 ). These models successfully account for a large amount of overserved phenomena. Some results have been however difficult to reconcile with the elemental view but are predictable by  Pearce (1987, 1994) ’s configural model. It assumes that the learner represents the whole stimulus configuration as one unit (see  Melchers, Shanks, & Lachnit, 2008 , for a review).
+
+The Inhibited Elements Model (IEM) is one of the many elemental solutions proposed to this problem ( Brandon et al., 2000; Wagner & Brandon, 2001 ). It combines assumptions from other models, in particular the elemental model of  Rescorla and Wagner (1972, RW)  and the configural model of  Pearce (1987, 1994) . It was introduced as an “elemental version of  Pearce ’s ( 1987 ) theory” (Wagner & Brandon, p. 31) and “a componential model that approximates the calculations of Pearce’s configural model to an arbitrarily close degree” (Brandon et al. p. 68). Wagner and Brandon’s aim was to create an “elemental model that is generally isomorphic to  Pearce ’s ( 1987 ) configural model” (p. 30), and demonstrate that “the Pearce view can be equally construed as an elementistic model, albeit one that is different from that of  Rescorla and Wagner (1972) ”, (p. 29).
+
+This claim has been substantiated by specifying the IEM’s stimulus representations for selected stimulus configurations and calculating its predictions for selected learning problems ( Brandon et al., 2000; Ghirlanda, 2015; Thorwart, 2009; Wagner & Brandon, 2001 ). In their original works, Brandon et al. and Wagner and Brandon considered a biconditional discrimination study by  Saavedra (1975) . They showed that the IEM correctly and just as well as the Pearce (and other models) explains that a biconditional discrimination can be learned but not as rapidly as the component discrimination (see also the simulations below). Thorwart concluded that the IEM is able to deal with the symmetrical generalisation decrements observed in  Thorwart and Lachnit (2009) , a prediction also made by the Pearce model. Interestingly, none of the other elemental models considered, e.g. the RW or the Replaced Elements Model (REM;  Wagner, 2003 ), could account for the result, even though the Replaced Elements Model was introduced as a succeeding model after the IEM. Finally, Ghirlanda proved that the theorems in his paper ensure that an elemental model equivalent to  Pearce ’s ( 1987 ) one exists, however only when considering two CS and their combination.
+
+In sum, there are indications that Brandon and Wagner were successful in their endeavour to devise an “elemental version” of the Pearce configural model, which is able to make equivalent predictions where other elemental models failed so far. This would render the Pearce model and, more generally, a configural mode of stimulus representations in human and non-human learner unnecessary. It might also have implications about the features of the models that are critical for their prediction ( Thorwart, Uengoer, Livesey, & Harris, 2017 ).
+
+However, this conclusion is based only on selected learning problems. Indeed, the IEM has never been fully formally and mathematically described and the nature of an equivalent configural and elemental stimulus representation remains, in general, an interesting open question. The current paper sets out to close this gap by formally defining the model and developing a mathematical solution that computes the unique and complex stimulus representation of the IEM automatically for any learning task and CS configuration the model is supposed to apply to, namely trial-based learning tasks with one US.
+
+The following description and implementation of the IEM is based on the few assumptions described by Brandon, Wagner and colleagues ( Brandon et al., 2000; Wagner & Brandon, 2001 ). We will refer to each single, distinct predictive stimulus as one CS, each labelled by a letter (e.g., CS A, CS B, and CS C), and to the predicted event as the US, indicating its occurrence by “  
+                         + 
+                       ” and its non-occurrence by “ 
+                         − 
+                      ”. A CS configuration that consists of four CSs and is always followed by the US (such as the fruit salad followed by sickness) would then be ABCD 
+                         + 
+                       .
+
+Associative learning models like the IEM conceptualise predictive learning in terms of establishing an associative network, consisting of units that represents the encountered CSs and the US as well as associations that spread activation from the former to the latter (see  Fig. 1 ). The current associative network thereby represents the “model of the world” as the learner appreciates it in any given moment. Activation of the US unit via its associations with the CSs’ units constitutes a prediction of the US based on the currently present CSs.
+
+During learning, the associations’ strength is changed based on the experienced relationships between the CSs and US. Like many other learning models, the IEM assumes that the changes to the associative network depend on a  prediction error , defined as the difference between the US prediction of the current network and the experienced reality of the US. Once the network’s predictions of the US converge with its reality, the prediction error equals zero and the associative strength the US can support has been expended (see next section for the mathematical equation corresponding to this assumption).
+
+The IEM differs from other associative learning models in its assumptions concerning the pre-determined structure of the associative network and the exact learning rule that governs changes to the associations ( Fig. 1 A). More precisely, it combines assumptions from different models, in particular the elemental model of  Rescorla and Wagner (1972, RW)  and the configural model of  Pearce (1987, 1994) .
+
+The IEM adopts the assumption of an  elemental  stimulus representation from the RW model ( Fig. 1 B). An elemental model assumes that each CS within any CS configuration, i.e. each  element , is represented by its own unit and each unit corresponds to a CS. In the RW model, this representational unit is activated whenever its CS is encountered, irrespective of the CS configuration in which the CS is presented. Furthermore, its direct association with the US representation is updated. The number of associations updated at the same time therefore corresponds to the number of CS in the current CS configuration (indicated by the two black arrows in  Fig. 1 B). In line with the RW model, each unit in the IEM represents a distinct CS and associations with the US unit are updated in parallel ( Fig. 1 A).
+
+In addition, the IEM inserts an intermediate network layer between the first layer with RW-like representation of the CS and the final layer with the US units. This layer consists of a distributed elemental representation for each CS, meaning that each CS is represented by more than one unit. It allows the IEM to adopt assumptions of a  context-dependent  representations with a  normalised  amount of activation from the configural Pearce Model. The activation of each CS unit in the RW model remains the same, independent of the CS configuration in which the CS is presented. This rather straightforward rule presupposes no limitation on the overall activation available to all active units. In contrast, the Pearce and the IEM models assume that the single CS in both their second network layer compete for a limited amount of activation. In Pearce’s associative network ( Fig. 1 C), each distinct CS has its representational unit in the first two network layers but they converge to a third  configural  layer where the entire CS configuration is represented as a whole. Only the units of this final layer establish an association to the US representation and their associative strength is adjusted during learning. When encountering A on its own, the configural unit representing A, indicated by {A}, will establish an association with the US; when conditioning AB, the configural unit of AB, {AB}, will be associated with the US. The Pearce model further assumes that there is a “Winner takes it all” rule concerning the associative updating in any given moment. Updating occurs only for a single “winner” association at a time, as indicated by the single black arrow in  Fig. 1 C, and all available associative strength will be assigned to this association. The activation of the winner’s configural unit in the third layer is set to be constant at a level of 1. As the activation of the configural units stems from the summed (squared) propagated activation of the current CSs’ units in the second layer, the activation (and the association with the configural unit) of each CS unit in the second layer has to be adjusted in order to maintain this constant activation of the winners’ configural unit irrespective of the number of currently present CSs: The more CSs are present in the current CS configuration, the less activated each CS’s units in the second layer is as their summed activation remains equal to 1. Thereby, activation in the second layer of the network is normalised.
+
+The IEM adopts the assumption of a limited amount of activation and therefore normalisation in the second layer but eliminates the third, configural layer of the Pearce Model ( Fig. 1 A). It assumes thereby a sparser and less complex associative network structure than the Pearce Model.  Wagner and Brandon (2001)  limited the overall number of units that could be activated in the second layer of the IEM’s network to represent all CSs at a certain time. The central rule of the IEM is: “The total number of units activated by any stimulus configuration is a constant,  n ”. The more CSs are present, the fewer units are available for each CS. As examples, Wagner and Brandon stated that a CS A is represented by  n  units in A, represented by 1/2  n  units in AB, by 1/3  n  units in ABC, and by 1/4  n  units in ABCD, and so forth. Thus, the CSs do not compete for the amount of activation of each of their units but they compete for how many of their units they can activate at a certain time. The name “inhibited elements model” stresses this idea of competition. In addition to excitatory links from each CS’s units in the first layer to its units in the second layer, each CS has inhibitory links to some of the units of all other CSs. In  Fig. 1 A, the former are indicated by links ending with an arrow, the latter by links ending with a circle. Second-layer units that are activated by a certain CS can be inhibited by other CSs (and vice versa). Their associations are therefore neither activated nor updated when this other CS is present even though the CS they represent is present as well.
+
+Wagner and colleagues give some examples for different stimulus representations of a single CS in the second network layer when presented in different CS configurations. In  Table 1 , the total number of units activated by any stimulus configuration is four,  
+                         
+                            n 
+                            = 
+                            4 
+                         
+                      . When CS A is presented on its own, four of its units can be activated. It follows that  n  is both the number of units activated by any configuration and the number of units representing a single CS. When A is encountered within the configuration AB, A is represented only by  
+                         
+                            
+                               1 
+                            
+                            
+                               2 
+                            
+                         
+                       
+                      n  units: two units are inhibited by B, leaving only two units to be active. The remaining two available units will be representing CS B (not shown in  Table 1 ). When A is encountered within the configuration ABCD, only  
+                         
+                            
+                               1 
+                            
+                            
+                               4 
+                            
+                         
+                       
+                      n  units are available for A: three units are now inhibited, leaving only one unit active for A.
+
+A problem with this kind of implementation arises when A needs also to be represented within the configuration of ABC: Based on the above rule,  
+                         
+                            
+                               1 
+                            
+                            
+                               3 
+                            
+                         
+                       
+                      n  units should be available for A. With  
+                         
+                            n 
+                            = 
+                            4 
+                         
+                      , this however results in the non-integer number of 1.33, which is problematic because it represents a number of units. To receive only integers and to represent all configurations possible with four CSs (A–D), it would be necessary to have at least  
+                         
+                            n 
+                            = 
+                            12 
+                         
+                       units in the second layer for each single CS. This rapidly becomes both impractical as well as cumbersome. As the main aim of the current implementation was to provide a solution for a wide range of CS configurations, we adopted the approach successfully employed for the mathematical description and implementation of the REM ( Wagner, 2003 ), a model closely related to the IEM ( Glautier, 2007; Schultheis, Thorwart, & Lachnit, 2008 ).
+
+Within each CS representation in the second layer, different  types of units  can be distinguished based on the number of conditions that have to be met to activate them. For example, some CS A units are activated whenever A is present; other A units are only activated when A is present  and  some other CS is not present. In the example in  Table 1 , the first of the A units is from the former type as it is always activated. Wagner and colleagues refer to such a unit as a  context-independent  unit because its activation is independent from the CS configuration (like all units of the RW model). The remaining three units are what we label  inhibited  units in  Fig. 1 D, as other stimuli are able to inhibit them, and which Wagner and colleagues call  context-dependent . Instead of keeping track of the activation of each single unit and updating the association of each unit, the solution proposed here updates associations for each unit type and weights them by the proportions each type has within the current representation. In  Table 1  for example, the single context-independent unit of A always occupies  
+                         
+                            
+                               1 
+                            
+                            
+                               4 
+                            
+                         
+                       of units of any configuration including A.
+
+Eq.  (1)  describes the updating process for the association  
+                         
+                            
+                               V 
+                            
+                            
+                               k 
+                            
+                         
+                       of each unit type  k . It is based on a standard delta-rule with a summed error term as used for example by the RW model.  
+                         
+                            (1) 
+                            
+                               
+                                  Δ 
+                                  
+                                     
+                                        V 
+                                     
+                                     
+                                        k 
+                                        , 
+                                        t 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        α 
+                                     
+                                     
+                                        C 
+                                        S 
+                                     
+                                  
+                                  
+                                     
+                                        β 
+                                     
+                                     
+                                        US 
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           
+                                              λ 
+                                           
+                                           
+                                              US 
+                                              , 
+                                              t 
+                                           
+                                        
+                                        − 
+                                        
+                                           
+                                              ∑ 
+                                           
+                                           
+                                              k 
+                                           
+                                        
+                                        
+                                           
+                                              w 
+                                           
+                                           
+                                              k 
+                                              , 
+                                              t 
+                                           
+                                        
+                                        
+                                           
+                                              V 
+                                           
+                                           
+                                              k 
+                                              , 
+                                              t 
+                                              − 
+                                              1
+
+Δ 
+                      
+                      
+                         
+                            
+                               V 
+                            
+                            
+                               k 
+                               , 
+                               t 
+                            
+                         
+                       is the change in associative strength of unit type  k  in trial  t ,  
+                         
+                            
+                               α 
+                            
+                            
+                               C 
+                               S 
+                            
+                         
+                       is a learning parameter depending on properties of the CS that activates the units of type  k ,  
+                         
+                            
+                               β 
+                            
+                            
+                               U 
+                               S 
+                            
+                         
+                       is a learning parameter depending on the US, and  
+                         
+                            
+                               λ 
+                            
+                            
+                               U 
+                               S 
+                               , 
+                               t 
+                            
+                         
+                       is the maximal amount of associative strength the current US is able to support (usually  
+                         
+                            λ 
+                            = 
+                            1 
+                         
+                      , if the US is present and  
+                         
+                            λ 
+                            = 
+                            0 
+                         
+                      , if the US is absent). When calculating the associative activation of the US unit by the CSs presented in the trial  t , i.e. the prediction of the US by the current CS configuration, the current association of each unit type,  
+                         
+                            
+                               V 
+                            
+                            
+                               k 
+                               , 
+                               t 
+                               − 
+                               1 
+                               , 
+                            
+                         
+                       is weighted by a parameter  
+                         
+                            
+                               w 
+                            
+                            
+                               k 
+                               , 
+                               t 
+                            
+                         
+                       before being summed. The weighting implements the assumption of normalised activation in the second network layer. Each CS’s contribution to the associative activation of the US depends on which unit types are active and their proportion in the current representation in the second layer, which in turn depends on the number and identity of the other present CS. The main issue is then to identify the values of parameter  
+                         
+                            
+                               w 
+                            
+                            
+                               k 
+                               , 
+                               t 
+                            
+                         
+                      , i.e. the proportions of each unit type  k  within the representation of the different CS configurations presented in different trials  t  in the second layer of the network.
+
+We first calculate the proportion of  all  units that represent a single CS in any configuration. For this, let  N  be the number of CSs in the current CS configuration. Following the rules and examples of Wagner and colleagues described above, one can conclude that each CS is always represented by 1/ N  of all available units.  Fig. 2  shows the different proportions for three different configurations: ABC, AB, and A, respectively. Parts filled with the same pattern represent the same CS: A (solid parts) is presented by 1/3 of all units in ABC, by  
+                         
+                            
+                               1 
+                            
+                            
+                               2 
+                            
+                         
+                       of all units in AB and by 1/1 in A alone presentations (see also second column in  Table 1 ).
+
+The next step is to calculate what type of units are activated in each stimulus configuration and which proportion each unit type occupies. Let  D  be the maximal number of CSs present in any configuration of the “world” that should be represented by the network,  
+                         
+                            D 
+                            = 
+                            3 
+                         
+                       in our example of  Fig. 2 .
+
+If all CSs are present in the current CS configuration, then  
+                         
+                            N 
+                            = 
+                            D 
+                         
+                      . As we know that each CS always activates 1/ N  of available units, we can conclude that 1/ N  
+                      
+                         = 
+                       1/ D  of each CS’ units are  context-independent  units. As any other possible CS is present in such a CS configuration, any additional condition necessary to inhibit a unit is met and all inhibitory links are active. In the left panel in  Fig. 2 , when all stimuli are present in the ABC configuration, i.e.  
+                         
+                            N 
+                            = 
+                            3 
+                         
+                      , each single stimulus occupies  
+                         
+                            
+                               1 
+                            
+                            
+                               3 
+                            
+                         
+                       of all available units. As these units are active even though any other possible stimulus is present, the proportion of context-independent units Ai, Bi, and Ci for each stimulus has to be  w  
+                      
+                         = 
+                      
+                      
+                         
+                            
+                               1 
+                            
+                            
+                               3 
+                            
+                         
+                       (e.g, if the number of available units is  
+                         
+                            n 
+                            = 
+                            99 
+                         
+                      , then 33 units are Ai, Bi, and Ci each).
+
+In the next panel of  Fig. 2 , a CS is removed from the CS configuration, i.e.  
+                         
+                            N 
+                            = 
+                            D 
+                         
+                      -1, so that units that were previously inhibited by this CS, can now be activated. It is again known that each stimulus occupies 1/ N , that is 1/ 
+                         
+                            ( 
+                            D 
+                            − 
+                            1 
+                            ) 
+                         
+                       units. We also know from the previous step that 1/ D  of all units are context-independent units. As there is only one additional unit type activated, the proportion of these previously inhibited but now activated units has to be:  
+                         
+                            
+                               
+                                  1 
+                               
+                               
+                                  D 
+                                  − 
+                                  1 
+                               
+                            
+                            − 
+                            
+                               
+                                  1 
+                               
+                               
+                                  D 
+                               
+                            
+                         
+                      . In the middle panel of  Fig. 2 , C is removed and A is now presented in the configuration AB, i.e.  
+                         
+                            N 
+                            = 
+                            2 
+                         
+                      . The CS A activates half of the total units and  
+                         
+                            
+                               1 
+                            
+                            
+                               3 
+                            
+                         
+                       of the total has to be context-independent as they were also activated in ABC. Thus,  
+                         
+                            
+                               1 
+                            
+                            
+                               6 
+                            
+                         
+                       of the units must be units that are only activated whenever A is present  and  C is not present (AnotC). The same reasoning is true for the previously inhibited units of stimulus B (BnotC) or when B instead of C is removed. Then the previously inhibited units would be AnotB and CnotB units, respectively. The common characteristics of all these units are that they can be inhibited by exactly one other CS, i.e. there is only one additional condition that has to be met, and each accounts for  w  
+                      
+                         = 
+                      
+                      
+                         
+                            
+                               1 
+                            
+                            
+                               6 
+                            
+                         
+                       of the units.
+
+The following steps repeat this process of removing one CS from the configuration and then calculating the proportion of the now active but previously inhibited units until only one stimulus is present on its own, i.e.  
+                         
+                            N 
+                            = 
+                            1 
+                         
+                      . The units activated then are the units with the most conditions, as they are only active when all other CSs are absent. In the example in the right panel of  Fig. 2 , these units are AnotBnotC units as they are active whenever A is present  and  B is not present  and  C is not present. As all active units are now units of CS A, their proportion in the overall representation is  
+                         
+                            w 
+                            = 
+                            1 
+                            − 
+                            
+                               
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        3 
+                                     
+                                  
+                                  Ai 
+                                  + 
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        6 
+                                     
+                                  
+                                  AnotB 
+                                  + 
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        6 
+                                     
+                                  
+                                  AnotC 
+                               
+                            
+                            = 
+                            
+                               
+                                  1 
+                               
+                               
+                                  3 
+                               
+                            
+                         
+                      .
+
+This recursive process can be described by the following equation  (2) , which calculates the proportions for unit types,  w,  based on the number of other CS that are able to inhibit them,  j,  and the maximal number of CSs represented,  D . The proportion of the context-independent units are thus described by  
+                         
+                            j 
+                            = 
+                            0 
+                         
+                       and are the seed of the equation. In the next steps, the parameter  j  is increased by 1 ( 
+                         
+                            j 
+                            = 
+                            1 
+                         
+                       for AnotB, AnotC, BnotA etc.) until in the last step, the proportion of the units that are inhibited by every other CS is calculated with  
+                         
+                            j 
+                            = 
+                            D 
+                         
+                       – 1, in our example  
+                         
+                            j 
+                            = 
+                            2 
+                         
+                       for AnotBorC.  
+                         
+                            (2) 
+                            
+                               
+                                  
+                                     
+                                        w 
+                                     
+                                     
+                                        j 
+                                        , 
+                                        D 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        
+                                           
+                                              D 
+                                              − 
+                                              j 
+                                           
+                                        
+                                     
+                                  
+                                  − 
+                                  
+                                     
+                                        ∑ 
+                                     
+                                     
+                                        x 
+                                        = 
+                                        0 
+                                     
+                                     
+                                        j 
+                                        − 
+                                        1 
+                                     
+                                  
+                                  
+                                     
+                                        n 
+                                     
+                                     
+                                        x 
+                                     
+                                  
+                                  
+                                     
+                                        w 
+                                     
+                                     
+                                        x 
+                                        , 
+                                        D 
+                                     
+                                  
+                                   with  
+                                  
+                                     
+                                        w 
+                                     
+                                     
+                                        0 
+                                        , 
+                                        D 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        D
+
+Eq.  (2)  consists of two parts. The first part calculates the proportion of units occupied by any single CS in the current step. (It is the same as 1/N.) The second part is an expansion which calculates the summed proportion of all already accounted units, with  
+                         
+                            
+                               n 
+                            
+                            
+                               x 
+                            
+                         
+                       being the number of different unit types with the same  j . In the representation of A in our example, there are two unit types with j  
+                         = 
+                       1, AnotB and AnotC.
+
+Examples of the representation of a CS A in different stimulus configurations for  
+                         
+                            D 
+                            = 
+                            4 
+                         
+                      , 3 and 2 are given in  Tables 2–4 . It can be seen that, even though the weight parameters for the unit types,  
+                         
+                            
+                               w 
+                            
+                            
+                               k 
+                            
+                         
+                      , diverge for different  D , the overall proportion of units that represent a single CS in a specific stimulus configuration stays the same. For example, stimulus A always activates half of the units when presented in the configuration AB, independently of  D.  Simulations of the model furthermore showed that its predictions concerning the learner’s US predictions do not depend on D. That is, the predicted response to a CS A after a simple A 
+                         + 
+                       training remains the same if one simulates this A 
+                         + 
+                       training in a network where only A exist ( 
+                         
+                            D 
+                            = 
+                            1 
+                         
+                      ) or a network, in which A and B, C and D are represented ( 
+                         
+                            D 
+                            = 
+                            4 
+                         
+                      ). This is important as the current implementation of the model requests prior knowledge of the parameter  D.  Similar to implementation of other computational models of associative learning, the complete network with representations of all possible CS configurations and all possible associations is initially established. Learning during the training only involves changes to these potential associations but not establishing new or removing not used CS representations and their associations form the network altogether (see Conclusion for a more detailed discussion of this assumption).
+
+Even though the RW and the Pearce model as well as other models make quite different predictions about particular experimental designs, the empirical results have not consistently favoured one single or even one class of models. Instead, results in line with different kinds of stimulus representations can be obtained within the same experimental design, and several factors have been identified as influencing the results of learning experiments in such different species as honeybees and humans (e.g.,  Lachnit et al., 2013; Melchers, Lachnit, Uengoer, & Shanks, 2005 ). As a result,  Melchers et al. (2008)  suggested flexibility concerning the stimulus representation as a move beyond an either-or approach for the different models. Another solution was proposed by the REM of  Wagner (2003)  and by  Harris (2006) . Instead of postulating that learners rely on different kinds of stimulus representations in different situations, they accounted for the contradicting results by introducing flexibility within their elemental representations ( Livesey & Harris, 2008 ). Similarly, the IEM can be extended by allowing flexibility in the competition for and normalisation of activation in the second network layer. Our hope is that this may result in a single learning model, with only one kind of stimulus representation that accounts for a broad range of empirical data, including results that previously have been interpreted as consistent with Pearce configural but no other elemental models or vice versa.
+
+The limited amount of activation in the second layer was introduced in the first part of Eq.  (2) , which restricts the proportion of active units for each single stimulus in a representation. We removed this limitation by introducing a  normalisation parameter, norm , in Eq.  (3) , which can have any value between 0 and 1.  
+                         
+                            (3) 
+                            
+                               
+                                  
+                                     
+                                        w 
+                                     
+                                     
+                                        j 
+                                        , 
+                                        D 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        
+                                           
+                                              
+                                                 
+                                                    D 
+                                                    − 
+                                                    j 
+                                                 
+                                              
+                                           
+                                           
+                                              n 
+                                              o 
+                                              r 
+                                              m 
+                                           
+                                        
+                                     
+                                  
+                                  − 
+                                  
+                                     
+                                        ∑ 
+                                     
+                                     
+                                        x 
+                                     
+                                     
+                                        j 
+                                        − 
+                                        1 
+                                     
+                                  
+                                  
+                                     
+                                        n 
+                                     
+                                     
+                                        x 
+                                     
+                                  
+                                  
+                                     
+                                        w 
+                                     
+                                     
+                                        x 
+                                        , 
+                                        D 
+                                     
+                                  
+                                   with  
+                                  
+                                     
+                                        w 
+                                     
+                                     
+                                        0 
+                                        , 
+                                        D 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        
+                                           
+                                              D 
+                                           
+                                           
+                                              n 
+                                              o 
+                                              r 
+                                              m
+
+If  norm  
+                      
+                         = 
+                       1, the equation equals Eq.  (2) , i.e. the proportion of units activated by each stimulus is constricted by the number of single CSs present and each stimulus has to compete for activation of its units, as described for the original IEM by  Brandon et al. (2000) .
+
+If  norm  
+                      
+                         = 
+                       0, the first fraction becomes 1 and independent of the number of CS present. As the context-independent unit type will therefore receive a weight parameter of  
+                         
+                            
+                               
+                                  w 
+                               
+                               
+                                  0 
+                                  , 
+                                  D 
+                               
+                            
+                            = 
+                            
+                               
+                                  1 
+                               
+                               
+                                  
+                                     
+                                        
+                                           
+                                              D 
+                                           
+                                        
+                                     
+                                     
+                                        0 
+                                     
+                                  
+                               
+                            
+                            = 
+                            1 
+                         
+                      , all units of any CS are accounted for in this first step and therefore context-independent. The number of units activated and the number of units representing a single CS, which have been up to now denoted both by  n , are not the same anymore. Instead, each CS will always activate all its units and the total number of active units will be the sum of these. The extended IEM results then in an associative network that makes the same predictions as the Rescorla–Wagner model. The additional second layer of the inhibited elements distributes the available associative strength across the units of the CS, whereas in the RW model the associative strength will be allocated to a single association. As the associative strength of distinct CS in the (extended) IEM is the sum of the associations of its units, the predictions are the same however.
+
+The IEM including its extension has been implemented within the Associative Learning Theories Simulator 4.0 (ALTSim 4.0;  http://uni-marburg.de/BoDKd ), facilitating both their evaluation and the comparisons with other associative learning models available (Rescorla–Wagner model with extensions, Pearce configural model with extension, Harris elemental model, Replaced elements model; see  Thorwart, Schultheis, König, & Lachnit, 2009 ). In the following we present results of some simulations in order to demonstrate the appropriateness and adequateness of this implementation. All files necessary for and specifying the details of the following simulations can be found online under  http://uni-marburg.de/qsJXb .
+
+Wagner and Brandon (2001)  developed the IEM in order to demonstrate that elemental models are in principle able to solve non-linear discrimination such as biconditional (AY 
+                            + 
+                         , AX 
+                            − 
+                         , BY 
+                            − 
+                         , BX 
+                            + 
+                         ) discriminations. For such discriminations, no simple linear rule exist that solves the discrimination. Instead, the prediction of a CS configuration is different from the sum of each CS’s prediction and one therefore has to learn something additional about the configuration. The current implementation of the IEM is indeed able to do so, as can be seen in the top panel of  Fig. 3 : the US unit is activated by AY and BX but to a lesser extent by AX or BY. This is the same predictions as made by the Pearce Model as well as other elemental model like the REM. It also what has been observed in human and non-human learners (e.g.,  Saavedra, 1975; Whitlow Jr., 2013 ). In the lower panels of  Fig. 3 , simulations of the extended IEM with reduced to no normalisation are depicted. The discrimination becomes less distinct until the activation of the US by any CS configuration is the same and the discrimination remains unsolved in the lowest panel when no normalisation is assumed, which is in line with predictions of the RW model.
+
+Fig. 4  shows simulation results for a simple acquisition of with a CS configuration AB 
+                            + 
+                          or single CS C 
+                            + 
+                          for the IEM and the extended IEM (left panels). Generalisation to other CS configurations (ABC?, A?, CD?) was subsequently tested as well (right panels).
+
+In the IEM (normalisation: 1), learning about the CS configuration AB occurs at the same pace as learning about a single CS C (top left panel). Learning speed is independent of the complexity of the CS configuration because the same number of units is always active and therefore also the same amount of activation is summed across the units whose associations are updated. The IEM thereby makes the same prediction as the Pearce model, where this prediction relies on the fixed activation of the configural unit whose association is updated. In contrast, other elemental models like the RW model and the REM predict that a configuration should condition faster than its single stimuli. That this particular prediction of the IEM depends on the normalisation of activation can be concluded when one simulates the extended IEM with reduced normalisation ( lower left panels ). Then, the results revert back to those expected by the other elemental models: learning is slower for the single CS C than for the CS configuration AB.
+
+The right panels of  Fig. 4  show several examples of generalisation effects when new CS configurations are tested after acquisition. After training of AB 
+                            + 
+                          and C 
+                            + 
+                         , responding to the combined CS configuration ABC? results in no  summation  effect according to the IEM, the same prediction as Pearce’s configural model would make (the square is on top of the circle and the star in the upper right panel). Because in the ABC? trial, C inhibits units of A and B that were activated in AB 
+                            + 
+                          trials, and A and B each inhibit units of C that were active in C 
+                            + 
+                          trials, the associative strength that these inhibited units gained during acquisition is lost on test. If one reduces or removes the normalisation process in the extended IEM, which results in the inhibition of units, summation is predicted to an increasing degree as now more acquired associative strength is fully activated on test as well (lower panels).
+
+Two other examples for generalisation involve adding a new CS to a trained CS configuration (here D to C resulting in CD?) or removing one CSs from a configuration (here B from AB resulting in A?). The IEM predicts that responding to these new configurations will be lower than responding to the originally trained ones. That is, there is a generalisation decrement after both adding and removing CSs (top right panel). The first case is also known as  external inhibition , the second describes the  overshadowing  effect. Furthermore, the IEM predicts that both generalisation decrements are the same size. This prediction of symmetrical generalisation decrements is in line with some empirical data and predictions of the Pearce model but again unique in the class of elemental models ( Thorwart, 2009; Thorwart & Lachnit, 2009 ). Other elemental models like the REM and the RW model predict that the generalisation decrement after external inhibition should be non-existent or at least smaller than after overshadowing, which is what the extended IEM (lower right panels) predicts and what has been observed as well (e.g.,  Brandon et al., 2000; González, Quinn, & Fanselow, 2003; Thorwart & Lachnit, 2010; Wheeler, Amundson, & Miller, 2006 ).
+
+The preceding examples demonstrated that the current implementation of the IEM makes predictions in line with the predictions previously deduced by others ( Brandon et al., 2000; Ghirlanda, 2015; Thorwart, 2009 ). We also presented additional predictions that are consistent with those of the Pearce model. This supports  Wagner and Brandon (2001) ’s statement that the Pearce configural view can be equally construed as an elemental model, rendering the third, configural layer of the Pearce network and, more generally, a configural mode of stimulus representations in human and non-human learner unnecessary.
+
+However, this conclusion is premature as the predictions of the IEM and the Pearce model diverge for the following example. Even though we present here only a single case of diverging predictions, this falsifies the idea that the IEM is an elemental version of  Pearce ’s ( 1987 ) theory. Then all predictions should be exactly the same. Based on the previous results, we would argue that the diverging predictions are not due to our incorrect implementation of the model. Instead, different network structures and different ways of incorporating normalisation in the Pearce Model and the IEM matter. More generally, the example shows both the necessity and advantages of fully describing theories as mathematical models.
+
+As described above, the original IEM and the Pearce model do not predict simple summation. This is not only true when testing ABC? after AB 
+                            + 
+                          C 
+                            + 
+                          training but also when testing AB? after a simple A 
+                            + 
+                          B 
+                            + 
+                          training. This prediction is both an advantage and disadvantage of the Pearce model and the IEM, as there are situations and studies where no summation is seen (e.g.,  Aydin & Pearce, 1995; Rescorla & Coldwell, 1995 ) but also occasions in which summation has been observed (e.g.,  Andrew & Harris, 2011; Glautier, Redhead, Thorwart, & Lachnit, 2010; Soto, Vogel, Castillo, & Wagner, 2009; Thorwart et al., 2017 ). Proponents of the Pearce model therefore looked into conditions under which it predicts summation. The most common additional assumption that has been made is that there are always some common elements in any two single CS. A simple A 
+                            + 
+                          B 
+                            + 
+                          training therefore should be actually described and simulated as an AX 
+                            + 
+                          BX 
+                            + 
+                          training, with X representing these common elements, and the subsequent test as ABX?. As can be seen in the top panel of  Fig. 5 , the Pearce model predicts for this summation test that responding to ABX, is indeed higher than responding to AX or BX alone (see also  Glautier et al., 2010 ).
+
+The prediction just described does not hold for the IEM (second panel of  Fig. 5 ). That is, it does not predict summation as responding to ABX (diamond) is the same as for AX (circle) and BX (star). When training AX and BX, the associative strength of the US has to be distributed between the Ai, Bi, Xi, AnotB, BnotA, and XnotB/XnotA units; the AnotX, AnotBnotX, BnotX, BnotAnotX, XnotA/XnotB, and XnotAnotB units are all inhibited (see  Table 3  and  Fig. 3 , middle panel). When testing ABX, only the context-independent units of each CS remain active and the associative strength obtained by the AnotB, BnotA, XnotB and XnotA units is lost. These differences between the Pearce and the IEM model continue when one inspects generalised responding to other possible CS configurations after AX 
+                            + 
+                          and BX 
+                            + 
+                          training. Whereas both models predict that responding to X alone will be higher than responding to AB, A, or B (because CS X has been conditioned twice as often as A or B), the Pearce model predicts the same response strength to AB, A, and B. In contrast, the IEM models predicts that responding to AB (cross) will be higher than to A or B alone (triangles). Looking again at which of the unit types of AX and BX are activated, it becomes clear that in AB trials, both Ai and Bi are active, with Xi, AnotB, BnotA, XnotB and XnotA now being inhibited. In A and B trials, AnotB or BnotA units are active in addition to either Ai or Bi. However, as these context-dependent units only have proportional weight of 1/6 each (see  Table 3 ), the summed activation in A and B trials is lower than in AB trials.
+
+The predictions of the extended IEM (lower panels) with respect to summation are actually more in line with the Pearce Model as this effect becomes stronger the less normalisation is assumed. Generalised responses to the other CS configurations differ however. For example, responding to AB (cross) is always higher than responding to A and B alone (triangles).
+
+The current paper offers a mathematical solution for the extrapolation of the stimulus representation of the IEM for any given stimulus configuration. It also introduces a normalisation parameter that extends the model and allows for some flexibility. Simulations support the adequateness of the implementation in ALTSim both for replicating existing predictions of the model as well as for generating new ones. It therefore should be a useful for future research. The most obvious next step is an extensive review and comparison of the IEM’s predictions with the empirical data as well as with those of other models.
+
+Additional studies are required to answer the questionwhether a single CS is conditioned slower or at the same pace than a configuration consisting of several CSs, as there is surprisingly little empirical data. As described above, the original IEM predicts equal speed of learning to a single CS and a CS configuration, whereas other elemental models predict that a configuration should condition faster than a single stimuli. The IEM thereby makes the same prediction as the Pearce model. Further studies that investigate in more detail generalisation to other CS configurations after AX 
+                         + 
+                       and BX 
+                         + 
+                       training might be a promising way to distinguish between the Pearce model and the IEM.
+
+Future research also needs to find answer to several theoretical questions concerning the IEM but also other models. Similar to other models and their implementation, the current implementation of the IEM requires that parameter  D  is known at the beginning of a simulation in order to establish an appropriate associative network for the learning problem. Little is known how this should or does work in an actual learner. First, there are currently no hypotheses about the actual psychological processes that result in the associative network during the first phase of a sequential training. Second, it is unclear how an existing network handles changes to the number of a stimuli that need to be represented and encoded. This is unproblematic in the network of the RW model with its context-independent representation. Here a new CS unit could just be added to the network without interfering with the already established units and associations. But it might result in drastic structural changes to the network of any model with some kind of context-dependency: for example, some previously context-independent units of CS A in the IEM might become inhibited units by the new CS. Third, as far as we know, it has actually not been tested whether human and non-human learner learn equally about a CS independently of the perceptual complexity of their surroundings and the learning context. That is, assuming that a learner entering into a new learning situation somehow establishes an appropriate network for this situation, the question remains whether learning is actually independent of the specific structure of this network, as it is now predicted by the current implementation of the IEM.
+
+Finally and related, the questions remain how the proposed flexibility concerning the amount of normalisation in the extended IEM is actually deployed and utilised by the learner during the learning process. There has been research which condition influences what kind of stimulus representation is used ( Melchers et al., 2008 ) but little on the mechanism by which any parameter controlling the stimulus representation is adapted during learning to these conditions. Associative learning models capture the idea of changes to the associative strength and sometimes also other parameters like the learning parameter  
+                         
+                            
+                               α 
+                            
+                            
+                               C 
+                               S 
+                            
+                         
+                      
+ ( Mackintosh, 1975; Pearce & Hall, 1980 ). However, as far as we are aware, none of them include specific ideas and rules about changes to the stimulus representations.

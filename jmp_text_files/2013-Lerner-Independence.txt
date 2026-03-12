@@ -1,0 +1,4220 @@
+10.1016/j.jmp.2012.03.002
+One of the most universal characteristics of network data is the property that dyadic observations are typically not independent. For instance, if two actors have a common friend, the probability of a friendship tie among them is often highly increased. Likewise, actors often show a tendency to connect with those that are already well connected in the network. Such non-independence among observations can make the design of valid network models a challenging task. In a quite general class of models ( Frank & Strauss, 1986 ), a dyadic observation might depend on the presence or absence of other incident ties. Direct computation of probabilities in such network models is computationally intractable for all but the smallest networks. Sophisticated stochastic approximation techniques exist but are still computationally expensive and might suffer from model degeneracy ( Hunter & Handcock, 2006; Snijders, 2002 ).
+
+The situation becomes much easier if complete and fine-grained information about the ordering and timing of tie changes is available, for instance, if dyadic observations do not encode relational states but continuously observed relational events between actors. Recently proposed models for event networks ( Brandes, Lerner, & Snijders, 2009; Butts, 2008 ) assume that events are conditionally independent of each other and can be estimated by computationally more efficient algorithms.
+
+Empirical longitudinal network data often fall between these two extremes (of tie changes being completely (un)ordered) in the sense that there is some, but not perfect, time information; examples include panel data about relational states and interval-censored relational event data. The former arises from data collection strategies where a dynamically evolving network whose ties encode relational states (such as friendship) has been observed at two or more discrete points in time. The network at a particular observation point is assumed to result from the preceding one and a sequence of unobserved tie-change events. Similarly, interval-censored relational event data (such as email correspondence with timestamps given by the day) does not encode the order of events that happen within the same time interval. In both variants it is still reasonable to assume that past events are not influenced by future events; however, since it is partially unknown which event precedes which, it is questionable whether mutual dependencies can be excluded from the models. The goal of this paper is to shed light on this question by systematically comparing simple models that assume conditional independence of tie-change events with more involved models that do not. Furthermore, we treat the question whether substantive findings about hypothetical network effects, such as transitivity, are affected by the (potentially invalid) assumption of conditional independence.
+
+There are several sources of motivation for conducting this study. The first (rather general and intrinsic) argument is that we simply want to learn as much as possible about the dependence structure in empirical network data. More practically, we observe that conditional independence of tie-change events within observation periods is often (sometimes implicitly) assumed in published research (see, e. g., ( Crescenzi, 2007; Hanneke, Fu, & Xing, 2010; Maoz, Terris, Kuperman, & Talmud, 2007 ) for the case of panel data about relational states and ( Brandes et al., 2009 ) for the case of interval-censored relational event data). It is thus relevant to test the validity of this assumption and to tackle the question whether it affects the reported findings.  Steglich, Snijders, and Pearson (2010)  argue against models that assume independence of tie-change events within observation intervals. It is not our goal to challenge this claim but rather to quantify the implications of assuming independence when analyzing given longitudinal network data. While it can be expected that conditional independence models are inappropriate as a  general  model for network evolution, it is possible that the independence assumption becomes less severe when the observation intervals are relatively short compared to the usual rate of change of the analyzed relation. Since conditional independence models are computationally much simpler and lead to more stable estimation algorithms, they are preferable for practical reasons  if  the danger of drawing invalid conclusions can be ruled out.
+
+We formalize the conditional independence assumption in Section   2 . In Section   3 , we recall two established model frameworks that are used in the comparative study of this paper. Subsequently, Section   4  introduces two datasets, differing among others in the observation frequency, that we take in our analysis and presents the precise specification of the models to be compared. Findings are presented and discussed in Section   5  and we end with a summary of the main insights and indicate future work.
+
+For clarity of exposition, we restrict ourselves to panel data about networks of relational states but briefly note in the conclusion that interval-censored relational event data can be treated with very similar methods.
+
+The input data (i. e., the  observation ) consists of a number  
+                            T 
+                            ≥ 
+                            2 
+                          of binary matrices  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     1 
+                                     ) 
+                                  
+                               
+                            
+                            , 
+                            … 
+                            , 
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     T 
+                                     ) 
+                                  
+                               
+                            
+                          of order  
+                            n 
+                            × 
+                            n 
+                         , where  
+                            n 
+                         , the number of actors, is kept constant over time. These matrices are assumed to be realizations of a continuous-time random process  
+                            
+                               
+                                  Y 
+                               
+                               
+                                  
+                                     ( 
+                                     t 
+                                     ) 
+                                  
+                               
+                            
+                            ∈ 
+                            
+                               
+                                  
+                                     { 
+                                     0 
+                                     , 
+                                     1 
+                                     } 
+                                  
+                               
+                               
+                                  n 
+                                  × 
+                                  n 
+                               
+                            
+                            , 
+                            
+                            t 
+                            ∈ 
+                            R 
+                         , at observation times  
+                            
+                               
+                                  t 
+                               
+                               
+                                  1 
+                               
+                            
+                            < 
+                            ⋯ 
+                            < 
+                            
+                               
+                                  t 
+                               
+                               
+                                  N 
+                               
+                            
+                         . The observation that the  
+                            i 
+                            , 
+                            j 
+                         -th entry of  
+                            y 
+                          equals one at time  
+                            
+                               
+                                  t 
+                               
+                               
+                                  h 
+                               
+                            
+                          (which is denoted by  
+                            
+                               
+                                  y 
+                               
+                               
+                                  i 
+                                  , 
+                                  j 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     ) 
+                                  
+                               
+                            
+                            = 
+                            1 
+                         ) encodes that there is a tie from actor  
+                            i 
+                          to actor  
+                            j 
+                          at that time; else  
+                            
+                               
+                                  y 
+                               
+                               
+                                  i 
+                                  , 
+                                  j 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     ) 
+                                  
+                               
+                            
+                            = 
+                            0 
+                         . We describe the following for networks that are directed (i. e.,  
+                            
+                               
+                                  y 
+                               
+                               
+                                  i 
+                                  , 
+                                  j 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     ) 
+                                  
+                               
+                            
+                          might be different from  
+                            
+                               
+                                  y 
+                               
+                               
+                                  j 
+                                  , 
+                                  i 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     ) 
+                                  
+                               
+                            
+                         ) and have no loops (i. e.,  
+                            
+                               
+                                  y 
+                               
+                               
+                                  i 
+                                  , 
+                                  i 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     ) 
+                                  
+                               
+                            
+                            = 
+                            0 
+                         ). Adaptation to undirected networks or networks with loops is straightforward. The observation does additionally encode  
+                            q 
+                            ≥ 
+                            0 
+                          
+                         actor-level covariates  
+                         
+                            v 
+                            = 
+                            
+                               ( 
+                               
+                                  
+                                     v 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                               , 
+                               … 
+                               , 
+                               
+                                  
+                                     v 
+                                  
+                                  
+                                     q 
+                                  
+                               
+                               ) 
+                            
+                            ∈ 
+                            
+                               
+                                  R 
+                               
+                               
+                                  q 
+                                  × 
+                                  n 
+                               
+                            
+                          and  
+                            
+                               
+                                  q 
+                               
+                               
+                                  ′ 
+                               
+                            
+                            ≥ 
+                            0 
+                          
+                         dyad-level covariates  
+                         
+                            w 
+                            = 
+                            
+                               ( 
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                               , 
+                               … 
+                               , 
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     
+                                        
+                                           q 
+                                        
+                                        
+                                           ′ 
+                                        
+                                     
+                                  
+                               
+                               ) 
+                            
+                            ∈ 
+                            
+                               
+                                  R 
+                               
+                               
+                                  
+                                     
+                                        q 
+                                     
+                                     
+                                        ′ 
+                                     
+                                  
+                                  × 
+                                  n 
+                                  × 
+                                  n 
+                               
+                            
+                         . These covariates might influence tie-change probabilities; on the other hand, we take the observed covariates as given and do not model their evolution. We assume that the covariates are observed at the observation times  
+                            
+                               
+                                  t 
+                               
+                               
+                                  1 
+                               
+                            
+                            , 
+                            … 
+                            , 
+                            
+                               
+                                  t 
+                               
+                               
+                                  T 
+                                  − 
+                                  1 
+                               
+                            
+                          and remain constant within the semi-open intervals  
+                            
+                               [ 
+                               
+                                  
+                                     t 
+                                  
+                                  
+                                     h 
+                                     − 
+                                     1 
+                                  
+                               
+                               , 
+                               
+                                  
+                                     t 
+                                  
+                                  
+                                     h 
+                                  
+                               
+                               ) 
+                            
+                         . For keeping notation concise, we often do not explicitly write dependence on covariates; for instance the conditionally probability  
+                            P 
+                            
+                               ( 
+                               
+                                  
+                                     Y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              h 
+                                           
+                                        
+                                        ) 
+                                     
+                                  
+                               
+                               = 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        h 
+                                        ) 
+                                     
+                                  
+                               
+                               | 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        h 
+                                        − 
+                                        1 
+                                        ) 
+                                     
+                                  
+                               
+                               ) 
+                            
+                          is short-hand for  
+                            P 
+                            
+                               ( 
+                               
+                                  
+                                     Y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              h 
+                                           
+                                        
+                                        ) 
+                                     
+                                  
+                               
+                               = 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        h 
+                                        ) 
+                                     
+                                  
+                               
+                               | 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        h 
+                                        − 
+                                        1 
+                                        ) 
+                                     
+                                  
+                               
+                               , 
+                               
+                                  
+                                     v 
+                                  
+                                  
+                                     
+                                        ( 
+                                        h 
+                                        − 
+                                        1 
+                                        ) 
+                                     
+                                  
+                               
+                               , 
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     
+                                        ( 
+                                        h 
+                                        − 
+                                        1 
+                                        ) 
+                                     
+                                  
+                               
+                               ) 
+                            
+                         .
+
+Further, we denote for any network  
+                            y 
+                          and pair of actors  
+                            
+                               ( 
+                               i 
+                               , 
+                               j 
+                               ) 
+                            
+                          by  
+                            
+                               
+                                  y 
+                               
+                               
+                                  − 
+                                  i 
+                                  j 
+                               
+                            
+                          the network resulting from  
+                            y 
+                          by setting the  
+                            i 
+                            , 
+                            j 
+                         ’th entry to zero and by  
+                            
+                               
+                                  y 
+                               
+                               
+                                  + 
+                                  i 
+                                  j 
+                               
+                            
+                          the network resulting from  
+                            y 
+                          by setting this entry to one. More generally,  
+                            
+                               
+                                  y 
+                               
+                               
+                                  ¬ 
+                                  i 
+                                  j 
+                               
+                            
+                          refers to flipping a tie  
+                            
+                               
+                                  y 
+                               
+                               
+                                  i 
+                                  j 
+                               
+                            
+                          into its opposite  
+                            1 
+                            − 
+                            
+                               
+                                  y 
+                               
+                               
+                                  i 
+                                  j 
+                               
+                            
+                         .
+
+Assume that we are given a continuous-time random process  
+                            
+                               
+                                  Y 
+                               
+                               
+                                  
+                                     ( 
+                                     t 
+                                     ) 
+                                  
+                               
+                            
+                            ∈ 
+                            
+                               
+                                  
+                                     { 
+                                     0 
+                                     , 
+                                     1 
+                                     } 
+                                  
+                               
+                               
+                                  n 
+                                  × 
+                                  n 
+                               
+                            
+                            , 
+                            
+                            t 
+                            ∈ 
+                            R 
+                         , and a fixed sequence of observation times 
+                            
+                               
+                                  t 
+                               
+                               
+                                  1 
+                               
+                            
+                            < 
+                            ⋯ 
+                            < 
+                            
+                               
+                                  t 
+                               
+                               
+                                  T 
+                               
+                            
+                         , as described above. The  conditional independence assumption  states that, for all  
+                            h 
+                            ≥ 
+                            2 
+                         , the conditional distribution of the network  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     ) 
+                                  
+                               
+                            
+                         , given the networks  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     1 
+                                     ) 
+                                  
+                               
+                            
+                            , 
+                            … 
+                            , 
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     − 
+                                     1 
+                                     ) 
+                                  
+                               
+                            
+                         , is the product of the conditional probabilities of the individual ties. Formally, for all  
+                            h 
+                            ≥ 
+                            2 
+                          it is  
+                            
+                               (1) 
+                               
+                                  P 
+                                  
+                                     ( 
+                                     
+                                        
+                                           Y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              
+                                                 
+                                                    t 
+                                                 
+                                                 
+                                                    h 
+                                                 
+                                              
+                                              ) 
+                                           
+                                        
+                                     
+                                     = 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              h 
+                                              ) 
+                                           
+                                        
+                                     
+                                     | 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              1 
+                                              ) 
+                                           
+                                        
+                                     
+                                     , 
+                                     … 
+                                     , 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              h 
+                                              − 
+                                              1 
+                                              ) 
+                                           
+                                        
+                                     
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        ∏ 
+                                     
+                                     
+                                        i 
+                                        ≠ 
+                                        j 
+                                     
+                                  
+                                  P 
+                                  
+                                     ( 
+                                     
+                                        
+                                           Y 
+                                        
+                                        
+                                           i 
+                                           j 
+                                        
+                                        
+                                           
+                                              ( 
+                                              
+                                                 
+                                                    t 
+                                                 
+                                                 
+                                                    h 
+                                                 
+                                              
+                                              ) 
+                                           
+                                        
+                                     
+                                     = 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           i 
+                                           j 
+                                        
+                                        
+                                           
+                                              ( 
+                                              h 
+                                              ) 
+                                           
+                                        
+                                     
+                                     | 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              1 
+                                              ) 
+                                           
+                                        
+                                     
+                                     , 
+                                     … 
+                                     , 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              h 
+                                              − 
+                                              1 
+                                              ) 
+                                           
+                                        
+                                     
+                                     ) 
+                                  
+                                  . 
+                               
+                            
+                          Thus, in a conditional independence model, the probability of a tie between  
+                            i 
+                          and  
+                            j 
+                          at time  
+                            
+                               
+                                  t 
+                               
+                               
+                                  h 
+                               
+                            
+                          might depend on the presence or absence of another tie, say  
+                            
+                               ( 
+                               i 
+                               , 
+                               k 
+                               ) 
+                            
+                         , at time points  
+                            
+                               
+                                  t 
+                               
+                               
+                                  
+                                     
+                                        h 
+                                     
+                                     
+                                        ′ 
+                                     
+                                  
+                               
+                            
+                            , 
+                            
+                            
+                               
+                                  h 
+                               
+                               
+                                  ′ 
+                               
+                            
+                            < 
+                            h 
+                         , but not on whether the tie on  
+                            
+                               ( 
+                               i 
+                               , 
+                               k 
+                               ) 
+                            
+                          was created or dissolved in the interval  
+                            
+                               ( 
+                               
+                                  
+                                     t 
+                                  
+                                  
+                                     h 
+                                     − 
+                                     1 
+                                  
+                               
+                               , 
+                               
+                                  
+                                     t 
+                                  
+                                  
+                                     h 
+                                  
+                               
+                               ) 
+                            
+                         . As a basic example, models that include only covariates as explanatory variables satisfy the conditional independence assumption.
+
+To allow for models that include dependence among dyads but still satisfy the conditional independence assumption, we introduce another class of network statistics resembling dyadic covariates but having a fundamentally different interpretation.
+
+A  lagged (dyadic) network statistic  is defined to be a family of  
+                            T 
+                            − 
+                            1 
+                          real  
+                            n 
+                            × 
+                            n 
+                          matrices  
+                            
+                               
+                                  x 
+                               
+                               
+                                  
+                                     ( 
+                                     1 
+                                     ) 
+                                  
+                               
+                            
+                            , 
+                            … 
+                            , 
+                            
+                               
+                                  x 
+                               
+                               
+                                  
+                                     ( 
+                                     T 
+                                     − 
+                                     1 
+                                     ) 
+                                  
+                               
+                            
+                          that are deterministic functions of the observed networks  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     1 
+                                     ) 
+                                  
+                               
+                            
+                            , 
+                            … 
+                            , 
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     T 
+                                     − 
+                                     1 
+                                     ) 
+                                  
+                               
+                            
+                         , respectively. Similarly to covariates, the lagged network statistics are kept constant in the intervals between observations  
+                            
+                               [ 
+                               
+                                  
+                                     t 
+                                  
+                                  
+                                     h 
+                                     − 
+                                     1 
+                                  
+                               
+                               , 
+                               
+                                  
+                                     t 
+                                  
+                                  
+                                     h 
+                                  
+                               
+                               ) 
+                            
+                          and are assumed to influence the evolution of ties within these intervals. For example, a lagged network statistic at time  
+                            
+                               
+                                  t 
+                               
+                               
+                                  h 
+                                  − 
+                                  1 
+                               
+                            
+                          might encode for each pair of actors  
+                            
+                               ( 
+                               i 
+                               , 
+                               j 
+                               ) 
+                            
+                          the number of common friends of  
+                            i 
+                          and  
+                            j 
+                          in the observed network  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     − 
+                                     1 
+                                     ) 
+                                  
+                               
+                            
+                         ; a high value of this statistic might turn out to increase the probability that  
+                            i 
+                          and  
+                            j 
+                          create or sustain a friendship tie with each other in the time interval following  
+                            
+                               
+                                  t 
+                               
+                               
+                                  h 
+                                  − 
+                                  1 
+                               
+                            
+                         . Note that such lagged network statistics can imply statistical dependence among different dyads only in a restricted form: tie changes in  
+                            
+                               ( 
+                               
+                                  
+                                     t 
+                                  
+                                  
+                                     h 
+                                     − 
+                                     1 
+                                  
+                               
+                               , 
+                               
+                                  
+                                     t 
+                                  
+                                  
+                                     h 
+                                  
+                               
+                               ) 
+                            
+                          depend via lagged network statistics on other change events (potentially on different dyads) only if these happened before or at  
+                            
+                               
+                                  t 
+                               
+                               
+                                  h 
+                                  − 
+                                  1 
+                               
+                            
+                         . Thus, a model that allows dyadic dependence only via lagged network statistics falls into the class of conditional independence models; it can express mutual dependence among dyads but excludes mutual dependence among individual change events.
+
+For an illustrating example, consider the two network-evolution scenarios shown in  Fig. 1 
+                         . The evolution in the upper row could be explained by a conditional independence model that includes a transitivity effect: the lagged network statistic that encodes for each pair of actors  
+                            
+                               ( 
+                               i 
+                               , 
+                               j 
+                               ) 
+                            
+                          the number of directed two-paths from  
+                            i 
+                          to  
+                            j 
+                          assigns the value one to  
+                            
+                               ( 
+                               A 
+                               , 
+                               B 
+                               ) 
+                            
+                          and zero to any other pair. Including this statistic in the specification of the tie probabilities can lead to an increased probability of the newly created tie  
+                            
+                               ( 
+                               A 
+                               , 
+                               B 
+                               ) 
+                            
+                         .
+
+The situation is very different in the bottom row of  Fig. 1 . There the same lagged network statistic that counts directed two-paths is zero for all pairs, implying that this statistic does not yield an increased probability of the tie  
+                            
+                               ( 
+                               A 
+                               , 
+                               B 
+                               ) 
+                            
+                          — even though  
+                            
+                               ( 
+                               A 
+                               , 
+                               B 
+                               ) 
+                            
+                          closes a transitive triangle in the network observed at  
+                            
+                               
+                                  t 
+                               
+                               
+                                  h 
+                               
+                            
+                         . In contrast, models that do not rely on conditional independence could interpret the network evolution in the bottom row as a support for transitive closure (assuming that this change pattern has been frequently observed in the data). Two such model classes are recalled in the next section.
+
+We compare conditional independence models with more general models in two established frameworks for network modeling. The first model framework is a temporal extension of exponential random graph models ( Robins, Snijders, Wang, Handcock, & Pattison, 2007 )–like the one proposed by   Hanneke et al. (2010)  as well as   Cranmer and Desmarais (2011) –the second comprises the stochastic actor-oriented models from  Snijders (2001, 2005) .
+
+From now on we make the (Markovian) assumption that the network evolution in the interval  
+                         
+                            ( 
+                            
+                               
+                                  t 
+                               
+                               
+                                  h 
+                                  − 
+                                  1 
+                               
+                            
+                            , 
+                            
+                               
+                                  t 
+                               
+                               
+                                  h 
+                               
+                            
+                            ) 
+                         
+                       is stochastically determined by the network  
+                         
+                            
+                               y 
+                            
+                            
+                               
+                                  ( 
+                                  h 
+                                  − 
+                                  1 
+                                  ) 
+                               
+                            
+                         
+                       but conditionally independent of the previous networks  
+                         
+                            
+                               y 
+                            
+                            
+                               
+                                  ( 
+                                  1 
+                                  ) 
+                               
+                            
+                         
+                         , 
+                         … 
+                         , 
+                         
+                            
+                               y 
+                            
+                            
+                               
+                                  ( 
+                                  h 
+                                  − 
+                                  2 
+                                  ) 
+                               
+                            
+                         
+                      . Formally, for all  
+                         h 
+                         ≥ 
+                         2 
+                       it is  
+                         
+                            (2) 
+                            
+                               P 
+                               
+                                  ( 
+                                  
+                                     
+                                        Y 
+                                     
+                                     
+                                        
+                                           ( 
+                                           
+                                              
+                                                 t 
+                                              
+                                              
+                                                 h 
+                                              
+                                           
+                                           ) 
+                                        
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        
+                                           ( 
+                                           h 
+                                           ) 
+                                        
+                                     
+                                  
+                                  | 
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        
+                                           ( 
+                                           h 
+                                           − 
+                                           1 
+                                           ) 
+                                        
+                                     
+                                  
+                                  ) 
+                               
+                               = 
+                               P 
+                               
+                                  ( 
+                                  
+                                     
+                                        Y 
+                                     
+                                     
+                                        
+                                           ( 
+                                           
+                                              
+                                                 t 
+                                              
+                                              
+                                                 h 
+                                              
+                                           
+                                           ) 
+                                        
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        
+                                           ( 
+                                           h 
+                                           ) 
+                                        
+                                     
+                                  
+                                  | 
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        
+                                           ( 
+                                           1 
+                                           ) 
+                                        
+                                     
+                                  
+                                  , 
+                                  … 
+                                  , 
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        
+                                           ( 
+                                           h 
+                                           − 
+                                           1 
+                                           ) 
+                                        
+                                     
+                                  
+                                  ) 
+                               
+                               . 
+                            
+                         
+                       This Markovian assumption has nothing to do with the conditional independence assumption that is the focus of this paper. While conditional independence could also be investigated without the Markov assumption, this would blow up the models and notation.
+
+Further, the proposed models will allow parameters  
+                         
+                            
+                               θ 
+                            
+                            
+                               ℓ 
+                            
+                            
+                               
+                                  ( 
+                                  h 
+                                  ) 
+                               
+                            
+                         
+                       to depend on time step  
+                         h 
+                       (i. e., the model is heterogeneous over time). Specifying a time-homogeneous model is straightforward by requiring that  
+                         
+                            
+                               θ 
+                            
+                            
+                               
+                                  ( 
+                                  h 
+                                  ) 
+                               
+                            
+                         
+                         = 
+                         
+                            
+                               θ 
+                            
+                            
+                               
+                                  ( 
+                                  
+                                     
+                                        h 
+                                     
+                                     
+                                        ′ 
+                                     
+                                  
+                                  ) 
+                               
+                            
+                         
+                       for all pairs of observation points  
+                         h 
+                         , 
+                         
+                            
+                               h 
+                            
+                            
+                               ′ 
+                            
+                         
+                         ≥ 
+                         2 
+                      .
+
+A random graph model belongs to the class of exponential random graph models ( Robins et al., 2007 ) if the probability of a network  
+                            y 
+                          is specified by  
+                            
+                               (3) 
+                               
+                                  P 
+                                  
+                                     ( 
+                                     Y 
+                                     = 
+                                     y 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        z 
+                                        
+                                           ( 
+                                           θ 
+                                           ) 
+                                        
+                                     
+                                  
+                                  ⋅ 
+                                  exp 
+                                  
+                                     ( 
+                                     
+                                        
+                                           ∑ 
+                                        
+                                        
+                                           ℓ 
+                                           = 
+                                           1 
+                                        
+                                        
+                                           k 
+                                        
+                                     
+                                     
+                                        
+                                           θ 
+                                        
+                                        
+                                           ℓ 
+                                        
+                                     
+                                     ⋅ 
+                                     
+                                        
+                                           s 
+                                        
+                                        
+                                           ℓ 
+                                        
+                                     
+                                     
+                                        ( 
+                                        y 
+                                        ) 
+                                     
+                                     ) 
+                                  
+                                  , 
+                               
+                            
+                          where the  
+                            
+                               
+                                  s 
+                               
+                               
+                                  ℓ 
+                               
+                            
+                          are statistics mapping a network  
+                            y 
+                          to a real number, the  
+                            
+                               
+                                  θ 
+                               
+                               
+                                  ℓ 
+                               
+                            
+                            ∈ 
+                            R 
+                          are parameters modeling the influence of the statistics on the probability of the network, and  
+                            z 
+                            
+                               ( 
+                               θ 
+                               ) 
+                            
+                          is a normalization constant ensuring that the probabilities of all possible networks sum up to one. Appropriate statistics introduce dependence among dyads. For instance, specifying an ERGM with statistics that count the number of edges, triangles, and  
+                            k 
+                         -stars ( 
+                            k 
+                            = 
+                            2 
+                            , 
+                            … 
+                            , 
+                            n 
+                            − 
+                            2 
+                         ) in the network yields an ERGM in which two dyads that share a common actor mutually depend on each other.
+
+Bringing in a temporal component into the ERGM class is straightforward and is based on the concept of lagged network statistics introduced earlier. More specifically, given an observed sequence of networks  
+                            
+                               ( 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        1 
+                                        ) 
+                                     
+                                  
+                               
+                               , 
+                               … 
+                               , 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        T 
+                                        ) 
+                                     
+                                  
+                               
+                               ) 
+                            
+                         , the conditional probability  
+                            P 
+                            
+                               ( 
+                               
+                                  
+                                     Y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              h 
+                                           
+                                        
+                                        ) 
+                                     
+                                  
+                               
+                               = 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        h 
+                                        ) 
+                                     
+                                  
+                               
+                               | 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        h 
+                                        − 
+                                        1 
+                                        ) 
+                                     
+                                  
+                               
+                               ) 
+                            
+                          is modeled as in Eq.  (3)  where we allow the statistics to be functions of both networks  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     ) 
+                                  
+                               
+                            
+                          and  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     − 
+                                     1 
+                                     ) 
+                                  
+                               
+                            
+                         . In formulas, for all  
+                            h 
+                            ≥ 
+                            2 
+                         
+                         
+                            
+                               (4) 
+                               
+                                  P 
+                                  
+                                     ( 
+                                     
+                                        
+                                           Y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              
+                                                 
+                                                    t 
+                                                 
+                                                 
+                                                    h 
+                                                 
+                                              
+                                              ) 
+                                           
+                                        
+                                     
+                                     = 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              h 
+                                              ) 
+                                           
+                                        
+                                     
+                                     | 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              h 
+                                              − 
+                                              1 
+                                              ) 
+                                           
+                                        
+                                     
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        z 
+                                        
+                                           ( 
+                                           
+                                              
+                                                 θ 
+                                              
+                                              
+                                                 
+                                                    ( 
+                                                    h 
+                                                    ) 
+                                                 
+                                              
+                                           
+                                           ) 
+                                        
+                                     
+                                  
+                                  ⋅ 
+                                  exp 
+                                  
+                                     ( 
+                                     
+                                        
+                                           ∑ 
+                                        
+                                        
+                                           ℓ 
+                                           = 
+                                           1 
+                                        
+                                        
+                                           k 
+                                        
+                                     
+                                     
+                                        
+                                           θ 
+                                        
+                                        
+                                           ℓ 
+                                        
+                                        
+                                           
+                                              ( 
+                                              h 
+                                              ) 
+                                           
+                                        
+                                     
+                                     ⋅ 
+                                     
+                                        
+                                           s 
+                                        
+                                        
+                                           ℓ 
+                                        
+                                     
+                                     
+                                        ( 
+                                        
+                                           
+                                              y 
+                                           
+                                           
+                                              
+                                                 ( 
+                                                 h 
+                                                 ) 
+                                              
+                                           
+                                        
+                                        , 
+                                        
+                                           
+                                              y 
+                                           
+                                           
+                                              
+                                                 ( 
+                                                 h 
+                                                 − 
+                                                 1 
+                                                 ) 
+                                              
+                                           
+                                        
+                                        ) 
+                                     
+                                     ) 
+                                  
+                                  . 
+                               
+                            
+                          Thus, statistics might purely depend on the network  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     ) 
+                                  
+                               
+                            
+                          (expressing structural patterns at time  
+                            
+                               
+                                  t 
+                               
+                               
+                                  h 
+                               
+                            
+                          without a temporal component) or on both the network  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     ) 
+                                  
+                               
+                            
+                          and  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     − 
+                                     1 
+                                     ) 
+                                  
+                               
+                            
+                          (expressing dependence on the preceding observation). Note that statistics depending only on the previous network  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     − 
+                                     1 
+                                     ) 
+                                  
+                               
+                            
+                          would lead to a non-identifiable model since their value is the same for all networks at time  
+                            
+                               
+                                  t 
+                               
+                               
+                                  h 
+                               
+                            
+                         .
+
+Stochastic actor-oriented models ( Snijders, 2001, 2005 ) assume that the observed networks  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     1 
+                                     ) 
+                                  
+                               
+                            
+                            , 
+                            … 
+                            , 
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     T 
+                                     ) 
+                                  
+                               
+                            
+                          are snapshots of an underlying dynamic process driven by myopic actor decisions. Based on Markov assumption  (2) , this process is modeled separately for each interval  
+                            
+                               [ 
+                               
+                                  
+                                     t 
+                                  
+                                  
+                                     h 
+                                     − 
+                                     1 
+                                  
+                               
+                               , 
+                               
+                                  
+                                     t 
+                                  
+                                  
+                                     h 
+                                  
+                               
+                               ] 
+                            
+                         ,  
+                            2 
+                            ≤ 
+                            h 
+                            < 
+                            T 
+                         , as a stochastic chain of tie flips (creating a new tie or dissolving an existing one) leading from  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     − 
+                                     1 
+                                     ) 
+                                  
+                               
+                            
+                          to  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     ) 
+                                  
+                               
+                            
+                         . Changes do not occur synchronously, but successively on single ties. At each moment  
+                            
+                               
+                                  t 
+                               
+                               
+                                  h 
+                                  − 
+                                  1 
+                               
+                            
+                            + 
+                            
+                               Δ 
+                            
+                            t 
+                         ,  
+                            0 
+                            ≤ 
+                            
+                               Δ 
+                            
+                            t 
+                            < 
+                            
+                               
+                                  t 
+                               
+                               
+                                  h 
+                               
+                            
+                            − 
+                            
+                               
+                                  t 
+                               
+                               
+                                  h 
+                                  − 
+                                  1 
+                               
+                            
+                         , change probabilities depend only on the current network structure   
+                            y 
+                         .
+
+The models are actor-oriented in the sense that the tie flips are assumed to be performed by the actors, with each actor   
+                            i 
+                         ,  
+                            1 
+                            ≤ 
+                            i 
+                            ≤ 
+                            n 
+                         , controlling only his outgoing relations  
+                            
+                               
+                                  y 
+                               
+                               
+                                  i 
+                                  j 
+                               
+                            
+                          to the  
+                            n 
+                            − 
+                            1 
+                          other actors. When actor   
+                            i 
+                          gets the opportunity to flip a tie in the current network   
+                            y 
+                         , he/she randomly chooses to change tie  
+                            
+                               
+                                  y 
+                               
+                               
+                                  i 
+                                  j 
+                               
+                            
+                          into its opposite  
+                            1 
+                            − 
+                            
+                               
+                                  y 
+                               
+                               
+                                  i 
+                                  j 
+                               
+                            
+                          with probability being proportional to the enhancement of his/her position in the resulting network. The enhancement of  
+                            i 
+                         ’s position when changing the tie  
+                            
+                               
+                                  y 
+                               
+                               
+                                  i 
+                                  j 
+                               
+                            
+                          is measured by the  evaluation function 
+                         
+                            
+                               (5) 
+                               
+                                  
+                                     
+                                        f 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           θ 
+                                        
+                                        
+                                           
+                                              ( 
+                                              h 
+                                              ) 
+                                           
+                                        
+                                     
+                                     , 
+                                     y 
+                                     , 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           ¬ 
+                                           i 
+                                           j 
+                                        
+                                     
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        ∑ 
+                                     
+                                     
+                                        ℓ 
+                                        = 
+                                        1 
+                                     
+                                     
+                                        k 
+                                     
+                                  
+                                  
+                                     
+                                        θ 
+                                     
+                                     
+                                        ℓ 
+                                     
+                                     
+                                        
+                                           ( 
+                                           h 
+                                           ) 
+                                        
+                                     
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           s 
+                                        
+                                        
+                                           i 
+                                           ℓ 
+                                        
+                                     
+                                     
+                                        ( 
+                                        
+                                           
+                                              y 
+                                           
+                                           
+                                              ¬ 
+                                              i 
+                                              j 
+                                           
+                                        
+                                        ) 
+                                     
+                                     − 
+                                     
+                                        
+                                           s 
+                                        
+                                        
+                                           i 
+                                           ℓ 
+                                        
+                                     
+                                     
+                                        ( 
+                                        y 
+                                        ) 
+                                     
+                                     ) 
+                                  
+                                  , 
+                               
+                            
+                          where statistics  
+                            
+                               
+                                  s 
+                               
+                               
+                                  i 
+                                  ℓ 
+                               
+                            
+                          count certain local network configurations, like the number of outgoing ties, the number of reciprocated ties, or the number of transitive ties that actor  
+                            i 
+                          holds. Assuming that the changing actors are uniformly chosen, the probability that  
+                            
+                               
+                                  y 
+                               
+                               
+                                  i 
+                                  j 
+                               
+                            
+                          will be flipped in the next step is given by  
+                            
+                               
+                                  1 
+                               
+                               
+                                  n 
+                               
+                            
+                            
+                               
+                                  exp 
+                                  
+                                     ( 
+                                     
+                                        
+                                           f 
+                                        
+                                        
+                                           i 
+                                        
+                                     
+                                     
+                                        ( 
+                                        
+                                           
+                                              θ 
+                                           
+                                           
+                                              
+                                                 ( 
+                                                 h 
+                                                 ) 
+                                              
+                                           
+                                        
+                                        , 
+                                        y 
+                                        , 
+                                        
+                                           
+                                              y 
+                                           
+                                           
+                                              ¬ 
+                                              i 
+                                              j 
+                                           
+                                        
+                                        ) 
+                                     
+                                     ) 
+                                  
+                               
+                               
+                                  
+                                     
+                                        ∑ 
+                                     
+                                     
+                                        k 
+                                        = 
+                                        1 
+                                     
+                                     
+                                        n 
+                                     
+                                  
+                                  exp 
+                                  
+                                     ( 
+                                     
+                                        
+                                           f 
+                                        
+                                        
+                                           i 
+                                        
+                                     
+                                     
+                                        ( 
+                                        
+                                           
+                                              θ 
+                                           
+                                           
+                                              
+                                                 ( 
+                                                 h 
+                                                 ) 
+                                              
+                                           
+                                        
+                                        , 
+                                        y 
+                                        , 
+                                        
+                                           
+                                              y 
+                                           
+                                           
+                                              ¬ 
+                                              i 
+                                              k 
+                                           
+                                        
+                                        ) 
+                                     
+                                     ) 
+                                  
+                               
+                            
+                         . Note that not changing any tie, represented by term  
+                            exp 
+                            
+                               ( 
+                               
+                                  
+                                     f 
+                                  
+                                  
+                                     i 
+                                  
+                               
+                               
+                                  ( 
+                                  
+                                     
+                                        θ 
+                                     
+                                     
+                                        
+                                           ( 
+                                           h 
+                                           ) 
+                                        
+                                     
+                                  
+                                  , 
+                                  y 
+                                  , 
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        ¬ 
+                                        i 
+                                        i 
+                                     
+                                  
+                                  ) 
+                               
+                               ) 
+                            
+                         , is also an option for actor   
+                            i 
+                         .
+
+Temporal exponential random graph models and stochastic actor oriented models, in general, do not fall into the class of conditional independence models. For instance, including a statistic counting triangles in the dependent network implies that incident dyads are mutually dependent.
+
+For each ERGM or SAOM statistic that introduces dependency among different ties, we define a lagged statistic that mimics the same structural effect while staying in the class of conditional independence models. Then we compare the quality of models that use only the lagged statistics (and therefore assume conditional independence) with their more general counterparts that use only the original ERGM respectively SAOM statistics.
+
+Formally, for an ERGM statistic  
+                            s 
+                          we define the associated lagged network statistic  
+                            x 
+                            
+                               ( 
+                               y 
+                               ) 
+                            
+                            ∈ 
+                            
+                               
+                                  R 
+                               
+                               
+                                  n 
+                                  × 
+                                  n 
+                               
+                            
+                          by setting for each pair  
+                            
+                               ( 
+                               i 
+                               , 
+                               j 
+                               ) 
+                            
+                         
+                         
+                            
+                               
+                                  
+                                     
+                                        x 
+                                     
+                                     
+                                        i 
+                                        j 
+                                     
+                                  
+                                  
+                                     ( 
+                                     y 
+                                     ) 
+                                  
+                                  = 
+                                  s 
+                                  
+                                     ( 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           + 
+                                           i 
+                                           j 
+                                        
+                                     
+                                     ) 
+                                  
+                                  − 
+                                  s 
+                                  
+                                     ( 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           − 
+                                           i 
+                                           j 
+                                        
+                                     
+                                     ) 
+                                  
+                                  . 
+                               
+                            
+                          From this lagged network statistic we obtain a lagged ERGM statistic by setting  
+                            
+                               (6) 
+                               
+                                  
+                                     
+                                        s 
+                                     
+                                     
+                                        ′ 
+                                     
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              h 
+                                              ) 
+                                           
+                                        
+                                     
+                                     , 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              h 
+                                              − 
+                                              1 
+                                              ) 
+                                           
+                                        
+                                     
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        ∑ 
+                                     
+                                     
+                                        i 
+                                        ≠ 
+                                        j 
+                                     
+                                  
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        i 
+                                        j 
+                                     
+                                     
+                                        
+                                           ( 
+                                           h 
+                                           ) 
+                                        
+                                     
+                                  
+                                  ⋅ 
+                                  
+                                     
+                                        x 
+                                     
+                                     
+                                        i 
+                                        j 
+                                     
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              h 
+                                              − 
+                                              1 
+                                              ) 
+                                           
+                                        
+                                     
+                                     ) 
+                                  
+                                  , 
+                               
+                            
+                          i. e., by summing the values of  
+                            x 
+                          computed at the preceding time  
+                            
+                               
+                                  t 
+                               
+                               
+                                  h 
+                                  − 
+                                  1 
+                               
+                            
+                          over all pairs that are connected by a tie at time  
+                            
+                               
+                                  t 
+                               
+                               
+                                  h 
+                               
+                            
+                         . We then compare the quality of models that use the ERGM statistic  
+                            s 
+                          with those that use the implied lagged statistic  
+                            
+                               
+                                  s 
+                               
+                               
+                                  ′ 
+                               
+                            
+                         . For instance, if the ERGM statistic  
+                            s 
+                          counts transitive triangles then  
+                            s 
+                          and  
+                            
+                               
+                                  s 
+                               
+                               
+                                  ′ 
+                               
+                            
+                          assess the evolution in the top row of  Fig. 1  in an identical way: the newly created tie from  
+                            A 
+                          to  
+                            B 
+                          closes a transitive triangle in  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     ) 
+                                  
+                               
+                            
+                          (which is counted by  
+                            s 
+                         ) but also closes a directed two path that was present in  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     − 
+                                     1 
+                                     ) 
+                                  
+                               
+                            
+                          (which is counted by  
+                            
+                               
+                                  s 
+                               
+                               
+                                  ′ 
+                               
+                            
+                         ). On the other hand, the evolution in the bottom row is differently assessed by  
+                            s 
+                          and  
+                            
+                               
+                                  s 
+                               
+                               
+                                  ′ 
+                               
+                            
+                         : the ERGM statistic  
+                            s 
+                          counts one transitive triangle while the lagged statistic  
+                            
+                               
+                                  s 
+                               
+                               
+                                  ′ 
+                               
+                            
+                          assumes a value of zero. A temporal ERGM that includes only statistics of the form given in Eq.  (6)  is a conditional independence model; in this case the model boils down to a binomial logit model for the occurrence of ties. Indeed, the conditional probability of a tie at time  
+                            
+                               
+                                  t 
+                               
+                               
+                                  h 
+                               
+                            
+                          is then independent of the presence or absence of other ties at  
+                            
+                               
+                                  t 
+                               
+                               
+                                  h 
+                               
+                            
+                          (albeit it might be dependent on other ties at  
+                            
+                               
+                                  t 
+                               
+                               
+                                  h 
+                                  − 
+                                  1 
+                               
+                            
+                         ).
+
+Analogously, given a SAOM statistic  
+                            
+                               
+                                  s 
+                               
+                               
+                                  i 
+                               
+                            
+                            
+                               ( 
+                               y 
+                               ) 
+                            
+                            ∈ 
+                            R 
+                         ,  
+                            1 
+                            ≤ 
+                            i 
+                            ≤ 
+                            n 
+                         , the associated lagged network statistic  
+                            x 
+                            
+                               ( 
+                               y 
+                               ) 
+                            
+                            ∈ 
+                            
+                               
+                                  R 
+                               
+                               
+                                  n 
+                                  × 
+                                  n 
+                               
+                            
+                          is defined by setting for each pair  
+                            
+                               ( 
+                               i 
+                               , 
+                               j 
+                               ) 
+                            
+                         
+                         
+                            
+                               
+                                  
+                                     
+                                        x 
+                                     
+                                     
+                                        i 
+                                        j 
+                                     
+                                  
+                                  
+                                     ( 
+                                     y 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        s 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           + 
+                                           i 
+                                           j 
+                                        
+                                     
+                                     ) 
+                                  
+                                  − 
+                                  
+                                     
+                                        s 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           − 
+                                           i 
+                                           j 
+                                        
+                                     
+                                     ) 
+                                  
+                                  . 
+                               
+                            
+                          This lagged network statistic implies a lagged SAOM statistic by setting  
+                            
+                               (7) 
+                               
+                                  
+                                     
+                                        s 
+                                     
+                                     
+                                        i 
+                                     
+                                     
+                                        ′ 
+                                     
+                                  
+                                  
+                                     ( 
+                                     y 
+                                     , 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              h 
+                                              − 
+                                              1 
+                                              ) 
+                                           
+                                        
+                                     
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        ∑ 
+                                     
+                                     
+                                        j 
+                                        = 
+                                        1 
+                                     
+                                     
+                                        n 
+                                     
+                                  
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        i 
+                                        j 
+                                     
+                                  
+                                  ⋅ 
+                                  
+                                     
+                                        x 
+                                     
+                                     
+                                        i 
+                                        j 
+                                     
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              h 
+                                              − 
+                                              1 
+                                              ) 
+                                           
+                                        
+                                     
+                                     ) 
+                                  
+                                  , 
+                               
+                            
+                          i. e., by summing the values of  
+                            x 
+                            
+                               ( 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        h 
+                                        − 
+                                        1 
+                                        ) 
+                                     
+                                  
+                               
+                               ) 
+                            
+                          over all outgoing ties of actor   
+                            i 
+                          in the current network  
+                            y 
+                         . We then compare the quality of models that use the SAOM statistic  
+                            s 
+                          with those that use the implied lagged statistic  
+                            
+                               
+                                  s 
+                               
+                               
+                                  ′ 
+                               
+                            
+                         .
+
+Comparison of the models is done with two datasets that differ, among others, in the length of the time interval between observation points. One of the two datasets is a friendship network among school children observed at four points in time with intervals of three months; the other dataset, the well-known  Newcomb fraternity data  ( Newcomb, 1961 ), encodes a friendship network observed 15 times, once per week.
+
+The first dataset, later referenced as  Knecht (classroom) data , is the subset of the data collected by   Knecht (2008)  that is used in the Siena tutorial ( Snijders, van de Bunt, & Steglich, 2010b ). 
+                         1 
+                      
+                      
+                         1 
+                         see  http://www.stats.ox.ac.uk/~snijders/siena/tutorial2010_data.htm 
+                         
+                       The data is about a friendship network in a Dutch school class. Apart from the friendship data we use actor-level covariate data about the sex of the pupils and a dyadic covariate encoding whether two pupils were in the same primary school or not. One of the 26 pupils left this class between the second and the third observation point. Since the network quality measure that we consider in this paper depends on the size of the network we drop the leaving pupil from all four waves. Note that this level of missingness is very low compared to the levels considered in   Huisman and Steglich (2008) . 
+                         2 
+                      
+                      
+                         2 
+                         To further assess the impact of dropping one actor we left out others, one by one, to obtain artificially reduced networks of 24 actors. The main result about the log-likelihood differences was never affected by this data reduction and parameter significance changed only in rare cases. 
+                       Imputation of ties would be likely to favor those models that are most compatible with the rule of imputation (again see   Huisman and Steglich (2008) ).
+
+The second dataset, the  Newcomb (fraternity) data   ( Newcomb, 1961 ), encodes friendship among 17 men attending the University of Michigan in the fall of 1956 observed 15 times, once per week. The original data consists of preference rankings where each of the students ranks all 16 others from best friend to least-best friend. We dichotomize this original data by keeping the top-four nominations for each actor without distinction of their ordering. Thus, the transformed data encodes the hypothetical answers to the question  name your four best friends . Note that by this transformation the outdegrees are constant over the actors and over the different time steps. Furthermore, we apply other preprocessing rules that vary the time span between observations (to enable comparison with the Knecht classroom data) and that yield non-constant outdegrees (to assess whether this regularity affects our findings); see details in Section   5 . The Newcomb data does not include any actor-level or dyad-level covariates.
+
+Model specifications . Model estimation in the ERGM framework is done with the help of the  
+                         R 
+                      -package  ergm  ( Handcock et al., 2011 ) which is part of the  statnet  package ( Handcock, Hunter, Butts, Goodreau, & Morris, 2003 ). For estimating the SAOMs, we use the  
+                         R 
+                      -package  RSiena   ( Ripley & Snijders, 2011 ). In both frameworks the specification is done by choosing the statistics  
+                         
+                            
+                               s 
+                            
+                            
+                               ℓ 
+                            
+                         
+                       that model the conditional probability of the network  
+                         
+                            
+                               y 
+                            
+                            
+                               
+                                  ( 
+                                  h 
+                                  ) 
+                               
+                            
+                         
+                      , given the previous network  
+                         
+                            
+                               y 
+                            
+                            
+                               
+                                  ( 
+                                  h 
+                                  − 
+                                  1 
+                                  ) 
+                               
+                            
+                         
+                      . We define and estimate three different models that we first describe intuitively. The  basic  model controls the edge density, inertia, and dependence on (actor- and dyad-)attributes. Two models extend the basic model and are compared with each other: The  dyadic-dependence  model introduces reciprocity, indegree, outdegree, and transitivity effects. The  conditional-independence  model mimics the network effects of the dyadic-dependence model by substituting each statistic by its conditionally-independent counterpart, as it is described in Section   3.3 . Our main question is whether the—statistically and computationally much simpler—conditional independence model performs as good as the dyadic-dependence model. Details are provided in the following.  
+                         (basic model) 
+                         
+                            ERGMs control the density by the  edges  statistic that counts the number of edges in the network  
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        
+                                           ( 
+                                           h 
+                                           ) 
+                                        
+                                     
+                                  
+                               ; in SAOMs this is achieved by counting the number of outgoing ties of each actor. The  lagged edges  statistic is included in ERGMs and controls the inertia of ties from one time point to the next. Technically it is the ERGM statistic computed by Eq.  (6)  from the adjacency matrix of the previous wave. Thus, the lagged edges statistic counts the number of edges in  
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        
+                                           ( 
+                                           h 
+                                           ) 
+                                        
+                                     
+                                  
+                                that are also present in  
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        
+                                           ( 
+                                           h 
+                                           − 
+                                           1 
+                                           ) 
+                                        
+                                     
+                                  
+                               . A lagged edges statistic is not necessary for SAOMs, since these model inertia implicitly by letting the sequence of tie changes start from network  
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        
+                                           ( 
+                                           h 
+                                           − 
+                                           1 
+                                           ) 
+                                        
+                                     
+                                  
+                               . 
+                                  3 
+                               
+                               
+                                  3 
+                                  Including a lagged edges statistic in SAOMs results often in a non-convergent model. 
+                                All models contain four attribute-dependent statistics for the Knecht data (none for the Newcomb data): We use the main effects of the “sex” variable on outgoing and incoming ties (controlling whether boys tend to have more in-/out-edges than girls), the homophily effect of the “sex” variable (controlling whether pupils tend to have friends of the same sex), and a dyadic covariate term that counts those edges connecting pupils that were in the same primary school. 
+                         
+                         The dyadic-dependence model 
+                         
+                            adds four statistics to the basic model. The  mutual  statistic counts the reciprocated ties in the network  
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        
+                                           ( 
+                                           h 
+                                           ) 
+                                        
+                                     
+                                  
+                               . Furthermore, in the ERGM framework we include the statistics named  gwesp 
+                               
+                                  4 
+                               
+                               
+                                  4 
+                                  
+                                     gwesp  stands for geometrically weighted edgewise shared partners. 
+                                and  gwidegree  for both datasets and additionally  gwodegree  for the Knecht data. 
+                                  5 
+                               
+                               
+                                  5 
+                                  The dichotomized Newcomb data has constant outdegree implying that the  lagged  gwodegree statistic is a constant multiple of the  edges  statistic—leading to a non-identifiable model. 
+                                We discuss the choice of the shape parameter (cf.   Hunter & Handcock, 2006 ) below. Within the SAOM framework we include the statistics named  transitive ties  and  indegree popularity  for both datasets and additionally  outdegree activity  for the Knecht data. 
+                         
+                         The conditional independence model 
+                         
+                            substitutes the four additional statistics of the dyadic-dependence model by their conditionally-independent counterparts computed by the procedure described in Section   3.3 .
+
+ERGMs control the density by the  edges  statistic that counts the number of edges in the network  
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        
+                                           ( 
+                                           h 
+                                           ) 
+                                        
+                                     
+                                  
+                               ; in SAOMs this is achieved by counting the number of outgoing ties of each actor. The  lagged edges  statistic is included in ERGMs and controls the inertia of ties from one time point to the next. Technically it is the ERGM statistic computed by Eq.  (6)  from the adjacency matrix of the previous wave. Thus, the lagged edges statistic counts the number of edges in  
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        
+                                           ( 
+                                           h 
+                                           ) 
+                                        
+                                     
+                                  
+                                that are also present in  
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        
+                                           ( 
+                                           h 
+                                           − 
+                                           1 
+                                           ) 
+                                        
+                                     
+                                  
+                               . A lagged edges statistic is not necessary for SAOMs, since these model inertia implicitly by letting the sequence of tie changes start from network  
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        
+                                           ( 
+                                           h 
+                                           − 
+                                           1 
+                                           ) 
+                                        
+                                     
+                                  
+                               . 
+                                  3 
+                               
+                               
+                                  3 
+                                  Including a lagged edges statistic in SAOMs results often in a non-convergent model. 
+                                All models contain four attribute-dependent statistics for the Knecht data (none for the Newcomb data): We use the main effects of the “sex” variable on outgoing and incoming ties (controlling whether boys tend to have more in-/out-edges than girls), the homophily effect of the “sex” variable (controlling whether pupils tend to have friends of the same sex), and a dyadic covariate term that counts those edges connecting pupils that were in the same primary school.
+
+adds four statistics to the basic model. The  mutual  statistic counts the reciprocated ties in the network  
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        
+                                           ( 
+                                           h 
+                                           ) 
+                                        
+                                     
+                                  
+                               . Furthermore, in the ERGM framework we include the statistics named  gwesp 
+                               
+                                  4 
+                               
+                               
+                                  4 
+                                  
+                                     gwesp  stands for geometrically weighted edgewise shared partners. 
+                                and  gwidegree  for both datasets and additionally  gwodegree  for the Knecht data. 
+                                  5 
+                               
+                               
+                                  5 
+                                  The dichotomized Newcomb data has constant outdegree implying that the  lagged  gwodegree statistic is a constant multiple of the  edges  statistic—leading to a non-identifiable model. 
+                                We discuss the choice of the shape parameter (cf.   Hunter & Handcock, 2006 ) below. Within the SAOM framework we include the statistics named  transitive ties  and  indegree popularity  for both datasets and additionally  outdegree activity  for the Knecht data.
+
+substitutes the four additional statistics of the dyadic-dependence model by their conditionally-independent counterparts computed by the procedure described in Section   3.3 .
+
+Some technical details  All ERGMs are estimated with the  ergm 
+                      
+                         R 
+                      -package ( Handcock et al., 2011 ) with an MCMC sample size set to 20,000. The conditional independence models could in principle be estimated by ordinary logistic regression; this is not necessary since the estimation method of  ergm  recognizes the independence and automatically switches to a faster estimation procedure. To find appropriate shape parameters (cf.   Hunter & Handcock, 2006 ) for the statistics  gwesp ,  gwidegree , and  gwodegree  we applied the following steps. We first estimated all models without fixing the shape parameters (i. e., by estimating curved exponential random graph models). For many time steps this resulted in poor convergence; for those steps where we did achieve good convergence, the shape parameter for the  gwesp  statistic was typically small but positive (around 0.1) and the estimated shape parameters for the  gwidegree  and  gwodegree  statistics were typically in the range [0.4, 0.8]. We chose to fix the shape parameter for  gwesp  at 0.1 and for the other two at 0.5. With this choice all models converged for all time steps.
+
+All actor-oriented models were estimated with the maximum likelihood estimation method proposed in ( Snijders, Koskinen, & Schweinberger, 2010a ) and implemented in the  
+                         R 
+                      -package  RSiena  ( Ripley & Snijders, 2011 ). For the majority of the models and time steps, convergence was excellent in terms of the criterion (proposed in   Ripley and Snijders (2011) ) of  t-ratios for convergence  less than 0.1 in absolute value, and for almost all models, convergence was still satisfying (indicated by t-ratios less than 0.2).
+
+As outlined above, we compare ERG- and SAO-models that assume conditional independence with those that do not. The assessment criteria are, firstly, how well these models explain the observed data and, secondly, whether substantive findings about network effects on the evolution of ties are affected by the (potentially invalid) assumption of conditional independence.
+
+Since model parameters are estimated via maximum likelihood estimation, a natural way to quantify whether model  
+                            M 
+                          explains the evolution from network  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     − 
+                                     1 
+                                     ) 
+                                  
+                               
+                            
+                          to  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     ) 
+                                  
+                               
+                            
+                          better than model  
+                            
+                               
+                                  M 
+                               
+                               
+                                  ′ 
+                               
+                            
+                          is to compare the conditional probabilities of  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     ) 
+                                  
+                               
+                            
+                         , given  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     h 
+                                     − 
+                                     1 
+                                     ) 
+                                  
+                               
+                            
+                         , i. e., 
+                            6 
+                         
+                         
+                            6 
+                            For readability we denote with “model  
+                                  M 
+                               ” a  class  of ERGMs respectively SAOMs specified by a fixed selection of statistics; such a class of models is specialized to a concrete model by fixing the parameters. 
+                         
+                         
+                            
+                               
+                                  
+                                     
+                                        P 
+                                     
+                                     
+                                        M 
+                                        ; 
+                                        θ 
+                                     
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           Y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              
+                                                 
+                                                    t 
+                                                 
+                                                 
+                                                    h 
+                                                 
+                                              
+                                              ) 
+                                           
+                                        
+                                     
+                                     = 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              h 
+                                              ) 
+                                           
+                                        
+                                     
+                                     
+                                        | 
+                                        
+                                           
+                                              y 
+                                           
+                                           
+                                              
+                                                 ( 
+                                                 h 
+                                                 − 
+                                                 1 
+                                                 ) 
+                                              
+                                           
+                                        
+                                        ) 
+                                     
+                                     
+                                     and 
+                                     
+                                     
+                                        
+                                           P 
+                                        
+                                        
+                                           
+                                              
+                                                 M 
+                                              
+                                              
+                                                 ′ 
+                                              
+                                           
+                                           ; 
+                                           
+                                              
+                                                 θ 
+                                              
+                                              
+                                                 ′ 
+                                              
+                                           
+                                        
+                                     
+                                     
+                                        ( 
+                                        
+                                           
+                                              Y 
+                                           
+                                           
+                                              
+                                                 ( 
+                                                 
+                                                    
+                                                       t 
+                                                    
+                                                    
+                                                       h 
+                                                    
+                                                 
+                                                 ) 
+                                              
+                                           
+                                        
+                                        = 
+                                        
+                                           
+                                              y 
+                                           
+                                           
+                                              
+                                                 ( 
+                                                 h 
+                                                 ) 
+                                              
+                                           
+                                        
+                                        | 
+                                     
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              h 
+                                              − 
+                                              1 
+                                              ) 
+                                           
+                                        
+                                     
+                                     ) 
+                                  
+                                  , 
+                               
+                            
+                          where  
+                            θ 
+                          and  
+                            
+                               
+                                  θ 
+                               
+                               
+                                  ′ 
+                               
+                            
+                          are the maximum likelihood estimates when fitting the models  
+                            M 
+                         , respectively  
+                            
+                               
+                                  M 
+                               
+                               
+                                  ′ 
+                               
+                            
+                         , to the data  
+                            
+                               ( 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        h 
+                                        ) 
+                                     
+                                  
+                               
+                               | 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        h 
+                                        − 
+                                        1 
+                                        ) 
+                                     
+                                  
+                               
+                               ) 
+                            
+                         . Since we use the same pair of networks for model estimation and assessment, the conditional likelihoods can only be used to compare models with the same number of parameters. 
+                            7 
+                         
+                         
+                            7 
+                            Note that a model with  
+                                  n 
+                                  
+                                     ( 
+                                     n 
+                                     − 
+                                     1 
+                                     ) 
+                                  
+                                parameters could just remember the value of every tie variable in  
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        
+                                           ( 
+                                           h 
+                                           ) 
+                                        
+                                     
+                                  
+                                and, thus, “predict” the observed outcome with probability one. 
+                          Two models are compared by the difference of the respective log-likelihoods 
+                            8 
+                         
+                         
+                            8 
+                            Likelihoods of SAOMs are not directly computable. However, the data augmentation approach proposed in   Snijders et al. (2010a)  allows for estimating differences between log-likelihoods of two models. 
+                         
+                         
+                            
+                               
+                                  log 
+                                  
+                                     ( 
+                                     
+                                        
+                                           P 
+                                        
+                                        
+                                           M 
+                                           ; 
+                                           θ 
+                                        
+                                     
+                                     
+                                        ( 
+                                        
+                                           
+                                              Y 
+                                           
+                                           
+                                              
+                                                 ( 
+                                                 
+                                                    
+                                                       t 
+                                                    
+                                                    
+                                                       h 
+                                                    
+                                                 
+                                                 ) 
+                                              
+                                           
+                                        
+                                        = 
+                                        
+                                           
+                                              y 
+                                           
+                                           
+                                              
+                                                 ( 
+                                                 h 
+                                                 ) 
+                                              
+                                           
+                                        
+                                        
+                                           | 
+                                           
+                                              
+                                                 y 
+                                              
+                                              
+                                                 
+                                                    ( 
+                                                    h 
+                                                    − 
+                                                    1 
+                                                    ) 
+                                                 
+                                              
+                                           
+                                           ) 
+                                        
+                                        ) 
+                                     
+                                     − 
+                                     log 
+                                     
+                                        ( 
+                                        
+                                           
+                                              P 
+                                           
+                                           
+                                              
+                                                 
+                                                    M 
+                                                 
+                                                 
+                                                    ′ 
+                                                 
+                                              
+                                              ; 
+                                              
+                                                 
+                                                    θ 
+                                                 
+                                                 
+                                                    ′ 
+                                                 
+                                              
+                                           
+                                        
+                                        
+                                           ( 
+                                           
+                                              
+                                                 Y 
+                                              
+                                              
+                                                 
+                                                    ( 
+                                                    
+                                                       
+                                                          t 
+                                                       
+                                                       
+                                                          h 
+                                                       
+                                                    
+                                                    ) 
+                                                 
+                                              
+                                           
+                                           = 
+                                           
+                                              
+                                                 y 
+                                              
+                                              
+                                                 
+                                                    ( 
+                                                    h 
+                                                    ) 
+                                                 
+                                              
+                                           
+                                           | 
+                                        
+                                        
+                                           
+                                              y 
+                                           
+                                           
+                                              
+                                                 ( 
+                                                 h 
+                                                 − 
+                                                 1 
+                                                 ) 
+                                              
+                                           
+                                        
+                                        ) 
+                                     
+                                     ) 
+                                  
+                                  , 
+                               
+                            
+                          being positive when  
+                            M 
+                          is the better model and negative when  
+                            
+                               
+                                  M 
+                               
+                               
+                                  ′ 
+                               
+                            
+                          is better.
+
+Concretely, we compare for each dataset and time step the dyadic-dependence model with the conditional independence model as described in Section   4 . The differences in the log-likelihood are summarized graphically in  Fig. 2 
+                         , using time-dependent bar charts. An upwards pointing black bar indicates that the dyadic-dependence model is better than the associated conditional-independence model; conversely, downwards pointing red bars indicate that the conditional independence model performed better. The height of a bar represents the magnitude of the difference, where the scaling on the vertical axis is such that the maximum difference is normalized with respect to data and model framework. 
+                            9 
+                         
+                         
+                            9 
+                            We further transformed the absolute differences  
+                                  d 
+                                by setting the height proportional to  
+                                  log 
+                                  
+                                     ( 
+                                     d 
+                                     + 
+                                     1 
+                                     ) 
+                                  
+                                which better reveals the sign of small values. 
+                          Time advances from left to right, and for each estimation step there are two bars: differences in the SAOM-framework (slightly darker shades) are depicted to the right of differences in the ERGM-framework. Raw numbers are provided in  Table 1 
+                         .
+
+In summary, dyadic-dependence models perform better than their conditionally-independent counterparts. In the Knecht data, with an inter-observation time of three months, there are no exceptions to this rule. On the other hand, the superiority of dyadic-dependence models diminishes with shorter inter-observation time. In the Newcomb data the dyadic-dependence ERGMs improve over their conditionally-independent counterparts in seven out of 14 time steps; in the SAOM framework the dyadic-dependence models show an advantage in ten out of 14 time steps. By the Markov assumption, the probability of the joint Newcomb data is  
+                            
+                               
+                                  P 
+                                  
+                                     ( 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              2 
+                                              ) 
+                                           
+                                        
+                                     
+                                     , 
+                                     … 
+                                     , 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              15 
+                                              ) 
+                                           
+                                        
+                                     
+                                     | 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              1 
+                                              ) 
+                                           
+                                        
+                                     
+                                     ) 
+                                  
+                                  = 
+                                  P 
+                                  
+                                     ( 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              2 
+                                              ) 
+                                           
+                                        
+                                     
+                                     | 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              1 
+                                              ) 
+                                           
+                                        
+                                     
+                                     ) 
+                                  
+                                  ⋅ 
+                                  P 
+                                  
+                                     ( 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              3 
+                                              ) 
+                                           
+                                        
+                                     
+                                     | 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              2 
+                                              ) 
+                                           
+                                        
+                                     
+                                     ) 
+                                  
+                                  ⋯ 
+                                  P 
+                                  
+                                     ( 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              15 
+                                              ) 
+                                           
+                                        
+                                     
+                                     | 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           
+                                              ( 
+                                              14 
+                                              ) 
+                                           
+                                        
+                                     
+                                     ) 
+                                  
+                                  , 
+                               
+                            
+                          where model parameters might change from interval to interval. Dyadic-dependence models achieve in both frameworks a (slightly) better joint likelihood: the sum of the log-likelihood differences is 0.045 for ERGMs and 1.175 for SAOMs.
+
+Newcomb data with a longer time lag . How would conditional independence models have performed on the Newcomb data, if it had been collected with the same inter-observation time as the Knecht data? We might approach this question by separately fitting models to the pairs of networks  
+                            
+                               ( 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        13 
+                                        ) 
+                                     
+                                  
+                               
+                               | 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        1 
+                                        ) 
+                                     
+                                  
+                               
+                               ) 
+                            
+                         ,  
+                            
+                               ( 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        14 
+                                        ) 
+                                     
+                                  
+                               
+                               | 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        2 
+                                        ) 
+                                     
+                                  
+                               
+                               ) 
+                            
+                         , and  
+                            
+                               ( 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        15 
+                                        ) 
+                                     
+                                  
+                               
+                               | 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        3 
+                                        ) 
+                                     
+                                  
+                               
+                               ) 
+                            
+                         , ignoring the eleven intermediate observations. 
+                            10 
+                         
+                         
+                            10 
+                            The time difference between Wave 1 and 13 is 13 weeks (since there is a time gap of two weeks between Wave 9 and 10, due to a holiday break at that time) and, thus, roughly corresponds to three months. 
+                          Models allowing for dyadic-dependence outperformed conditional-independence models on this long-lagged Newcomb data. The log-likelihood differences are 3.93, 15.97, and 5.79 for ERGMs and 0.76, 1.25, and 0.35 in the SAOM framework. 
+                            11 
+                         
+                         
+                            11 
+                            Note that these differences are higher than any difference that results from the one-week steps in the respective model frameworks.
+
+We further varied the preprocessing steps for the Newcomb data by considering only ties that are present in two consecutive waves. Therefore we defined a network  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     1 
+                                     & 
+                                     2 
+                                     ) 
+                                  
+                               
+                            
+                          by intersecting the first two networks  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     1 
+                                     ) 
+                                  
+                               
+                            
+                          and  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     2 
+                                     ) 
+                                  
+                               
+                            
+                          as well as a network  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     14 
+                                     & 
+                                     15 
+                                     ) 
+                                  
+                               
+                            
+                          by intersecting the last two networks  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     14 
+                                     ) 
+                                  
+                               
+                            
+                          and  
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     ( 
+                                     15 
+                                     ) 
+                                  
+                               
+                            
+                         . 
+                            12 
+                         
+                         
+                            12 
+                            Thus, there is a tie from  
+                                  i 
+                                to  
+                                  j 
+                                in  
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        
+                                           ( 
+                                           1 
+                                           & 
+                                           2 
+                                           ) 
+                                        
+                                     
+                                  
+                                if and only if  
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        i 
+                                        j 
+                                     
+                                     
+                                        
+                                           ( 
+                                           1 
+                                           ) 
+                                        
+                                     
+                                  
+                                  = 
+                                  1 
+                                and  
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        i 
+                                        j 
+                                     
+                                     
+                                        
+                                           ( 
+                                           2 
+                                           ) 
+                                        
+                                     
+                                  
+                                  = 
+                                  1 
+                               . 
+                          These networks no longer have constant outdegrees (even though the outdegrees are constrained to be less than or equal to four). The resulting panel data is more comparable to the Knecht data with respect to the inter-observation time and the amount of network change. 
+                            13 
+                         
+                         
+                            13 
+                            The Jaccard index (measuring the ratio of stable ties) is 0.304, while the mean Jaccard index for the Knecht data is 0.412. For comparison, the mean Jaccard index for the short-lagged Newcomb data is much higher, 0.681. 
+                          When fitting models to the data  
+                            
+                               ( 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        14 
+                                        & 
+                                        15 
+                                        ) 
+                                     
+                                  
+                               
+                               | 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     
+                                        ( 
+                                        1 
+                                        & 
+                                        2 
+                                        ) 
+                                     
+                                  
+                               
+                               ) 
+                            
+                          we found, again, that dyadic-dependence models outperform conditional independence models with a log-likelihood difference of 9.02 for ERGMs and 1.05 for SAOMs. Any variant of the long-lagged Newcomb data that we considered can be better explained by dyadic-dependence models. Results in this section, thus, suggest that the conditional independence assumption becomes more unrealistic with increasing inter-observation time.
+
+Another aspect on which we compare conditional-independence models with more general models are differences and similarities in derived significant network effects. The question is whether tests of hypothetical network effects are affected by the potentially invalid assumption of conditional independence. To shed light on this question we compare estimated parameters and significance levels for the conditional independence models and associated dyadic-dependence models described in Section   4 .
+
+Knecht data . Estimated parameters are shown in  Table 2 
+                         . In summary, conditional independence models yield nearly the same results for the attribute-based effects and for the assessment of reciprocity but lead to totally different conclusions for the other structural network effects.
+
+More detailed, all models agree that in all time steps there is evidence for  sex homophily  but no significant parameters associated with the  sex alter  statistic (measuring whether boys receive more ties than girls). The  sex ego  effect (measuring whether boys tend to initiate more ties) is confirmed in the majority of cases and, with one exception, tie probabilities among pupils that have visited the same primary school are significantly increased in the second and third time step but not in the first.
+
+The support for the reciprocity hypothesis ( mutual  statistic) is nearly unchallenged. With one exception, parameters are significantly positive across model frameworks and irrespective of whether models assume conditional independence or not.
+
+The picture completely changes for the other structural network effects. While the dyadic-dependence ERGMs and SAOMs largely agree with each other, the conditional-independence models yield different conclusions. Tests with these models are in some cases more conservative (less rejection of the null hypothesis) and in other cases more liberal.
+
+More detailed, the dyadic-dependence models yield in the majority of cases strong evidence for transitive closure and dependence on outdegree ( activity ego ), while their conditionally-independent counterparts mostly fail to establish these effects. 
+                            14 
+                         
+                         
+                            14 
+                            Note that  negative  parameters associated with the ERGM statistics  gwodegree  and  gwidegree  point to preferential attachment with respect to outgoing, respectively incoming ties; cf.   Hunter (2007) . 
+                          The disagreement is reversed when considering the  popularity alter  statistic (modeling the influence of indegree on the probabilities of ties). While the dyadic-dependence models consistently found this effect to be insignificant, conditional independence models reject the null hypothesis in the first two time steps.
+
+The comparison so far suggests that conditional independence should not be assumed when testing structural network effects in the Knecht data; instead more general models based, for example, on the ERGM or SAOM frameworks, should be used.
+
+Newcomb data . Results for the Newcomb fraternity data ( Table 3 
+                         ) do not provide such clear distinction as for the Knecht classroom data. There is some disagreement between conditional independence models and their general counterparts, but—in accordance with our expectations—less serious than for the Knecht data. In contrast to what has been found on the Knecht data, there is also considerable disagreement between dyadic-dependence ERGMs and dyadic-dependence SAOMs.
+
+More detailed, the transitivity statistic  gwesp  of the dyadic-dependence ERGMs yields a significant parameter in nine of fourteen time steps—albeit with varying signs. In contrast, the three other models agree with each other by not rejecting the null hypothesis in any time step. There is more agreement with respect to the two other network effects. Parameters associated with the  popularity alter  statistic (dependence on indegree) have been found significant by all models in four time steps and, with some exceptions, mostly insignificant in the other intervals. Finally, the parameters of the  mutual  statistic (measuring reciprocity) are found to be significant by all models in three time steps and mostly insignificant in the others.
+
+Altogether, the occasional disagreement between conditional-independence models and their more general counterparts seems to be less severe in the Newcomb data than in the Knecht data. This provides further support to what we have found in the previous section: with increasing inter-observation times, the gap between dyadic-dependence and conditional independence models becomes more apparent.
+
+The goal of this paper was to quantify the implications of assuming conditional independence of tie-change events when analyzing given longitudinal network data. The data characteristic that seems to be mostly responsible for the validity or invalidity of the conditional independence assumption is the inter-observation time. In the examples that we considered, three-months between observations yields data that seems to be inappropriate for conditional independence models. The more general dyadic-dependence models consistently achieved a better likelihood for the Knecht data and the artificially thinned Newcomb data. This performance gap diminished in the shorter spaced Newcomb data. Note that both datasets encode network evolution among a group of pupils, respectively students, in the period after these meet for the first time—a situation that is likely to be characterized by relatively fast tie changes. In situations where ties are more stable, longer inter-observation times could still be consistent with the conditional independence assumption. In contrast, relations that change faster could yield network data with considerable intra-observation dependence, even if it is collected at a high frequency.
+
+The question whether hypothetical network effects can alternatively be tested with conditional independence model gets a clear negative answer for the structural network effects (such as transitivity or preferential attachment) in the data with a three-month lag. Structural effects in the Knecht data are quite consistently assessed by the general ERGMs and SAOMs; in contrast, their conditionally independent counterparts lead to very different conclusions. This discrepancy gets somewhat attenuated in the Newcomb data with an inter-observation time of one week.
+
+Tentatively we observe that there was considerable agreement across the two model frameworks, ERGMs and SAOMs, in the Knecht data but less in the Newcomb data. We are not aware of any studies that clarify whether temporal ERGMs and SAOM should confirm or reject the same network effects when applied to the same data. A deeper comparison of ERGMs and SAOMs is certainly a promising task for future work. By design the two model frameworks make different assumptions. ERGMs assume that the network is in an equilibrium distribution. Although the structure of this equilibrium might be shaped by the previous network via lagged statistics, it is totally ignored how many tie-change events are needed to go from one observed network to the next. SAOMs, on the other hand, assume that there is an unobserved chain of events in which exactly one tie changes. In this framework there is no room for higher-order changes of mutually dependent tie-change events, e.g., events where three people meet each other in one single point in time or one actor synchronously cuts friendship to a group of actors.
+
+Design for interval-censored event data . We mentioned in the introduction that the conditional independence assumption is not only an issue when dealing with panel data about relational states but also when analyzing interval-censored relational event data. We close our discussion by indicating that conditional independence in the latter data type can be analyzed with quite similar methods. As for panel data we can think of two model frameworks, one based on SAOMs and the other on ERGMs.
+
+In the SAOM-like approach we can compare conditional-independence models (like the one proposed by   Brandes et al. (2009) ) with more general models that assume an unobserved but existent order of all events in the same observation interval. It is then allowed that later events depend on previous ones, even if these happen in the same interval. Since the order of events is unobserved a more complicated model estimation has to be applied—similar to the maximum likelihood approach to SAOMs ( Snijders et al., 2010a ) that augments the data by simulated chains of change events.
+
+In the ERGM-like approach all events in one observation interval are treated as one observed network. Thus, instead of considering the data from one interval as several single-tie events we treat it as one multi-tie event that is modeled by an ERGM-like distribution. This approach would require to dichotomize the so-constructed network event or to extend the ERGM framework to cases where ties are no longer binary variables but encode counting data. Designing such models and comparing them with event network models that assume conditional independence is another promising task for future work.

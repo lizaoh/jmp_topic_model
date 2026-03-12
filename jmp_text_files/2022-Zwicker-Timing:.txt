@@ -1,0 +1,2277 @@
+10.1016/j.jmp.2022.102663
+The ability to perceive the passage of time, from seconds to minutes, is defined as interval timing. Timing the duration of an interval is fundamental to a wide range of processes, including decision making, planning, reaction to a predator, reaction to environmental conditions, or timing a repeated event ( Gallistel, 1990 ). Interval timing has been studied for decades, yet there is still debate on some of the properties and behaviours that characterize timing. In the study of interval timing, a rich set of procedures and models have been developed that shape how we think about animal interval timing.
+
+The Peak Interval (PI) procedure ( Catania, 1970; Roberts, 1981 ) is a variation of the fixed interval (FI) procedure used to examine interval timing. In the FI procedure, a subject is exposed to a stimulus and the first response after a fixed interval of time from the stimulus onset is rewarded. The PI procedure introduces probe trials where the stimulus stays on longer and no reward is received. After several probes, animals learn to give up if they do not get the reward at the expected time ( Balci, et al., 2009 ). The analysis of the resulting response pattern has influenced many models and theories about interval timing. In particular, a response pattern of break-run-break has been observed ( Church et al., 1994 ). In the analysis and modelling of this pattern, pacemaker-accumulator (PA) models have been shown to require two thresholds ( Church et al., 1994; Gibbon & Church, 1990; Luzardo, Rivest, et al., 2017 ) determining the start and stop of the animal response pattern (the run).
+
+There is still debate about the subject’s response to the peak procedure at the individual trial level ( Staddon & Cerutti, 2003 ). Does the subject wait, respond at a constant rate, then wait again ( Church et al., 1994 )? Are there more than two distinct identifiable rates of response such as is suggested by the higher rate in the run period identified in  Cheng and Westwood (1993) ; or perhaps simply an increasing rate as event probability increases as suggested by the increasing frequency in Packet Theory ( Kirkpatrick, 2002; Kirkpatrick & Church, 2003 )? Is there an observable pattern of response before and after the period of high rate responding? These questions can be summarized as the following: Does the response rate continually change, or are there constant low and high response rates (break-run-break)? There is evidence for both conclusions ( Church et al., 1994; Kirkpatrick, 2002; Kirkpatrick & Church, 2003 ).
+
+Many of the properties of interval timing have been successfully modelled based on break-run-break data. This has included a significant amount of analysis of the start and stop of the run period. The descriptive statistics of the start and stop of the high rate of response are well understood and consistent across studies and datasets. The analysis of start and stop times across trials is revealed ( Church et al., 1994; Gallistel et al., 2004; Luzardo, Rivest, et al., 2017 ):
+
+• 
+                            Positive correlation between start and stop 
+                         
+                         
+                            • 
+                            Negative correlation between start and duration 
+                         
+                         
+                            • 
+                            Positive correlation between duration and middle 
+                         
+                         
+                            • 
+                            Coefficient of variation for the start larger than the stop
+
+Positive correlation between start and stop
+
+Negative correlation between start and duration
+
+Positive correlation between duration and middle
+
+Coefficient of variation for the start larger than the stop
+
+There are numerous interval timing models. Many of them focused on the pacemaker-accumulator idea such as the Behavioural Theory of Timing (BeT) ( Killeen & Fetterman, 1988 ), the Scalar Expectancy Theory (SET) ( Church et al., 1994; Gibbon, 1977 ), and more recently the Time-adaptive Drift–diffusion Model (TDDM) and TopDDM models ( Balcı & Simen, 2016; Rivest & Bengio, 2011; Simen et al., 2011, 2013 ). Packet theory ( Kirkpatrick, 2002; Kirkpatrick & Church, 2003 ) is based on bouts of response that increase in likelihood as the likelihood of reward increases. Other approaches are based on neural oscillation, such as Striatal Beat Frequency (SBF) ( Buhusi & Meck, 2005; Matell & Meck, 2000; Oprisan & Buhusi, 2011; Oprisan et al., 2014 ) and a more recent model based on Neural Oscillation States ( Varella et al., 2019 ). Other adaptive models include recurrent neural network approaches ( Hardy & Buonomano, 2018; Raphan et al., 2019 ) and behavioural Learning to Time Theory (LeT) ( Pinheiro de Carvalho et al., 2016; Machado, 1997 ). Finally, in  Hasegawa and Sakata (2015) , they developed a multi-clock model based on LeT and SET that provided similar results to SET.
+
+SET has been compared to BeT, LeT, and Packet Theory ( Church et al., 1994; Lejeune & Wearden, 2006; Yi, 2007 ). Based on these comparisons, SET provides the most accurate model of interval timing. In addition, BeT and LeT have been directly questioned in  Lejeune and Wearden (2006) , and later Machado revised LeT by adding SET’s timing mechanism ( Machado et al., 2009 ). Most interval timing models focused solely on reproducing the average response curves without looking at individual trial statistics such as the start and stop time and their correlations. The only exception we found are SET, TDDM, and the Neural Oscillation States model ( Church et al., 1994; Luzardo, Rivest, et al., 2017; Varella et al., 2019 ).
+
+In particular, TDDM is an accumulator-based break-run-break model that was shown to have all SET’s important properties  ( Luzardo, Rivest, et al., 2017 ) while also being able to reproduce the learning dynamic of animal interval timing ( Luzardo et al., 2013; Luzardo, Rivest, et al., 2017 ). It also has an equivalent spiking neuron model ( Simen et al., 2011 ). The single-threshold FI model is often called TopDDM. TDDM was shown to be highly accurate across an extensive range of datasets. In this paper, by TDDDM, we explicitly refer to the two-threshold TDDM model for PI data from  Luzardo, Rivest, et al. (2017)  which will be the standard for comparison.
+
+Both PA threshold-based models, SET and TDDM, concluded that two thresholds and a single accumulator were required to model break-run-break statistics of the PI data ( Church et al., 1994; Luzardo, Rivest, et al., 2017 ); the thresholds being used to represent the start and stop decision boundaries. Nevertheless, the question remains, is the break-run-break assumption required to explain or reproduce the animal behaviours?
+
+In order to answer if the peak interval response pattern is strictly break-run-break or if the response rate increases as the likelihood of reward increases, we developed a new model, called the Probabilistic Response Drift–diffusion Model (PRDDM), whose response rate is linearly dependent on elapsed time. This model, while using the same accumulator as TDDM, does not by definition have break-run-break states. Instead, its probability of response continuously changes over time in a way similar to packet theory ( Kirkpatrick, 2002; Kirkpatrick & Church, 2003 ). We compare this new model to TDDM on individual trials, start and stop statistics, and all of the subjects behaviours, showing that it reproduces the animal data equally well or better. Furthermore, the results indicate that response rates increase with the likelihood of reward is sufficient to reproduce the data, including the break-run-break statistics. This suggests that having start and stop thresholds (or distinct break and run states) is not required and may only be a consequence of our assumptions. To our knowledge, this is the first PA model reproducing those properties not requiring this assumption.
+
+The Probabilistic Response Drift–diffusion Model (PRDDM) has a response rate that varies proportionally with the distance in time from the subject’s estimated time of reward. While the TDDM accumulator is maintained, the thresholds that determine the start and stop of the response period are removed. This gives a simpler model that also generates more realistic trials. We will first describe the basis of drift–diffusion models, TDDM, and finally the new PRDDM.
+
+Drift–diffusion models ( Ratcliff, 1978 ) have been used to model a wide range of real-time decision making paradigms ( Voss et al., 2013 ) such as two alternative forced action tasks ( Ratcliff & McKoon, 2008 ), and interval timing ( Luzardo, Rivest, et al., 2017 ). The model value is estimated by accumulating noisy evidence until a decision boundary is reached. The computational representation is a stochastic differential equation that can be incrementally calculated.
+
+A DDM has three parameters: drift, diffusion, and decision boundary. The drift is the rate at which the accumulator approaches the decision boundary, while diffusion is the noise applied to the drift at each time step. Finally, the decision boundary represents a decision or internal change of state.
+
+The stochastic differential equation for a drift–diffusion model is  
+                            
+                               (1) 
+                               
+                                  
+                                     d 
+                                     x 
+                                     = 
+                                     A 
+                                     
+                                     d 
+                                     t 
+                                     + 
+                                     m 
+                                     
+                                     d 
+                                     W 
+                                     , 
+                                  
+                               
+                            
+                         where  
+                            x 
+                          is the particle position,  
+                            A 
+                          ¿ 0 is the model drift rate,  
+                            m 
+                          ¿ 0 is the scale of diffusion, and  
+                            
+                               d 
+                               W 
+                            
+                          is the noise in the system. This can be incrementally approximated by  
+                            
+                               (2) 
+                               
+                                  
+                                     x 
+                                     
+                                        ( 
+                                        t 
+                                        + 
+                                        Δ 
+                                        t 
+                                        ) 
+                                     
+                                     = 
+                                     x 
+                                     
+                                        ( 
+                                        t 
+                                        ) 
+                                     
+                                     + 
+                                     A 
+                                     Δ 
+                                     t 
+                                     + 
+                                     m 
+                                     N 
+                                     
+                                        ( 
+                                        0 
+                                        , 
+                                        
+                                        1 
+                                        ) 
+                                     
+                                     
+                                     
+                                        
+                                           Δ 
+                                           t 
+                                        
+                                        
+                                     
+                                     , 
+                                  
+                               
+                            
+                         where  
+                            
+                               Δ 
+                               t 
+                            
+                          is the change in t, or the time-step, and  
+                            
+                               N 
+                               
+                                  ( 
+                                  0 
+                                  , 
+                                  
+                                  1 
+                                  ) 
+                               
+                            
+                          is a random variable from the normal distribution, with a mean of zero and a standard deviation of one, that provides the random component of the noise term.
+
+In a DDM, a decision is reached when  
+                            
+                               x 
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                               > 
+                               z 
+                            
+                         , where  
+                            z 
+                          is the decision threshold. The threshold  
+                            z 
+                         , may be a reflecting boundary, an absorbing boundary, or just a decision threshold. If reflecting, it continues to accumulate with a negative drift; if absorbing, the value of  
+                            
+                               x 
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                            
+                          remains  
+                            z 
+                          after the decision is made; and if just a decision threshold, it will continue to accumulate evidence beyond the value of  
+                            z 
+                         .
+
+When modelling the peak-interval procedure, TDDM ( Luzardo, Rivest, et al., 2017 ), like SET ( Church et al., 1994 ), is a two-threshold break-run-break model of response. TDDM uses a drift–diffusion accumulator ( 
+                            x 
+                         ), a noisy start threshold ( 
+                            
+                               
+                                  z 
+                               
+                               
+                                  1 
+                               
+                            
+                         ), and a stop threshold ( 
+                            
+                               
+                                  z 
+                               
+                               
+                                  2 
+                               
+                            
+                         ) where  
+                            
+                               0 
+                               < 
+                               
+                                  
+                                     z 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                               < 
+                               1 
+                               < 
+                               
+                                  
+                                     z 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                            
+                         . The model starts to respond when  
+                            
+                               x 
+                               > 
+                               
+                                  
+                                     z 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                            
+                         , at which time it responds with the high rate until  
+                            
+                               x 
+                               > 
+                               
+                                  
+                                     z 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                            
+                         , at which time it returns to the low rate. The estimated time of reward is considered to be when  
+                            
+                               x 
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                               = 
+                               1 
+                            
+                         .
+
+TDDM has five free parameters: drift, diffusion, start threshold, stop threshold, and standard deviation of the start threshold. All parameters, except for drift, are calculated from the start and stop statistics of the experimental data. The drift rate can be estimated from the FI, or learned automatically to model animal learning dynamics ( Luzardo et al., 2013 ). For further details, see  Luzardo, Rivest, et al. (2017) .
+
+As in SET, the two thresholds allow the model to flip between two states: break and run, naturally generating break-run-break patterns. While TDDM simulates single trials, the simulations only provide constant responding during the high rate period.
+
+PRDDM has two processes: a drift–diffusion process and a stochastic response. The drift–diffusion process gathers evidence of elapsed time. We will interpret the accumulator’s value as the subject’s estimate of the likelihood of reward occurrence at time  
+                            t 
+                         . The probability of response to the stimulus will be modelled as a function of this likelihood.
+
+PRDDM has a single reflecting boundary that does not represent the response period’s beginning or end. The value of the accumulator is strictly interpreted as the likelihood of event occurrence (likelihood of reward occurring). The time when the accumulator equals, or first exceeds, the boundary ( 
+                            
+                               z 
+                               = 
+                               1 
+                            
+                         ) is interpreted as the estimated time of reward.
+
+The probability of response is defined by the subject’s interest, represented by the peak mean response rate, in the reward and the estimated likelihood of reward. In this model, the likelihood of reward is the subject’s estimate of the likelihood of the reward occurring at time  
+                            t 
+                         , based on the estimated elapsed time. The likelihood of response is modelled as a scalar constant ( 
+                            τ 
+                         , subject interest in the reward) multiplied by the likelihood of event occurrence ( 
+                            
+                               x 
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                            
+                         , current accumulator value). The model is entirely defined by Eq.  (2) , the reflecting boundary ( 
+                            
+                               z 
+                               = 
+                               1 
+                            
+                         ), and the probability of response ( 
+                            R 
+                         ) given by  
+                            
+                               (3) 
+                               
+                                  
+                                     P 
+                                     
+                                        ( 
+                                        R 
+                                        = 
+                                        1 
+                                        ∣ 
+                                        t 
+                                        ) 
+                                     
+                                     = 
+                                     τ 
+                                     x 
+                                     
+                                        ( 
+                                        t 
+                                        ) 
+                                     
+                                     , 
+                                  
+                               
+                            
+                         where  
+                            
+                               0 
+                               < 
+                               τ 
+                               < 
+                               1 
+                            
+                          and  
+                            
+                               t 
+                               > 
+                               0 
+                            
+                          is the elapsed time since the stimulus onset.
+
+In PRDDM, the DDM is the pacemaker-accumulator, and it models the subject’s internal clock and accumulator. Drift is the rate of evidence accumulation, diffusion is the noise in the accumulation, and the boundary is the subject’s estimated time of reward. See  Fig. 1 (a) for an example of the DDM accumulator. PRDDM has one more parameter: the mean response rate, which controls the subject’s rate of response. Thus, PRDDM has four parameters: three calculated (drift, diffusion, and mean response rate) and one fixed parameter (reflecting decision boundary).
+
+Drift,  
+                               A 
+                            , is the rate at which the time estimation process gathers evidence and estimates time remaining; see Eq.  (2) . In PRDDM, we estimate the value of  
+                               A 
+                             as one divided by the expected value of the peak time from the data to be modelled. Mathematically,  
+                               
+                                  (4) 
+                                  
+                                     
+                                        A 
+                                        = 
+                                        
+                                           
+                                              1 
+                                           
+                                           
+                                              E 
+                                              
+                                                 [ 
+                                                 p 
+                                                 t 
+                                                 ] 
+                                              
+                                           
+                                        
+                                        , 
+                                     
+                                  
+                               
+                            where  
+                               
+                                  p 
+                                  t 
+                               
+                             is the peak time of a trial and  
+                               
+                                  E 
+                                  
+                                     [ 
+                                     ⋅ 
+                                     ] 
+                                  
+                               
+                             is the expected value operator.
+
+Diffusion,  
+                               m 
+                            , is the amount of noise in the time estimation process. It is applied at every incremental update; see Eq.  (2) . In a DDM, the points in time when the accumulated value first passes the boundary (first passage) forms an inverse Gaussian distribution. Since PRDDM estimates the peak time as the first passage of the decision boundary ( 
+                               z 
+                            ), the value of  
+                               m 
+                             can be estimated from the variance of the peak time estimated for each trial.
+
+An inverse Gaussian distribution is denoted by  
+                               
+                                  I 
+                                  G 
+                                  
+                                     ( 
+                                     μ 
+                                     , 
+                                     λ 
+                                     ) 
+                                  
+                               
+                            , where  
+                               μ 
+                             is the mean and  
+                               λ 
+                             is the shape parameter. When considering a DDM and first passage time of the decision boundary,  
+                               μ 
+                             and  
+                               λ 
+                             are approximately  
+                               
+                                  μ 
+                                  = 
+                                  1 
+                                  / 
+                                  A 
+                               
+                             and  
+                               
+                                  λ 
+                                  = 
+                                  1 
+                                  / 
+                                  
+                                     
+                                        m 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                               
+                            . As the variance of an inverse Gaussian variable  
+                               X 
+                             is  
+                               
+                                  var 
+                                  
+                                     ( 
+                                     X 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        μ 
+                                     
+                                     
+                                        3 
+                                     
+                                  
+                                  / 
+                                  λ 
+                               
+                            , we can then substitute the values for  
+                               μ 
+                             and  
+                               λ 
+                             into the equation for the variance of an inverse Gaussian distribution. This yields  
+                               
+                                  var 
+                                  
+                                     ( 
+                                     X 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        m 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                                  / 
+                                  
+                                     
+                                        A 
+                                     
+                                     
+                                        3 
+                                     
+                                  
+                               
+                            . Since peak time is estimated by the first passage time,  
+                               
+                                  var 
+                                  
+                                     ( 
+                                     p 
+                                     t 
+                                     ) 
+                                  
+                                  = 
+                                  var 
+                                  
+                                     ( 
+                                     X 
+                                     ) 
+                                  
+                               
+                            . This can be transformed into  
+                               
+                                  
+                                     
+                                        m 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        A 
+                                     
+                                     
+                                        3 
+                                     
+                                  
+                                  
+                                  var 
+                                  
+                                     ( 
+                                     p 
+                                     t 
+                                     ) 
+                                  
+                               
+                             and used to estimate the value of  
+                               m 
+                            :  
+                               
+                                  (5) 
+                                  
+                                     
+                                        m 
+                                        = 
+                                        
+                                           
+                                              
+                                                 
+                                                    A 
+                                                 
+                                                 
+                                                    3 
+                                                 
+                                              
+                                              
+                                              var 
+                                              
+                                                 ( 
+                                                 p 
+                                                 t 
+                                                 ) 
+                                              
+                                           
+                                        
+                                        .
+
+Peak mean response rate,  
+                               τ 
+                            , is a calculated value. It is twice the mean of the mean response rate of the individual trials. The mean response rate for each trial is calculated in the interval  
+                               
+                                  [ 
+                                  0 
+                                  , 
+                                  2 
+                                  p 
+                                  t 
+                                  ] 
+                               
+                            , as the model simulates that duration. As PRDDM is a linear approximation, the mean response rate for the interval is half of the response rate at the peak. Thus the mean response rate is multiplied by 2. This resulting value is the mean response rate at peak time from the data to be modelled.
+
+Reflecting boundary,  
+                               z 
+                            , in conjunction with the drift, controls the subject’s estimated time of reward. As it is only related to the drift, without loss of generality, the boundary can be fixed at  
+                               
+                                  z 
+                                  = 
+                                  1 
+                               
+                            .
+
+An example of PRDDM and TDDM is shown in  Fig. 1 (a) and (b) respectively. While both utilize DDMs for the pacemaker-accumulator, the decision to respond and response rates differ greatly. PRDDM utilizes the accumulator value to estimate the likelihood of reward occurrence at each time step, and this likelihood then determines the model’s probability of response. Therefore, PRDMM will likely show more responses during the middle section of the accumulation process than at both ends of a probe trial. However, since it is probabilistic, any small time window may have a different response rate, generating more animal-like trials. In contrast, TDDM shows a clear break-run-break pattern with fixed low and high response rates. Although PRDDM is also a pacemaker-accumulator model, in contrast with SET and TDDM, it does not assume two-decision thresholds. Instead, the probability of responding is proportional to the accumulator content value, and it assumes a single decision point representing the point where the perceived elapsed time matches the learned time interval. This is a major difference with SET ( Church et al., 1994 ) which explicitly generates start and stop time points for the break-run-break pattern. By having a linear response rate, PRDDM has no built-in start or stop inflection (or decision) points whatsoever. Nevertheless, as we will show in the next sections, when PRDDM results are analysed using the break-run-break assumption, it reproduces the start and stop statistics as well as break-run-break models. Thus, showing that the underlying animal process does not need to include an explicit sequence of break, run and break states, unlike SET’s assumption.
+
+The objectives of this experiment are the following: validate PRDDM against existing data; show that start and stop thresholds are not required in PA models; and that the break-run-break pattern of responding can be achieved without any underlying explicit break-run-break process.
+
+In order to achieve this, PRDDM and TDDM will be used to simulate 16 PI datasets: three from  Church et al. (1998) , 12 from ( Kirkpatrick & Church, 2000 ), and one from  Balci, et al. (2009) . The results from each simulation will be compared to the statistics of the dataset that it is simulating. To support this comparison, the models will produce the same number of trials and trial duration as the original dataset, with all model parameters for both models estimated from the animal data using the given formulae. PRDDM parameters will be estimated as described in Section  2.3.1 . TDDM (which also represents SET) parameters will be estimated as in  Luzardo, Rivest, et al. (2017) .
+
+Data analysis for both simulations and animal data will be the same throughout. In supporting the comparative analysis between the simulation and experimental datasets, the simulation results will be grouped into three sections as follows: individual trial, start and stop analysis, and average behaviour, as detailed below:
+
+• 
+                            
+                               Individual trials  will be used to compare mean response rate, mean number of responses, calculated peak time, and the individual trial response pattern. 
+                         
+                         
+                            • 
+                            
+                               Start and Stop  will be compared by calculating the mean absolute error of the start, stop, mid-point, duration, coefficient of variation (CV), and of the mean of the correlations between start to stop, start to duration, and mid-point to duration for each model. Finally a qualitative comparison of the dataset to the simulation based on graphing the alignment of the start and stop times will be performed. 
+                         
+                         
+                            • 
+                            
+                               The average  behaviour will be compared by the Akaike Information Criteria (AIC) with small size correction ( 
+                                  
+                                     A 
+                                     I 
+                                     
+                                        
+                                           C 
+                                        
+                                        
+                                           c 
+                                        
+                                     
+                                  
+                               ) of the average response curve between each model and the experimental dataset.
+
+Individual trials  will be used to compare mean response rate, mean number of responses, calculated peak time, and the individual trial response pattern.
+
+Start and Stop  will be compared by calculating the mean absolute error of the start, stop, mid-point, duration, coefficient of variation (CV), and of the mean of the correlations between start to stop, start to duration, and mid-point to duration for each model. Finally a qualitative comparison of the dataset to the simulation based on graphing the alignment of the start and stop times will be performed.
+
+The average  behaviour will be compared by the Akaike Information Criteria (AIC) with small size correction ( 
+                                  
+                                     A 
+                                     I 
+                                     
+                                        
+                                           C 
+                                        
+                                        
+                                           c 
+                                        
+                                     
+                                  
+                               ) of the average response curve between each model and the experimental dataset.
+
+Details of the dataset and data analysis are provided in the following two subsections, respectively.
+
+In 2009, Balci published a study that investigated the acquisition of timed responding in the peak interval procedure by mice ( Balci, et al., 2009 ). This dataset is from the raw data collected during the experiments supporting the 2009 paper.
+
+Forty-five experimentally naïve mice were trained to press a lever on cue, responding to a 10 s FI, and finally a 30 s FI. Once the mice successfully completed the pre-training, the PI procedure was introduced. There was a total of 16 sessions lasting approximately 80 min each. Each session consisted of 30 FI trials and 15 PI trials randomly interspersed. The PI trials were 90 s in length (3 times the FI period), and the inter-trial interval (ITI) was uniformly distributed between 10 and 30 s. We used steady-state data from sessions 15 and 16 ( Balci, et al., 2009 ).
+
+In 1998, Church et al. published a study that included an experiment that examined the peak procedure using rats with fixed and uniform intervals ( Church et al., 1998 ). The experiment had fixed intervals of 30, 45, and 60 s. The uniform interval was from 30–60 s. From these trials, we extracted three datasets: PI trials for 30 s (Church30), 45 s (Church45), and 60 s (Church60).
+
+The 20 subjects were first exposed to 60 s fixed time schedule. The following two sessions were continuous reinforcement with each lever press delivering reinforcement. For testing, the rats were divided into four group of five rats each. Each group was exposed to either an FI of 30 s, 45 s, 60 s, or to the uniform interval. The peak procedure consisted of a 50 sessions of a random mixture of reinforced and non-reinforced trials. The non-reinforced trials lasted for 240 s plus a mean random interval of 60 s. The inter-trial intervals were 20 s plus a mean random interval of 10 s. The first five minutes of each two session included only reward trials. The remainder of the session included reinforced and non-reinforced sessions at an equal likelihood. As in  Church et al. (1998) , we used the data from sessions 21 to 50 for analysis.
+
+In 2000, Kirkpatrick et al. published a study that included an experiment using rats that examined stimulus duration and cycle length (duration between rewards) ( Kirkpatrick & Church, 2000 ). The experiment used FIs of 15, 30, 60, and 120 s, with 90, 180 and 360 s cycles. All FIs were used with a cycle of 180, while 60 also used 90 and 360. In addition, the stimulus was delivered as either white noise or light. The experiment included both omission testing and the PI procedure. From this dataset, we extracted PI datasets with a cycle of 180: 15, 30, 60, 120. We also extracted an additional four PI 60 datasets, 2 with a cycle length of 90 and 2 with a cycle length of 360. We label each dataset by ‘Church 2000 PI Duration Cycle Duration Stimulus’, IE. ‘Church 2000 PI60 180 Light’. Note that the cycle duration is only included for PI 60 trials.
+
+In that experiment, 48 subjects were divided into two sets of 24, with those sets being sub-divided into groups of 8. Each group was identified by FI/Cycle (Condition), IE. 60/180. The subjects in each condition were divided into two, where each subgroup received a different stimulus, either house light or white noise. When not receiving the stimulus, each subgroup would receive the other signal, IE. If they received white noise as the stimulus, the non-stimulus period would be house light. The cycle, stimulus and non-stimulus conditions were constant for each subject. Each training session lasted 105 min with a total of 40 sessions being delivered. The first 40 sessions of training were followed by 12 sessions of trace testing, followed by 13 sessions of the original training. Then 34 sessions of the PI procedure were executed. The final trials were omissions and five additional PI trials to return the subjects to the PI conditions. During the PI procedure, in 25% of the trials the subject would receive the stimulus for four times the cycle length and would not receive a reward. A new cycle would begin at the end of the probe trial. We used the 34 sessions of PI data that were reported in  Kirkpatrick and Church (2000) .
+
+Data from the original experiments and the simulations of TDDM and PRDDM will be handled with identical methods. This includes binning (using 1 s bins), start and stop analysis over the interval  
+                            
+                               [ 
+                               0 
+                               , 
+                               2 
+                               . 
+                               5 
+                               F 
+                               I 
+                               ] 
+                            
+                         , and normalization of all trials. The calculations and methods are detailed below.
+
+Individual Trial Peak Time  is calculated by an iterative method based on the median response from  Roberts (1981) . On the first iteration, the median response in the interval  
+                            
+                               [ 
+                               0 
+                               , 
+                               2 
+                               . 
+                               5 
+                               F 
+                               I 
+                               ] 
+                            
+                          is selected. For example, if there are five responses in the interval, the bin of the third response will be selected as the median response. On the following iterations, the median of the interval from previous Median- 
+                            
+                               F 
+                               I 
+                            
+                          to previous Median+ 
+                            
+                               F 
+                               I 
+                            
+                          is selected as the new median. This process is repeated until the resulting median is within one second of the previous median.
+
+Trial Selection  was done according to the start and stop times in comparison with the  
+                            
+                               F 
+                               I 
+                            
+                          time. Many effects can impact the determination of start and stop, such as resurgence ( Kirkpatrick-Steger et al., 1996 ). These effects can be significant enough to cause start ( 
+                            
+                               
+                                  S 
+                               
+                               
+                                  1 
+                               
+                            
+                         ) and stop ( 
+                            
+                               
+                                  S 
+                               
+                               
+                                  2 
+                               
+                            
+                         ) to be miscalculated. Therefore, any trial where  
+                            
+                               
+                                  
+                                     S 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                               > 
+                               F 
+                               I 
+                            
+                         , or  
+                            
+                               
+                                  
+                                     S 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               < 
+                               F 
+                               I 
+                            
+                          are discarded and not included in our analysis. This is the same method as used in  Church et al. (1994)  and  Gallistel et al. (2004) .
+
+Mean Peak Time  is the mean of the individual trial’s peak time. This value is used in the individual trial comparisons.
+
+Mean Number of Responses  is calculated over all trials. First, it sums the number of responses per individual trial for 2.5FI, then takes the mean of that value over all trials. This value is used in the individual trial comparisons.
+
+Mean Response Rate  is calculated over all trials for 2.5FI seconds. First, the mean number of responses per bin is calculated for each trial. Then, the mean of the mean number of responses is calculated as the mean response rate for all trials. Finally, this value is used in the individual trial comparisons.
+
+Start ( 
+                               
+                                  
+                                     S 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                            ) and stop ( 
+                               
+                                  
+                                     S 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                            ) times of the high rate of response will be determined by using the iterative method from  Church et al. (1994)  that tests all combinations of  
+                               
+                                  
+                                     S 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                             and  
+                               
+                                  
+                                     S 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                            , maximizing:  
+                               
+                                  (6) 
+                                  
+                                     
+                                        
+                                           
+                                              max 
+                                           
+                                           
+                                              
+                                                 
+                                                    S 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                              
+                                              , 
+                                              
+                                                 
+                                                    S 
+                                                 
+                                                 
+                                                    2 
+                                                 
+                                              
+                                           
+                                        
+                                        
+                                           { 
+                                           
+                                              
+                                                 S 
+                                              
+                                              
+                                                 1 
+                                              
+                                           
+                                           
+                                              ( 
+                                              r 
+                                              − 
+                                              
+                                                 
+                                                    r 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                              
+                                              ) 
+                                           
+                                           − 
+                                           
+                                              ( 
+                                              
+                                                 
+                                                    S 
+                                                 
+                                                 
+                                                    2 
+                                                 
+                                              
+                                              − 
+                                              
+                                                 
+                                                    S 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                              
+                                              ) 
+                                           
+                                           
+                                              ( 
+                                              r 
+                                              − 
+                                              
+                                                 
+                                                    r 
+                                                 
+                                                 
+                                                    2 
+                                                 
+                                              
+                                              ) 
+                                           
+                                           + 
+                                           
+                                              ( 
+                                              E 
+                                              T 
+                                              − 
+                                              
+                                                 
+                                                    S 
+                                                 
+                                                 
+                                                    2 
+                                                 
+                                              
+                                              ) 
+                                           
+                                           
+                                              ( 
+                                              r 
+                                              − 
+                                              
+                                                 
+                                                    r 
+                                                 
+                                                 
+                                                    3 
+                                                 
+                                              
+                                              ) 
+                                           
+                                           } 
+                                        
+                                     
+                                  
+                               
+                            for each trial, where  
+                               
+                                  E 
+                                  T 
+                               
+                             is the time where the trial ends. The trial will then be divided into three sections:
+
+• 
+                                  
+                                     
+                                        
+                                           
+                                              
+                                                 t 
+                                              
+                                              
+                                                 1 
+                                              
+                                           
+                                           = 
+                                           
+                                              [ 
+                                              0 
+                                              , 
+                                              
+                                                 
+                                                    S 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                              
+                                              ) 
+                                           
+                                        
+                                     ; 
+                               
+                               
+                                  • 
+                                  
+                                     
+                                        
+                                           
+                                              
+                                                 t 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                           = 
+                                           
+                                              [ 
+                                              
+                                                 
+                                                    S 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                              
+                                              , 
+                                              
+                                                 
+                                                    S 
+                                                 
+                                                 
+                                                    2 
+                                                 
+                                              
+                                              ] 
+                                           
+                                        
+                                     ; and 
+                               
+                               
+                                  • 
+                                  
+                                     
+                                        
+                                           
+                                              
+                                                 t 
+                                              
+                                              
+                                                 3 
+                                              
+                                           
+                                           = 
+                                           
+                                              ( 
+                                              
+                                                 
+                                                    S 
+                                                 
+                                                 
+                                                    2 
+                                                 
+                                              
+                                              , 
+                                              E 
+                                              T 
+                                              ] 
+                                           
+                                        
+                                     .
+
+t 
+                                              
+                                              
+                                                 1 
+                                              
+                                           
+                                           = 
+                                           
+                                              [ 
+                                              0 
+                                              , 
+                                              
+                                                 
+                                                    S 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                              
+                                              ) 
+                                           
+                                        
+                                     ;
+
+t 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                           = 
+                                           
+                                              [ 
+                                              
+                                                 
+                                                    S 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                              
+                                              , 
+                                              
+                                                 
+                                                    S 
+                                                 
+                                                 
+                                                    2 
+                                                 
+                                              
+                                              ] 
+                                           
+                                        
+                                     ; and
+
+t 
+                                              
+                                              
+                                                 3 
+                                              
+                                           
+                                           = 
+                                           
+                                              ( 
+                                              
+                                                 
+                                                    S 
+                                                 
+                                                 
+                                                    2 
+                                                 
+                                              
+                                              , 
+                                              E 
+                                              T 
+                                              ] 
+                                           
+                                        
+                                     .
+
+such that the response rate for the trial and each section will be calculated:
+
+• 
+                                  
+                                     
+                                        r 
+                                      = response rate of the trial; 
+                               
+                               
+                                  • 
+                                  
+                                     
+                                        
+                                           
+                                              r 
+                                           
+                                           
+                                              1 
+                                           
+                                        
+                                      = response rate during  
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              1 
+                                           
+                                        
+                                     ; 
+                               
+                               
+                                  • 
+                                  
+                                     
+                                        
+                                           
+                                              r 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                      = response rate during  
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                     ; and 
+                               
+                               
+                                  • 
+                                  
+                                     
+                                        
+                                           
+                                              r 
+                                           
+                                           
+                                              3 
+                                           
+                                        
+                                      = response rate during  
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              3 
+                                           
+                                        
+                                     .
+
+r 
+                                      = response rate of the trial;
+
+r 
+                                           
+                                           
+                                              1 
+                                           
+                                        
+                                      = response rate during  
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              1 
+                                           
+                                        
+                                     ;
+
+r 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                      = response rate during  
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                     ; and
+
+r 
+                                           
+                                           
+                                              3 
+                                           
+                                        
+                                      = response rate during  
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              3 
+                                           
+                                        
+                                     .
+
+Once  
+                               
+                                  
+                                     S 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                             and  
+                               
+                                  
+                                     S 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                             have been determined, midpoint and duration for each trial will also be calculated:
+
+• 
+                                  midpoint =  
+                                        
+                                           M 
+                                           = 
+                                           
+                                              
+                                                 
+                                                    
+                                                       S 
+                                                    
+                                                    
+                                                       1 
+                                                    
+                                                 
+                                                 + 
+                                                 
+                                                    
+                                                       S 
+                                                    
+                                                    
+                                                       2 
+                                                    
+                                                 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                        
+                                     
+                                  
+                               
+                               
+                                  • 
+                                  duration =  
+                                        
+                                           D 
+                                           = 
+                                           
+                                              
+                                                 S 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                           − 
+                                           
+                                              
+                                                 S 
+                                              
+                                              
+                                                 1
+
+midpoint =  
+                                        
+                                           M 
+                                           = 
+                                           
+                                              
+                                                 
+                                                    
+                                                       S 
+                                                    
+                                                    
+                                                       1 
+                                                    
+                                                 
+                                                 + 
+                                                 
+                                                    
+                                                       S 
+                                                    
+                                                    
+                                                       2 
+                                                    
+                                                 
+                                              
+                                              
+                                                 2
+
+duration =  
+                                        
+                                           D 
+                                           = 
+                                           
+                                              
+                                                 S 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                           − 
+                                           
+                                              
+                                                 S 
+                                              
+                                              
+                                                 1
+
+Since TDDM and PRDDM do not simulate subjects, but instead simulate individual trials, normalization is applied at the trial level before generating response curves. The value of each bin is divided by the maximum value across all trial bins so that maximal response rate per bin is 1. The response curves are generated from all trials of the simulation or experiment.
+
+Akaike’s Information Criteria  provides a measure of the distance between a model and a target dataset ( Burnham & Andersson, 1998 ). It can be used to select the strongest model from a group of models. AIC was used in  Hasegawa and Sakata (2015)  for model comparison. AIC can be thought of as a measure of likelihood plus a penalty for model complexity and is defined as  
+                               
+                                  (7) 
+                                  
+                                     
+                                        A 
+                                        I 
+                                        C 
+                                        = 
+                                        − 
+                                        2 
+                                        ln 
+                                        
+                                           ( 
+                                           L 
+                                           
+                                              ( 
+                                              θ 
+                                              ) 
+                                           
+                                           ) 
+                                        
+                                        + 
+                                        2 
+                                        k 
+                                        , 
+                                     
+                                  
+                               
+                            where  
+                               
+                                  L 
+                                  
+                                     ( 
+                                     θ 
+                                     ) 
+                                  
+                               
+                            , is the log likelihood of the selected model ( 
+                               θ 
+                            ) and  
+                               k 
+                             is the number of parameters for the model. It is suggested that when the sample size ( 
+                               n 
+                            ) divided by the number of model parameters is less than 40 that an additional corrective term is used ( Burnham & Andersson, 1998 ).  
+                               
+                                  A 
+                                  I 
+                                  
+                                     
+                                        C 
+                                     
+                                     
+                                        c 
+                                     
+                                  
+                               
+                             is defined as  
+                               
+                                  (8) 
+                                  
+                                     
+                                        A 
+                                        I 
+                                        
+                                           
+                                              C 
+                                           
+                                           
+                                              c 
+                                           
+                                        
+                                        = 
+                                        − 
+                                        2 
+                                        ln 
+                                        
+                                           ( 
+                                           L 
+                                           
+                                              ( 
+                                              θ 
+                                              ) 
+                                           
+                                           ) 
+                                        
+                                        + 
+                                        2 
+                                        k 
+                                        + 
+                                        
+                                           
+                                              2 
+                                              
+                                                 
+                                                    k 
+                                                 
+                                                 
+                                                    2 
+                                                 
+                                              
+                                              + 
+                                              2 
+                                              k 
+                                           
+                                           
+                                              n 
+                                              − 
+                                              k 
+                                              − 
+                                              1 
+                                           
+                                        
+                                        . 
+                                     
+                                  
+                               
+                            If all models being compared assume normally distributed errors with constant variance, then AIC can be computed as  
+                               
+                                  (9) 
+                                  
+                                     
+                                        A 
+                                        I 
+                                        
+                                           
+                                              C 
+                                           
+                                           
+                                              c 
+                                           
+                                        
+                                        = 
+                                        n 
+                                        ln 
+                                        
+                                           ( 
+                                           
+                                              
+                                                 σ 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                           ) 
+                                        
+                                        + 
+                                        2 
+                                        k 
+                                        + 
+                                        
+                                           
+                                              2 
+                                              
+                                                 
+                                                    k 
+                                                 
+                                                 
+                                                    2 
+                                                 
+                                              
+                                              + 
+                                              2 
+                                              k 
+                                           
+                                           
+                                              n 
+                                              − 
+                                              k 
+                                              − 
+                                              1 
+                                           
+                                        
+                                     
+                                  
+                               
+                            and  
+                               
+                                  (10) 
+                                  
+                                     
+                                        
+                                           
+                                              σ 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                        = 
+                                        
+                                           
+                                              1 
+                                           
+                                           
+                                              n 
+                                           
+                                        
+                                        
+                                           
+                                              ∑ 
+                                           
+                                           
+                                              i 
+                                              = 
+                                              1 
+                                           
+                                           
+                                              n 
+                                           
+                                        
+                                        
+                                           
+                                              
+                                                 ( 
+                                                 
+                                                    
+                                                       x 
+                                                    
+                                                    
+                                                       i 
+                                                    
+                                                 
+                                                 − 
+                                                 
+                                                    
+                                                       y 
+                                                    
+                                                    
+                                                       i 
+                                                    
+                                                 
+                                                 ) 
+                                              
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                        , 
+                                     
+                                  
+                               
+                            where  
+                               x 
+                             is the modelled distribution,  
+                               y 
+                             is the target distribution, and  
+                               n 
+                             is the number of samples from the distributions. In this paper,  
+                               x 
+                             and  
+                               y 
+                             are the response distributions of the experimental dataset and the simulated datasets at 1s bin.
+
+Intra-Class Coefficient  provides a method for determining the distance between two binned datasets. ICC was used in  Swearingen and Buhusi (2010) . In this work, we use the ICC defined by  Fisher (1955) . The following equations define ICC:  
+                               
+                                  (11) 
+                                  
+                                     
+                                        I 
+                                        C 
+                                        C 
+                                        = 
+                                        
+                                           
+                                              1 
+                                           
+                                           
+                                              n 
+                                              
+                                                 
+                                                    s 
+                                                 
+                                                 
+                                                    2 
+                                                 
+                                              
+                                           
+                                        
+                                        
+                                           
+                                              ∑ 
+                                           
+                                           
+                                              i 
+                                              = 
+                                              1 
+                                           
+                                           
+                                              n 
+                                           
+                                        
+                                        
+                                           ( 
+                                           
+                                              
+                                                 x 
+                                              
+                                              
+                                                 i 
+                                              
+                                           
+                                           − 
+                                           
+                                              
+                                                 x 
+                                              
+                                              
+                                                 ̄ 
+                                              
+                                           
+                                           ) 
+                                        
+                                        
+                                           ( 
+                                           
+                                              
+                                                 y 
+                                              
+                                              
+                                                 i 
+                                              
+                                           
+                                           − 
+                                           
+                                              
+                                                 x 
+                                              
+                                              
+                                                 ̄ 
+                                              
+                                           
+                                           ) 
+                                        
+                                        , 
+                                     
+                                  
+                               
+                            
+                            
+                               
+                                  (12) 
+                                  
+                                     
+                                        
+                                           
+                                              x 
+                                           
+                                           
+                                              ̄ 
+                                           
+                                        
+                                        = 
+                                        
+                                           
+                                              1 
+                                           
+                                           
+                                              2 
+                                              n 
+                                           
+                                        
+                                        
+                                           
+                                              ∑ 
+                                           
+                                           
+                                              i 
+                                              = 
+                                              1 
+                                           
+                                           
+                                              n 
+                                           
+                                        
+                                        
+                                           ( 
+                                           
+                                              
+                                                 x 
+                                              
+                                              
+                                                 i 
+                                              
+                                           
+                                           + 
+                                           
+                                              
+                                                 y 
+                                              
+                                              
+                                                 i 
+                                              
+                                           
+                                           ) 
+                                        
+                                        , 
+                                     
+                                  
+                               
+                            and  
+                               
+                                  (13) 
+                                  
+                                     
+                                        
+                                           
+                                              s 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                        = 
+                                        
+                                           
+                                              1 
+                                           
+                                           
+                                              2 
+                                              n 
+                                           
+                                        
+                                        
+                                           
+                                              
+                                                 
+                                                    ∑ 
+                                                 
+                                                 
+                                                    i 
+                                                    = 
+                                                    1 
+                                                 
+                                                 
+                                                    n 
+                                                 
+                                              
+                                              
+                                                 
+                                                    
+                                                       ( 
+                                                       
+                                                          
+                                                             x 
+                                                          
+                                                          
+                                                             i 
+                                                          
+                                                       
+                                                       − 
+                                                       
+                                                          
+                                                             x 
+                                                          
+                                                          
+                                                             ̄ 
+                                                          
+                                                       
+                                                       ) 
+                                                    
+                                                 
+                                                 
+                                                    2 
+                                                 
+                                              
+                                              + 
+                                              
+                                                 
+                                                    ∑ 
+                                                 
+                                                 
+                                                    i 
+                                                    = 
+                                                    1 
+                                                 
+                                                 
+                                                    n 
+                                                 
+                                              
+                                              
+                                                 
+                                                    
+                                                       ( 
+                                                       
+                                                          
+                                                             y 
+                                                          
+                                                          
+                                                             i 
+                                                          
+                                                       
+                                                       − 
+                                                       
+                                                          
+                                                             x 
+                                                          
+                                                          
+                                                             ̄ 
+                                                          
+                                                       
+                                                       ) 
+                                                    
+                                                 
+                                                 
+                                                    2 
+                                                 
+                                              
+                                           
+                                        
+                                     
+                                  
+                               
+                            where  
+                               
+                                  
+                                     x 
+                                  
+                                  
+                                     i 
+                                  
+                               
+                             is sampled from the modelled distribution,  
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     i 
+                                  
+                               
+                             is sampled from the target distribution, and  
+                               n 
+                             is the number of samples from the distributions as before.
+
+ICC returns a maximum value of one. The degree to which the distributions are similar increases until the maximum value of one.  Koo and Li (2016)  suggests the following qualitative categorization of ICC values:
+
+• 
+                                  below 0.50: poor; 
+                               
+                               
+                                  • 
+                                  between 0.50 and 0.75: moderate; 
+                               
+                               
+                                  • 
+                                  between 0.75 and 0.90: good; and 
+                               
+                               
+                                  • 
+                                  above 0.90: excellent.
+
+below 0.50: poor;
+
+between 0.50 and 0.75: moderate;
+
+between 0.75 and 0.90: good; and
+
+above 0.90: excellent.
+
+In this section, PRDDM, and TDDM are qualitatively and quantitatively assessed in three areas: individual trial, start and stop statistics and average response curves. The assessment is presented in the order above. This section is concluded with a summary of the findings.
+
+At the individual trial level, TDDM and PRDDM, behave very differently. As shown in  Fig. 1 , TDDM is a strict break-run-break model providing a continual response throughout the run and no response during the break. In contrast, PRDDM was developed to generate more realistic individual trials, comparable to experimental datasets, by using a probabilistic response throughout. The differences between TDDM and PRDDM are easily observed in  Fig. 2  and  Fig. 3  in panel (b) (PRDDM) and panel (c)(TDDM). The data contained in these two graphs is representative of the differences observed in all our simulations and their corresponding original experimental data.
+
+As seen in  Fig. 2  and  Fig. 3  panel (a), the sample datasets do not correspond to a strict break and run pattern, but instead, they have an increasing response rate the closer time is to the subject’s estimated time of reward. PRDDM is a closer match to this aspect of the individual trial than TDDM. PRDDM stochastic response also generates noisier and much more realistic individual trials than TDDM.
+
+To further compare the models, we computed the mean and variance of the number of responses, response rate, and the peak time of each experiment and compared them to the corresponding simulations. The complete results can be found in  Tables 5 and 6  in the  Appendix . Since each model was used to reproduce each of the 14 different original experiments, we computed the mean and standard deviation of the absolute difference between the animal data and the simulations for each of those 6 statistics for both model. As it can be seen in  Table 1 , PRDDM usually matches the statistics of the animal data better than TDDM (except for Mean Peak Time), but the standard deviation is too large to show significance. In short, sometimes PRDDM is better, sometimes TDDM is better, but on average, PRDDM seems better and is certainly no worse than TDDM. PRDDM also produces much more realistic individual trials.
+
+In summary, qualitatively PRDDM provides a close match to the individual trial of all datasets when examined visually. In contrast, TDDM provides the expected break-run-break pattern, which is not similar to animal individual trials. When the quantitative means and variances are considered, all models showed similar weaknesses; there was a significant underestimation of the variance of the experimental datasets.
+
+Notably, the number of responses was fairly constant within each of the Church 1998 datasets no matter the FI. Specifically, with FI’s of 30, 45, and 60, the number of responses were all approximately 41 per trial.
+
+A hallmark of SET and TDDM models was their ability to reproduce trials’ start and stop statistics as well as a number of their properties ( Church et al., 1994; Luzardo, Rivest, et al., 2017 ):
+
+• 
+                               Positive correlation between start and stop, 
+                            
+                            
+                               • 
+                               Negative correlation between start and duration, 
+                            
+                            
+                               • 
+                               Positive correlation between duration and middle, 
+                            
+                            
+                               • 
+                               Coefficient of variation for the start larger than the stop.
+
+Positive correlation between start and stop,
+
+Negative correlation between start and duration,
+
+Positive correlation between duration and middle,
+
+Coefficient of variation for the start larger than the stop.
+
+The complete correlations and CVs results for each simulation and experiment can be found in  Tables 8 ,  10  in the  Appendix . As it can be seen, most values of TDDM and PRDDM are relatively close to the animal results.
+
+Out of the 16 experiments, TDDM and PRDDM only failed one of the above four properties once, i.e., to have a positive correlation between the mid-point ( 
+                            M 
+                         ) and duration ( 
+                            D 
+                         ) on Balci 2009 dataset. The animal data also failed that property once in Church 2000 PI60-180 Noise and PI120 Noise datasets. All other correlation and CV from these 3 × 16 experiments follow these four properties (TDDM, PRDDM, and animal data included).
+
+Unlike SET and TDDM, PRDDM can reproduce those properties without explicit start and stop thresholds within the PA model. This supports the hypothesis that no internal break-run-break states are needed for a PA model to reproduce these statistics.
+
+To further analyse which model is best, we compared the statistics of  
+                            
+                               
+                                  S 
+                               
+                               
+                                  1 
+                               
+                            
+                         ,  
+                            
+                               
+                                  S 
+                               
+                               
+                                  2 
+                               
+                            
+                         ,  
+                            M 
+                          and  
+                            D 
+                         ,  
+                            
+                               C 
+                               o 
+                               r 
+                               r 
+                               
+                                  ( 
+                                  
+                                     
+                                        S 
+                                     
+                                     
+                                        1 
+                                     
+                                  
+                                  , 
+                                  
+                                     
+                                        S 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                                  ) 
+                               
+                            
+                         , the correlations  
+                            
+                               C 
+                               o 
+                               r 
+                               r 
+                               
+                                  ( 
+                                  
+                                     
+                                        S 
+                                     
+                                     
+                                        1 
+                                     
+                                  
+                                  , 
+                                  M 
+                                  ) 
+                               
+                            
+                         ,  
+                            
+                               C 
+                               o 
+                               r 
+                               r 
+                               
+                                  ( 
+                                  M 
+                                  , 
+                                  D 
+                                  ) 
+                               
+                            
+                         , and the  
+                            
+                               C 
+                               
+                                  
+                                     V 
+                                  
+                                  
+                                     S 
+                                     t 
+                                     a 
+                                     r 
+                                     t 
+                                  
+                               
+                            
+                          and  
+                            
+                               C 
+                               
+                                  
+                                     V 
+                                  
+                                  
+                                     S 
+                                     t 
+                                     o 
+                                     p 
+                                  
+                               
+                            
+                          of each models to the one of the corresponding animal dataset, as we did in the previous section. The results are summarized in  Tables 2 and 3 . While TDDM tends to be closer in mean  
+                            
+                               
+                                  S 
+                               
+                               
+                                  1 
+                               
+                            
+                         , and  
+                            D 
+                         , PRDDM tends to more closely match the natural variance of  
+                            
+                               
+                                  S 
+                               
+                               
+                                  1 
+                               
+                            
+                         ,  
+                            
+                               
+                                  S 
+                               
+                               
+                                  2 
+                               
+                            
+                         , and  
+                            D 
+                         . TDDM is a slightly better match at two of the three correlations, each model is better at one of the CVs. Overall, if we were to perform a paired  
+                            t 
+                         -test with Bonferroni correction, only the mean  
+                            
+                               
+                                  S 
+                               
+                               
+                                  1 
+                               
+                            
+                          (start time) would be significantly different, with TDDM being a closer match to the animal data. Otherwise, both models are sensibly as good as one another.
+
+Finally, in  Cheng and Westwood (1993)  and  Church et al. (1994) , the authors align individual trials on the start point and separately on the stop point. This showed an abrupt change in response rate at that point. We have replicated that analysis with all of our datasets and related simulations. Despite PRDDM having no internal start or stop decision or inflection points, PRDDM showed an abrupt change in response rate similar to the graphs in  Cheng and Westwood (1993)  and  Church et al. (1994)  on each dataset we analysed. Graphs representative of our results can be seen in  Fig. 4 . The fact that the step is visible on both, the animal datasets, and PRDDM, suggests that this may very well be an artifact of the analysis procedure. Since the procedure that searches for a start and a stop assumes their existence, it may find the most step-like decision point. When averaged over many trials, this effect could be amplified, as demonstrated by PRDDM results. There are still small visible differences between the dataset and PRDDM before and after the jump in response rate which may be caused by the strong linear constraint within PRDDM. Nevertheless, PRDDM provides a very good match to the animal data, despite its lack of start and stop thresholds.
+
+In short, TDDM and PRDDM are equally strong across all start and stop statistics and provide the expected sign and rough magnitude for the correlations. In general, both models did not consistently capture the variance of the experimental datasets. This is likely due to not modelling individual subjects but rather modelling the trial’s population as a whole with a single distribution, or caused by other sources of variance in animals in general. Despite not having an explicit start and stop decision or inflection point, PRDDM was able to reproduce the classic step-like response rate seen in animal datasets when trials are aligned on the start or stop.
+
+We first assessed the average response curves qualitatively through assessing their graphs. We followed this with a qualitative assessment comparing the experimental response distribution to the simulated response distributions using both  
+                            
+                               A 
+                               I 
+                               
+                                  
+                                     C 
+                                  
+                                  
+                                     c 
+                                  
+                               
+                            
+                          and ICC.
+
+As shown in  Fig. 5  there is a marked difference between the PRDDM simulation and the TDDM simulation. PRDDM simulates both the shape and the magnitude of the response distribution while TDDM only simulates the shape. This difference between TDDM and PRDDM is caused by the strict break-run-break nature of TDDM. As TDDM has a constant response rate during the run period, and those periods all align with the peak time, TDDM will have a percentage of max response rate of 100% during the peak. Whereas mice have a variable response rate during the peak period and as seen have a percentage of max response rate of approximately 30%. PRDDM reproduces this property.
+
+The quantitative assessment was based on  
+                            
+                               A 
+                               I 
+                               
+                                  
+                                     C 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                            
+                          and ICC values for the simulated distributions when compared to the experimental distributions. For all datasets,  
+                            
+                               A 
+                               I 
+                               
+                                  
+                                     C 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                            
+                          showed that PRDDM was a significantly better fit than TDDM. While ICC also showed that PRDDM was a significantly better fit, it also showed that PRDDM produced good (ICC Value ¿ 0.75) or excellent (ICC Value ¿ 0.9) fit for all datasets except for the Church 2000 PI 120 datasets and that the fit for the PI 120 datasets would be considered moderate (ICC Value ¿ 0.5).
+
+As seen in  Fig. 5 , PRDDM qualitatively provides a better fit to the experimental dataset. This was further confirmed with the quantitative assessment. The values in  Table 4  show a marked difference between PRDDM and TDDM. In particular, the fit of PRDDM to the data was significantly better compared to TDDM.
+
+PRDDM and TDDM, while both being PA models, simulate the PI procedure with two different methods. TDDM is a two-state model with thresholds, implementing SET, explicitly defining break-run-break states. In contrast, PRDDM is a probabilistic model whose response varies on the estimated elapsed time, without an explicit start or stop thresholds. Instead, they share an underlying accumulator that gathers evidence as time passes and the stimulus is present. The critical difference is that TDDM changes state to a high response when the accumulator exceeds a threshold, while PRDDM responds stochastically using the same underlying accumulator.
+
+Through an in-depth analysis of data from 14 different animal experiments, we used both PRDMM, and TDDM, to generate matching data by estimating their parameters from each animal experiment. The key results are:
+
+• 
+                               PRDDM produces much more natural-looking individual trials (response histograms) than TDDM in  Fig. 3 , 
+                            
+                            
+                               • 
+                               Both models produce quantitatively similar start–stop statistics properties in agreement with the animal data. 
+                            
+                            
+                               • 
+                               For the average of the trial (average response curve), see  Fig. 5 , PRDDM is a better fit the animal data than TDDM.
+
+PRDDM produces much more natural-looking individual trials (response histograms) than TDDM in  Fig. 3 ,
+
+Both models produce quantitatively similar start–stop statistics properties in agreement with the animal data.
+
+For the average of the trial (average response curve), see  Fig. 5 , PRDDM is a better fit the animal data than TDDM.
+
+Moreover, the trial start and stop statistics properties are correctly reproduced by PRDDM, despite the absence of explicit start and stop thresholds. While previous authors claimed it was impossible for a PA model to have only one threshold to reproduce these properties, they only looked at a combination of accumulator and thresholds under the assumption that there was an explicit start and stop defining the break-run-break pattern. They did not consider that the animal may actually not break down their response that way and that the accumulator could have been used directly to produce a probabilistic response. The results of PRDDM simulations suggest that it is possible that the animal process may not include a break-run-break pattern at all. Furthermore, it shows that this can be achieved with a PA model.
+
+Pacemaker-accumulator models, such as SET ( Church et al., 1994; Gibbon, 1977 ), have used thresholds to produce within the model explicit start and stop for the period of high rate responding in the PI procedure. Through a detailed analysis of the start and stop times, it has been shown that two thresholds most closely match the experimental results ( Church et al., 1994; Gibbon & Church, 1990; Luzardo, Rivest, et al., 2017 ).
+
+PRDDM uses a noisy internal clock with a probabilistic response based on the estimated likelihood of event occurrence to simulate animal behaviour on the PI procedure to a high degree of accuracy. This noise within the internal clock is sufficient to generate the observed start and stop times, provided a stochastic response mechanism is given. In addition, it questions the break-run-break response pattern of the PI procedure and the corresponding analysis methods. As PRDDM has no start or stop thresholds or boundaries, it supports that the response could continuously vary with the subject’s estimated likelihood of event occurrence, as proposed in packet theory ( Kirkpatrick, 2002; Kirkpatrick & Church, 2003 ).
+
+We showed that the observed break and run pattern, start and stop descriptive statistics, individual trials, and the average behaviour can all be generated without start and stop thresholds and with a model where the response rate varies with the estimated likelihood of reward. This directly contrasts with other pacemaker-accumulator models in that it is not a two-state system corresponding to break-run-break. This suggests a different relationship between the internal clock and decision making, closer to packet theory ( Kirkpatrick, 2002; Kirkpatrick & Church, 2003 ). In particular, in PRDMM, the internal clock is used to estimate the likelihood of reward and based on that estimate, a decision to respond is made.
+
+PRDDM successfully integrates key features from SET, TDDM  ( Luzardo, Rivest, et al., 2017; Rivest & Bengio, 2011; Simen et al., 2011, 2013 ) and Packet Theory ( Kirkpatrick, 2002; Kirkpatrick & Church, 2003 ), resulting in a simple model of interval timing for a single stimulus. From SET, the basic architecture remains the same, with a pacemaker-accumulator and reference memory. The reference memory in SET corresponds to the drift rate in TDDM and PRDDM. Moreover both SET and PRDDM share the same reflective boundary. PRDDM was heavily influenced by TDDM and used a time-scaled DDM ( Ratcliff, 1978 ) to implement the pacemaker-accumulator, which encodes the time interval in the drift rate and the estimate of the fraction of elapsed time in the accumulation process. However, unlike SET and TDDM, PRDDM has no explicit start and stop thresholds. Instead, and similarly to Packet Theory, the response pattern during a single trial is determined by the subject’s estimated likelihood of reward occurrence at each time step using the accumulator (Eq.  (3) ), thus eliminating the start and stop thresholds and the strict break-run-break pattern of SET and TDDM. Overall, this produced an accurate and simple model of interval timing, both increasing the accuracy and decreasing the overall complexity.
+
+The central assumption of PRDDM is a linear relationship between the accumulator and the probability of response. This assumption produces individual trials that tend to over concentrate responses at the estimated time of reward with a maximum number of responses in a bin being higher than the experimental maximum. This is caused by the linear assumption.
+
+In the start and stop analysis, PRDDM consistently had minor differences in that starting late, stopping early, and a smaller spread than the experimental data; see  Tables 7–10  in the appendix. This was likely caused by the assumed linear relationship between response and event likelihood. In particular, the linear assumption ensures that the subject responds at maximum likelihood for a single time step and overly concentrates the response at the subject’s estimated time of reward. Recall the linear comparison to peak aligned trials in Section  2.3.1 . Therefore, we suggest that the minor differences in shape are due to a physical limitation of the subject’s ability to respond.
+
+Note that it is very possible that non-linearity in the response rate exists in animals and the current results do not contradict this possibility. It would be simple to add a non-linear relationship by changing Eq.  (3)  with  
+                               
+                                  (14) 
+                                  
+                                     
+                                        P 
+                                        
+                                           ( 
+                                           R 
+                                           = 
+                                           1 
+                                           ∣ 
+                                           t 
+                                           ) 
+                                        
+                                        = 
+                                        τ 
+                                        f 
+                                        
+                                           ( 
+                                           x 
+                                           
+                                              ( 
+                                              t 
+                                              ) 
+                                           
+                                           ) 
+                                        
+                                        , 
+                                     
+                                  
+                               
+                            where  
+                               
+                                  f 
+                                  
+                                     ( 
+                                     ⋅ 
+                                     ) 
+                                  
+                               
+                             represents the non-linearity. A similar approach has been used in  Luzardo, Alonso, and Mondragón (2017)  with the same TDDM PA model to replicate a wide range of conditioning behaviours successfully. While adding an extra non-linearity could further improve the current results, it has not been necessary to reproduce the animal data and other models.
+
+PRDDM produced the start and stop statistics ( Church et al., 1994; Luzardo, Rivest, et al., 2017 ) of the break-run-break pattern to the same degree of accuracy or higher than current PA models. These statistics are generally produced using thresholds for start and stop of the run state for pacemaker-accumulator models. In the case of PRDDM, thresholds are not used to determine a start and stop of responding, rather the response rate varies directly with the accumulator value. While the break-run-break pattern seems observable in the binned data (when using a small enough bin size), it does not mean that the animal follows this internal process. As we showed (and as earlier suggested by Packet theory ( Kirkpatrick, 2002; Kirkpatrick & Church, 2003 )), the underlying process may not have such break-run-break states at all. However, this does not devalue it, the break-run-break analysis, as we showed, reports similar results when using our non break-run-break (PRDDM) simulated trials or our break-run-break trials (TDDM).
+
+Some other models do not necessarily assume start and stop  ( Hasegawa & Sakata, 2015; Machado, 1997; Oprisan & Buhusi, 2011; Raphan et al., 2019 ). However, they do not model individual trials either. Instead, they model average response curves. The only exception we found is  Varella et al. (2019) . In this model, a network goes through a sequence of states. When the associate weight of the current state is below a threshold  
+                            
+                               0 
+                               < 
+                               l 
+                               < 
+                               1 
+                            
+                         , the model responds with a low rate, while when it is higher, it responds with a high rate. Unfortunately, the paper only compares the start and stop times distributions to rats, without an in-depth analysis of the mid-points, duration, correlations, or CVs.
+
+It remains open to see how TDDM or PRDDM could explain other timing tasks. For example, in the bisection task, subjects are trained to two time intervals, on long and one short. The subject is then exposed to varied short and long durations that have not been trained. If the subject correctly chooses short or long for the duration it is rewarded. In a recent paper,  Balcı and Simen (2014)  showed that TopDDM could be adapted to it using a sequential diffusion model. The same method should apply to PRDMM using a similar approach.
+
+Other tasks, like differential reinforcement of low rates of responding (DRL) ( Skinner, 1938 ) seem to be more problematic. In DRL, the subject must wait to respond until after the minimum wait time. If they respond prior to the wait time, the timer on reward is reset. One way this could play out, is that every early response restarts the environment clock, making any reward extremely delayed. Depending on whether the model resets its accumulation or not, it could then learn a very long timing interval, leading to a very low response rate at all points in time during the standard interval it has to wait. But this would also lead to remarkably high variance on the first response timing. Further analysis would be required to see if this is possible. But that task could undoubtedly challenge the PRDDM model. So the solution as to whether thresholded or probabilistic response is better may not come from trying to overanalyze co-variance and other statistics on a specific task, but rather on developing a more complete model that encompasses different tasks with different properties or structures.
+
+In this paper, we proposed a new PA model of the PI procedure. Instead of assuming a start and stop decision threshold with an either on or off response rate, assume a response rate directly proportional to elapsed time. While most analyses of PI data assume a break-run-break pattern, the model shows that it is not necessarily part of the animal process. A start/stop free model can reproduce animal data as well as SET and TDDM, including per trial start and stop analysis.
+
+We would like to thank Fuat Balci for making his data available.
+
+See  Tables 5 and 10 .

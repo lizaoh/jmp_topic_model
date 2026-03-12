@@ -1,0 +1,3672 @@
+10.1016/j.jmp.2021.102538
+Visually perceiving a 3D scene and the 3D shapes of objects within the scene is a difficult problem but we all perceive them veridically (or almost veridically) in our everyday life. Some have assumed that such veridical 3D perception requires some kind of extra-retinal information, usually memories of past experiences of moving ourselves, or our arms, or eyes around in our 3D world. Any effect of such memories has been questioned, however, by psychophysical studies on the effect of memory on 3D visual perception ( Firestone & Scholl, 2016 ). Studies by Pizlo and his colleagues have shown that the veridical perception of the 3D shapes of familiar objects can be explained better by  a priori  constraints than by the memorized shapes of the objects ( Pizlo, 2008; Pizlo, Li, Sawada, & Steinman, 2014; Pizlo, Sawada, Li, Kropatsch, & Steinman, 2010 ). This group has developed and tested computational models that emulate veridical human 3D shape and scene perception rather well by using only a few  a priori  constraints (priors), namely, 3D symmetry, the planarity of contours, minimum surface area, and maximum compactness. The present study addresses another classical visual problem in which oculomotor information has been assumed to be essential for the perception of 3D depth. Here, “binocular disparity”, which is an important input for eliciting and controlling slow vergence eye movements and disjunctive saccades, could provide information needed for the veridical perception of depth (see  Collewijn, Erkelens, & Steinman, 1995; Erkelens, Van der Steen, Steinman and Collewijn, 1989; Erkelens, Steinman and Collewijn, 1989  for studies of vergence eye movements). It has been widely assumed that our visual system uses binocular disparity to perceive depth. The present study will show that the perception of depth can be recovered entirely on the basis of geometrical optics. Our visual system does not need to make use of any oculomotor information. Note that my research problem, when viewed within the rubric called “Inverse Problem Theory”, is a “Direct” problem because its solution does not require the use of any a priori constraints (aka priors, see  Pizlo et al., 2014, 2010; Sawada, Li, & Pizlo, 2015 ). This Direct problem will be solved first by making a computational model that recovers depth without being given any oculomotor information or any  a priori  constraints. Having a computational model that can solve the Direct Problem of perceiving depth by using only geometrical optics prepares the way for finding out whether human beings can do this, too. Now, consider what we know about how the geometry involved in binocular disparity can be used to recover depth.
+
+Human eyes are separated about 6.5 cm which means that the retinal images of 3D scenes will be slightly different from one another. This difference between a stereo-pair of retinal images is called “binocular disparity”. Binocular disparity is one of several depth cues that the human visual system uses to perceive depth within 3D scenes. Depth perception, based on binocular disparity, has been studied for centuries. It is one of the best studied topics in visual science (see  Howard & Rogers, 2012  for a review).
+
+Binocular disparity is often decomposed into its horizontal and vertical components ( Read, Phillipson, & Glennerster, 2009 ). Horizontal disparity plays the major role in the perception of depth when it is based on binocular disparity. It has been assumed that the visual system needs oculomotor information about the relative orientation between the two eyes to recover depth from horizontal disparity ( Erkelens & van Ee, 1998; Mayhew & Longuet-Higgins, 1982; Peek, Mayhew, & Frisby, 1984 ). This kind of oculomotor information can be estimated from the efference copy of the oculomotor signal ( Matin, Matin, & Pearce, 1969; Skavenski, 1971; Skavenski, Haddad, & Steinman, 1972; Sommer & Wurtz, 2002 ). But note that the visual system cannot detect displacements of visual stimuli that are based on the efference signal ( Mack, 1970; Matin, 1974; Wallach & Lewis, 1965 ). Any role of the efference signal for spatial perception in our everyday life is unclear (see  Bridgeman, 2007, 2010  for a discussion).
+
+Another source of oculomotor information is the 2D distribution of vertical disparity ( Howard & Rogers, 2012 ). It has also been shown that depth perception based on horizontal disparity is affected by the vertical disparity distribution. This is often referred to as an “induced” effect. This induced effect is often explained by saying that the visual system estimates the relative eye orientations from the vertical disparity distribution. It has been suggested that the size of the horizontal eye movement can be estimated from the size component of the vertical disparity distribution (e.g.  Gillam & Lawergren, 1983; Vienne, Plantier, Neveu, & Priot, 2016 ). Vertical vergence and cyclo-torsional eye movements can also be estimated from the translational and shear components of the vertical disparity distribution (e.g.  Howard & Kaneko, 1994 ). It is widely believed that the visual system makes use of this estimated oculomotor information to recover the depth from the horizontal disparity. 
+                         1 
+                      
+                      
+                         1 
+                         The estimated oculomotor information is not necessarily represented as orientations of the eyes. For example, horizontal version can be characterized by a scaling factor of the size component of the vertical disparity distribution ( Backs & Banks, 1999; Backus, Banks, van Ee, & Crowell, 1999; Rogers & Bradshaw, 1993 ). 
+                       Psychophysical results also suggest that the human visual system relies on the distribution of vertical disparity, rather than on the oculomotor efference signal, whenever the information in the disparity distribution is sufficiently reliable ( Backus et al., 1999; Bradshaw, Glennerster, & Rogers, 1996; Mitsudo, 2007; Mitsudo, Kaneko, & Nishida, 2009 ). The visual system’s speed, however, for processing the vertical disparity distribution is rather low ( Ames, 1946; Caziot, Backus, & Lin, 2017; Fukuda, Kaneko, & Matsumiya, 2006; Ogle, 1938 ). These authors showed that the visual system needs around 500 msec for processing a change of the vertical disparity distribution. Note, however, that the human beings’ intersaccadic intervals during maintained fixation are often shorter than 500 msec e.g. ( Cunitz & Steinman, 1969; Larsen & Bek, 2017; Steinman & Collewijn, 1980; Steinman, Cunitz, Timberlake, & Herman, 1967 ). This means that the visual system must be able to use a very efficient mechanism for processing binocular disparity if the oculomotor information is going to be estimated at every fixation. This mechanism must work fast whenever saccadic eye movements occur frequently. Now that we have considered the role of vertical disparity in the perception of depth, we will consider depth perception based on horizontal disparity.
+
+The visual system can process horizontal disparity for each point, or for each pair of points, while the visual system processes the distribution of vertical disparity. The visual system encodes horizontal disparity as  absolute  disparity first, and then converts it to  relative  disparity ( Chopin, Levi, Knill, & Bavelier, 2016; Neri, Bridge, & Heeger, 2004; Norcia, Gerhard, & Meredith, 2017 ). This absolute disparity is the difference between the eccentricity angles of a point between a stereo-pair of retinal images. This relative disparity is the difference between the visual angles of two points between the retinal images ( Erkelens & Collewijn, 1985a, 1985b ). 
+                         2 
+                      
+                      
+                         2 
+                         Relative disparity can also be computed as the difference between the absolute disparities of two points ( Chopin et al., 2016; Schor, 2000; Westheimer & McKee, 1979 ). Note that this method of computing relative disparity assumes that two lines-of-sight from a stereo-pair of foveae intersect with one another at a point within a 3D scene. But note that this assumption may be violated under a natural viewing conditions.  Malinov, Epelboim, Herst, and Steinman (2000)  showed that the two lines may be skewed with respect to one another. 
+                       It has been shown that the perception of depth based on horizontal disparity primarily depends on the relative disparity ( Cottereau, McKee, & Norcia, 2012; Erkelens & Collewijn, 1985b; Regan, Erkelens, & Collewijn, 1986; Westheimer, 1979 ). Note that the relative disparity, as well as the visual angle, is invariant against any eye movement (see  Zhang, 2019  for a further discussion about the invariant). Potentially, the invariance of the visual angle could allow the visual system to recover depth from binocular disparity in the presence of eye movements, but note, also, that all prior modeling of depth perception from binocular disparity has assumed that oculomotor information was either given or recovered first.
+
+Models of depth perception that are based on binocular disparity can be categorized into two types on the basis of their mathematical formulations. The first type, either implicitly or explicitly, recovers oculomotor information from binocular disparity itself  before  recovering depth (e.g.  Longuet-Higgins, 1982; Mayhew & Longuet-Higgins, 1982; Peek et al., 1984 ). 
+                         3 
+                      
+                      
+                         3 
+                         There are many computer vision algorithms that can recover a 3D scene from 2D camera images of the scene that were taken from different positions within the scene. Most of them can be categorized as the first type of model of binocular disparity because they recover the relative orientation between the cameras before they fully recover the 3D scene (see  Hartley & Zisserman, 2004  for details). They proceed by first deriving a fundamental matrix between the images. The fundamental matrix represents epipoles that are at intersections of the image planes with an epipolar axis, a line connecting the optical centers of the cameras in the scene. This property determines the relative orientation between the cameras except for one parameter, namely, the relative orientation around the line connecting the epipoles and the optical centers. Consider the projection of a point in the scene to the two images. The projection of the point in each image can be connected with its epipole by using an epipolar line. The epipolar lines of the point on the two images are coplanar in the scene. This property can determine the relative orientation of the cameras around the line connecting the epipoles. Note that the direction of the point from each camera relative to the epipolar axis can be also determined by computing the angle between the epipolar axis and a line connecting the optical center of the camera with the projection of the point in the image. This is a part of the 3D information contained in the scene. These algorithms recover the rest of the 3D information in the scene after the fundamental matrix is derived. 
+                       The second type of model implicitly assumes that the necessary oculomotor information is available. Many existing models of depth perception, based on binocular disparity, use images on a computer screen representing the left and right eyes as input to the models, rather than the retinal images in the eyes. Note that the retinal image is a two-dimensional projection of the image on a screen. This means that the retinal and the computer screen images can be transformed into one another, but doing this requires knowing both the positions and the orientations of the eyes relative to the screen. Some models of the first type simplify the recovery of the oculomotor information by assuming that vertical vergence and cyclo-torsional eye movements are zero (e.g.  Duke & Howard, 2005; Peek et al., 1984; Zhang, 2019 ). The second type also includes a model that represents 2D visual information by using a head-centric coordinate system ( Erkelens & van Ee, 1998; Koenderink & van Doorn, 1976; Zhang, Cantor, & Schor, 2010 ). The retinal image represented in a retino-centric coordinate system can be transformed into the head-centric representation, but, once again, this transformation requires knowing the positions and orientations of the eyes relative to the head.
+
+Our computational model recovers depth from a stereo-pair of retinal images while oculomotor information is neither given nor recovered, not even implicitly. 
+                         4 
+                      
+                      
+                         4 
+                         Consider a machine learning neural network algorithm that is trained to recover depth in a 3D scene from a stereo pair of retinal images but this algorithm does not explicitly recover any oculomotor information. This algorithm may or may not recover the oculomotor information implicitly in its recovery process, and that the oculomotor information may be represented in hidden layers of the neural network. Examining this kind of implicit information in a neural network is extremely difficult. Note that this study clearly shows that it is possible to recover depth from stereo retinal images without any oculomotor information being given or being recovered. 
+                       This model is based entirely on the geometrical optics. It does not use any  a priori  constraints. The depth recovered is represented in a head-centered coordinate system, except for a rotation around the interocular axis between the two eyes. Both the process for recovering depth and the representation of the recovered depth does not vary with eye movements. The model can process stereo retinal images across fixations. It does not need to deal with each fixation. Specifically, depth can be recovered by the model even if the recovery process takes longer than each fixation is maintained. The model proposed shows that, at least from a computational perspective, it is possible for the human visual system to recover depth from stereo retinal images across fixations. Having such a model allows us to discuss psychophysical and neurophysiological phenomena without assuming that the human visual system needs oculomotor information to recover depth in a 3D scene from stereo retinal images.
+
+This study used a “pinhole” camera with a perfectly spherical retina as the model for our human eye. This simplified eye has the center of its optics and its center of rotation at the center of a spherical eyeball. Note that when this simplified eye rotates around its optical center, the position of the eye’s optical center does not change. Lines of projection from any pair of points in a 3D scene will intersect with one another at the optical center of this simplified eye. The visual angle between these lines is the same as the distance between the projections of these points on the spherical retina of this simplified eye, and the visual angle does not change when the eye rotates. Now, consider a 3D scene composed of  N  points. The model developed in this study represents the retinal image of a scene as a set of  N ( N  
+                      
+                         − 
+                       1)/2 visual angles between pairs of the points. The model does not distinguish the horizontal and vertical components of these visual angles. This representation does not tell us where the projections of the  N  points are on the retina relative to the fovea but they do not change when the eye rotates.
+
+The model recovers the depth of a 3D scene from a stereo-pair of its retinal images that are represented as two sets of visual angles. The correspondence between projections of points between the stereo-pair of retinal images is taken as given in this study. This allows our model to recover depth without using any information about the orientations of the eyes. Note that it is mathematically impossible for the model to recover any oculomotor information because the representation of the stereo retinal images is invariant against any eye movement. The model recovers the 3D depth of a scene by using an optimization method. The 2D space in this optimization is characterized by the shape of a triangle formed by the arbitrary selection of any 3 points within the scene. The cost function for this optimization problem is formulated on the basis of 2 or more than 2 additional points in the scene. This triangle is discussed in next section.
+
+Consider a 3D scene composed of  N  points viewed by the two eyes  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                         . Select 3 points  
+                            
+                               
+                                  P 
+                               
+                               
+                                  A 
+                               
+                            
+                         ,  
+                            
+                               
+                                  P 
+                               
+                               
+                                  B 
+                               
+                            
+                         , and  
+                            
+                               
+                                  P 
+                               
+                               
+                                  C 
+                               
+                            
+                          from the  N  points so that the 3 points are coplanar with neither  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                          nor  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                          in the scene. Relative positions between  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                          and the triangle  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                          formed by  
+                            
+                               
+                                  P 
+                               
+                               
+                                  A 
+                               
+                            
+                         ,  
+                            
+                               
+                                  P 
+                               
+                               
+                                  B 
+                               
+                            
+                         , and  
+                            
+                               
+                                  P 
+                               
+                               
+                                  C 
+                               
+                            
+                          in the scene can be computed from a retinal image of  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                          if the shape of  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                          is given ( Fig. 1 ). The number of the possible relative positions is four or less than four. This problem is referred to as the Perspective-3-Point (P3P) problem. Several algorithms have been developed to solve the P3P problem ( Banno, 2018; Fischler & Bolles, 1981; Gao, Hou, Tang, & Cheng, 2003; Ke & Roumeliotis, 2017; Li & Xu, 2011 ). The algorithm of  Fischler and Bolles (1981)  is particularly interesting because their algorithm represents the retinal image of  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                          as a set of visual angles between pairs of  
+                            
+                               
+                                  P 
+                               
+                               
+                                  A 
+                               
+                            
+                         ,  
+                            
+                               
+                                  P 
+                               
+                               
+                                  B 
+                               
+                            
+                         , and  
+                            
+                               
+                                  P 
+                               
+                               
+                                  C 
+                               
+                            
+                          (see also  Minkov & Sawada, 2021 , for its computational implementation). This representation is also used by the model proposed in this study.
+
+The visual angles between all pairs of these points are shown and labeled as:  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     E 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                            
+                         ,  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                               
+                                  
+                                     E 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                            
+                         , and  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                               
+                                  
+                                     E 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                            
+                         . The length of an edge  
+                            
+                               ‖ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               − 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                               ‖ 
+                            
+                          between  
+                            
+                               
+                                  P 
+                               
+                               
+                                  A 
+                               
+                            
+                          and  
+                            
+                               
+                                  P 
+                               
+                               
+                                  B 
+                               
+                            
+                          can be set to 1 without any loss of generality. This length specifies the size of  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                         . The shape of  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                          is controlled by two angles, namely,  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                            
+                          and  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                            
+                          of  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                         . The algorithm of  Fischler and Bolles (1981)  can recover the positions of  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                          relative to  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                          from the visual angles  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     E 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                            
+                         ,  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                               
+                                  
+                                     E 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                            
+                         , and  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                               
+                                  
+                                     E 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                            
+                          if  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                            
+                          and  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                            
+                          of  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                          are specified.
+
+Now, consider what happens when  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                          is viewed by the other eye  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                         
+ ( Fig. 2 ). The visual angles at  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                          for all pairs of the points are shown and labeled as:  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     E 
+                                  
+                                  
+                                     R 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                            
+                         ,  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                               
+                                  
+                                     E 
+                                  
+                                  
+                                     R 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                            
+                         , and  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                               
+                                  
+                                     E 
+                                  
+                                  
+                                     R 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                            
+                         . Four, or fewer than four, possible positions of  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                         , as well as  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                         , relative to  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                          can be computed for the given shape of  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                         .
+
+Recall that the shape of  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                          can be controlled by two angles, namely,  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                            
+                          and  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                            
+                          of  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                         . This means that the positions of both  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                          are also controlled by  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                            
+                          and  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                            
+                         . There are only 16 possible combinations of the positions of  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                          (4 for each  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                         ) for a given shape of  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                         .
+
+The shape of the triangle  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                          and the positions of both  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                          can be determined if the retinal images of an additional two or more than two points viewed by  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                          are given. Note that the 3 points  
+                            
+                               
+                                  P 
+                               
+                               
+                                  A 
+                               
+                            
+                         ,  
+                            
+                               
+                                  P 
+                               
+                               
+                                  B 
+                               
+                            
+                         , and  
+                            
+                               
+                                  P 
+                               
+                               
+                                  C 
+                               
+                            
+                          of the triangle  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                          are used to define an optimization space for recovering the depth. The depth of the additional points can be recovered individually once the shape of the triangle  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                          is specified (see supplemental material). The additional points are used to formulate a cost function of this optimization problem. The depth can be recovered by determining a point that minimizes the cost function in the optimization space.
+
+Consider one of these additional points  Q  in the scene. The visual angles between  Q  and the vertices of  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                          at  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                          are labeled as  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     E 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                            
+                         
+                         Q ,  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                               
+                                  
+                                     E 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                            
+                         
+                         Q ,  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                               
+                                  
+                                     E 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                            
+                         
+                         Q ,  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     E 
+                                  
+                                  
+                                     R 
+                                  
+                               
+                            
+                         
+                         Q ,  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                               
+                                  
+                                     E 
+                                  
+                                  
+                                     R 
+                                  
+                               
+                            
+                         
+                         Q , and  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                               
+                                  
+                                     E 
+                                  
+                                  
+                                     R 
+                                  
+                               
+                            
+                         
+                         Q . If the shape of  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                         ,  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                         , and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                          are given, the lines of projection to  Q  from  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                          and from  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                          can be written as  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                         
+                         
+                            + 
+                         
+                         
+                            
+                               
+                                  
+                                     k 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                               
+                                  
+                                     V 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                            
+                          and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                         
+                         
+                            + 
+                         
+                         
+                            
+                               
+                                  
+                                     k 
+                                  
+                                  
+                                     R 
+                                  
+                               
+                               
+                                  
+                                     V 
+                                  
+                                  
+                                     R 
+                                  
+                               
+                            
+                          where  
+                            
+                               
+                                  V 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  V 
+                               
+                               
+                                  R 
+                               
+                            
+                          are 3D unit vectors representing lines of projection from  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                          to  Q  and  
+                            
+                               
+                                  k 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  k 
+                               
+                               
+                                  R 
+                               
+                            
+                          are free parameters representing the distance of  Q  from  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                         . The vectors  
+                            
+                               
+                                  V 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  V 
+                               
+                               
+                                  R 
+                               
+                            
+                          can be computed as follows:  
+                            
+                               (1) 
+                               
+                                  
+                                     
+                                        
+                                           V 
+                                        
+                                        
+                                           L 
+                                        
+                                     
+                                     = 
+                                     
+                                        
+                                           M 
+                                        
+                                        
+                                           L 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              
+                                                 
+                                                    ‖ 
+                                                    
+                                                       
+                                                          P 
+                                                       
+                                                       
+                                                          A 
+                                                       
+                                                    
+                                                    − 
+                                                    
+                                                       
+                                                          E 
+                                                       
+                                                       
+                                                          L 
+                                                       
+                                                    
+                                                    ‖ 
+                                                    cos 
+                                                    ∠ 
+                                                    
+                                                       
+                                                          P 
+                                                       
+                                                       
+                                                          A 
+                                                       
+                                                    
+                                                    
+                                                       
+                                                          E 
+                                                       
+                                                       
+                                                          L 
+                                                       
+                                                    
+                                                    Q 
+                                                 
+                                              
+                                              
+                                                 
+                                                    ‖ 
+                                                    
+                                                       
+                                                          P 
+                                                       
+                                                       
+                                                          B 
+                                                       
+                                                    
+                                                    − 
+                                                    
+                                                       
+                                                          E 
+                                                       
+                                                       
+                                                          L 
+                                                       
+                                                    
+                                                    ‖ 
+                                                    cos 
+                                                    ∠ 
+                                                    
+                                                       
+                                                          P 
+                                                       
+                                                       
+                                                          B 
+                                                       
+                                                    
+                                                    
+                                                       
+                                                          E 
+                                                       
+                                                       
+                                                          L 
+                                                       
+                                                    
+                                                    Q 
+                                                 
+                                              
+                                              
+                                                 
+                                                    ‖ 
+                                                    
+                                                       
+                                                          P 
+                                                       
+                                                       
+                                                          C 
+                                                       
+                                                    
+                                                    − 
+                                                    
+                                                       
+                                                          E 
+                                                       
+                                                       
+                                                          L 
+                                                       
+                                                    
+                                                    ‖ 
+                                                    cos 
+                                                    ∠ 
+                                                    
+                                                       
+                                                          P 
+                                                       
+                                                       
+                                                          C 
+                                                       
+                                                    
+                                                    
+                                                       
+                                                          E 
+                                                       
+                                                       
+                                                          L 
+                                                       
+                                                    
+                                                    Q 
+                                                 
+                                              
+                                           
+                                        
+                                     
+                                  
+                               
+                            
+                         
+                         
+                            
+                               (2) 
+                               
+                                  
+                                     
+                                        
+                                           V 
+                                        
+                                        
+                                           R 
+                                        
+                                     
+                                     = 
+                                     
+                                        
+                                           M 
+                                        
+                                        
+                                           R 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              
+                                                 
+                                                    ‖ 
+                                                    
+                                                       
+                                                          P 
+                                                       
+                                                       
+                                                          A 
+                                                       
+                                                    
+                                                    − 
+                                                    
+                                                       
+                                                          E 
+                                                       
+                                                       
+                                                          R 
+                                                       
+                                                    
+                                                    ‖ 
+                                                    cos 
+                                                    ∠ 
+                                                    
+                                                       
+                                                          P 
+                                                       
+                                                       
+                                                          A 
+                                                       
+                                                    
+                                                    
+                                                       
+                                                          E 
+                                                       
+                                                       
+                                                          R 
+                                                       
+                                                    
+                                                    Q 
+                                                 
+                                              
+                                              
+                                                 
+                                                    ‖ 
+                                                    
+                                                       
+                                                          P 
+                                                       
+                                                       
+                                                          B 
+                                                       
+                                                    
+                                                    − 
+                                                    
+                                                       
+                                                          E 
+                                                       
+                                                       
+                                                          R 
+                                                       
+                                                    
+                                                    ‖ 
+                                                    cos 
+                                                    ∠ 
+                                                    
+                                                       
+                                                          P 
+                                                       
+                                                       
+                                                          B 
+                                                       
+                                                    
+                                                    
+                                                       
+                                                          E 
+                                                       
+                                                       
+                                                          R 
+                                                       
+                                                    
+                                                    Q 
+                                                 
+                                              
+                                              
+                                                 
+                                                    ‖ 
+                                                    
+                                                       
+                                                          P 
+                                                       
+                                                       
+                                                          C 
+                                                       
+                                                    
+                                                    − 
+                                                    
+                                                       
+                                                          E 
+                                                       
+                                                       
+                                                          R 
+                                                       
+                                                    
+                                                    ‖ 
+                                                    cos 
+                                                    ∠ 
+                                                    
+                                                       
+                                                          P 
+                                                       
+                                                       
+                                                          C 
+                                                       
+                                                    
+                                                    
+                                                       
+                                                          E 
+                                                       
+                                                       
+                                                          R 
+                                                       
+                                                    
+                                                    Q 
+                                                 
+                                              
+                                           
+                                        
+                                     
+                                  
+                               
+                            
+                         where  
+                            
+                               ‖ 
+                               
+                                  
+                                     V 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                               ‖ 
+                            
+                          and  
+                            
+                               ‖ 
+                               
+                                  
+                                     V 
+                                  
+                                  
+                                     R 
+                                  
+                               
+                               ‖ 
+                            
+                          are 1 and  
+                            
+                               
+                                  M 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  M 
+                               
+                               
+                                  R 
+                               
+                            
+                          are inverse of the following 3-by-3 matrices that are individually composed of 3 vectors:  
+                            
+                               
+                                  
+                                     
+                                        
+                                           
+                                              
+                                                 
+                                                    M 
+                                                 
+                                                 
+                                                    L 
+                                                 
+                                              
+                                           
+                                           
+                                              − 
+                                              1 
+                                           
+                                        
+                                        = 
+                                        
+                                           
+                                              
+                                                 
+                                                    
+                                                       
+                                                          
+                                                             
+                                                                
+                                                                   P 
+                                                                
+                                                                
+                                                                   A 
+                                                                
+                                                             
+                                                             − 
+                                                             
+                                                                
+                                                                   E 
+                                                                
+                                                                
+                                                                   L 
+                                                                
+                                                             
+                                                          
+                                                          
+                                                             
+                                                                
+                                                                   P 
+                                                                
+                                                                
+                                                                   B 
+                                                                
+                                                             
+                                                             − 
+                                                             
+                                                                
+                                                                   E 
+                                                                
+                                                                
+                                                                   L 
+                                                                
+                                                             
+                                                          
+                                                          
+                                                             
+                                                                
+                                                                   P 
+                                                                
+                                                                
+                                                                   C 
+                                                                
+                                                             
+                                                             − 
+                                                             
+                                                                
+                                                                   E 
+                                                                
+                                                                
+                                                                   L 
+                                                                
+                                                             
+                                                          
+                                                       
+                                                    
+                                                 
+                                              
+                                           
+                                           
+                                              t 
+                                           
+                                        
+                                     
+                                  
+                               
+                               
+                                  
+                                     
+                                        
+                                           
+                                              
+                                                 
+                                                    M 
+                                                 
+                                                 
+                                                    R 
+                                                 
+                                              
+                                           
+                                           
+                                              − 
+                                              1 
+                                           
+                                        
+                                        = 
+                                        
+                                           
+                                              
+                                                 
+                                                    
+                                                       
+                                                          
+                                                             
+                                                                
+                                                                   P 
+                                                                
+                                                                
+                                                                   A 
+                                                                
+                                                             
+                                                             − 
+                                                             
+                                                                
+                                                                   E 
+                                                                
+                                                                
+                                                                   R 
+                                                                
+                                                             
+                                                          
+                                                          
+                                                             
+                                                                
+                                                                   P 
+                                                                
+                                                                
+                                                                   B 
+                                                                
+                                                             
+                                                             − 
+                                                             
+                                                                
+                                                                   E 
+                                                                
+                                                                
+                                                                   R 
+                                                                
+                                                             
+                                                          
+                                                          
+                                                             
+                                                                
+                                                                   P 
+                                                                
+                                                                
+                                                                   C 
+                                                                
+                                                             
+                                                             − 
+                                                             
+                                                                
+                                                                   E 
+                                                                
+                                                                
+                                                                   R 
+                                                                
+                                                             
+                                                          
+                                                       
+                                                    
+                                                 
+                                              
+                                           
+                                           
+                                              t 
+                                           
+                                        
+                                     
+                                  
+                               
+                            
+                          Note that these two projection lines should intersect with one another at  Q  in a 3D scene, if the scene specified by the shape of  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                         ,  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                         , and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                         , is a valid 3D interpretation of the stereo-pair of the retinal images of  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                          and  Q . Otherwise, the two projection lines can become skewed with respect to one another in the scene and  
+                            
+                               
+                                  k 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  k 
+                               
+                               
+                                  R 
+                               
+                            
+                          cannot be determined. The distance  
+                            
+                               
+                                  Δ 
+                               
+                               
+                                  Q 
+                               
+                            
+                          between the skewed projection lines of  Q  can be computed as:  
+                            
+                               (3) 
+                               
+                                  
+                                     
+                                        
+                                           Δ 
+                                        
+                                        
+                                           Q 
+                                        
+                                     
+                                     = 
+                                     
+                                        
+                                           
+                                              | 
+                                              
+                                                 
+                                                    
+                                                       
+                                                          
+                                                             
+                                                                E 
+                                                             
+                                                             
+                                                                L 
+                                                             
+                                                          
+                                                          − 
+                                                          
+                                                             
+                                                                E 
+                                                             
+                                                             
+                                                                R 
+                                                             
+                                                          
+                                                       
+                                                    
+                                                 
+                                                 
+                                                    t 
+                                                 
+                                              
+                                              
+                                                 
+                                                    
+                                                       
+                                                          V 
+                                                       
+                                                       
+                                                          L 
+                                                       
+                                                    
+                                                    × 
+                                                    
+                                                       
+                                                          V 
+                                                       
+                                                       
+                                                          R 
+                                                       
+                                                    
+                                                 
+                                              
+                                              | 
+                                           
+                                        
+                                        
+                                           ‖ 
+                                           
+                                              
+                                                 V 
+                                              
+                                              
+                                                 L 
+                                              
+                                           
+                                           × 
+                                           
+                                              
+                                                 V 
+                                              
+                                              
+                                                 R 
+                                              
+                                           
+                                           ‖ 
+                                        
+                                     
+                                  
+                               
+                            
+                         where the operator  
+                            × 
+                          in the denominator represents cross-product of the 3D vectors  
+                            
+                               
+                                  V 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  V 
+                               
+                               
+                                  R 
+                               
+                            
+                         . The distance  
+                            
+                               
+                                  Δ 
+                               
+                               
+                                  Q 
+                               
+                            
+                          between the projection lines is the length of the shortest line segment whose endpoints are on the projection lines. These two endpoints are written as  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                         
+                         
+                            + 
+                         
+                         
+                            
+                               
+                                  
+                                     k 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                               
+                                  
+                                     V 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                            
+                          and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                         
+                         
+                            + 
+                         
+                         
+                            
+                               
+                                  
+                                     k 
+                                  
+                                  
+                                     R 
+                                  
+                               
+                               
+                                  
+                                     V 
+                                  
+                                  
+                                     R 
+                                  
+                               
+                            
+                          where  
+                            
+                               
+                                  k 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  k 
+                               
+                               
+                                  R 
+                               
+                            
+                          represent the distance of the endpoints from  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                         . Note that, if  
+                            
+                               
+                                  
+                                     Δ 
+                                  
+                                  
+                                     Q 
+                                  
+                               
+                               = 
+                               0 
+                            
+                         , the two projection lines intersect with one another and the intersection of the projection lines is  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                         
+                         
+                            + 
+                         
+                         
+                            
+                               
+                                  
+                                     k 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                               
+                                  
+                                     V 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                            
+                          and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                         
+                         
+                            + 
+                         
+                         
+                            
+                               
+                                  
+                                     k 
+                                  
+                                  
+                                     R 
+                                  
+                               
+                               
+                                  
+                                     V 
+                                  
+                                  
+                                     R 
+                                  
+                               
+                            
+                         .
+
+Some of 16 possible combinations of the positions  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                          are invalid. Note that  
+                            
+                               
+                                  Δ 
+                               
+                               
+                                  Q 
+                               
+                            
+                         ,  
+                            
+                               
+                                  k 
+                               
+                               
+                                  L 
+                               
+                            
+                         , and  
+                            
+                               
+                                  k 
+                               
+                               
+                                  R 
+                               
+                            
+                          should be always positive if the 3D scene specified by the combination of  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                          is a valid 3D interpretation of the stereo-pair of the retinal images of  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                          and  Q . All of the points in a valid scene will be located in front of the head of the observer. This constraint can be evaluated as follows. Set the cylindrical coordinate system so that the longitudinal axis of the system coincides with the interocular axis between  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                         . The reference plane (azimuth  
+                            = 
+                          0°) of this coordinate system is set so that it is coplanar with  
+                            
+                               
+                                  P 
+                               
+                               
+                                  A 
+                               
+                            
+                         ,  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                         , and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                          and the azimuth of  
+                            
+                               
+                                  P 
+                               
+                               
+                                  A 
+                               
+                            
+                          becomes 0°. The azimuth of each point in the scene is specified by a value between  
+                            − 
+                         180°and +180°. The azimuths of all of the points in the scene are distributed within a range of 180° when this constraint is satisfied:  
+                            
+                               (4) 
+                               
+                                  
+                                     
+                                        
+                                           
+                                              max 
+                                           
+                                           
+                                              Q 
+                                              ∈ 
+                                              
+                                                 
+                                                    S 
+                                                 
+                                                 
+                                                    PQ 
+                                                 
+                                              
+                                           
+                                        
+                                        
+                                           
+                                              θ 
+                                           
+                                           
+                                              L 
+                                           
+                                        
+                                        − 
+                                        
+                                           
+                                              min 
+                                           
+                                           
+                                              Q 
+                                              ∈ 
+                                              
+                                                 
+                                                    S 
+                                                 
+                                                 
+                                                    PQ 
+                                                 
+                                              
+                                           
+                                        
+                                        
+                                           
+                                              θ 
+                                           
+                                           
+                                              L 
+                                           
+                                        
+                                        < 
+                                        180 
+                                        ° 
+                                        
+                                           
+                                              max 
+                                           
+                                           
+                                              Q 
+                                              ∈ 
+                                              
+                                                 
+                                                    S 
+                                                 
+                                                 
+                                                    PQ 
+                                                 
+                                              
+                                           
+                                        
+                                        
+                                           
+                                              θ 
+                                           
+                                           
+                                              R 
+                                           
+                                        
+                                        − 
+                                        
+                                           
+                                              min 
+                                           
+                                           
+                                              Q 
+                                              ∈ 
+                                              
+                                                 
+                                                    S 
+                                                 
+                                                 
+                                                    PQ 
+                                                 
+                                              
+                                           
+                                        
+                                        
+                                           
+                                              θ 
+                                           
+                                           
+                                              R 
+                                           
+                                        
+                                        < 
+                                        180 
+                                        ° 
+                                     
+                                  
+                               
+                            
+                         where  
+                            
+                               
+                                  θ 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  θ 
+                               
+                               
+                                  R 
+                               
+                            
+                          are the azimuths of  
+                            
+                               
+                                  V 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  V 
+                               
+                               
+                                  R 
+                               
+                            
+                          and  
+                            
+                               
+                                  S 
+                               
+                               
+                                  P 
+                                  Q 
+                               
+                            
+                          is a set of all the points (including  
+                            
+                               
+                                  P 
+                               
+                               
+                                  A 
+                               
+                            
+                         ,  
+                            
+                               
+                                  P 
+                               
+                               
+                                  B 
+                               
+                            
+                         , and  
+                            
+                               
+                                  P 
+                               
+                               
+                                  C 
+                               
+                            
+                         ) in the scene. Some of the points are behind the head of the observer in the scene and the combination of  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                          is invalid if Eq.  (4)  is not satisfied.
+
+After eliminating these invalid combinations of the positions of  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                         , the best combination can be determined from the remaining valid combinations by ascertaining that the following cost function is minimized:  
+                            
+                               (5) 
+                               
+                                  
+                                     
+                                        
+                                           ∑ 
+                                        
+                                        
+                                           Q 
+                                           ∈ 
+                                           
+                                              
+                                                 S 
+                                              
+                                              
+                                                 P 
+                                                 Q 
+                                              
+                                           
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              
+                                                 Δ 
+                                              
+                                              
+                                                 Q 
+                                              
+                                           
+                                        
+                                        
+                                           
+                                              
+                                                 
+                                                    
+                                                       k 
+                                                    
+                                                    
+                                                       L 
+                                                    
+                                                 
+                                                 
+                                                    
+                                                       k 
+                                                    
+                                                    
+                                                       R
+
+The model recovers the depth of the 3D scene by using an optimization method. The 2D space in this optimization is characterized by  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                            
+                          and  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                            
+                          that are angles of  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                         
+ ( Fig. 3 ). The cost function that is minimized in this optimization is given in Eq.  (5) . 
+                            5 
+                         
+                         
+                            5 
+                            The cost function can be regarded as a sum of sub-cost functions that corresponded individually with points in the scene. Values of the individual sub-cost functions are always positive and they become 0 when  
+                                  
+                                     ∠ 
+                                     
+                                        
+                                           P 
+                                        
+                                        
+                                           C 
+                                        
+                                     
+                                     
+                                        
+                                           P 
+                                        
+                                        
+                                           A 
+                                        
+                                     
+                                     
+                                        
+                                           P 
+                                        
+                                        
+                                           B 
+                                        
+                                     
+                                  
+                                and  
+                                  
+                                     ∠ 
+                                     
+                                        
+                                           P 
+                                        
+                                        
+                                           A 
+                                        
+                                     
+                                     
+                                        
+                                           P 
+                                        
+                                        
+                                           B 
+                                        
+                                     
+                                     
+                                        
+                                           P 
+                                        
+                                        
+                                           C 
+                                        
+                                     
+                                  
+                               
+ were given in a perfectly veridical 3D scene. Note that the model in this study finds the minimum of the sum of the sub-cost functions. This model can also be revised to find  
+                                  
+                                     ∠ 
+                                     
+                                        
+                                           P 
+                                        
+                                        
+                                           C 
+                                        
+                                     
+                                     
+                                        
+                                           P 
+                                        
+                                        
+                                           A 
+                                        
+                                     
+                                     
+                                        
+                                           P 
+                                        
+                                        
+                                           B 
+                                        
+                                     
+                                  
+                                and  
+                                  
+                                     ∠ 
+                                     
+                                        
+                                           P 
+                                        
+                                        
+                                           A 
+                                        
+                                     
+                                     
+                                        
+                                           P 
+                                        
+                                        
+                                           B 
+                                        
+                                     
+                                     
+                                        
+                                           P 
+                                        
+                                        
+                                           C 
+                                        
+                                     
+                                  
+                                that maximize number of the sub-cost functions whose values become 0 or almost 0. This revised model should work especially if there are large number of points in a 3D scene. The idea of revising the model is analogous to the RANSAC algorithm ( Fischler & Bolles, 1981 ) and to the Hough transform. It has been known that these methods are robust against noise.
+
+The scale of the recovered scene is proportional to  
+                            
+                               ‖ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               − 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                               ‖ 
+                            
+                         , which was set to be 1, but note that the scale cannot actually be determined no matter how many retinal images of the scene are available ( Hartley & Zisserman, 2004; Longuet-Higgins, 1981 ). Also, note that a line segment between  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                          in the recovered 3D scene represents the interocular axis between the stereo-pair of eyes. The scene should be scaled so that the length of the segment  
+                            
+                               ‖ 
+                               
+                                  
+                                     E 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                               − 
+                               
+                                  
+                                     E 
+                                  
+                                  
+                                     R 
+                                  
+                               
+                               ‖ 
+                            
+                          in the scaled scene becomes equal to the interocular distance of the observer when the interocular distance is given (around 6.0–6.5 cm for an adult human,  Pointer, 1999 ). An interocular distance of an observer is a priori knowledge of the human visual system ( Afraz & Nakayama, 2013; Wallach, Moore, & Davidson, 1963 ).
+
+The position of the observer’s head in the recovered 3D scene can be determined from the positions of  
+                            
+                               
+                                  E 
+                               
+                               
+                                  L 
+                               
+                            
+                          and  
+                            
+                               
+                                  E 
+                               
+                               
+                                  R 
+                               
+                            
+                          with one free parameter, namely, a rotation around the interocular axis. This means that the recovered 3D scene can be represented in a head-centric coordinate system. Finally, recall that a 3D scene, which is represented in a head-centric coordinate system, does not vary when the eye moves.
+
+The mathematical validity and the computational robustness of the model were tested in a simulation experiment. In each trial of this experiment, a 3D scene, composed of points, was randomly-generated and a stereo-pair of its retinal images (visual angles between the points) were computed. The model was given these retinal images and used them to recover the 3D scene. The recovered 3D scene was evaluated by comparing the shapes of triangle  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                          in the original and recovered scenes:  
+                            
+                               (6) 
+                               
+                                  
+                                     
+                                        
+                                           
+                                              
+                                                 
+                                                    
+                                                       
+                                                          α 
+                                                       
+                                                       
+                                                          A 
+                                                       
+                                                    
+                                                    − 
+                                                    
+                                                       
+                                                          
+                                                             
+                                                                α 
+                                                             
+                                                             
+                                                                ̃ 
+                                                             
+                                                          
+                                                       
+                                                       
+                                                          A 
+                                                       
+                                                    
+                                                 
+                                              
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                        + 
+                                        
+                                           
+                                              
+                                                 
+                                                    
+                                                       
+                                                          α 
+                                                       
+                                                       
+                                                          B 
+                                                       
+                                                    
+                                                    − 
+                                                    
+                                                       
+                                                          
+                                                             
+                                                                α 
+                                                             
+                                                             
+                                                                ̃ 
+                                                             
+                                                          
+                                                       
+                                                       
+                                                          B 
+                                                       
+                                                    
+                                                 
+                                              
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                     
+                                  
+                               
+                            
+                         where  
+                            
+                               
+                                  α 
+                               
+                               
+                                  A 
+                               
+                            
+                          and  
+                            
+                               
+                                  α 
+                               
+                               
+                                  B 
+                               
+                            
+                          are values of  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                            
+                          and  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                            
+                          in the original scene and  
+                            
+                               
+                                  
+                                     
+                                        α 
+                                     
+                                     
+                                        ̃ 
+                                     
+                                  
+                               
+                               
+                                  A 
+                               
+                            
+                          and  
+                            
+                               
+                                  
+                                     
+                                        α 
+                                     
+                                     
+                                        ̃ 
+                                     
+                                  
+                               
+                               
+                                  B 
+                               
+                            
+                          are values of  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                            
+                          and  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                            
+                          in the recovered scene. This equation represents distance in the 2D space of the cost distribution ( Fig. 4 ) between the points representing the original and recovered scenes.
+
+The model was implemented in a C++ program. The C++ code for this implementation was uploaded to GitHub ( https://github.com/TadamasaSawada/Stereo_P3P ).
+
+Five hundred 3D scenes were generated for each session of the experiment. The points in each scene were randomly-positioned within a range specified in the scene relative to the observer’s head. The depth positions of the points from the observer were between  
+                            γ 
+                          and 2 
+                            γ 
+                          in front of the observer’s head where  
+                            γ 
+                          is a free parameter (10, 40, and 160 cm). The head-centric eccentricity of these points was less than 45°. Eccentricity was defined as the angles between a vector along the direction of depth and vectors to the points from the observer’s cyclopean eye (the midpoint between the observer’s stereo-pair of eyes). The interocular distance between the stereo-pair of eyes was 6.6 cm. Note that the number of points in the scene and  
+                            γ 
+                          were blocked during the session.
+
+The results of the simulation of the 3D scenes with 5 points are shown in  Fig. 4 A. The ordinate shows the discrepancy between the original and recovered scene (Eq.  (6) ), and the abscissa shows the range of the depth positions of the points ( 
+                            γ 
+                         ). The width of the plot represents frequency ( Hintze & Nelson, 1998 ). The 3D scene recovered by the model is never perfect. The discrepancy between the original and recovered 3D scenes can be attributed to the optimization process used to find the global minimum of the cost distribution (Eq.  (5) ). 
+                            7 
+                         
+                         
+                            7 
+                            It was confirmed in a separate session that the cost in the distribution was virtually zero ( 
+                                  < 
+                               10 
+                                  
+                                     
+                                     
+                                        − 
+                                        10 
+                                     
+                                  
+                               ) when  
+                                  
+                                     ∠ 
+                                     
+                                        
+                                           P 
+                                        
+                                        
+                                           C 
+                                        
+                                     
+                                     
+                                        
+                                           P 
+                                        
+                                        
+                                           A 
+                                        
+                                     
+                                     
+                                        
+                                           P 
+                                        
+                                        
+                                           B 
+                                        
+                                     
+                                  
+                                and  
+                                  
+                                     ∠ 
+                                     
+                                        
+                                           P 
+                                        
+                                        
+                                           A 
+                                        
+                                     
+                                     
+                                        
+                                           P 
+                                        
+                                        
+                                           B 
+                                        
+                                     
+                                     
+                                        
+                                           P 
+                                        
+                                        
+                                           C 
+                                        
+                                     
+                                  
+                               
+ were given in a perfectly veridical 3D scene. 
+                          The exhaustive search method used for the optimization process and the cost distribution was sampled at every 0.2° of  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                            
+                          and of  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                            
+                         . The discrepancy between a perfectly veridical scene and the recovered scene could be more than 0.282°  
+                            ≈ 
+                          (0.2 2  
+                         
+                            + 
+                          0.2 2 ) 
+                            
+                               
+                               
+                                  0.5 
+                               
+                            
+                          even when the cost distribution was unimodal. 
+                            8 
+                         
+                         
+                            8 
+                            For example, consider finding the global minimum of the following unimodal function by using the optimization method:  
+                                  
+                                     − 
+                                     
+                                        
+                                           e 
+                                        
+                                        
+                                           − 
+                                           
+                                              
+                                                 
+                                                    
+                                                       y 
+                                                       − 
+                                                       0 
+                                                       . 
+                                                       04 
+                                                       x 
+                                                       − 
+                                                       0 
+                                                       . 
+                                                       4 
+                                                    
+                                                 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                           ∕ 
+                                           0 
+                                           . 
+                                           
+                                              
+                                                 1 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                        
+                                     
+                                     − 
+                                     
+                                        
+                                           e 
+                                        
+                                        
+                                           − 
+                                           
+                                              
+                                                 x 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                           ∕ 
+                                           10 
+                                           
+                                              
+                                                 0 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                        
+                                     
+                                  
+                               . Theoretically, the global minimum of this function is −2.00 at ( x ,  y )  
+                                  = 
+                                (0, 0.4). But note that an exhaustive search method will estimate that the global minimum is −1.99 at ( x ,  y )  
+                                  = 
+                                (−10, 0) when the equation is evaluated at every integer of  x  and  y . The difference between the positions of this estimated global minimum and the real global minimum is substantially larger than 1.412  
+                                  ≈ 
+                                (1 2  
+                               
+                                  + 
+                                1 2 ) 
+                                  
+                                     
+                                     
+                                        0.5 
+                                     
+                                  
+                               . 
+                          There were also cases where our exhaustive search method produced the local minimum of the distribution rather than its global minimum. Note that a cost distribution may have multiple global minima ( Kruppa, 2017; Thompson, 1959 ). Also note that it can be difficult to know whether any local minimum of the cost distribution is the actual global minimum with any numerical optimization method. This problem has not been addressed in this study.
+
+Fig. 4  shows the number of recovered 3D scenes that were nearly veridical. The ordinate shows the number of recovered 3D scenes whose discrepancy from perfectly veridical 3D scenes (Eq.  (6) ) was less than 1°. Symbols indicate the number of points in the 3D scenes and the abscissa shows the range of the depth positions of the points. The model could recover only about 60% of the 3D scenes veridically with 5 points, but it could recover about 90% with 6 points (see also  Fig. 4 B). It is possible that the 6th point helped the model avoid local minima. Having more than 6 points only improved the model’s performance a little ( Figs. 4 B,  5 ).
+
+The results of the simulation experiment showed that the model can recover a 3D scene from a stereo-pair of its 2D retinal images veridically and reliably when there are 6, or more than 6 points, in the scene.
+
+Recall, the model uses 3 of the points in the 3D scene ( 
+                            
+                               
+                                  P 
+                               
+                               
+                                  A 
+                               
+                            
+                         ,  
+                            
+                               
+                                  P 
+                               
+                               
+                                  B 
+                               
+                            
+                         , and  
+                            
+                               
+                                  P 
+                               
+                               
+                                  C 
+                               
+                            
+                         ) to define the 2D space of an optimization problem and uses the other points to compute the distribution of cost in the optimization space. The P3P problem is used in the model to represent a family of 3D scenes in the 2D optimization space that is characterized by  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                            
+                          and of  
+                            
+                               ∠ 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     A 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     B 
+                                  
+                               
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     C 
+                                  
+                               
+                            
+                          of the triangle  
+                            
+                               
+                                  T 
+                               
+                               
+                                  A 
+                                  B 
+                                  C 
+                               
+                            
+                          in the scene. Having these separate processes for recovering a 3D scene allowed us to develop a model that used a readily available algorithm that was developed to solve the P3P problem. Unfortunately, this algorithm, which is based on the P3P problem, does not resemble any known mechanism in our visual system.
+
+The model developed in this study can recover depth in a 3D scene from a stereo-pair of retinal images without making use of the relative orientation of the eyes. The model can process stereo retinal images across fixations. The model represents the retinal image of the scene as a set of visual angles between pairs of points within the scene. The model uses only these visual angles as its input. This means that eye movements play no role in the recovery of depth and that the oculomotor information is not even implicitly recovered by the model. This is possible because depth is recovered within a head-centered coordinate system. 
+                         9 
+                      
+                      
+                         9 
+                         The interocular axis connecting the two eyes in the recovered scene corresponds to an epipolar axis connecting two cameras for a fundamental matrix (see Footnote 3). The directions of points in the scene from each eye relative to the interocular axis can be determined from the recovered scene. This information is contained in the scene, but the fundamental matrix cannot be recovered from the scene. The stereo retinal images are represented as two sets of visual angles in the model, and this representation is invariant against any eye movement. Note that no information about the visual axes of the eyes is used. The visual axes correspond to the principal axes of the cameras in the fundamental matrix. The fundamental matrix cannot be recovered without the principal axes. 
+                       The model showed that from a computational perspective, oculomotor information is not needed to recover depth in a 3D scene unless the scene is degenerate. Having such a model allows us to discuss psychophysical and neurophysiological phenomena and their mechanisms without assuming that the human visual system needs oculomotor information to recover depth in a 3D scene from stereo retinal images ( Bogen, 2017; Brewer & Lambert, 2000; Runeson, 1977 ).
+
+This model shows that, at least from a computational perspective, the human visual system should be able to perceive depth by using only a stereo-pair of retinal images without recovering or being given any oculomotor information. It also shows that the perception of depth need not change when the eyes move. This can be described as a constancy of depth perception with different fixation points. Note that these properties of this visual system are consistent with our everyday life experience. Our perception of depth is reliable and it stays that way when we move our eyes ( Logvinenko, Epelboim, & Steinman, 2001; Logvinenko & Steinman, 2002 ). These properties also allow the visual system to process stereo retinal images across eye movements: this could improve the precision of the perception of depth ( Enright, 1991; Wright, 1951 ). The visual system can recover the depth even if the recovery process takes longer time than the duration of a single maintained fixation.
+
+The proposed model does not conflict with models that assume that oculomotor information, such as the oculomotor efference signal, is used to recover depth from a stereo pair of retinal images. These two types of models can co-exist with one another. Note that it has been shown that the visual system makes use of the efference signal to recover depth when the visual stimuli are degenerate ( Backus et al., 1999; Bradshaw et al., 1996; Minkov & Sawada, 2021 ). Ideally, both types of models will be integrated into a single model.
+
+The human visual system is more restricted than our model by built-in physiological and neurophysiological mechanisms in the system, such as the relative orientation between the eyes, the resolution of the retinal image, and the range of stereo fusion. Note also that a projection of a 3D scene moves in the retinal image whenever the eye moves, and that the eye movement should be also restricted in order to recover the depth across the eye movement. When this is done, the projection only moves within a small part of the retina where the resolution is high enough for the depth to be recovered. The model can be simplified by applying these restrictions to the model, or by integrating the model with existing models of stereo depth perception that make use of these restrictions.
+
+The restriction of the eye movement will also simplify the problem of establishing the correspondence between the stereo-pair of retinal images. Establishing correspondence is a particularly difficult problem when the relative orientation between the eyes puts no restriction on their orientation. In Computer Vision, this problem has been studied as “wide-baseline stereo matching” (e.g.  Ferrari, Tuytelaars, & Van Gool, 2003; Leroy, Franco, & Boyer, 2017 ). 
+                         10 
+                      
+                      
+                         10 
+                         Note that the proposed model does not have to re-establish correspondence after each fixation once the correspondence has been established because the recovered depth is represented within a head-centered coordinate system that does not change when the eyes rotate. This is advantageous in the proposed model. 
+                       Instead of trying to solve this difficult problem, the proposed model assumes that the correspondence is given. 
+                         11 
+                      
+                      
+                         11 
+                         The model also assumes that the correspondence is established between feature “points” in the stereo-pair of retinal images. Note that many neurons in the early visual cortex have receptive fields that can be approximated by 2D Gabor patterns with different frequencies and orientations (see  Sawada & Petrov, 2017  for a review). These neurons are sensitive to edges, contours, and gratings rather than to the points. Some psychophysical phenomena can be explained by the receptive field patterns of these neurons (e.g.  Farrel, 1998; Matthews, Meng, & Qian, 2003 ; see also  Anderson, 1999; Farrel, 1999; Mitsudo, Sakai, & Kaneko, 2013 ). 
+                       Namely, the correspondence problem is independent from the recovery and is solved before the recovery in the proposed model for its simplicity (see  Zhaoping, 2002  for a computational model that processes the correspondence and recovery together). The correspondence problem can actually be relatively easy for the human visual system to solve because the range of the relative orientations between the eyes is limited. Note that cyclo-torsional and vertical vergence eye movements are small, but not zero (see  Howard, 2012 ). Also note that this limitation of eye movements restricts the relative position between pairs of corresponding points in stereo retinal images ( Schreiber, Crawford, Fetter, & Tweed, 2001 ). Furthermore, the limitation of the range of eye movements can also simplify the depth recovery process (see above). The correspondence problem, and the recovery of depth with limitations of the range of eye movement will be addressed in my future studies.
+
+This model is based entirely on the geometrical optics of a schematic eye. It is not related to any known mechanisms in our visual system. This fact encourages us to revise this algorithm to make its recovery process plausible with respect to current psychophysical and neurophysiological evidence. Once this has been done, we will have a realistic, as well as an effective, model of human stereo-depth perception.
+
+The author declares that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+The article was prepared within the framework of the  Academic Fund Program at the National Research University Higher School of Economics (HSE University)  in 2019 (grant No  19-04-006 ) and by the  Russian Academic Excellence Project «5-100» 
+ .
+
+The author thanks Prof. Robert M. Steinman for helpful comments and suggestions.
+
+Supplementary material related to this article can be found online at  https://doi.org/10.1016/j.jmp.2021.102538 .
+
+The following is the Supplementary material related to this article.  
+                         
+                            MMC S1 
+                            
+                               Equations (1-3, 5) in the main text were re-formulated by using matrix and element-wise operations.

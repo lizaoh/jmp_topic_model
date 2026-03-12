@@ -1,0 +1,2508 @@
+10.1016/j.jmp.2024.102886
+No data was used for the research described in the article.
+
+No data was used for the research described in the article.
+
+Humans have the remarkable ability to regulate their behavior according to a long-term goal rather than an immediately rewarding temptation. For example, while influenced by a goal to eat healthily, it is possible to resist a cookie and select a piece of fruit instead – even though consuming the cookie is, for many people, the more immediately rewarding option. Colloquially, we think of such behavior as exerting self-control.
+
+More formally, self-control is often defined as a process by which an individual overcomes immediately-rewarding, pre-potent tendencies that are inconsistent with previously set goals, and proceeds instead with behavior that is less immediately rewarding but is consistent with previously set goals ( Friese & Hofmann, 1991 ;  Hayden, 2019 ;  Hoyle & Davisson, 2016 ,  2017 ;  Shenhav, 2017 ). This definition is not universally shared, but it is considered to be the closest to a consensus view available (see discussion in  Hayden, 2019 ).
+
+The ability to exert self-control is profoundly consequential. It is thought to be a necessary ingredient for a well-functioning person, and for a well-functioning society ( Tangney et al., 2004 ). A lack of self-control is associated with poverty, poor health, and other undesirable states ( de Ridder et al., 2012 ). Unsurprisingly, self-control has attracted a great deal of interest from psychologists who have identified personality variables ( Hoyle & Davisson, 2016 ), situational factors ( Li et al., 2020 ), and learnable strategies ( Duckworth et al., 2016 ) that predict successful self-control decisions. However, much less is known about the mechanisms by which self-control-related decisions are implemented.
+
+Researchers working on self-control have made important progress in specifying a high-level framework for how people implement self-control within the broader context of self-regulation of behavior ( Carver & Scheier, 1982 ,  2012 ). Their framework was based upon cybernetic principles ( Wiener, 1948 ), according to which information-processing structures achieve response stability by comparing current inputs to a goal or reference value, (potentially) observing a discrepancy between the two, and then making an adjustment to reduce any discrepancy.
+
+Cybernetics was originally crafted as a theory of mechanical system regulation ( Richardson, 1991 ). The framework was formally specified in engineering and applied, with less quantitative specificity, to a wide range of phenomena in psychology including self-regulation and self-control ( Inzlicht et al., 2021 ). One reason for this widespread application was that the core cybernetic process seemed to capture widespread intuitions about how a non-homuncular system might exhibit control.
+
+The cybernetic model is traditionally comprised of three components: (a) goal setting, (b) monitoring for a mismatch between the set goals and the current state, and (c) implementing behavior to reduce the extent of any mismatch ( Inzlicht et al., 2014 ). The implementing system is connected to the monitoring system via a feedback loop so that the output of the implementing system feeds the current state to the monitoring system until the mismatch between the set goals and the current state is less than some threshold. Notably, some elements of cybernetic feedback principles are prominent in many branches of cognitive science and psychology, including cognitive control ( Botvinick et al., 2001 ), emotion regulation ( Gross, 2015 ), motor control ( Thomas et al., 2019 ), and action selection ( Pezzulo & Cisek, 2016 ).
+
+In the context of maintaining self-control, one instantiation of the cybernetic model may involve comparing a response option presently under consideration to a goal that is activated in memory. If the option is perceived to be discrepant from the goal, then a person could attempt to reduce the discrepancy by making a behavioral adjustment which may include the consideration of an alternative option. For example, in the context of selecting between a healthy and tasty food item, a person may first consider the response option of eating a cookie and compare it to the goal of eating healthy food. A discrepancy in this comparison might lead to the consideration of the alternative response option of eating fruit. Thus, the cybernetic account has the potential to specify a non-homuncular account of self-control.
+
+If one accepts that self-control, like other cognitive phenomena, is a non-homuncular, emergent process arising from the interactions of neurons in the brain, then specifying an algorithmic process that showcases such emergence is an essential part of understanding its mechanism. Algorithmic models allow one to test the consequences of ideas ( McClelland, 2010 ) and establish constraints that have repeatedly proven to be generative at  Marr's (1982)  computational and implementational levels.
+
+While the cybernetic account provides a high-level conceptual account of self-control, it is not well-specified enough to be used to simulate empirical phenomena related to self-control. In particular, it does not specify how a goal (e.g., eating healthy foods) that is relevant to the present scenario is represented and deployed. It does not specify how the options under consideration (e.g., apple or cookie) are represented in a way that can be compared with the representation of the goal. And importantly, it does not specify how pre-potent responses that are incongruent with the goal-state might be inhibited, and how non-prepotent responses might get amplified. Without such specifications, it is difficult to test whether the predictions of the cybernetic framework are consistent with observed empirical phenomena – which makes the framework neither provable nor disprovable.
+
+For example, consider trials in which participants use the mouse to indicate a selection between an immediately rewarding tasty food item, and a goal-consistent healthy food item. In such contexts, mouse-tracking software offers an opportunity to identify the dynamic, online cognitive processes that underlie successful self-control decisions ( Stillman et al., 2017 ). Results indicate that participant mouse trajectories often show initial movement towards the tasty item, followed by a gradual curving towards the healthy item. While this broad pattern is consistent with the exertion of self-control, the cybernetic framework does not offer insights related to the underlying dynamics involved. In particular, it is consistent with a direct straight line towards the healthy item, or an initial move towards the tasty item followed by an abrupt midflight correction towards the healthy item, or the smooth trajectories curving towards the healthy item that are often seen in experimental trials.
+
+A second example concerns temporal discounting in which people tend to accept smaller sums of money sooner compared to larger sums of money later. Temporal discounting is thought to be inextricably linked with self-control (e.g.,  Ainslie, 1975 ;  Ballard et al., 2017 ;  Frederick et al., 2002 ). Economic theories often posit an exponential discount curve in which the discount rate stays constant over time. Empirical observations, however, suggest a hyperbolic discount curve that features high discount rates in the near future and lower discount rates in the distant future. The cybernetic framework is agnostic to either discount curve which, once again, lessens its usefulness as a theory of self-control.
+
+Relatedly, the cybernetic account for control is developed at the linguistic, not computational, level. While theories developed at the linguistic level have the advantage of having the rich descriptive power of natural language at their disposal, they are also hampered by ambiguities inherent in language ( Powers, 1991 ). Such frameworks can sometimes appeal to reasoning that is subject to interpretation or motivated cognition so that different modelers starting with the same inputs can arrive at different results ( Adner et al., 2009 ). On the other hand, a formal computational model is transparent in its initial assumptions and its allowed operations are fully specified so that different modelers starting with the same input will arrive at the same results. Such quantitative precision is helpful in testing ideas related to mechanism, and can also place important theoretical constraints related to the cognitive phenomenon in question. Next, we introduce such a computational model and use it to interrogate key empirical phenomena from self-control.
+
+The Comparison with Goal States Model (CGSM) operates on options that lead to alternative courses of action. An option will often involve an item, such as an apple or a cookie. Options that are more similar and less dissimilar to a goal state become more likely to be selected – even if they are initially less preferred compared to other available options. Correspondingly, options that are less similar and more dissimilar to a goal state become less likely to be selected – even if they are initially more automatic or preferred compared to other available options.
+
+In the first pass, it is useful to conceptualize the CGSM as an input/output function. For each item under consideration, it takes four scalar quantities as inputs and yields a single scaler value as output. For example, it might take the values [0.5, 0.7, 0.8, 0.2] as inputs and yield the value 0.91 as its output.
+
+The four input elements are different aspects of a particular option ( Fig. 1 
+                      ). The first element, named  
+                         
+                            a 
+                            
+                               i 
+                               t 
+                               e 
+                               m 
+                            
+                         
+                      , represents the initial, goal-independent preference for an item. For example, the  
+                         
+                            a 
+                            
+                               i 
+                               t 
+                               e 
+                               m 
+                            
+                         
+                       for an apple, which we will designate as  
+                         
+                            a 
+                            
+                               i 
+                               t 
+                               e 
+                               m 
+                               , 
+                               
+                               a 
+                               p 
+                               p 
+                               l 
+                               e 
+                            
+                         
+                       might be 0.5 and  
+                         
+                            a 
+                            
+                               i 
+                               t 
+                               e 
+                               m 
+                               , 
+                               c 
+                               o 
+                               o 
+                               k 
+                               i 
+                               e 
+                            
+                         
+                       might be 0.8 since many people, in the absence activated health goals, tend to prefer cookies over apples. The second element,  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                      , represents the level to which a particular goal is attended to. Goals that are more attended to will be more influential. If a goal, e.g. healthy eating, is salient in memory, or frequently rehearsed, we would assume a higher  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       value compared to when it is not. In this work, we will make the simplifying assumption that the  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       value is the same for all items under consideration. For example,  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       value with respect to both the apple and the cookie might be 0.7. We will see (Simulation 2, 3 and 4) that a higher level of  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       corresponds to more self-control, whereas a lower value of  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       corresponds to greater impulsivity.
+
+The third input element  
+                         
+                            k 
+                            1 
+                         
+                      
+                      ,  represents the extent of the similarity between item and the goal. The fourth input element  
+                         
+                            k 
+                            2 
+                         
+                      
+                      ,  represents the extent of the dissimilarity between item and the goal. While processing activations related to the apple and the goal of healthy eating, we would, for example, have a high  
+                         
+                            k 
+                            1 
+                         
+                      and a low  
+                         
+                            k 
+                            2 
+                         
+                      . The reverse would be true for the cookie.  Fig. 1  shows illustrative similarity values for the apple and the cookie: 0.8 and 0.1, respectively. In this work, we generally make the simplifying assumption that the dissimilarity value,  
+                         
+                            k 
+                            2 
+                         
+                      , equals 1- 
+                         
+                            k 
+                            1 
+                         
+                      .
+
+The CGSM output value,  
+                         y 
+                      , is the updated, goal-influenced, preference for the item. In  Fig. 1 , the final preference for the apple has increased to 0.91, which is greater than the final preference for cookie, which has decreased to 0.79.
+
+We have already seen that the CGSM is a function,  
+                         f 
+                      , such that: 
+                         
+                            (1) 
+                            
+                               
+                                  f 
+                                  
+                                     ( 
+                                     
+                                        
+                                           a 
+                                           
+                                              i 
+                                              t 
+                                              e 
+                                              m 
+                                           
+                                        
+                                        , 
+                                        
+                                        
+                                           a 
+                                           
+                                              g 
+                                              o 
+                                              a 
+                                              l 
+                                           
+                                        
+                                        , 
+                                        
+                                        
+                                           k 
+                                           1 
+                                        
+                                        , 
+                                        
+                                        
+                                           k 
+                                           2 
+                                        
+                                     
+                                     ) 
+                                  
+                                  = 
+                                  y
+
+As discussed in  Fig. 1 ,  
+                         
+                            a 
+                            
+                               i 
+                               t 
+                               e 
+                               m 
+                            
+                         
+                       in (1) refers to the initial, goal-independent preference for an item,  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       refers to the level of attention towards a relevant goal,  
+                         
+                            k 
+                            1 
+                         
+                       is a measure of similarity between the distributed representation of the item and the distributed representation of the goal and  
+                         
+                            k 
+                            2 
+                         
+                       is a measure of dissimilarity between the distributed representation of the item and the distributed representation of the goal. The right-hand output term,  
+                         y 
+                      , is the updated, goal-dependent item preference.
+
+As a next step, we define  
+                         f 
+                       by providing an expression for  
+                         y 
+                      . We have not yet motivated or contextualized this expression, but will proceed to do in the next section. For now, we simply state the expression and examine its output patterns. 
+                         
+                            (2) 
+                            
+                               
+                                  y 
+                                  = 
+                                  
+                                  
+                                     
+                                        k 
+                                        1 
+                                     
+                                     
+                                        1 
+                                        + 
+                                        
+                                           k 
+                                           1 
+                                        
+                                        
+                                           k 
+                                           2 
+                                        
+                                     
+                                  
+                                  
+                                     a 
+                                     
+                                        g 
+                                        o 
+                                        a 
+                                        l 
+                                     
+                                  
+                                  
+                                  + 
+                                  
+                                  
+                                     1 
+                                     
+                                        1 
+                                        + 
+                                        
+                                           k 
+                                           1 
+                                        
+                                        
+                                           k 
+                                           2 
+                                        
+                                     
+                                  
+                                  
+                                     a 
+                                     
+                                        i 
+                                        t 
+                                        e 
+                                        m
+
+This expression has the desirable property of providing a high  
+                         y 
+                       value for items such as apples whose  
+                         
+                            a 
+                            
+                               i 
+                               t 
+                               e 
+                               m 
+                            
+                         
+                       might be low but whose  
+                         
+                            k 
+                            1 
+                         
+                       is high. Conversely, it provides a low  
+                         y 
+                       value for items such as apples whose  
+                         
+                            a 
+                            
+                               i 
+                               t 
+                               e 
+                               m 
+                            
+                         
+                       is high but whose  
+                         
+                            k 
+                            1 
+                         
+                       is low. The illustrative input and output value shown in  Fig. 1  conform to (2).
+
+Assuming  
+                         
+                            
+                               k 
+                               2 
+                            
+                            = 
+                            
+                            1 
+                            
+                            − 
+                            
+                            
+                               k 
+                               1 
+                            
+                         
+                       in (2) (because dissimilarity is the complement of similarity) yields: 
+                         
+                            (3) 
+                            
+                               
+                                  y 
+                                  = 
+                                  
+                                  
+                                     
+                                        k 
+                                        1 
+                                     
+                                     
+                                        1 
+                                        + 
+                                        
+                                           k 
+                                           1 
+                                        
+                                        − 
+                                        
+                                           k 
+                                           1 
+                                           2 
+                                        
+                                     
+                                  
+                                  
+                                     a 
+                                     
+                                        g 
+                                        o 
+                                        a 
+                                        l 
+                                     
+                                  
+                                  
+                                  + 
+                                  
+                                  
+                                     1 
+                                     
+                                        1 
+                                        + 
+                                        
+                                           k 
+                                           1 
+                                        
+                                        − 
+                                        
+                                           k 
+                                           1 
+                                           2 
+                                        
+                                     
+                                  
+                                  
+                                     a 
+                                     
+                                        i 
+                                        t 
+                                        e 
+                                        m 
+                                     
+                                  
+                               
+                            
+                         
+                      which we rewrite as 
+                         
+                            (4) 
+                            
+                               
+                                  y 
+                                  = 
+                                  
+                                  
+                                     C 
+                                     1 
+                                  
+                                  
+                                     a 
+                                     
+                                        g 
+                                        o 
+                                        a 
+                                        l 
+                                     
+                                  
+                                  
+                                  + 
+                                  
+                                  
+                                     C 
+                                     2 
+                                  
+                                  
+                                     a 
+                                     
+                                        i 
+                                        t 
+                                        e 
+                                        m 
+                                     
+                                  
+                               
+                            
+                         
+                      where, 
+                         
+                            (5) 
+                            
+                               
+                                  
+                                     C 
+                                     1 
+                                  
+                                  = 
+                                  
+                                     
+                                        k 
+                                        1 
+                                     
+                                     
+                                        1 
+                                        + 
+                                        
+                                           k 
+                                           1 
+                                        
+                                        − 
+                                        
+                                           k 
+                                           1 
+                                           2 
+                                        
+                                     
+                                  
+                                  
+                                     and 
+                                     
+                                  
+                                  
+                                     C 
+                                     2 
+                                  
+                                  = 
+                                  
+                                     1 
+                                     
+                                        1 
+                                        + 
+                                        
+                                           k 
+                                           1 
+                                        
+                                        − 
+                                        
+                                           k 
+                                           1 
+                                           2
+
+As shown in  Fig. 2 
+                      ,  
+                         
+                            C 
+                            1 
+                         
+                       is increasing as a function of  
+                         
+                            k 
+                            1 
+                         
+                       in [0, 1], whereas  
+                         
+                            C 
+                            2 
+                         
+                       is generally flat as a function of  
+                         
+                            k 
+                            1 
+                         
+                       in [0, 1]. An item such as an apple might have a lower initial preference ( 
+                         
+                            a 
+                            
+                               i 
+                               t 
+                               e 
+                               m 
+                            
+                         
+                      ) compared to a cookie; however, this initial preference deficit can be overcome by a higher  
+                         
+                            C 
+                            1 
+                         
+                       which, in turn, is driven by a higher similarity score,  
+                         
+                            k 
+                            1 
+                         
+                      . With high enough attention towards a relevant goal (i.e., high  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                      ), an item with high goal similarity (often, the apple) will be chosen even if it is not initially preferred.
+
+Alternatively, imagine a situation in which the goal-related activation is missing and  
+                         
+                            
+                               a 
+                               
+                                  g 
+                                  o 
+                                  a 
+                                  l 
+                               
+                            
+                            
+                         
+                      is approximately zero. In this case, an item with the greater  
+                         
+                            a 
+                            
+                               i 
+                               t 
+                               e 
+                               m 
+                            
+                         
+                       value would be chosen since the effects of similarity via the  
+                         
+                            C 
+                            1 
+                         
+                       term in (4) would not be applicable. Thus, when choosing between a cookie and an apple, and in the absence of goal-related activation, a person will select the item for which they have greater approach-related activation (often, the cookie).
+
+As a mathematical function, the CGSM rests upon an expression that has the desirable property of amplifying preferences based on a parameter we attribute to an item's similarity with a goal. However, the expression specified in (2) does not enable us to simulate experiments related to reaction time or mouse-tracking that are commonplace in the study of self-control. Moreover, the mathematical formulation of the CGSM is not psychologically (or otherwise) motivated. It does not address questions such as how a cognitive system could detect similarities between items and goals; nor does it answer how a low initial preference for an item can be amplified due to its similarity with a goal. To make progress on these issues, we next conceptualize a neural network whose activations settle on the same values as the mathematical formulation of the CGSM specified in  Eq. (2) .
+
+A fundamental first question concerns how one might implement an algorithm that features a comparison between an option (e.g., an object such as an apple or a cookie) and a goal state (e.g., healthy eating). In the context of a neural network-based computational model, comparisons require a mechanistically explicit way to compute similarity between representations. However, traditional models involving symbolic representations do not afford efficient or scalable ways to process similarity-based computations ( Elman, 1991 ). This is because symbolic representations use different symbols for different concepts – regardless of whether the concepts are similar or dissimilar. Thus, similarity information is not present in the representation of concepts.
+
+An intuitive way around this difficulty is offered by distributed representations which have played a prominent role in the Parallel Distributed Processing (PDP) tradition ( Rumelhart et al., 1986 ) and in modern deep learning algorithms. Distributed representations entail a many-to-many relationship between a concept and a set of units in a neural network (or neurons in a brain) ( Plaut & McClelland, 2010 ). In a distributed representation, each concept is represented by many units, and each unit may participate in the representation of many concepts.
+
+For example, a representation of the concept of an apple over five units might be 0.9, 0.8, −0.8, −1.0, 0.7. If activation levels vary between −1 and 1, this representation approximately follows the pattern H, H, L, L, H (where  H  = high,  L  = Low). The representation of the concept of a cookie might be very different from the representation of an apple; for illustrative purposes, let's assume it is −1, −0.7, 0.9, 0.7, −0.6 which approximately corresponds to a L, L, H, H, L pattern. Now, the representation of the concept of an orange – which is more similar to an apple than a cookie is more likely to follow the H, H, L, L, H pattern. For example, this representation might be 0.7, 0.9, −0.8, −0.9, 1.
+
+Distributed representations reflect the average of the learned properties across contexts in which an item was encountered. For example, the distributed representation related to an apple may be based upon properties reflecting semantic knowledge of the apple such as ‘red’, ‘sweet’, ‘preservative free’, ‘rich in nutrients’, ‘high in fiber’, and ‘seedy core’, and may include contextual influences related to grocery stores and fruit trees. Many, but not all of these features may be reflected in the distributed representation of healthy items. A common set of features shared between concepts leads to similar distributed representations for those concepts.
+
+Thus, the representation of the goal concept of eating healthy might be more similar to the representations of an apple and an orange than it is to the representation of a cookie. Distributed representations have such similarity-preserving properties because they are created within neural networks that capture knowledge about objects within connection weights between units. Weight updates related to similar properties tend to be similar and therefore lead to similar representations. Simulation 1 showcases how, with reasonable assumptions, the distributed representation of an apple is more similar to the distributed representation of a health goal than a distribution representation of a cookie.
+
+Consider, for example, the distributed representation of two items over eight units shown in  Fig. 3 
+                      a. Here we follow the convention of shading units whose activation is above some threshold. Two representations are similar if their units are simultaneously above or below some threshold. In our example, Units 1, 4, and 7 are above threshold for both representations, and Units 5 and 8 are below threshold for both representations. These units contribute to the similarity computation between the representations. The more the proportion of such units, the higher the value of  
+                         
+                            k 
+                            1 
+                         
+                      . Units 2, 3, and 8, on the other hand, contribute to dissimilarity between representations because they are of different parities. One unit is above threshold, whereas the other is not. The more the proportion of such units, the higher the value of  
+                         
+                            k 
+                            2 
+                         
+                      .Thus, distributed representations suggest how  
+                         
+                            k 
+                            1 
+                         
+                      (a measure of similarity) and  
+                         
+                            k 
+                            2 
+                         
+                       (a measure of dissimilarity) emerge from the distributed representations of items and goals. These representations, rather than  
+                         
+                            k 
+                            1 
+                         
+                      and  
+                         
+                            k 
+                            2 
+                         
+                       themselves will be inputs to neural network version of the CGSM.
+
+The similarity-preserving property of distributed representation is crucial in modern deep learning. For example, in the field of Natural Language Processing (NLP), word embeddings ( Bengio et al., 2003 ) refer to numerical representations of words or phrases used to capture the semantic meaning and contextual relationships between words in a language. Importantly, the distributed representation of words retains underlying semantic similarities. For example, the vector representations for ‘Pine’ and ‘Redwood’ might be similar to each other but quite dissimilar from the vector representation of ‘Microwave’. Such representations use backpropagation to generate distributed representations. The CGSM is agnostic to how the distributed representations are generated as long as they retain similarities between entities in the world. Simulation 1 provides an alternative algorithm to backpropagation.
+
+We next turn to describing how the CGSM uses similarity and dissimilarity computations.  Fig. 3 b shows the structure of a sub-network that receives an input activation of  
+                         
+                            a 
+                            0 
+                         
+                       and outputs activation of  
+                         
+                            
+                               k 
+                               1 
+                            
+                            
+                               a 
+                               0 
+                            
+                         
+                      . It uses NOR gates – whose functionality is known to be capturable in a simple neural network. An NOR gate outputs 1 when the parity of both of its inputs is the same (i.e., they are both ‘on’ or both ‘off’), else it outputs zero. Having an NOR gate between each unit involved in the distributed representation of the item and the goal multiplies the incoming activation  
+                         
+                            a 
+                            0 
+                         
+                       by the number of units in the two representations that have the same parity – a quantity proportional to  
+                         
+                            k 
+                            1 
+                         
+                      . We shall refer to this sub-network as the Similarity sub-network. If provided with an input  
+                         
+                            a 
+                            0 
+                         
+                      , it generates an output  
+                         
+                            
+                               k 
+                               1 
+                            
+                            
+                               a 
+                               0 
+                            
+                         
+                      . A similar network using a XOR gate can, for example, receive an input of  
+                         y 
+                       and output an activation of  
+                         
+                            
+                               k 
+                               2 
+                            
+                            y 
+                         
+                      , where  
+                         
+                            k 
+                            2 
+                         
+                       is a measure of dissimilarity between the item representation and the goal representation. We shall refer to this sub-network as the Dissimilarity sub-network.
+
+We are now ready to conceptualize the CGSM as a neural network. The CGSM neural network ( Fig. 4 
+                      ) implements a cybernetic loop for each option being considered.
+
+The network receives input via two units (depicted by circles in  Fig. 4 ). The first of these (marked A) receives input proportional to the activation of the goal in memory ( 
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                      ). If a goal is salient in memory, or frequently rehearsed, we would assume a higher  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       value compared to when it is not. The second unit (marked B) receives input proportional to the initial (i.e., goal-independent) preference of the item under consideration  
+                         
+                            a 
+                            
+                               i 
+                               t 
+                               e 
+                               m 
+                            
+                         
+                      . For example, one might expect the  
+                         
+                            
+                               a 
+                               
+                                  i 
+                                  t 
+                                  e 
+                                  m 
+                               
+                            
+                            
+                         
+                      value for the cake to be higher than the  
+                         
+                            
+                               a 
+                               
+                                  i 
+                                  t 
+                                  e 
+                                  m 
+                               
+                            
+                            
+                         
+                      value for the apple. These inputs are both scalars, not vectors. There are excitatory and inhibitory connections in the network. The excitatory connections have strength +1, and the inhibitory connections have strength −1. The quantity  
+                         
+                            a 
+                            0 
+                         
+                       represents the activation of Unit A, and  
+                         y 
+                       represents the activation of Unit B. The Similarity and Dissimilarity subnetworks compare the item (distributed) representations and goal (distributed) representations and multiply the incoming activation into the subnetwork by  
+                         
+                            k 
+                            1 
+                         
+                       or  
+                         
+                            k 
+                            2 
+                         
+                      , respectively ( Fig. 3 b). The quantity  
+                         
+                            a 
+                            1 
+                         
+                       is the input activation into Unit B, and the quantity  
+                         
+                            a 
+                            2 
+                         
+                       is the input activation into Unit A.
+
+The, Dissimilarity Subnetwork has an inhibitory connection to Unit A and inhibits overall activation in the network (shown with a connection ending with a terminal circle in  Fig. 4 ), whereas the Similarity Subnetwork has an excitatory connection with Unit B and amplifies overall activation in the network. The result of these connections is that the CGSM amplifies output related to options that are more similar and less dissimilar to the goal, and it dampens output related to options that are less similar and more dissimilar to the goal, irrespective of the initial approach strength of that item.
+
+The network receives inputs (including the distributed representations into the similarity and dissimilarity sub-networks) and the activation of Unit B,  
+                         y 
+                      , gradually converges to the expression in (2). The convergence is gradual because as in all neural networks, we use a constant (alpha = 0.1) to let the activation increase gradually.
+
+In free-choice, time-unlimited experiments, the choice of the model is determined by the value  
+                         y 
+                       obtained after some fixed number of network cycles (e.g., 300). For example in a choice between an apple and cookie, if  
+                         
+                            
+                               y 
+                               apple 
+                            
+                            > 
+                            
+                            
+                               y 
+                               cookie 
+                            
+                         
+                       then the apple would be chosen, otherwise the cookie would be chosen. In reaction time experiments a choice is made when the difference in output values  
+                         y 
+                       exceeds a threshold (which is a free parameter in the model).
+
+Next, we motivate the quantitative details underpinning the cybernetic network (see  Cruse, 1996 , for a related model developed in a different context). The cybernetic network in  Fig. 4 , like most neural networks, adds its external input and other activations to produce its net input. Its net input is assumed to be equal to its output (i.e., it has a linear activation function). We may, therefore, deduce the following relationships:
+
+a 
+                               0 
+                            
+                            = 
+                            
+                            
+                               a 
+                               
+                                  g 
+                                  o 
+                                  a 
+                                  l 
+                               
+                            
+                            
+                            − 
+                            
+                            
+                               a 
+                               2 
+                            
+                         
+                       (external input  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       and inhibitory influence  
+                         
+                            a 
+                            2 
+                         
+                       are equal to Unit A activation,  
+                         
+                            a 
+                            0 
+                         
+                      )
+
+a 
+                               1 
+                            
+                            = 
+                            
+                            
+                               k 
+                               1 
+                            
+                            * 
+                            
+                               a 
+                               0 
+                            
+                         
+                       (structure of Similarity Subnetwork)
+
+y 
+                            = 
+                            
+                            
+                               a 
+                               
+                                  i 
+                                  t 
+                                  e 
+                                  m 
+                               
+                            
+                            + 
+                            
+                            
+                               a 
+                               1 
+                            
+                            
+                         
+                      (external input for  
+                         
+                            a 
+                            
+                               i 
+                               t 
+                               e 
+                               m 
+                            
+                         
+                       and excitatory influence  
+                         
+                            a 
+                            1 
+                         
+                       are equal to Unit B activation,  
+                         y 
+                      )
+
+a 
+                               2 
+                            
+                            = 
+                            
+                            y 
+                            * 
+                            
+                            
+                               k 
+                               2 
+                            
+                            
+                         
+                      (structure of Dissimilarity Subnetwork)
+
+Solving algebraically for y (derivation in Supplementary Information), we obtain: 
+                         
+                            
+                               
+                                  y 
+                                  = 
+                                  
+                                  
+                                     
+                                        k 
+                                        1 
+                                     
+                                     
+                                        1 
+                                        + 
+                                        
+                                           k 
+                                           1 
+                                        
+                                        
+                                           k 
+                                           2 
+                                        
+                                     
+                                  
+                                  
+                                     a 
+                                     
+                                        g 
+                                        o 
+                                        a 
+                                        l 
+                                     
+                                  
+                                  
+                                  + 
+                                  
+                                  
+                                     1 
+                                     
+                                        1 
+                                        + 
+                                        
+                                           k 
+                                           1 
+                                        
+                                        
+                                           k 
+                                           2 
+                                        
+                                     
+                                  
+                                  
+                                     a 
+                                     
+                                        i 
+                                        t 
+                                        e 
+                                        m
+
+This expression is identical to  Eq. (2) . Thus, as a neural network, the CGSM exhibits all of the desirable properties we described previously. In particular, it increases the final activation,  
+                         y 
+                      , of items that are more similar and less dissimilar to goals, and it decreases the final activation of items that are less similar and more dissimilar to goals.
+
+As a consolidating interim summary, let us consider the choice between an immediately-tempting item T (think cookie), and a less tempting but more goal congruent item G (think apple). The initial preference associated with T is greater than the initial attractiveness associated with G. Mathematically, we may indicate this as  
+                         
+                            
+                               a 
+                               
+                                  i 
+                                  t 
+                                  e 
+                                  m 
+                                  , 
+                                  
+                                  T 
+                               
+                            
+                            > 
+                            
+                            
+                               a 
+                               
+                                  i 
+                                  t 
+                                  e 
+                                  m 
+                                  , 
+                                  
+                                  G 
+                               
+                            
+                         
+                      .
+
+The distributed representation for G is more similar to the goal representation than the representation of T. Mathematically  
+                         
+                            
+                               k 
+                               
+                                  1 
+                                  , 
+                                  
+                                  T 
+                               
+                            
+                            > 
+                            
+                            
+                               k 
+                               
+                                  1 
+                                  , 
+                                  
+                                  G 
+                               
+                            
+                            . 
+                         
+                       Similarly, the representation for G is less dissimilar to the goal representation than the representation of T. Mathematically,  
+                         
+                            
+                               k 
+                               
+                                  2 
+                                  , 
+                                  
+                                  T 
+                               
+                            
+                            < 
+                            
+                            
+                               k 
+                               
+                                  2 
+                                  , 
+                                  
+                                  G
+
+Each option is fed through the CGSM in turn. T with its higher initial attractiveness is evaluated first. The activation associated with T (a scalar quantity, i.e., a single number) is initially high. But the low similarity between the distributed representation for T and the distributed representation associated with the operative goal dampens down this number and prevents it from crossing threshold.
+
+Next, the activation associated with G (once again, a scaler quantity) is fed into the cybernetic network. This activation is initially low but the high similarity between the distributed representation for G and the distributed representation associated with the operative goal amplifies up this number. This amplification occurs via looping through the circuit of  Fig. 4 , and this looping corresponds to the time required for a self-control decision to be implemented.
+
+Self-control processes require a sufficient amount of activation of the goal in memory (i.e.,  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                      ). In the absence of such activation, T would retain its initial preference lead and be chosen over G.
+
+Table 1 
+                       summarizes the behavior of the model for different contexts. The ‘Choice’ column indicates the chosen item (in bold, Item 1 or Item 2) and the pair of numbers below the chosen item correspond to the  
+                         y 
+                       value for Item 1 followed by the  
+                         y 
+                       value for Item 2.
+
+Next, we will describe simulations that describe aspects of the CGSM and model empirical data. In Simulation 1, we shall show how the distributed representation of an item that shares many properties of a goal, such as an apple, is more similar to the distributed representation of a goal compared to the distributed representation of an item, such as a cookie that does not share many properties of the goal. Following that, we will, using the CGSM, simulate empirical choices related to healthy and tasty items as well as choices related to temporal discounting using the CGSM. Importantly, to our knowledge, this is the first demonstration of a computational model related to these phenomena in self-control. It is, therefore, not possible to compare fits with any prior computational model. However, it is possible to examine whether the CGSM faithfully captures important patterns of data that have been previously observed in these empirical phenomena.
+
+Simulation 1 emphasizes an algorithm to create similarity-preserving distributed representations.
+
+In the PDP literature and in modern machine learning distributed representations are typically created via the backpropagation algorithm ( Rumelhart et al., 1995 ). Backpropagation is acknowledged to be biologically implausible ( Crick, 1989 ;  Grossberg, 1987 ;  Lillicrap et al., 2020 ;  Roelfsema & Holtmaat, 2018 ). Alternatives to backpropagation are offered by a family of dimensionality-reduction algorithm based on the unsupervised, biologically-plausible Hebbian learning rule ( Cooper, 2005 ) and its extension to multiple neurons. These algorithms operate by extracting the Principal Components (PCs) inherent in an input stream. A biologically plausible version of such an algorithm was found by Földiák, who developed an algorithm ( Földiák, 1990 ;  Pehlevan & Chklovskii, 2019 ) that could find weights that spanned the space spanned by the PCs.
+
+We do not claim that Földiák's algorithm is the only possible such learning algorithm, nor do we claim that this algorithm is, as described, actually present in biological brains. However, because this algorithm is biologically constrained and biologically informed, we do believe it affords generative opportunities in the computational modeling of many cognitive and affective phenomena. We have therefore explicated its mathematical underpinnings in the supplementary materials, and use it to generate the distributed representations in Simulation 1. We note that while the CGSM critically relies upon the occurrence of similarity-preserving distributed representations, it does not rely upon any particular algorithm to do so.
+
+Next, we used Földiák's algorithm to create distributed representations of items and health goals. We assumed an input matrix consisting of four snacks: apple, grape, cake, and cookie ( Fig. 5 
+                      ). Each item was associated with a set of properties which were coded with 1 if the property was present, 0 if it was not, and 0.5 if there was no information about the applicability of the property. The properties of the apple and grape were often similar: they were both fruits, low in sugar and calories, nutritious, and preservative free. However, this was not always the case. Apples, but not grapes were red, and grapes but not apples were associated with wine. Similarly, the properties of the cake and cookie were often similar: they were both processed food, high in sugar and calories, fatty, and associated with diabetes. However, this was not always the case. Cake, but not cookies had icing, and cookies but not cakes had chocolate chips. The health goal was associated with nutrition, and vitamins, but not with sugar or processed food. In general goal congruent features were more similar to the properties of fruits, but this was not always the case (e.g., ‘tasty’ was a property similar to cake but not apple). Finally, there were properties (e.g., goes with coffee) that were irrelevant to the health goal. These were coded as 0.5 in the input matrix.
+
+We ran the item-property matrix through Földiák's algorithm assuming four representation units. As expected, the distributed representations of similar items were similar, and the representations for dissimilar items were dissimilar. For example, the correlation of the apple representation with grape, cake, cookie, and healthy (goal) were 0.87, −0.78, −0.8, and 0.7 respectively.
+
+Next, we simulate the choice between the Apple and the Cake using the distributed representations derived above. The cosine similarity of the distributed representation of the apple with the health goal is 0.84, and the cosine similarity of the distributed representation of the cake with the health goal is 0.48. The cosine similarity is useful because it does not depend on any particular number of units (e.g. 4 in  Fig. 5 ). We shall use these as the similarity scores,  
+                         
+                            k 
+                            1 
+                         
+                      . We shall test two conditions: a first condition in which goal-related activation  
+                         
+                            
+                               a 
+                               
+                                  g 
+                                  o 
+                                  a 
+                                  l 
+                               
+                            
+                            
+                         
+                      is high (=0.9) and a second condition in which goal-related activation  
+                         
+                            
+                               a 
+                               
+                                  g 
+                                  o 
+                                  a 
+                                  l 
+                               
+                            
+                            
+                         
+                      is low (=0.2). We will assume that the approach activation  
+                         
+                            a 
+                            
+                               i 
+                               t 
+                               e 
+                               m 
+                            
+                         
+                       for the cake is 0.2 whereas the approach item for the apple is only 0.1.
+
+In the first condition high goal-related activation,  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       =0.9, leads to the selection of the apple – which converges to the output activation  
+                         y 
+                       of 0.76. The cake converges to a lower output activation  
+                         y 
+                       of 0.51. However, this is not the case with lower goal related activation,  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       = 0.1. In this case, the cake ( 
+                         y 
+                       = 0.20) is selected over the apple ( 
+                         y 
+                       = 0.16).
+
+Researchers ( Masterson et al., 2019 ) who asked 517 participants to rate 50 food items on health and taste. They then asked participants to select between a reference food item (rated at the mid-point on the rating scale), and various comparison items one at a time. Reaction times were recorded for each choice. They also collected a survey-based measure for cognitive restraint.
+
+The findings data showed the following patterns of results: first, reaction times for selections in which a less-tasty-more-healthy item was chosen were 30–100 msec higher than reaction times for selections in which a more-tasty item was chosen. Participants with higher cognitive restraint ratings had an RT of approximately 1330 msec for choices in which a less-tasty-more-healthy item was chosen and an RT of approximately 1300 msec for choices in which a more-tasty item was chosen. Participants with lower cognitive restraint ratings had an RT of approximately 1400 msec for choices in which a less-tasty-more-healthy item was chosen and an RT of approximately 1300 msec for choices in which a more-tasty item was chosen.
+
+To model reaction times in the CGSM, we required that an item is selected when the difference between its output,  
+                         y 
+                       and the output of a competing item exceeds a threshold  
+                         τ 
+                       (= 0.1 activation units).
+
+Before walking through the actual simulation of the above experimental results, it is useful to consider the underlying behavior of the network: When a food is more tasty than a competing item and is not at a similarity-to-health-goal disadvantage compared to a competing item, then its activation should be immediately higher than the activation of the competing item and the difference should quickly exceed threshold. However, if the more tasty item has a similarity-to-health-goal disadvantage, then while it would have an initial output activation lead, its lead would be lessened with each loop through the CGSM neural network, and eventually, the goal-congruent-less-tasty item would take the lead. This process should take more network cycles – akin to a person having a higher reaction time. A higher-level focus on the health goal (i.e., a relatively higher  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       value) would shorten the number of cycles required for the goal-congruent-less-tasty item to take the lead compared to the number of network cycles required in the case of a lower-level focus on the health goal (i.e., a relatively lower  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       value). Such a result would correspond to the finding that participants with high cognitive restraint had lower RTs for choosing less-tasty-more-healthy items compared to participants with low cognitive restraint.
+
+To test these predicted behaviors and following the methods in the Masterson et al. experiment, we assumed a reference item consisting of approximately average tastiness and average similarity with a health-related goal ( 
+                         
+                            a 
+                            
+                               i 
+                               t 
+                               e 
+                               m 
+                            
+                         
+                       = 0.4 and  
+                         
+                            k 
+                            1 
+                         
+                       = 0.4). We first compared it to a more tasty item with equal similarity with a health-related goal ( 
+                         
+                            a 
+                            
+                               i 
+                               t 
+                               e 
+                               m 
+                            
+                         
+                       = 0.9 and  
+                         
+                            k 
+                            1 
+                         
+                       = 0.4) and then compared it to a less-tasty-more-healthy item ( 
+                         
+                            a 
+                            
+                               i 
+                               t 
+                               e 
+                               m 
+                            
+                         
+                       = 0.1 and  
+                         
+                            k 
+                            1 
+                         
+                       = 0.9). We simulated high cognitive restraint with  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       = 0.8 and low cognitive restraint with  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       = 0.7. As shown in  Table 2 
+                      , the CGSM results matched the empirical pattern of results described in  Masterson et al. (2019) .
+
+The line  y  = 3.226*(network cycles) + 1229 yields reaction times of 1239 ms, 1390 ms, and 1439 ms which are comparable to observed reaction times of 1300 ms, 1330 ms, and 1400 ms.
+
+The prior simulation allowed us to examine the selection and reaction times for choices involving immediately-rewarding tasty food item versus a goal-congruent healthy food item. However, these dependent variables provided limited visibility into the internal dynamics of such choices. This issue is mitigated by mouse tracking experiments which are recognized to capture, in a non-self-report and unobtrusive manner, the real-time temporal profile of conflict during self-control contexts ( Freeman & Ambady, 2009 ;  McKinstry et al., 2008 ).  Stillman et al. (2017)  used mouse tracking to perform an in-depth, micro-examination of how cognitive processes unfold in real-time to enable food choice decisions with a self-control component.
+
+In a typical experimental trial, the researchers plotted paths followed by a participant's mouse towards one of two food choices – a healthy item and a tasty item. Consistent with the finding that hand movement is tightly linked to underlying conflict-resolution processes ( Freeman et al., 2011 ), they found that even though individuals know that they should eat an apple instead of cake in order to be healthy, interference from the more-immediately rewarding often created an initial deviation towards the tasty item, which then gradually curved towards the healthy item.
+
+Three important results emerged: First, participant mouse-tracks in self-control contexts revealed smooth trajectories that covered the spectrum of possible curvature amounts. This was in contrast to a more abrupt mid-flight correction towards a healthy food item that might be predicted by dual-process accounts of self-control that unfold in a sequential manner (e.g.,  Hofmann et al., 2009 ;  Shiv & Fedorikhin, 1999 ) in which one of the two processes may control mouse trajectories first – typically the more automatic, or System 1 process ( Kahneman, 2011 ) – and then yield control to the slower, more deliberative process, resulting in a mouse-track that initially veers towards the tempting item and then abruptly reverses towards the goal-congruent item.
+
+Second, the researchers used an Area Under the Curve (AUC) metric to measure whether participant mouse-trajectories in trials involving self-control were different from trials in which healthy objects were pitted against inedible objects (e.g., a pencil). In these comparison (control) trials, participants were simply required to identify the healthy food item and move their mouse towards it. These comparison trials did not involve competition between two items and served as a baseline to measure trajectories in contexts not requiring control. The AUC measure for self-control trials was greater than the AUC measure for comparison trials.
+
+Third, researchers found that individuals who are more successful at self-control show significantly less real-time conflict in only self-control-relevant choices. Thus, the mouse-track deviation towards the tasty items was generally greater for individuals with low self-control compared to individuals with high self-control. These results are illustrated in Figure-4.
+
+In order to simulate these three results with the CGSM, we assumed an item that was less-tasty-more-healthy akin to the apple in  Fig. 6 
+                       ( 
+                         
+                            a 
+                            
+                               i 
+                               t 
+                               e 
+                               m 
+                            
+                         
+                       = 0.2 and  
+                         
+                            k 
+                            1 
+                         
+                       = 0.9); a second item that was more-tasty-less-healthy skin to the cake in  Fig. 4  ( 
+                         
+                            a 
+                            
+                               i 
+                               t 
+                               e 
+                               m 
+                            
+                         
+                       = 0.8 and  
+                         
+                            k 
+                            1 
+                         
+                       = 0.1), and a control item akin to the pencil in  Fig. 4  ( 
+                         
+                            a 
+                            
+                               i 
+                               t 
+                               e 
+                               m 
+                            
+                         
+                       = 0 and  
+                         
+                            k 
+                            1 
+                         
+                       = 0). We then plotted the difference in activation between the less-tasty-more-healthy and the more-tasty-less-healthy item. We assumed this difference to be the model's prediction related to the mouse tracking trajectories. Thus when, in early network cycles, the activation levels for the more-tasty-less-healthy were higher the mouse track trajectory was towards that item. Gradually, as the CGSM asserted the influence of similarity to the health-related goal, the activation of less-tasty-more-healthy item asserted itself. We ran the model at high and low levels of attention to goal ( 
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       = 1 and  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       = 0.8) which respectively simulated individuals with higher and lower levels of self-control.
+
+Capturing the pattern of results in  Stillman et al. (2017) , the activation graphs are smooth and curvilinear ( Fig. 7 
+                      ) – similar to the mouse trajectories produced by human participants. The effect of the tasty item shown by its early activation lead is evident in both the high and low self-control condition, although as empirically observed, the effect is more pronounced in the low self-control condition. Finally, we compared the activation of the less-tasty-more-healthy item when it was pitted against a control item. In this case, the less-tasty-more-healthy item always had the activation lead and the ‘curving’ towards the competing item was not observed. This result also recapitulates the empirical findings.
+
+Experimental psychologists and economists agree that people generally tend to accept smaller sums of money sooner compared to larger sums of money later. This pattern of behavior implicitly discounts future rewards. This general phenomenon is referred to as temporal discounting and has been applied to lapses in willpower, health outcomes, consumption choices over time, and personal finance decisions. Unsurprisingly, temporal discounting is thought to be inextricably linked with self-control (e.g.,  Ainslie, 1975 ;  Ballard et al., 2017 ;  Frederick et al., 2002 ).
+
+The classical view of economics assumes that in temporal discounting people discount a future reward by a fixed percentage for each unit of time they must wait. If the discount rate is 5% per year, a person should equally prefer $1000 now and $1050 a year from now. Similarly, the same person should also equally prefer $1000 in one year and $1050 in two years. This view proposes that the increase in subjective rewards between two time periods only depends on the duration between. Mathematically, the subjective reward  
+                         
+                            r 
+                            ( 
+                            t 
+                            ) 
+                         
+                       is equal the expression  
+                         
+                            A 
+                            
+                               
+                                  e 
+                               
+                               
+                                  B 
+                                  t 
+                               
+                            
+                         
+                      , where  
+                         A 
+                       and  
+                         B 
+                       are constant parameters.
+
+A well-established literature has documented that people tend not to make choices consistent with a constant increase in subjective reward time periods. For example, people may tend to prefer $1000 now vs. $1050 a year from now, but may reverse their preferences for later rewards and prefer $1050 two years from now vs. $1000 a year from now. Psychologists ( Ainslie & Herrnstein, 1981 ;  Rachlin, 2006 ) and behavioral economists ( Laibson, 1997 ;  Loewenstein & Prelec, 1992 ;  O'Donoghue & Rabin, 1999 ) have noted that rewards over time follow a hyperbolic curve rather than the exponential curve predicted in classical economics so that the subjective reward  
+                         
+                            r 
+                            ( 
+                            t 
+                            ) 
+                         
+                       is equal to the expression  
+                         
+                            A 
+                            
+                               1 
+                               + 
+                               B 
+                               t 
+                            
+                         
+                      , where  
+                         A 
+                       and  
+                         B 
+                       are constant parameters. Researchers have noted that “it is difficult to adequately emphasize the success or importance of the hyperbolic model of discounting. In most experiments it provides a superb fit to individually expressed preferences” ( Van den Bos & McClure, 2013 , p. 60).
+
+Despite its success, there are some significant explanatory gaps associated with the hyperbolic model. First, and most importantly, the model does not provide any mechanistic explanation of  why  temporal discounting tends to follow hyperbolic curves. There are no theoretical models in self-control that can be algorithmically linked to hyperbolic discounting, and it is unclear how the hyperbolic curve emerges. Second, there is considerable evidence that discounting is elevated when people are hungry, tired, emotionally aroused, or generally less able to attend to the goal of maximizing reward ( Giordano et al., 2002 ;  Li, 2008 ;  Van den Bergh et al., 2008 ;  Wang & Dvorak, 2010 ). Increased resources tend to change the shape of the hyperbolic curve closer so that it begins to approximate an exponential curve. Thus, decreased cognitive resources tend to make the discounting curve more hyperbolic and more ‘irrational’, whereas increased cognitive resources tend to make the discounting curve more exponential and therefore more consistent with ‘rational’ models of decision making. The mechanistic source of such effects remains unclear.
+
+Next, we assess the ability of the CGSM to provide an algorithmically explicit account of temporal discounting in general and the emergence of the hyperbolic curve in particular. In the cybernetic loop of the CGSM, the maximum-reward-later represents the goal; options that are exercised later for greater reward are more similar to this goal than options that are exercised sooner for less reward. We seek to determine whether the subjective-value-indifference curve, defined by the set of points for which smaller rewards sooner have equal subjective value to a larger reward later, takes on a hyperbolic shape for some model parameters. Additionally, we seek to examine whether this curve becomes more hyperbolic with diminished attention towards the goal and less hyperbolic and more exponential with increased attention towards the goal.
+
+To begin modeling using the CGSM we first considered the distributed representation of an option. Each such option is defined by two sets of features: the time  
+                         t 
+                       elapsed since the present moment, and the reward  
+                         
+                            r 
+                            ( 
+                            t 
+                            ) 
+                         
+                       available at that moment. In temporal discounting experiments greater elapsed time is associated with greater rewards. We shall first consider the case in which this association is linear and proportional such that an increase in elapsed time by a certain percentage is associated with an increase in offered reward by that same percentage.
+
+In this case, the single unit representation value of an option would be given by the expression 
+                         
+                            
+                            
+                               
+                                  r 
+                                  
+                                     
+                                        
+                                           ( 
+                                           t 
+                                           ) 
+                                        
+                                     
+                                     2 
+                                  
+                                  + 
+                                  
+                                  
+                                     
+                                        t 
+                                     
+                                     2 
+                                  
+                               
+                            
+                         
+                       which is the projection of  
+                         t 
+                       and  
+                         
+                            r 
+                            ( 
+                            t 
+                            ) 
+                         
+                       on the first principal component (see discussion in supplementary materials). Even if the relationship between  
+                         t 
+                       and  
+                         
+                            r 
+                            ( 
+                            t 
+                            ) 
+                         
+                       was not strictly proportional, the representation value would, modulo multiplication by a constant term, resemble this expression, and the analysis described below would remain largely unaffected.
+
+Next, we posit a ‘Less Sooner’ (LS) option and a terminal ‘More Later’ (ML) option and, following prior literature, we shall assume that the self-control-related goal is congruent to the ML option. The goal yields a reward R at some end-point T, where R and T are constants. We will also assume that the LS option yields a reward  
+                         
+                            r 
+                            ( 
+                            t 
+                            ) 
+                         
+                       at time  
+                         t 
+                      . By treating  
+                         
+                            r 
+                            ( 
+                            t 
+                            ) 
+                         
+                       and  
+                         t 
+                       as fractions of the total reward R and the total time T, we may, without loss of generality, set  R  = 1, and  T  = 1.
+
+The effective discount rate is calculated at the point of indifference where the LS (less sooner) option is equivalent to the ML (more later) option. In the CGSM, this translates to equating the output activation  
+                         y 
+                       of the two options. Recalling (2): 
+                         
+                            
+                               
+                                  y 
+                                  = 
+                                  
+                                  
+                                     
+                                        k 
+                                        1 
+                                     
+                                     
+                                        1 
+                                        + 
+                                        
+                                           k 
+                                           1 
+                                        
+                                        − 
+                                        
+                                           k 
+                                           1 
+                                           2 
+                                        
+                                     
+                                  
+                                  
+                                     a 
+                                     
+                                        g 
+                                        o 
+                                        a 
+                                        l 
+                                     
+                                  
+                                  
+                                  + 
+                                  
+                                  
+                                     1 
+                                     
+                                        1 
+                                        + 
+                                        
+                                           k 
+                                           1 
+                                        
+                                        − 
+                                        
+                                           k 
+                                           1 
+                                           2 
+                                        
+                                     
+                                  
+                                  
+                                     a 
+                                     
+                                        i 
+                                        t 
+                                        e 
+                                        m
+
+Since the representation of an option at time  
+                         t 
+                      , is given by  
+                         
+                            
+                               r 
+                               
+                                  
+                                     
+                                        ( 
+                                        t 
+                                        ) 
+                                     
+                                  
+                                  2 
+                               
+                               + 
+                               
+                               
+                                  
+                                     t 
+                                  
+                                  2 
+                               
+                            
+                         
+                      , the representation of the ML option is  
+                         
+                            
+                               
+                                  1 
+                                  + 
+                                  1 
+                               
+                            
+                            = 
+                            
+                            
+                               2 
+                            
+                         
+                      , since, by assumption, the ML option provides a reward of 1 at  
+                         t 
+                      =1. The representation of a less sooner (LS) option at  
+                         
+                            t 
+                            ≤ 
+                            1 
+                         
+                       is  
+                         
+                            
+                               r 
+                               
+                                  
+                                     
+                                        ( 
+                                        t 
+                                        ) 
+                                     
+                                  
+                                  2 
+                               
+                               + 
+                               
+                               
+                                  
+                                     t 
+                                  
+                                  2 
+                               
+                            
+                         
+                       and therefore the similarity,  
+                         
+                            k 
+                            1 
+                         
+                      , of such an option with the ML option is  
+                         
+                            
+                               
+                                  r 
+                                  
+                                     
+                                        
+                                           ( 
+                                           t 
+                                           ) 
+                                        
+                                     
+                                     2 
+                                  
+                                  + 
+                                  
+                                  
+                                     
+                                        t 
+                                     
+                                     2 
+                                  
+                               
+                            
+                            
+                               2 
+                            
+                         
+                      . This implies, as one would expect, that the similarity of the ML option with itself is equal to 1.
+
+The attractiveness of an option increases with the quantity of the reward  
+                         
+                            r 
+                            ( 
+                            t 
+                            ) 
+                         
+                       and decreases with the elapsed time  
+                         
+                            t 
+                            . 
+                         
+                       We will thus assume that  
+                         
+                            
+                               a 
+                               
+                                  i 
+                                  t 
+                                  e 
+                                  m 
+                               
+                            
+                            = 
+                            r 
+                            
+                               ( 
+                               t 
+                               ) 
+                            
+                            
+                               ( 
+                               
+                                  1 
+                                  − 
+                                  t 
+                               
+                               ) 
+                            
+                         
+                      . For the ML option  
+                         
+                            
+                               a 
+                               
+                                  i 
+                                  t 
+                                  e 
+                                  m 
+                               
+                            
+                            = 
+                            0 
+                         
+                      , since  
+                         
+                            t 
+                            = 
+                            1
+
+Substituting values in (2), and designating the output activation  
+                         y 
+                       for the more later (ML) option as  
+                         
+                            y 
+                            
+                               M 
+                               L 
+                            
+                         
+                      , we may write: 
+                         
+                            (6) 
+                            
+                               
+                                  
+                                     y 
+                                     
+                                        M 
+                                        L 
+                                     
+                                  
+                                  = 
+                                  
+                                  
+                                     1 
+                                     
+                                        1 
+                                        + 
+                                        1 
+                                        − 
+                                        1 
+                                     
+                                  
+                                  
+                                     a 
+                                     
+                                        g 
+                                        o 
+                                        a 
+                                        l 
+                                     
+                                  
+                                  = 
+                                  
+                                  
+                                     a 
+                                     
+                                        g 
+                                        o 
+                                        a 
+                                        l
+
+For the less sooner (LS) option the output activation at time  
+                         t 
+                      , we may write 
+                         
+                            (7) 
+                            
+                               
+                                  
+                                     y 
+                                     
+                                        L 
+                                        S 
+                                     
+                                  
+                                  = 
+                                  
+                                  
+                                     
+                                        
+                                           
+                                              r 
+                                              
+                                                 
+                                                    
+                                                       ( 
+                                                       t 
+                                                       ) 
+                                                    
+                                                 
+                                                 2 
+                                              
+                                              + 
+                                              
+                                              
+                                                 
+                                                    t 
+                                                 
+                                                 2 
+                                              
+                                           
+                                        
+                                        
+                                        / 
+                                        
+                                           2 
+                                        
+                                     
+                                     
+                                        1 
+                                        + 
+                                        
+                                           
+                                              ( 
+                                              
+                                                 
+                                                    r 
+                                                 
+                                                 2 
+                                              
+                                              
+                                                 ( 
+                                                 t 
+                                                 ) 
+                                              
+                                              
+                                              + 
+                                              
+                                              
+                                                 
+                                                    t 
+                                                 
+                                                 2 
+                                              
+                                           
+                                        
+                                        
+                                        / 
+                                        
+                                           2 
+                                        
+                                        
+                                        − 
+                                        
+                                           ( 
+                                           
+                                              
+                                                 r 
+                                              
+                                              2 
+                                           
+                                           
+                                              ( 
+                                              t 
+                                              ) 
+                                           
+                                           + 
+                                           
+                                              
+                                                 t 
+                                              
+                                              2 
+                                           
+                                           ) 
+                                        
+                                        / 
+                                        2 
+                                     
+                                  
+                                  
+                                     a 
+                                     
+                                        g 
+                                        o 
+                                        a 
+                                        l 
+                                     
+                                  
+                                  
+                                  + 
+                                  
+                                  
+                                     1 
+                                     
+                                        1 
+                                        + 
+                                        
+                                           
+                                              ( 
+                                              
+                                                 
+                                                    r 
+                                                 
+                                                 2 
+                                              
+                                              
+                                                 ( 
+                                                 t 
+                                                 ) 
+                                              
+                                              + 
+                                              
+                                              
+                                                 
+                                                    t 
+                                                 
+                                                 2 
+                                              
+                                           
+                                        
+                                        
+                                        / 
+                                        
+                                           2 
+                                        
+                                        
+                                        − 
+                                        
+                                           ( 
+                                           
+                                              
+                                                 r 
+                                              
+                                              2 
+                                           
+                                           
+                                              ( 
+                                              t 
+                                              ) 
+                                           
+                                           + 
+                                           
+                                              
+                                                 t 
+                                              
+                                              2 
+                                           
+                                           ) 
+                                        
+                                        / 
+                                        2 
+                                     
+                                  
+                                  r 
+                                  
+                                     ( 
+                                     t 
+                                     ) 
+                                  
+                                  
+                                     ( 
+                                     
+                                        1 
+                                        − 
+                                        t 
+                                     
+                                     )
+
+We are interested in the required reward at the point of indifference where  
+                         
+                            
+                               y 
+                               
+                                  M 
+                                  L 
+                               
+                            
+                            = 
+                            
+                            
+                               y 
+                               
+                                  L 
+                                  S 
+                               
+                            
+                         
+                      . In other words, we are looking for the  
+                         
+                            r 
+                            ( 
+                            t 
+                            ) 
+                         
+                       that minimizes the absolute value difference  
+                         
+                            
+                               | 
+                            
+                            
+                               
+                                  y 
+                                  
+                                     M 
+                                     L 
+                                  
+                               
+                               − 
+                               
+                               
+                                  y 
+                                  
+                                     L 
+                                     S 
+                                  
+                               
+                            
+                            
+                               | 
+                            
+                         
+                      . Alternatively, we seek to minimize: 
+                         
+                            (8) 
+                            
+                               
+                                  | 
+                                  
+                                     
+                                        
+                                           
+                                              
+                                                 r 
+                                                 
+                                                    
+                                                       
+                                                          ( 
+                                                          t 
+                                                          ) 
+                                                       
+                                                    
+                                                    2 
+                                                 
+                                                 + 
+                                                 
+                                                 
+                                                    
+                                                       t 
+                                                    
+                                                    2 
+                                                 
+                                              
+                                           
+                                           
+                                           / 
+                                           
+                                              2 
+                                           
+                                        
+                                        
+                                           1 
+                                           + 
+                                           
+                                              
+                                                 ( 
+                                                 
+                                                    
+                                                       r 
+                                                    
+                                                    2 
+                                                 
+                                                 
+                                                    ( 
+                                                    t 
+                                                    ) 
+                                                 
+                                                 + 
+                                                 
+                                                 
+                                                    
+                                                       t 
+                                                    
+                                                    2 
+                                                 
+                                              
+                                           
+                                           
+                                           / 
+                                           
+                                              2 
+                                           
+                                           
+                                           − 
+                                           
+                                              ( 
+                                              
+                                                 
+                                                    r 
+                                                 
+                                                 2 
+                                              
+                                              
+                                                 ( 
+                                                 t 
+                                                 ) 
+                                              
+                                              + 
+                                              
+                                                 
+                                                    t 
+                                                 
+                                                 2 
+                                              
+                                              ) 
+                                           
+                                           / 
+                                           2 
+                                        
+                                     
+                                     
+                                        a 
+                                        
+                                           g 
+                                           o 
+                                           a 
+                                           l 
+                                        
+                                     
+                                     
+                                     + 
+                                     
+                                     
+                                        1 
+                                        
+                                           1 
+                                           + 
+                                           
+                                              
+                                                 ( 
+                                                 
+                                                    
+                                                       r 
+                                                    
+                                                    2 
+                                                 
+                                                 
+                                                    ( 
+                                                    t 
+                                                    ) 
+                                                 
+                                                 + 
+                                                 
+                                                 
+                                                    
+                                                       t 
+                                                    
+                                                    2 
+                                                 
+                                              
+                                           
+                                           
+                                           / 
+                                           
+                                              2 
+                                           
+                                           
+                                           − 
+                                           
+                                              ( 
+                                              
+                                                 
+                                                    r 
+                                                 
+                                                 2 
+                                              
+                                              
+                                                 ( 
+                                                 t 
+                                                 ) 
+                                              
+                                              + 
+                                              
+                                                 
+                                                    t 
+                                                 
+                                                 2 
+                                              
+                                              ) 
+                                           
+                                           / 
+                                           2 
+                                        
+                                     
+                                     r 
+                                     
+                                        ( 
+                                        t 
+                                        ) 
+                                     
+                                     
+                                        ( 
+                                        
+                                           1 
+                                           − 
+                                           t 
+                                        
+                                        ) 
+                                     
+                                     − 
+                                     
+                                        a 
+                                        
+                                           g 
+                                           o 
+                                           a 
+                                           l 
+                                        
+                                     
+                                     
+                                        ) 
+                                     
+                                  
+                                  |
+
+Our strategy was to find the  
+                         
+                            r 
+                            ( 
+                            t 
+                            ) 
+                         
+                       that minimizes (8) at different values of t. These values of  
+                         
+                            r 
+                            ( 
+                            t 
+                            ) 
+                         
+                       would constitute the indifference curve (depicted in green in  Fig. 6 ). To perform this minimization, we used an optimizing function (code available on github) that, for a given value of  
+                         t 
+                      , evaluates the expression in (8) with different values of  
+                         
+                            r 
+                            ( 
+                            t 
+                            ) 
+                         
+                       until it finds the value for which the expression is minimized.  Fig. 8 
+                       plots the resultant values of  
+                         
+                            r 
+                            ( 
+                            t 
+                            ) 
+                         
+                       for three different  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       values. Also shown are the best-fit-hyperbolic and best-fit-exponential curves.
+
+Strikingly, in the low- and medium- attention cases, the best-fit hyperbolic curve provides an excellent fit to the indifference curve derived from (8). In the low- and medium-attention conditions this fit is tighter (i.e., has a lower sum of square errors) than the best-fit exponential curve. In particular, with a low level of attention towards the ML goal ( 
+                         
+                            
+                               a 
+                               
+                                  g 
+                                  o 
+                                  a 
+                                  l 
+                               
+                            
+                            = 
+                            0.2 
+                         
+                      ), the sum of square errors between the indifference curve obtained via the CGSM and the best fit hyperbolic curve is 0.0023. The corresponding sum of square errors with the best-fit exponential curve is 0.1652. The hyperbolic curve is also a better fit in the moderate attention condition ( 
+                         
+                            
+                               a 
+                               
+                                  g 
+                                  o 
+                                  a 
+                                  l 
+                               
+                            
+                            = 
+                            0.4 
+                         
+                      ; sum of square errors 0.0052 for the best-fit hyperbolic curve and 0.0172 for the best fit exponential curve). However, importantly, the hyperbolic curve is not the best fit in the high attention condition ( 
+                         
+                            
+                               a 
+                               
+                                  g 
+                                  o 
+                                  a 
+                                  l 
+                               
+                            
+                            = 
+                            0.6 
+                         
+                      ; sum of square errors 0.0183 for the best-fit hyperbolic curve and 0.0012 for the best fit exponential curve). Since  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       is assumed to be the parameter that varies with different levels of attention towards the goal, these results match the empirical pattern of results discussed above: lower levels of attention (such as those caused by hunger, tiredness, or emotional arousal) lead to steeper discounting in the short term.
+
+The Comparison with Goal States Model (CGSM), rooted in the PDP tradition and in cybernetic principles, consists of two elements: The first element consists of a biologically plausible, unsupervised network that creates distributed representations of goals and available options; the second element consists of a cybernetic loop that compares the distributed representation the goal to the distributed representation of each available option. The preference for options with similar features to the goal is amplified and the preference for options with dissimilar features is dampened – even if such dissimilar options were initially pre-potent. We next consider implications of the CGSM related to the nature of self-control, levers that can help instantiate and improve self-control, and its connection with cognitive-control.
+
+The CGSM does not conceptualize self-control as a dual process framework:  Dual processes frameworks for self-control have been frequently proposed ( Chaiken S. & Trope, 1999 ;  Heatherton & Wagner, 2011 ;  Kahneman, 2011 ), but are explanatorily limited ( Hayden, 2019 ) and are sometimes inconsistent with empirical observations related to self-control ( Stillman et al., 2017 ). While the CGSM often features the influence of dual tendencies – immediately-attractive and goal-influenced – it is not a dual-process framework. Rather, operative tendencies interact and compete with each other within a single framework and result in emergent phenomena that recapitulate important empirical observations related to self-control. Relatedly, the CGSM does not rely on deductive logical inferences. This suggests that controlled action may be possible in non-human animals – even those that are generally thought to be incapable of such reasoning (see  Beran, 2021 , for gathering evidence consistent with this prediction).
+
+The CGSM does not conceptualize self-control as another economic decision:  A generative and important view of self-control asks whether decisions featuring self-control are akin to any economic decision featuring a choice between competing options ( Berkman et al., 2017 ;  Neal et al., 2017 ). Economic decisions sometimes lead to the selection of less valued options, and such failures are often attributed to random noise. However, failures of self-control are overwhelmingly in the direction of succumbing to immediate temptation, and this pattern is not consistent with an economic decision between any two options ( Hayden, 2019 ).
+
+The CGSM is asymmetrical with respect to its options. The cybernetic neural network is configured to amplify activations that are similar to operative goals. The pattern of errors favoring the immediately tempting option can be ascribed to either a high  
+                         
+                            a 
+                            
+                               i 
+                               t 
+                               e 
+                               m 
+                            
+                         
+                       value or an insufficient  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                      . Thus, the CGSM does not conceptualize self-control as a garden variety economic decision.
+
+The CGSM features diverse levers to instantiate and sustain self-control:  A lasting tradition in psychology has characterized self-control as the effortful inhibition of impulses. Psychologists have proposed that the failure to exert self-control can be attributed to the inability to inhibit impulses that are often associated with salient temptations ( Baumeister & Heatherton, 1996 ;  Metcalfe & Mischel, 1999 ;  Muraven & Baumeister, 2000 ). Consequently, according to this view, a person attempting to exert self-control requires must consciously recognize tempting impulses as being undesirable and then marshal cognitive and motivational resources to inhibit them.
+
+The CGSM proposes a different approach in which self-control may be conceptualized as the process of furthering less-prepotent, often abstract, and often distal options over more pre-potent, more concrete, and more proximal options when the two options directly conflict with each other. In this conceptualization – consistent with proposals from select researchers, particularly  Fujita (2011)  – effortful inhibition of impulses is a sufficient, but not necessary, means for exerting control. People may exert control (i.e., advance less pre-potent options over pre-potent options) by many different means including, for example, increasing the salience of the features of the less-potent option (i.e., increasing  
+                         
+                            a 
+                            
+                               i 
+                               t 
+                               e 
+                               m 
+                            
+                         
+                       for the less pre-potent option) or reducing the salience of the features of the more pre-potent option (i.e., reducing  
+                         
+                            a 
+                            
+                               i 
+                               t 
+                               e 
+                               m 
+                            
+                         
+                       for the pre-potent option). Doing so could, for example, include proactively looking away from particular features and towards other features or arranging the environment so that certain features are less prominent than others. Alternatively, one might pre-activate the instruction or goal in memory (i.e., increase  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                      ) by, for example, rehearsing it prior to the situation requiring control. Finally, one might selectively attend to features that increase or decrease the similarity or dissimilarity (i.e., change the  
+                         
+                            k 
+                            1 
+                         
+                       and  
+                         
+                            k 
+                            2 
+                         
+                       parameters) in order to advance the less pre-potent option. This set of disparate means to exert control need not entail conscious awareness, intent, or monitoring.
+
+A consequence of this multiple-lever view of self-control is that the output of the CGSM over network cycles is akin to the output of a drift diffusion model in which multiple attributes make separable contributions to choice and that the influence of this contribution varies with time. This view is consistent with experimental findings that have successfully examined the individual contribution of different variables involved in self-control decisions ( Maier et al., 2020 ;  Sullivan & Huettel 2021 ).
+
+The CGSM models Individual differences:  In Simulations 2–4, we described how low levels of the  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       parameter correspond to more impulsive behavior, whereas higher levels of  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       correspond to more self-controlled behavior. If one treats  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       as a trait of individuals, one can use it to measure individual differences across people in exercising self-control. A lower value of  
+                         
+                            a 
+                            
+                               g 
+                               o 
+                               a 
+                               l 
+                            
+                         
+                       weakens and delays the influence of goals on choice and can lead to failures of self-control. This interpretation is consistent with experimental findings ( Sullivan et al., 2015 ) that showed that variation across individuals in self-control abilities can partly be attributed to differences in the speed with which the decision-making circuitry processes basic attributes, such as tastiness, versus more goal-related attributes, such as healthfulness.
+
+Limitations and Future Directions:  There are two salient themes that may be appraised both as limitations as well as opportunities for further development of the CGSM: the relationship between cognitive control and self-control and the neural bases of control.
+
+At least in principle, it is possible to simulate prototypical results in cognitive control via the CGSM. For example, trials in the Stroop task ( Stroop, 1935 ) may be conceptualized as a choice between a ‘name the word’ and ‘name the color’ option. In an incongruent trial (e.g., the word BLUE written in red ink), when asked to name the color, one might imagine a participant's goal representation to consist of memory traces related to each time she has named a color. In this case, the option representations might consist of the initially pre-potent ‘say blue’ option (due to a greater automaticity of word reading), and the goal-consistent but less-activated ‘say red’ option. The CGSM would, in time, amplify the ‘say red’ option although the reaction time for doing this would be, as is empirically observed to be the case, longer than in cases in which the participant was asked to name the word.
+
+What causes us to limit the scope of the CGSM to self-control and remain agnostic to its explanatory potential in the domain of cognitive-control is because it is unclear to us that it is valid to assume that an experimenter's instruction can be instantiated as a goal similar to how the rejoinder to eat healthy might get instantiated as a goal. We can conceive of the possibility that a participant may have a goal of being accurate, or of fulfilling experimental instructions to the best of her ability, but the algorithmic process of whether and how such high-level goals might get reduced to actionable sub-goals (such as naming color) requires further development (or must be abandoned).
+
+A second opportunity for future development of the CGSM consists of the neural bases of (cognitive- and self-) control. Consistent with the CGSM, evidence has pointed ( Cole et al., 2014 ;  Dixon et al., 2018 ;  Marek & Dosenbach, 2018 ) to the role of Fronto-Parietal Control Network (FPCN) that contains flexible hubs that regulate distributed systems according to current task goals. These flexible hubs are thought to implement control via feedback loops, similar to how feedback control is implemented in a thermostat (a prototype example of a device based on cybernetic principles) and other engineering and biological systems ( Cole et al., 2013 ). Importantly, such mechanisms were found to be common in the mammalian brain and, for example, played a prominent role in the motor system's control of muscles ( Diedrichsen et al., 2010 ). Such lines of evidence support the possibility that cognitive-control and self-control are implemented in the brain via cybernetic principles. However, considerable further work is required to meaningfully constrain the CGSM at  Marr's (1982)  implementation level of analysis.
+
+Finally, we have discussed how using ideas related to distributed representations from the deep-learning/AI fields has been useful for computationally extending cybernetic principles that were previously specified at the descriptive level only. Conversely, cybernetic, goal-centric principles are largely missing from the deep-learning field ( McClelland, 2022 ). We invite consideration of the possibility that bridging this gap might enable a new wave of innovation in artificial intelligence.
+
+Gaurav Suri:  Writing – review & editing, Writing – original draft, Project administration, Investigation, Formal analysis, Conceptualization.  Kenneth R. Paap:  Conceptualization.
+
+On behalf of all authors, the corresponding author states that there is no conflict of interest.
+
+Supplementary material associated with this article can be found, in the online version, at  doi:10.1016/j.jmp.2024.102886 .
+
+Image, application 1

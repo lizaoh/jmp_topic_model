@@ -1,0 +1,636 @@
+10.1006/jmps.1998.1252
+Journal of Mathematical Psychology 44, 383�407 (2000) doi:10.1006�jmps.1998.1252, available online at http:��www.idealibrary.com on 
+
+==> picture [38 x 18] <==
+
+A Practical Procedure to Build a Knowledge Structure 
+
+Eric Cosyn and Nicolas Thie�ry[1] 
+
+University of California, Irvine 
+
+Computerized assessment of knowledge is one of the most promising applications of knowledge space theory. The first requirement of any such assessment is to produce as accurate a picture as possible of the organization of the knowledge. So far, all procedures designed for this purpose rely exclusively on the query of an expert. Several experiments have shown the limitations of that approach in realistic conditions. One source of difficulty is the very high sensitivity of the querying algorithms to an expert's mistakes. Another source of difficulty concerns the validity of the expert: His or her knowledge structure may diverge greatly from the knowledge structure of the actual population. To solve these difficulties, the present paper proposes and simulates a two-step procedure. The first step implements a modification of an existing querying procedure. The modification implements an error-handling mechanism which lowers the incidence of an expert's careless errors. The second step consists in a refinement mechanism which relies on the knowledge assessments of many subjects to refine the very structure used by these assessments. For each step, it is shown that the underlying knowledge structure can be recovered. � 2000 Academic Press 
+
+1. INTRODUCTION 
+
+A key hurdle in the application of knowledge space theory lies in the elaboration of the knowledge structure itself Several techniques have been developed for this purpose. query, an interactive questioning routine due to Koppen (1993; see also Koppen 6 Doignon, 1990), is in principle capable of extracting the personal knowledge space of an expert from his or her responses to the questions. Another routine based on similar ideas was devised by Dowling (1993; see also Mu�ller, 1989). Despite their sound foundations in combinatoric theory, these techniques were not fully successful in practical applications. A paper published by Kambouri, 
+
+This work is supported by NFS Grant ESI-935-0484 to J.-Cl. Falmagne at the University of California, Irvine. We are grateful to Jean-Claude Falmagne and Yung-Fong Hsu for their reactions to earlier presentations of this material. 
+
+Address correspondence and reprint requests to Eric Cosyn, ALEKS Corporation, 17742 B Mitchell North, Irvine, CA 92614. E-mail: ecosyn�aleks.com. 
+
+> 1 Equal authorship implied.
+
+==> picture [26 x 27] <==
+
+383 
+
+0022-2496�00 �35.00 
+
+Copyright � 2000 by Academic Press All rights of reproduction in any form reserved. 
+
+384 
+
+Koppen, Villano, 6 Falmagne (1994) illustrates some difficulties. Five experts were questioned by the query routine on the same domain, which consisted of 50 problems in elementary mathematics. The five knowledge spaces constructed by the query routine were similar in size and in other overall characteristics but differed substantially in details. The discrepancies were sufficiently large to cast doubt that a valid knowledge space could be obtained in this manner. In a study conducted by Schrepp 6 Held (1995), an expert was simulated by a computer model whose parameters can be interpreted as the error rates for the expert's answers. Small values of the error rates induced very large variations between the resulting knowledge spaces. 
+
+The purpose of this paper is threefold: The first is to scrutinize the reasons for the discrepancies between the spaces in the Kambouri et al. study. This is a follow-up on these authors' own analysis of their results. The second is to design a more elaborate procedure for obtaining a knowledge structure representative of a particular population of subjects. This procedure is based in part on implementing an improvement of query suggested by Kambouri et al. (1994) and in part on a bootstrapping technique due to Villano (1991). Villano's idea consists in using the empirical results of the knowledge assessment itself to refine the very knowledge structure used in that assessment. Roughly speaking, the knowledge states that are revealed to be unlikely by the assessment are removed from the structure. The third purpose of this paper is to evaluate this new procedure by a large scale simulation. It will be shown that, in a realistic situation in which the simulated experts and the simulated students are allowed to be unreliable, the underlying knowledge structure can be recovered nevertheless. 
+
+2. THEORETICAL BACKGROUND 
+
+2.1. Basic Concepts 
+
+We briefly recall the basic concepts of the knowledge space theory (see, for instance, Doignon 6 Falmagne, 1985). 
+
+Definition 1. A knowledge structure is a pair (Q, K) in which Q is a nonempty finite set and K is a family of subsets of Q, containing at least Q and the empty set <. The set Q is called the domain of the knowledge structure. Its elements are referred to as questions or items and the subsets in the family K are labeled knowledge states. 
+
+Definition 2. When the family K of a knowledge structure (Q, K) is closed under union��i.e., � F # K whenever F�K��we say that (Q, K) is a knowledge space on Q. 
+
+An additional postulate on the knowledge structure was dismissed as too restrictive but will be of importance in our study: 
+
+Definition 3. If the family K of a knowledge structure (Q, K) is closed under both union and intersection��i.e., � F # K and � F # K whenever F�K��we 
+
+385 
+
+A PROCEDURE TO BUILD A KNOWLEDGE STRUCTURE 
+
+say that (Q, K) is a quasi-ordinal knowledge space on Q. In this case, the knowledge structure is equivalent to a quasi-order relation on the domain (Birkhoff, 1967). 
+
+2.2. Comparing Knowledge Structures 
+
+The following notions of discrepancy function and discrepancy index have been introduced by Kambouri et al. (1994). If K is a knowledge structure on a domain Q and S is a subset of Q, then the distance mS, K from S to the structure K is defined by 
+
+==> picture [240 x 17] <==
+
+and with |S2K| denoting the number of elements in S2K. (The term distance is used here by abuse of language, in the same way as we talk about the Euclidean distance from a point to a plane.) 
+
+Definition 4. Let K and K$ be two knowledge structures on Q. The discrepancy function fK, K$ is a mapping from N to N defined by: 
+
+==> picture [185 x 13] <==
+
+Note that in general fK, K$ { fK$, K. 
+
+Definition 5. The discrepancy index di(K, K$) is the mean of the normalization of fK, K$ : 
+
+==> picture [139 x 28] <==
+
+It tells us how much, on average, the states in K differ from the ones in K$ in terms of symmetric difference. Analogously the index di(K, K$) is the mean of the normalization of fK$, K. 
+
+The quadratic mean of the indices provides an average discrepancy index di(K, K$): 
+
+==> picture [179 x 14] <==
+
+These measures will be used extensively to analyze the simulation outputs. 
+
+2.3. Entail Relation and Querying Procedure 
+
+In searching for an efficient way of extracting a knowledge space by querying an expert, Koppen 6 Doignon (1990) introduced the notion of entail relation on the power set of a domain Q: 
+
+386 COSYN AND THIE�RY 
+
+Definition 6. An entail relation E is a relation on 2[Q] which satisfies, for all A, B and C�Q: 
+
+==> picture [101 x 11] <==
+
+==> picture [142 x 27] <==
+
+Empirically, we have AEB whenever any student who fails all the items in A also fails all the items in B. Koppen 6 Doignon (1990) exhibited a one-to-one correspondence between entail relations and knowledge spaces. The correspondence is order reversing with respect to inclusion: if E, E$ are two entail relations and K, K$ are their respective corresponding knowledge spaces, then 
+
+==> picture [80 x 12] <==
+
+==> picture [13 x 11] <==
+
+As a practical outcome of these concepts, Koppen (1993) designed an algorithm, called query, which constructs an entail relation by questioning an expert. The computational engine Of query has an elaborate mechanism for deriving pairs (A, B) belonging to the relation from previously collected answers by the expert. The consequence is a dramatic reduction of the number of questions proposed for judgment. 
+
+It follows from (i) and (ii) in Definition 6 that the restriction of E to singletons, i.e., the pairs (i, j) such that [i] E[ j], forms a quasi-order relation on the domain Q. The corresponding knowledge space is thus a quasi-ordinal space. By (1), this quasi-ordinal space is a superset of the knowledge space corresponding to the complete entail relation. If the expert makes his or her judgments according to a knowledge structure which is not a space, query returns the smallest knowledge space containing this structure. 
+
+3. PRACTICAL DIFFICULTIES AND HOW TO ADDRESS THEM 
+
+The query procedure has been extensively tested in a study conducted by Kambouri et al. (1994). The experiment related how five experts performed in constructing a knowledge space on a 50-item domain within the high school mathematics curriculum. Although the five knowledge spaces had similar general characteristics, their discrepancy distributions exhibited dissimilarities larger than one would have expected. Few states were common to several knowledge spaces and the discrepancy indices ranged from 2.4 to 5.6, with most of them exceeding 4. In other words, any state in a given knowledge space differed, on average, by at least four items from the most resembling state in any other knowledge space. 
+
+Interpreting the individual differences between experts, Kambouri et al. dissected the notion of expertise in two components. We will express this distinction according to the following terminology. First, an expert has to be closely acquainted with the domain of knowledge and the student population. The adequacy between the 
+
+387 
+
+A PROCEDURE TO BUILD A KNOWLEDGE STRUCTURE 
+
+actual states of the student population and the states that the expert would, at least implicitly, estimate possible defines the validity of the expertise. Second, the expert might be more or less consistent in his or her judgments. This defines the consistency of the expert. 
+
+In the discussion of their paper, Kambouri et al. (1994) investigate the possible causes and remedies for the consistency issue. They give some reasons suggesting why experts equally acquainted with a same domain and student population could nonetheless produce different knowledge structures by giving invalid answers to some of the questions asked by query. We will retain that it is an empirical and unavoidable fact that sometimes an expert happens to give a response which is in disagreement with his or her own expertise. Another related difficulty is the tediousness of the querying process. Tapping the human expertise on a 50-item domain requires the expert to answer several thousand questions. We can expect those lengthy sessions to be prone to producing misjudgments. Moreover, the rigidity of the query procedure amplifies the consequences of these errors. Through the inference engine, each expert's answer with all its logical implications contributes to the construction of the final space. This feature accounts for the efficiency of the algorithm by holding down the number of questions submitted for judgment. But a consequence is that any misjudgment will also irreversibly affect the space under construction. An investigation of the above phenomenon is found in Schrepp 6 Held's simulation study (1995). They show that, even in a situation where the error rate is small, the knowledge structure is dramatically altered. 
+
+A solution, suggested by Kambouri et al. (1994), is to make query resistant to the variability of the expert's answers. This can be achieved by delaying the implementation of an answer and its inferences in the entail relation until they are confirmed by a subsequent answer or inference. In other words, we confer them a pending status. Moreover, if further inferences appear to be inconsistent with some pending inferences, then the two incompatible sets of data are discarded. A drawback of the above method is the increase of the number of questions submitted to the expert. Certainly, extending the length of a query session can only worsen the coherence of an expert. Also the issue of the expert's validity is left unresolved. Relying only on a modified query procedure with pending status is thus insufficient to obtain a valid knowledge structure. 
+
+In the present study, we propose to build a knowledge structure by combining an improved version Of query with an assessment-based procedure. This approach is composed of two steps and proceeds along the following lines. First we shall redesign query in order to implement the pending status mechanism. The new procedure, called ps-query, will be restricted to singletons and thus will yield a quasiordinal knowledge structure. This restriction is not intrinsic to ps-query but a deliberate choice of ours. Stopping the querying process early will reduce the number of questions presented to the expert. Moreover, as these questions involve only singletons, they are easier to judge. Because of the pending status mechanism, the resulting quasi-ordinal space will presumably be very similar to the expert's implicit one. However, as seen in (1), this space will be larger than the expert's actual knowledge structure. At this stage��this is our second step��another procedure will be used for trimming the space. 
+
+388 
+
+4. PS-QUERY, OR THE PENDING STATUS QUERY 
+
+When modifying the query algorithm, what are the requirements that we must respect to keep the algorithm consistent? And how much freedom do we have to define a particular strategy for implementing the pending status mechanism? Answering these questions brings us back to the general problem of the consistency of an algorithm generating an entail relation by querying an expert. It is well known that entail relations can be characterized as closure operators (see, for instance, Koppen 6 Doignon, 1990). We will see that closure operators provide the right level of formalism to treat the consistency problem. We actually take a more radical approach by considering closure operators per se, without reference to entail relations for a while. 
+
+Definition 7. Let S be a set. A closure ( ) on S is a mapping A�S � (A) � S which satisfies, for all A, B�S: 
+
+==> picture [116 x 43] <==
+
+The subsets A of S such that (A) =A are said to be closed for ( ). Suppose that we have a decision mechanism telling us, for any closed set of S, whether an element of S belongs to the closed set or not. Upon presentation of an element, the decision mechanism either accepts or rejects the element. For instance, if C is a closed set, let A be a set of elements that the decision mechanism has accepted as being in C, and let B be a set of elements that the decision mechanism has rejected. (A) contains all the elements that must also be in C. In the same way, Definition 8 characterizes the set of all the elements that must also be rejected: 
+
+Definition 8. Let A, B be two subsets of S, a set with a closure ( ). We define [A, B]�S by 
+
+==> picture [172 x 12] <==
+
+[A, B] contains all the elements p such that, if we were adding them to C, we would get the contradiction (A _ [ p]) _ B{<. 
+
+The decision mechanism allows us to define a recovering algorithm which recovers step by step a closed set. In the main iterative step of the recovering algorithm, the decision mechanism is asked whether an element pi belongs to a closed set C or not. Following the judgment of the decision mechanism, the algorithm updates the set Ai of the elements for which membership in C can be inferred and the set Bi of the elements for which membership in C has been rejected. Proposition 1 below formalizes this procedure: 
+
+Proposition 1. Let S be a finite set with a closure ( ) such that (<) =<. Let (Ai) and (Bi), i�0, be two sequences of subsets of S, and let ( pi), i�1, be a sequence of elements of S defined by: 
+
+389 
+
+A PROCEDURE TO BUILD A KNOWLEDGE STRUCTURE 
+
+(i) A0=B0=< 
+
+(ii) For all i�1, pi � Ai&1 _ Bi&1 , and 
+
+==> picture [310 x 28] <==
+
+Then, (Ai) and (Bi) are two increasing chains such that Ai & Bi=< for all i�0. Moreover, the chains are finite and there exists n such that An _ Bn=S. 
+
+At the beginning (step i=0), the recovering algorithm does not know anything about C and it sets A0=B0=<. At step (i), the algorithm selects pi as in Proposition 1(ii) and presents it to the decision mechanism. pi is an element for which membership in C has not yet been determined. The first alternative in Proposition 1(ii) corresponds to an element pi which the decision mechanism accepts. The second alternative corresponds to an element pi which the decision mechanism rejects. The algorithm draws the positive inferences Ai"Ai&1 and the negative inferences Bi "Bi&1 . Note that, if pi is a rejected element, Ai "Ai&1=<. When we reach step n, the algorithm returns C=An . Proposition 1 ensures that this procedure is consistent and that it stops. In order to prove Proposition 1, we first provide some easy lemmas. 
+
+Lemma 1. Let A be a subset of S, a set with a closure ( ), and let [A, ] be the mapping defined by B � [A, B] for all B�S. Then [A, ] is a closure on S. Proof. For all B, C�S, we must have 
+
+==> picture [136 x 45] <==
+
+Steps (i) and (ii) follow immediately from the definition of [A, ]. For (iii), it is enough to show [A, [A, B]]�[A, B]. Suppose x # [A, [A, B]]. Thus (A _ [x]) & [A, B]{< and _ y # (A _ [x]) such that (A _ [ y]) & B{<. Consequently _z # B such that z # (A _ [ y]). As ( ) is a closure, we also have z # (A _ [x]). In conclusion (A _ [x]) & B{< and x # [A, B]. K 
+
+As [A, B]=[(A), B], we have thus associated to each closed set (A) of S a closure [A, ]. For a set A�S, let A� denote S"A. 
+
+Lemma 2. (A) is closed for [A, ]. 
+
+Proof. It is enough to show [A, (A) ]�(A). Let x be in [A, (A) ]. If x belonged to (A), we would have (A _ [x]) =(A), and so (A _ [x]) & (A) =<, a contradiction. Thus x # (A). K 
+
+Note that (A) & B{< O [A, B]=S. This, together with Lemma 2, tells us that only the restriction of [A, ] to (A) may not be trivial. 
+
+390 COSYN AND THIE�RY 
+
+Lemma 3. Let A, B be two subsets of S such that (A) & B=<, and let p be an element of S such that p � (A) and p � [A, B]. Then 
+
+(i) (A _ [p]) & [A _ [ p], B]=<, 
+
+(ii) (A) & [A, B _ [ p]]=<. 
+
+Proof. Case (i): As p � [A, B], (A _ [ p]) & B=<, and so B�(A _ [ p]). By Lemma 2, (A _ [p]) is closed for [A _ [ p], ]. Thus [A _ [p], B]�A _ [ p]). Case (ii): By Lemma 2, p # (A) and B�(A) implies [A, B _ [ p]]�(A). K Proof of Proposition 1. Note that all the Ai 's are closed w.r.t. ( ) and all the Bi 's are closed w.r.t. [Ai , ]. Identify Ai&1 , Bi&1 , and pi with A, B, and p in Lemma 3. Ai & Bi=< follows from Lemma 3(i) for the first alternative in Proposition 1(ii) and from Lemma 3(ii) for the second alternative. Moreover, we have the strict inclusions Ai #Ai&1 in the first alternative and Bi #Bi&1 in the second alternative. K 
+
+The condition <=(<) in Proposition 1 guarantees that the chain (Ai) starts with a closed set. An alternative to this condition is to set A0=(<). 
+
+An important feature of the recovering algorithm is that it always yields a closed set, whatever the judgments of the decision mechanism may be. If, at step (i), the decision mechanism incorrectly answers whether pi belongs to C or not, the recovering mechanism will nonetheless return a closed set C${C. In other words, the consistency of the recovering algorithm does not depend upon the consistency of the decision mechanism. 
+
+It turns out that the algorithms building an entail relation by querying an expert (see Koppen's query, 1993, and Willer's algorithm, 1989) fall in the category of the recovering algorithm just described. Explicitly, let S in Proposition 1 designate 2[Q] _2[Q] where Q is some domain of knowledge. The subsets of S are thus the relations on 2[Q] and are made up of pairs p=(X, Y) with X, Y�Q. Let ( ) stand for the closure mapping a relation on 2[Q] to the smallest entail relation containing it. The role of the decision mechanism is played by an expert accepting or rejecting the pairs that the algorithm selects and presents for judgment. In this context, the task of the algorithm is to recover the expert's implicit entail relation E. In particular, Proposition 4.2 in Mu�ller (1989) is essentially Proposition 1 where the closed sets Ai are entail relations. (Actually, Mu�ller's proposition is about closed implication relations, a concept equivalent to the one of entail relations.) 
+
+Corollary 1 (Mu�ller, 1989). Let S in Proposition 1 stand for the relations on the power set of a domain of knowledge Q. Then, the above algorithm recovering an expert's entail relation is not contradictory: For all i, Ai & Bi=<. We have seen that, if the decision mechanism is unreliable when judging whether or not an element pertains to a closed set, the recovering algorithm fails to recover the closed set and returns another one. We devise here a pending status recovering algorithm which should be less sensitive to the occasional errors of the decision mechanism. 
+
+391 
+
+A PROCEDURE TO BUILD A KNOWLEDGE STRUCTURE 
+
+The idea of a pending status mechanism is not to update Ai and Bi with all the inferences drawn from pi , but only with inferences which have been confirmed in some sense. Nevertheless, we must keep Ai closed w.r.t. ( ) and Bi closed w.r.t. [Ai , ]. If this were not the case, a pair pj , j>i, could be selected at a later stage with pj � Aj&1 _ Bj&1 but pj # (Aj&1) _ [Aj&1 , Bj&1]. The consequence is that we could have (Ak) & [Ak , Bk]{< for some k� j. The following lemma provides a sufficient condition to avoid contradiction: 
+
+Lemma 4. Let A, B, and p be as in Lemma 3. Let L, M, and N be subsets of S. Then 
+
+==> picture [250 x 42] <==
+
+Proof. Case (i): Clearly, (L) �(A _ [ p]) and [A _ [ p], M]�[A _ [ p], B]. From the readily verifiable fact that (A1) �(A2) O [A1 , B]�[A2 , B], we have [L, M]�[A _ [ p], M]. The result follows from Lemma 3(i). Case (ii): The result follows from Lemma 3(ii). K 
+
+We define the pending status recovering algorithm in the following way: At the outset, we set A0=B0=<. At step (i) of the process, let us identify Ai&1 , Bi&1 , and pi with A, B, and p in Lemma 4. L"A and M "B correspond to the confirmed positive and negative inferences, respectively, when the decision mechanism accepts p. N "B corresponds to the confirmed negative inferences when the decision mechanism rejects p. We set Ai=(L) and Bi=[L, M] in case of an acceptance or Ai=Ai&1 and Bi=[Ai , N] in case of a rejection. In other words, we build the closures twice: For instance, if pi is rejected, we first build [Ai&1 , B i&1 _ [ pi]], we then select N, and we finally build [Ai , N]. Consequently, Ai is closed w.r.t. ( ) and Bi is closed w.r.t. [Ai , ]. Lemma 4 ensures that Ai & Bi=<. We thus have: 
+
+Proposition 2. The pending status recovering algorithm as described above is not contradictory: For all i, Ai & Bi=<. It should be noticed that, so far, we do not provide means to decide which inferences are confirmed. In particular, none of the inferences may be confirmed at step (i), in which case we have both Ai=Ai&1 and Bi=Bi&1 . There is actually the (theoretical) possibility that an inconsistent decision mechanism generates two infinite chains Ai=Ai+1=Ai+2= } } } and B i=Bi+1=Bi+2= } } } with Aj _ Bj {S for all j�i. 
+
+We have seen that Koppen's query is an instance of the recovering algorithm where the closed sets are the entail relations. In the same way, we call ps-query an instance of the pending status recovering algorithm which uses the same inference engine as the one of query to compute the closures. As an immediate consequence of Proposition 2, we have: 
+
+Corollary 2. The above ps-query algorithm recovering an expert's entail relation is not contradictory. 
+
+392 
+
+We have defined the overall features of ps-query which make it consistent. We still have to define how it handles the pending status mechanism. Precisely, we have to provide a confirmation mechanism to decide whether a pair is confirmed or not. Suppose, for instance, that the expert accepts pi . As long as we proceed as above, we are free to determine which pairs L"Ai&1 among the positive inferences (Ai&1 _ [ pi])"Ai&1 should be considered as confirmed. The strategy that we adopted is straightforward. ps-query manages two tables where the positive and negative inferences, respectively, are momentarily stored. At step (i), the confirmation mechanism compares the new inferences drawn from pi with the ones in the tables. If the mechanism finds that a new positive inference is already stored in the table of negative inferences, or that a new negative inference is already stored in the table of positive inferences, it removes all the new inferences from the tables and no pair is confirmed. If there is not such a discrepancy, the confirmation mechanism takes as confirmed the new pairs which are already stored in the tables, and the remaining new inferences are added to the tables. However, to limit the redundancy brought about by this procedure, the mechanism always takes the pair pi as a confirmed pair if there is no new inference other than pi itself. Such a pair has less impact, at least on the short term, than a pair for which there are nontrivial inferences. An important goal of the next section is to test this particular trade-off between the number of questions presented for judgment and the sensitivity of ps-query to occasional contradictions. 
+
+5. SIMULATION OF PS-QUERY 
+
+For the simulation, a reference space Kr , was set as the true knowledge structure of some student population. As our goal is to simulate the conditions that one would face in building a large knowledge space, we chose for Kr a knowledge space built by an expert using query. The expert was a high school teacher and the domain of knowledge was made of 50 items covering the arithmetic curriculum from grade 4 to 8. The construction of Kr required the expert to answer 3982 questions. query first builds an order relation on the items and then extends this order relation to a general entail relation. The quasi-ordinal space derived from the order relation had 14,346 states, which is remarkable considering that, when starting the querying process, the knowledge space had potentially 2[50] r10[15] states. Because of its important role in the rest of the paper, we will refer to this quasi-ordinal space as the reference order K1 . More questioning of the expert by query gradually brought down the size of the knowledge space, eventually yielding the final space Kr made up of 3043 states. 
+
+When answering to query, an expert may commit two kinds of errors. He or she may accept a pair when the correct answer was to reject it, or he or she may reject a pair when the correct answer was to accept it. The two types of errors have a very different impact on the knowledge structure under construction (cf. Schrepp 6 Held, 1995). In case of a wrong rejection, query does not add the pair and its inferences to the entail relation. The final knowledge space will then have states which are not in the true space. On the other hand, with a wrong acceptance, the 
+
+393 
+
+A PROCEDURE TO BUILD A KNOWLEDGE STRUCTURE 
+
+TABLE 1 
+
+Probability of Actual Answer Given the Correct Answer 
+
++----------------+---------------+-------------+
+| Correct answer | Actual answer | Probability |
++----------------+---------------+-------------+
+| Yes            | Yes           | 1&:1        |
++----------------+---------------+-------------+
+| Yes            | No            | :1          |
++----------------+---------------+-------------+
+| No             | Yes           | :2          |
++----------------+---------------+-------------+
+| No             | No            | 1&:2        |
++----------------+---------------+-------------+
+
+pair and its inferences are wrongly added to the entail relation. In this case, states belonging to the true knowledge space will be missing in the final space. 
+
+In our study, the probability for each kind of error to occur is represented by the values of two parameters :1 and :2 . First, the correct answer according to the reference space Kr is computed. Then this answer is transmitted to query or ps-query with probability 1&:i and its complement is transmitted with probability :i , where i=1 if the correct answer is Yes (acceptance) or 2 if the correct answer is No (rejection). Table 1 summarizes the four possible cases. 
+
+Note that according to the terminology introduced before, high values for :1 and :2 correspond to a very inconsistent expert. The validity of the expert will be addressed later in the paper. 
+
+We assessed the comparative performances of query and ps-query in building quasi-ordinal spaces. The quasi-ordinal knowledge space obtained after a simulation trial is referred to as K[:] 1[. The results are shown in Table 2, where the numbers] are mean values for 19 simulations with the standard deviations in parenthesis. For reference, we first ran the original query with a simulated noiseless expert, i.e., with :1=0.00 and :2=0.00 (first row of numbers). Then, two batches of simulations were conducted with the values :1=0.05 and :2=0.05 for the parameters of our simulated expert, first with query (second row of numbers) and then with ps-query (third row of numbers). 
+
+Clearly, for :1=:2=0.00, the simulation output K[:] 1[is equal to the reference order] K1 . If we look at the size of the spaces obtained with query for :1=:2=0.05, we note 
+
+TABLE 2 
+
+Comparison of QUERY and PS-QUERY for Error Parameters :1=0.05 and :2=0.05. 
+
++-------+-------+--------------------------------------------------------+--------------------------------+--------------+-------------+
+|       | Error |                                                        |                                |              |             |
++-------+-------+--------------------------------------------------------+--------------------------------+--------------+-------------+
+| :1    |       | :2                                                     | Number of questions            | di(Kr, K:    | di(K:       |
+|       |       |                                                        | Number of states               | 1)           | 1, Kr)      |
++-------+-------+--------------------------------------------------------+--------------------------------+--------------+-------------+
+|       |       |                                                        | query (without pending status) |              |             |
++-------+-------+--------------------------------------------------------+--------------------------------+--------------+-------------+
+| 0.00  |       | 0.00                                                   | 782 (48)                       | 0.00 (0.00)  | 1.25 (0.00) |
+|       |       |                                                        | 14,346 (0)                     |              |             |
++-------+-------+--------------------------------------------------------+--------------------------------+--------------+-------------+
+| 0.05  |       | 0.05                                                   | 662 (39)                       | 1.51 (0.65)  | 3.00 (1.21) |
+|       |       |                                                        | 21,021 (20,765)                |              |             |
++-------+-------+--------------------------------------------------------+--------------------------------+--------------+-------------+
+|       |       |                                                        | ps-query (with pending status) |              |             |
++-------+-------+--------------------------------------------------------+--------------------------------+--------------+-------------+
+| 0.05  |       | 0.05                                                   | 1480 (65)                      | 0.16 (0.22)  | 1.43 (0.17) |
+|       |       |                                                        | 15,862 (3,365)                 |              |             |
++-------+-------+--------------------------------------------------------+--------------------------------+--------------+-------------+
+| Note. | For   | reference, query was first run with parameters :1=0.00 |                                | and :2=0.00. |             |
++-------+-------+--------------------------------------------------------+--------------------------------+--------------+-------------+
+
+394 
+
+the very high value of the standard deviation. This shows the extreme sensitivity of the algorithm to the expert's errors. By contrast, ps-query yields a mean value close to the size of the reference order, with a much smaller standard deviation. The pending status mechanism permits a remarkable improvement from that point of view. ps-query requires about twice as many questions as query to construct the reference order, but this number is lower than the one needed to run a standard query session till the end. Also, the questions only involve two items at a time. So the expert's overall workload is similar in both cases. Regarding the discrepancy indices, the value di(Kr , K[:] 1[)=0.00 for][ :] 1[=][:] 2[=0.00 means that, if the expert is perfectly reliable, the] quasi-ordinal space K[:] 1[=][K] 1[completely encloses][ K] r[. Conversely,][ di][(][K][:] 1[,][ K] r[)=1.25] for the same error parameter values expresses that the states in the reference order K1 differ from the ones in Kr by an average of 1.25 items. Since our goal is to recover the reference space Kr , the simulation output K[:] 1[is compared against][ K] r[instead of][ K] 1[.] If we compare the values obtained with the two routines for :1=:2=0.05, we see that, again, the pending status mechanism brings about a spectacular amelioration. The discrepancy functions fKr , K[:] 1[and][ f][K][:] 1[,][ K] r[give a more detailed picture of the] situation. They are displayed in Fig. 1 for query and in Fig. 2 for ps-query. We have regrouped the two functions on the same graph. The left part of the graph shows how the knowledge states in Kr are distributed in terms of their distances to K[:] 1[. The right part shows the distribution of the states in][ K][:] 1[in terms of their dis-] tances to Kr . At 0 we have the number of states common to the two knowledge structures. For purposes of comparison, we have added to each figure the graph of fK1 , Kr (white bars). The graph of fKr , K1 is trivially the white bar at 0. Looking at fKr , K[:] 1[in Fig. 1, we see that][ query][ misses most of the knowledge] states in Kr , whereas ps-query (Fig. 2) recovers more than 2500 states out of the 
+
+==> picture [344 x 224] <==
+
+FIG. 1. Average discrepancy functions fKr , K[:] 1[(left) and][ f][K][:] 1[,][ K] r[(right) obtained with][ query][ for] :1=:2=0.05. The white bars represent fKr , K1 and f K1 , Kr . 
+
+395 
+
+A PROCEDURE TO BUILD A KNOWLEDGE STRUCTURE 
+
+==> picture [347 x 228] <==
+
+FIG. 2. Average discrepancy functions fKr , K[:] 1[(left) and][ f][K][:] 1[,][ K] r[(right) obtained with][ ps][-][query][ for] :1=:2=0.05. The white bars represent fKr , K1 and fK1 , Kr. 
+
+3043 states in Kr. Moreover, almost all of the remaining states are at distance 1 from K[:] 1[. Looking now at][ f] K[:] 1[K] r[for][ ps][-][query][, we see that its graph is very similar] to the one of FK1 , Kr , i.e., the states of K[:] 1[which are not in][ K] r[are close to][ K] r[. This] contrasts sharply with the graph of fK[:] 1[K] r[for][ query][, which is spread to the right] with a peak at n=3 and nonnull values for n up to 11. 
+
+ps-query provides a more accurate estimation of an expert's knowledge structure. However, this is achieved at the cost of a substantial increase in the number of questions asked. This led us to stop the querying procedure right after the construction of a quasi-ordinal space. At this point, the knowledge space constructed is too large and we need another procedure to refine it, thus ending up with a smaller and more accurate knowledge structure. 
+
+In the next section, we describe the operation of refinement which prunes the knowledge structure by eliminating the unlikely states. Its success relies on the quality of the initial structure. Suppose that the expert is valid, but that he or she is occasionally inconsistent. If the initial structure K[:] 1[is provided by][ query][, we can] only hope to recover a very small part of the reference structure Kr after refinement. Whereas, if the initial structure K[:] 1[is provided by][ ps][-][query][, we can hope to] recover Kr almost entirely. 
+
+6. REFINING A KNOWLEDGE STRUCTURE 
+
+The refinement procedure that we are using is based on a technique first tested by Villano (1991). In his study, five experts answer query on the same 10-item domain. Since the five knowledge spaces constructed differ largely from one another, a combination structure is constructed using a majority rule on the five 
+
+396 
+
+experts' entail relations. The answer patterns from 60,000 students are then used to refine the combination structure. (An answer pattern is represented by a binary vector indicating, for each item of the domain, if the answer of the student is correct or not.) Two refinement procedures are presented. The first procedure is based on a goodness of fit. Its efficacy in constructing the knowledge structure is superseded by the second procedure which uses the assessment procedure to estimate the likelihood of each of the 2[10] possible patterns. The resulting knowledge structure turns out to be both easier to construct and more efficient when used by the assessment procedure to recover a student's knowledge state. 
+
+This technique is not directly applicable to the large domains that we may encounter in real situations for three reasons. First, the power set of such domains is too large to handle. Second, reliable estimates for the likelihood of each of the many possible patterns requires too many students to be practicable. Third, this technique would require each student to answer systematically all of the questions in the domain. 
+
+We propose an alternate procedure where Villano's technique is adapted for larger domains. As the power set of a large domain is not manageable, the refinement procedure is applied to the quasi-ordinal knowledge space generated by ps-query. This knowledge space is both small enough to be manageable and large enough to contain most of the knowledge states that will constitute the final knowledge structure. Incidentally, this refinement method can be applied to other subsets of the power set. Such subsets need only include most of the knowledge states in the population. 
+
+6.1. Assessment Procedure 
+
+To estimate the likelihood of the knowledge states, we make use of Falmagne 6 Doignon's stochastic assessment procedure (1988a). This assessment procedure operates on probabilistic knowledge structures. We recall here the necessary background. 
+
+Definition 9. A probabilistic knowledge structure is a triple (Q, K, P) in which (Q, K) is a knowledge structure and the mapping P: K � [0, 1] : K [ P(K) is a probability distribution on K. Thus, for any K # K we have P(K)>0 and �K # K P(K)=1. We will denote by 4K the set of all probability distributions P on K. 
+
+Given a student in some unknown knowledge state K0 , called the latent state, the assessment procedure is the realization of a stochastic process that attempts to uncover a knowledge state from K as close as possible to K0 . Figure 3 shows the main loop of the assessment procedure which proceeds as follows. The i th iteration of the loop is referred to as the i th trial. The probability distribution at each trial n is represented by a random vector Ln such that, for any state K # K, the random variable Ln (K) is the likelihood that the student is in the state K. 
+
+Initially (trial 1), the procedure assumes a uniform distribution on the knowledge structure: For the assessment procedure, the likelihood L1 (K) that the student is in 
+
+397 
+
+A PROCEDURE TO BUILD A KNOWLEDGE STRUCTURE 
+
+==> picture [193 x 290] <==
+
+FIG. 3. Diagram of the stochastic assessment procedure (Falmagne 6 Doignon, 1988a). 
+
+the state K equals[2] 1�|K|. (Incidentally, prior knowledge about the student or the student population may be used to construct or estimate a more specific probability distribution, thus speeding up the realization of the assessment procedure.) 
+
+As the stochastic process unfolds through successive trials, the mass of the random vector Ln is gradually redistributed among the knowledge states of the structure to account for the performance of the student, concentrating on the states most likely to represent the student's knowledge state, K0 . 
+
+The probability that the item Qn asked at trial n is q only depends upon Ln . The function selecting an item according to Ln is called the questioning rule. The particular questioning rule that we use in our study is the half-split questioning rule (Falmagne 6 Doignon, 1988a). It selects the item q such that the quantity 
+
+==> picture [285 x 28] <==
+
+is as small as possible. In other words, we choose the item q for which the likelihood that the student answers correctly is almost the same as the likelihood that the student fails. 
+
+2 Since we will not prove any theorem, we will write ``equals'' where we should write ``almost surely equals'' to be mathematically correct. 
+
+398 
+
+Writing Rn as the actual response of the student, the response rule of the assessment procedure states that the probability for Rn to be a correct response is 1 if the student knows the answer for item Qn and 0 if the student does not. Conversely, the probability for Rn to be a wrong response is 0 if the student knows the answer for item Qn and 1 if he or she does not. Note that the response rule does not account for lucky guesses and careless errors from the student. This weakness is partially fixed by the updating rule. 
+
+The updating rule states that at the beginning of trial n+1, the likelihood Ln+1 (K) equals uK (Rn , Qn , Ln), where the updating function uK proceeds as follows. For a likelihood L at a given trial, an item q, and an answer r, if the student failed (r=0) in solving the item q, while q was in K, then the likelihood uK (r, q, L) of state K for the next trial is less than the likelihood L(K) of state K for the current trial. The same requirement applies if the student succeeded (r=1) in solving the item q, while q was not in K. In all other cases, the likelihood of state K is increased between the current and the next trial. Thus, a knowledge state is never fully discarded from the set of possible knowledge states for K0 . The updating rule that we use in this study is the multiplicative updating rule (Falmagne 6 Doignon, 1988a) which is defined, for any parameters 'q, r>1 (q # Q, r=0, 1), for all K # K, and with Rn=r, Qn=q, by the function 
+
+where 
+
+==> picture [318 x 94] <==
+
+An interesting feature of this updating rule is that the order in which the n first questions have been asked does not affect the resulting distribution Ln+1 at trial n+1. 
+
+Finally, after each trial n, the stopping rule decides whether or not more questions, should be asked. If the stopping rule returns ``true'', then trial n+1 begins and the questioning rule selects the next question to ask. Otherwise, the stopping rule returns ``false'' and the assessment is over. For instance, a simple stopping rule is: return ``true'' unless there is a state Kmax # K such that, at the current trial n, the likelihood Ln (Kmax) is greater by a given threshold than the likelihood Ln (K) of any other state K # K. For a student s who goes through an assessment, the distribution that triggers the stopping rule is written lS . lS (K) is thus the likelihood that the student s is in the state K according to the assessment procedure. As we will see next, this distribution plays a critical role in the refinement procedure. 
+
+6.2. Refinement Procedure 
+
+The refinement procedure that we propose proceeds in two steps. First, it combines some a priori distribution on K with the distributions l1 , ..., lM obtained 
+
+399 
+
+A PROCEDURE TO BUILD A KNOWLEDGE STRUCTURE 
+
+from the assessment of M students into a single distribution OM+1 . (The notation OM+1 will be justified later.) Second, it prunes down the knowledge structure K, filtering out the states which are less likely. 
+
+In practice, one proceeds gradually by incorporating each student's distribution in the following way. Initially, just before assessing the first student, the probability distribution represented by the random vector O1 is set such that O1=P, where P is the distribution on the probabilistic knowledge structure (Q, K, P). (Typically, when no other information is known about the population, P is the uniform distribution.) Then, once m students have been assessed, the smoothing distribution Om+1 is updated based upon the mth student's assessment distribution lm , the previous smoothing distribution Om , and the number m of students already assessed. 
+
+For instance, the smoothing function | performing the arithmetic mean of the collection l1 , ..., lm is defined for the probability distributions O and l # 4K , and for m # N, by 
+
+==> picture [230 x 24] <==
+
+It is indeed a probability distribution since 
+
+==> picture [230 x 20] <==
+
+and for each knowledge state K, we have 0�|(O, l, m)(K)�1. This particular smoothing function will be called the arithmetic smoothing function. In general, we have the following definition of a smoothing function. 
+
+Definitions 10. A smoothing function | associates the triple (O, l, m), where O and l are two distributions on the structure K and m is a positive integer, to a distribution |(O, l, m) on the same structure K. For any positive integer m�M, the smoothing distribution Om is a distribution on K defined recursively by 
+
+==> picture [279 x 26] <==
+
+where lm is the distribution of the m th student assessed and P is the distribution on the probabilistic structure K. 
+
+Figure 4 shows the smoothing distributions O2 } } } O4 computed by applying three times the arithmetic smoothing function on a 10-state knowledge structure: 
+
+==> picture [69 x 12] <==
+
+==> picture [217 x 11] <==
+
+==> picture [74 x 12] <==
+
+400 
+
+==> picture [299 x 217] <==
+
+FIG. 4. Example of refinement on an 18-state knowledge structure with three students. 
+
+In a second step, the probability distribution OM+1 is used to prune down the knowledge structure K. Any state K is dropped if its likelihood OM+1 (K) is less than a given threshold {. 
+
+Definition 11. A pruning function v associates to any probabilistic structure (Q, K, P) a knowledge structure v(Q, K, P) which is a subset of K. 
+
+The threshold pruning function is an example of a pruning function: Given a real number 0<{<1, we have 
+
+==> picture [274 x 11] <==
+
+Note that we can construct a natural probability distribution for the pruned structure v(Q, K, P) by normalizing the restriction of P to that structure. (This is actually a conditional probability.) 
+
+Figure 4 illustrates the choice of a threshold for the pruning of the 10-state knowledge structure into a six-state knowledge structure. 
+
+The refinement procedure described above, which combines a smoothing rule and a pruning rule, is fairly simple in principle. With the arithmetic smoothing rule, it has the important property that the refined structure does not depend upon the order in which the population of students was assessed. In other words, the operator which combines the distributions of each student is commutative. The last student assessed will have the same impact on the smoothing distribution as any other student assessed previously. 
+
+Next, we present the results of a simulation of the refinement procedure on the quasi-ordinal knowledge space issued from ps-query. We will see that the refinement procedure is able to recover 92 0 of the reference knowledge structure for a sample of as few as 1000 students (with no careless error). 
+
+401 
+
+A PROCEDURE TO BUILD A KNOWLEDGE STRUCTURE 
+
+7. SIMULATION OF THE REFINEMENT PROCEDURE 
+
+To carry out the refinement procedure, students are simulated according to a sample of knowledge states KS1 , ..., KSM from the reference space Kr . The likelihood of the latent knowledge state KS (the state that we want to uncover) is such that 
+
+==> picture [223 x 11] <==
+
+where Pr is the probability distribution on the reference knowledge space. We will assume that this distribution is uniform. 
+
+A rate of careless error (;) and a rate of lucky guess (+) are used along with the latent state KS to determine whether or not the student answers correctly to item i. More precisely, the probability for an item i that the answer RS of student S is correct is 
+
+==> picture [254 x 27] <==
+
+Likewise, the probability that she answers incorrectly is P(RS =0)=1&P(RS =1). Table 3 summarizes our conventions. 
+
+We first ran the simulation of the arithmetic smoothing rule on the reference order K1 with M=1000 modeled students and the parameters ; and + set to 0 (no error from the students). Also, the assessment procedure made use of the multiplicative updating rule with parameter '='q, r=8 for all questions q and responses r, together with the half-split questioning rule. 
+
+Figure 5 displays both smoothing distributions O1 and O1001 . The interpretation of the drawing requires some explanation. The smoothing distribution O1 is the initial distribution, which in the present case is the uniform distribution P1 on K1 , and the smoothing distribution O1001 at the end of trial 1000 is obtained after the smoothing of K1 by 1000 simulated students. Moreover, in order to improve the readability of the figure, we split the states in two classes. From x=1 to 3043, we display the reference states, i.e., the states from K1 which are also in the reference space Kr , and from 3044 on, we display the superfluous states, i.e. the states in K1 that are not in Kr . In addition, both classes of states were sorted in the decreasing order of their likelihood in O1001 . 
+
+TABLE 3 
+
+Parameters in the Model Describing a Student s 
+
++-------------------------------------+----------------------------------+
+| Parameter                           | Description                      |
++-------------------------------------+----------------------------------+
+| (Q, Kr, Pr)                         | Reference knowledge space        |
++-------------------------------------+----------------------------------+
+| KS r.v. taking its values in Kr     | Student's latent knowledge state |
++-------------------------------------+----------------------------------+
+| RS r.v. taking its values in [0, 1] | Student's answer                 |
++-------------------------------------+----------------------------------+
+| + # [0, 1]                          | Lucky guess rate                 |
++-------------------------------------+----------------------------------+
+| ; # [0, 1]                          | Careless error rate              |
++-------------------------------------+----------------------------------+
+
+402 
+
+==> picture [284 x 175] <==
+
+FIG. 5. Smoothing distributions O1 and O1001 over the 14,346 states of the quasi-ordinal knowledge space K1 . The points on the x-axis from 1 to 3043 are the states which are also in the reference space Kr . 
+
+Figure 5 shows the striking efficiency of the smoothing stage. With M=1000 students, most of the probability mass is on the part of the curve representing the reference states. 
+
+Still, we need to find an optimal threshold { for the threshold pruning rule. An optimal threshold should both recover most of the reference states and drop most of the superfluous states. 
+
+Looking at Fig. 5, we may notice that the average value 1�|K1| of the uniform distribution P1 is a promising threshold. Let us name it the average threshold and write it {0 , since it seems to split the reference order K1 in two classes of knowledge states which fit fairly well the distinction between the reference and the superfluous states. 
+
+In order to confirm this intuition, we pruned down the structure with the smoothing distribution O1001 and different thresholds { varying from 0 to 0.0003. The average discrepancy index di(Kr , K{) between the reference knowledge structure 
+
+==> picture [222 x 143] <==
+
+FIG. 6. Average discrepancy index between the pruned structure after 1000 assessments and the reference knowledge space Kr for a threshold { varying from 0 to 0.0003. 
+
+403 
+
+A PROCEDURE TO BUILD A KNOWLEDGE STRUCTURE 
+
+Kr and the pruned knowledge structures K{ was then plotted against the value of the threshold {. Figure 6 shows this plot. The optimal threshold { is obtained for the minimum of the plot. 
+
+We see that the average threshold {0 is very close to the optimal value for {. Choosing the average threshold {0 is a convenient calibration in a practical situation where we do not know in advance the reference space and therefore cannot estimate the optimal threshold. 
+
+We simulated the refinement of the reference order K1 with student sample sizes increasing from 100 to 10,000 by steps of 100. For these simulations the parameters ; and + were set to 0 (no error from the students). We then ran again the same simulations with ;=0.10 and +=0 (10 0 of careless errors and no lucky guess). The reason for simulating only the careless errors and not the lucky guesses is that, in most practical situations, lucky guesses can be easily avoided. For instance, one can present to the student only open ended questions, with a large number of possible answers. 
+
+Figure 7 shows the comparative results of the two simulations. For each of the two values for the parameter ;, we represented the discrepancy indexes di(Kr , KM) and di(KM , Kr) between the reference structure Kr and the structure KM obtained by refinement with M students and the average threshold {0 . 
+
+Several remarks can be made about the behavior of these discrepancy indexes when the number M of students assessed increases. As could be expected, the two discrepancy indexes di(Kr , KM) and di(KM , Kr) decrease as the number M of students assessed increases (for M>100 at least). More specifically, with ;=0.00 (no careless error) the discrepancy index di(Kr , KM) (measuring the average distance of the states in the reference structure Kr to the refined structure KM) decreases from 0.62 to 0.01 after only about 3000 students. With ;=0.10 (10 0 of careless error), the refinement requires 8000 students for the discrepancy index to reach 0.01. Thus, after refining the reference order K1 with enough students, we can retrieve almost all the reference states.[3] 
+
+The discrepancy index di(KM , Kr) between the refined structure KM and the reference structure Kr shows a different pattern. Its value decreases mainly after the assessment of the first 1000 students to reach an asymptote slightly above 0.2 for ;=0.00 (no careless error) and at about 0.4 for ;=0.10 (10 0 of careless error). Thus, most of the superfluous states contained in the reference order were discarded after the assessment of the first 1000 students. Moreover, as is shown in Fig. 7, refining our reference structure with more than 1000 students did not improve the results. 
+
+As a whole, the refinement procedure recovers 92 0 of the reference states (as can be estimated from Fig. 5) after the assessment of as few as 1000 students (with ;=0.00). At the same time, the refinement procedure withdraws 90 0 of the superfluous states from the reference order (see Fig. 5). Although the refinement of more 
+
+> 3 A closer look at Fig. 7 for values of M less than 200 shows that the discrepancy index di(Kr , KM) first increases from 0 to 0.62 for ;=0.00 and to 0.7 for ;=0.10 after the first 100 assessments. This shows that pruning after very few assessments gives a disproportionate weight to the assessed states in the smoothing distribution. Thus, enough assessments should be performed before running the pruning procedure.
+
+404 
+
+==> picture [221 x 142] <==
+
+FIG. 7. Discrepancy indexes between the refined knowledge structure and the reference knowledge space as functions of the number of assessments for two values of careless error ;. 
+
+students gradually increases the number of reference states recovered, it does not discard the remaining superfluous states. 
+
+We note two aspects of the influence of the careless error rate ;. First, the asymptotic value of the discrepancy index di(KM , Kr) increases with the rate of careless error ;. Second, the asymptotic value of the discrepancy index di(Kr , KM) is 0, independent of the rate ;. Consequently, refining a structure with careless students yields a larger refined structure. However, if the number of students assessed is large enough, the refinement procedure still recovers most of the reference space. 
+
+8. DISCUSSION 
+
+The approach taken here is a two-stage procedure which combines human expertise and empirical refinement. Figure 8 compares this approach (right diagram) to the regular query approach (left diagram). The shaded areas represent the latent 
+
+==> picture [305 x 182] <==
+
+FIG. 8. query compared to the combination ps-query�refinement. 
+
+405 
+
+A PROCEDURE TO BUILD A KNOWLEDGE STRUCTURE 
+
+knowledge structure that has to be uncovered. The expert's latent knowledge structure is represented by the thick-bordered area. Both knowledge structures are within the domain power set, which is represented by a large ellipse. Note that, for a valid expert, the latent knowledge structure that has to be uncovered and the expert's latent knowledge structure are almost equal. 
+
+The shortcomings of query are well documented (Kambouri et al., 1991; Schrepp 6 Held, 1995). Nevertheless, when restricted to the construction of a quasi-ordinal space, an expert-based procedure provides us with an economical way to get a first approximation of the knowledge structure. Indeed as soon as the size of the domain exceeds a few dozen, it becomes practically impossible to construct a structure just on the basis of empirical data. ps-query answers some of the known weaknesses of query. Its error handling mechanism makes it stable against small fluctuations of the expert's opinions. However, it does not address systematic errors induced by the structure of the querying process (see Held et al., 1995). 
+
+The second step of our simulation explores the ways to prune down a knowledge structure by use of an empirical refinement mechanism. In the simulation, a precise refinement was obtained with a sample size from 1000 to 3000 for a 50-item domain. Remarkably, refining with a number of students much less than the number of states in the latent structure is still acceptable. We have seen that, right after a few hundred assessments, the population's latent knowledge structure, 3043 states here, can be almost entirely recovered. Thus, assessing more students essentially removes remaining superfluous states but does not bring dramatic change. 
+
+A qualitative explanation of this phenomenon could be the following. The organization of knowledge in a population may be crystallized around a relatively small number of basic patterns, much smaller than the size of the population. Each of these patterns could be interpreted as a neighborhood of close knowledge states in terms of symmetric distance. As the assessment procedure increases the likelihood of a latent state together with the likelihood of its neighbors, the states selected by the pruning procedure will tend to be organized in such neighborhoods. This mechanism could explain the excellent values of the discrepancy index di(Kr , KM), as was computed during the simulation of the refinement procedure. However, it has to be noted that, in our simulation, the student population was endowed with a flat distribution. Such a regularity is evidently not expected in a real situation. 
+
+When simulating the refinement process, we set ourselves in the ideal situation where the initial structure is a strict superset of the latent structure. We started from the quasi-ordinal space provided by a perfectly valid expert. Several remarks pertain to such a situation. First, the initial structure could be the union of several quasi-ordinal spaces built by as many experts. If so, we would increase the chance of covering the latent structure. Second, if the initial structure misses states from the latent structure, we have all the more reason to believe that the refinement process will behave as well to recover the latent states which are in the initial structure. As for the missing states, the smoothing process should boost the likelihood of the states in the initial structures which are close to them, increasing the probability that such states will be selected by the pruning process. The above claims call for a formal study of the behavior of the assessment algorithm when it attempts to 
+
+406 COSYN AND THIE�RY 
+
+recover a state not in its underlying structure. It could lead to a refinement procedure able to recover not only the latent states already present in the initial structure, but also the missing ones. 
+
+APPENDIX: NOMENCLATURE 
+
+Symbol Description 
+
+General 
+
++-----------+---------------------------------------+
+| (Q, K)    | Knowledge structure                   |
++-----------+---------------------------------------+
+| K         | Knowledge structure                   |
++-----------+---------------------------------------+
+| (Q, K, P) | Probabilistic knowledge structure     |
++-----------+---------------------------------------+
+| Kr        | Reference knowledge space             |
++-----------+---------------------------------------+
+| K1        | Reference order (quasi-ordinal space) |
++-----------+---------------------------------------+
+| fK, K$    | Discrepancy function                  |
++-----------+---------------------------------------+
+| di(K, K$) | Discrepancy index                     |
++-----------+---------------------------------------+
+| mS, K     | Distance from S to K                  |
++-----------+---------------------------------------+
+| di(K, K$) | Average discrepancy index             |
++-----------+---------------------------------------+
+| E         | Entail relation                       |
++-----------+---------------------------------------+
+
+query and ps-query 
+
++-----+---+------------------------------------+
+| ( ) |   | Closure operator                   |
++-----+---+------------------------------------+
+| [A, | ] | Closure operator associated to (A) |
++-----+---+------------------------------------+
+| :1  |   | Probability of incorrect No        |
++-----+---+------------------------------------+
+| :2  |   | Probability of incorrect Yes       |
++-----+---+------------------------------------+
+| K:  |   | Simulation output knowledge space  |
+| 1   |   |                                    |
++-----+---+------------------------------------+
+
+Assessment and Refinement 
+
++----------------+------------------------------------------------+
+| K0             | Latent knowledge state                         |
++----------------+------------------------------------------------+
+| n              | Trial number (assessment)                      |
++----------------+------------------------------------------------+
+| Ln             | Probability distribution                       |
++----------------+------------------------------------------------+
+| Qn             | Question asked                                 |
++----------------+------------------------------------------------+
+| Rn             | Actual response                                |
++----------------+------------------------------------------------+
+| uK(Rn, Qn, Ln) | Updating function                              |
++----------------+------------------------------------------------+
+| 'q, r          | Parameter of the multiplicative updating rule  |
++----------------+------------------------------------------------+
+| s              | Student                                        |
++----------------+------------------------------------------------+
+| lS             | Distribution at the end of the assessment of s |
++----------------+------------------------------------------------+
+| m              | Student index                                  |
++----------------+------------------------------------------------+
+| M              | Student sample size                            |
++----------------+------------------------------------------------+
+
+407 
+
+A PROCEDURE TO BUILD A KNOWLEDGE STRUCTURE 
+
+Om Smoothing distribution |(O, l, m) Smoothing function v(K, O) Pruning function { Threshold for the pruning function 
+
+REFERENCES 
+
+Birkhoff, G. (1967). Lattice theory. Providence: American Mathematical Society.
+
+Doignon, J.-P., 6 Falmagne, J.-C. (1985). Spaces for the assessment of knowledge. International Journal of Man-Machine Studies, 23, 175�196.
+
+Dowling, C. E. (1993). Applying the basis of knowledge space for controlling the questioning of an expert. Journal of Mathematical Psychology, 37, 21�48.
+
+Falmagne, J.-C., 6 Doignon, J.-P. (1988a). A class of stochastic procedures for the assessment of knowledge. British Journal of Mathematical and Statistical Psychology, 41, 1�23.
+
+Falmagne, J.-C., 6 Doignon, J.-P. (1988b). A markovian procedure for assessing the state of a system. Journal of Mathematical Psychology, 32, 232�258.
+
+Held, T., Schrepp, M., 6 Fries, S. (1995). Methods for determining knowledge structures��A comparative study. Zeitschrift Fu�r Experimentelle Psychologie, 42, 205�236.
+
+Kambouri, M., Koppen, M., Villano, M., 6 Falmagne, J.-C. (1994). Knowledge assessment: tapping human expertise by the QUERY routine. International Journal of Human-Computer Studies, 40, 119�151.
+
+Koppen, M. (1993). Extracting human expertise for constructing knowledge spaces: An algorithm. Journal of Mathematical Psychology, 37, 1�20.
+
+Koppen, M., 6 Doignon, J.-P. (1990). How to build a knowledge space by quering an expert. Journal of Mathematical Psychology, 34, 311�331.
+
+Mu�ller, C. E. (1989). A procedure for facilitating an expert's judgements on a set of rules. Mathematical Psychology in Progress, E. Roskam (Ed.), pp. 157�170. Berlin�New York: Springer-Verlag.
+
+Schrepp, M., 6 Held, T. (1995). A simulation study concerning the effect of errors on the establishment of knowledge spaces by querying experts. Journal of Mathematical Psychology, 39, 376�382.
+
+Thie�ry, N. (1994). Construction d'une structure de connaissance par raffiniment d'un quasi-ordre. In Rapport de 3ie�me anne�e et de D.E.A. Rennes: Te�le�com Bretagne 6 Universite�de Rennes I.
+
+Thie�ry, N., Cosyn, E., Lauly, D., Yu, L. -J., Falmagne, J -C. (1995). Knowledge space assessment via the Web. In Poster Proceedings of the 4th International Worlds Wide Web Conference, pp. 22�23. Sebastol: O'Reilly 6 Associates.
+
+Villano, M., Falmagne, J.-C., Johannesen, L., 6 Doignon, J. P. (1987). Stochastic procedures for assessing an individual's state of knowledge. In Proceedings of the International Conference on Computer Assisted Learning in Post-Secondary Education. Calgary: University of Calgary Press.
+
+Villano, M. (1991). Computerized Knowledge Assessment: Building the Knowledge Structure and Calibrating the Assessment Routine. Ph.D. Dissertation. New York: New York University.
+
+Received October 9, 1996 
+

@@ -1,0 +1,779 @@
+10.1006/jmps.1998.1218
+Journal of Mathematical Psychology 43, 1�33 (1999) Article ID jmps.1998.1218, available online at http:��www.idealibrary.com on 
+
+==> picture [38 x 18] <==
+
+``Proper'' Binormal ROC Curves: Theory and Maximum-Likelihood Estimation 
+
+Charles E. Metz and Xiaochuan Pan 
+
+The University of Chicago 
+
+The conventional binormal model, which assumes that a pair of latent normal decision-variable distributions underlies ROC data, has been used successfully for many years to fit smooth ROC curves. However, if the conventional binormal model is used for small data sets or ordinal-category data with poorly allocated category boundaries, a ``hook'' in the fitted ROC may be evident near the upper-right or lower-left corner of the unit square. To overcome this curve-fitting artifact, we developed a ``proper'' binormal model and a new algorithm for maximum-likelihood (ML) estimation of the corresponding ROC curves. Extensive simulation studies have shown the algorithm to be highly reliable. ML estimates of the proper and conventional binormal ROC curves are virtually identical when the conventional binormal ROC shows no ``hook,'' but the proper binormal curves have monotonic slope for all data sets, including those for which the conventional model produces degenerate fits. � 1999 Academic Press 
+
+1. INTRODUCTION 
+
+Receiver operating characteristic (ROC) analysis is recognized widely as the most meaningful approach to quantify the accuracy of diagnostic information and diagnostic decisions (Swets, 1983; International Commission on Radiation Units and Measurements, 1996). In particular, the conventional binormal model (Dorfman 6 Alf, 1969) has been applied fruitfully to evaluate many diagnostic medical procedures (Swets, 1979; Swets 6 Pickett, 1982; Metz, 1986a). Computer programs such as RSCORE (Dorfman, 1982) and ROCFIT (Metz, 1988; Metz, 1989) that are based upon the conventional binormal ROC model provide satisfactory fits to data obtained in a very broad variety of practical situations (Swets, 1986; Hanley, 1988). 
+
+The authors are grateful to Donald D. Dorfman (The University of Iowa) for stimulating discussions; to John A. Swets (BBN Technologies, Inc.) for pointing out Theodore G. Birdsall's pioneering work on proper binormal ROC curves; and to Benjamin A. Herman (The University of Chicago) for porting PROPROC to the Windows 95 and Macintosh operating systems. This work was supported by Grant DE FG02-94ER6186 from the U. S. Department of Energy. 
+
+Reprint requests should be addressed to Charles E. Metz, Ph.D., Department of Radiology, MC 2026, The University of Chicago Medical Center, 5841 South Maryland Avenue, Chicago, IL 60637-1470. 
+
+==> picture [26 x 27] <==
+
+1 
+
+0022-2496�99 �30.00 
+
+Copyright � 1999 by Academic Press All rights of reproduction in any form reserved. 
+
+2 
+
+METZ AND PAN 
+
+The conventional binormal model employs two parameters to specify an ROC curve. In terms of the conventional binormal model's ROC curves when they are plotted as straight lines on ``normal-deviate'' axes, a represents the ``y-intercept'' and b represents the ``slope'' of a particular ROC. In terms of a latent pair of normal distributions, the parameter a can be interpreted as the difference between the conditional means, relative to the standard deviation of the actually positive distribution, whereas the parameter b can be interpreted as the ratio of the standard deviations of the actually negative and actually positive distributions (Metz, Herman, 6 Shen, 1998). When b{1, the ROC curves provided by the conventional binormal model always lie partly below the +45% diagonal ``guessing line'' of the ROC plot and always have non-monotonic slope on ``probability'' (i.e., zero to one) axes, though this non-monotonicity is not evident graphically if b is sufficiently close to one. Therefore, when the conventional binormal model is used to fit an ROC curve to a data set that includes only a small number of cases and�or is collected on a discrete ordinal scale in which the categories are few and poorly distributed (Metz, 1989), it may yield a ``hooked'' ROC curve that has obviously non-monotonic slope and a portion that lies visibly below the ``guessing line'' of the ROC plot. In extreme situations, these properties cause the fitted ROC curves to become ``degenerate,'' with ``zig-zag'' shapes (Metz, 1989). Degenerate fits can be quite common in some situations (Rockette, Obuchowski, 6 Gur, 1990; Dorfman 6 Berbaum, 1995). However, results from both real and computer-simulation studies show no degeneracy when the data sets include a large number of cases and are collected with a large number of appropriately distributed categories. Therefore, we consider hooks and degeneracy in fitted ROC curves to be artifacts of the conventional binormal model's inherent ability to produce fitted ROC curves with non-monotonic slope. In the work reported here, we propose and implement a ``proper'' binormal ROC model that always yields fitted ROC curves with monotonic slope. 
+
+Before proceeding further, we introduce some terms that are employed in applying ROC analysis to evaluate medical diagnostic tests. An actual positive (or actual negative) is a trial (e.g., patient or specimen) in which the signal (e.g., disease) of interest is (or is not) in fact present. A true positive is a trial in which an observer decides in response to an actually positive trial that the signal of interest is present, whereas a false positive is a ``positive'' judgment by an observer in response to an actually negative trial. True positive fraction (or sensitivity) is the ratio of the number of true positives to the number of actual positives, whereas false positive fraction (or 1-specificity) is the ratio of the number of false positives to the number of actual negatives. We give mathematical definitions for these terms in Section 2. 
+
+As discussed above, undesirable hooks and zig-zag degeneracies in the fitted ROC curve are possible because the conventional binormal model does not ensure that the decision variable which is assumed to underlie the ROC curve is a monotonic function of the likelihood that each case is actually positive. One can show that any ROC that arises from use of likelihood ratio (Egan, 1975; Van Trees, 1968) or any monotonic transformation thereof (Egan, 1975; Swets, Tanner, 6 Birdsall, 1961) as the decision variable must have a slope that changes monotonically with false positive fraction (Egan, 1975) and, thus, allows no ``hooked'' or 
+
+3 
+
+``PROPER'' BINORMAL ROC CURVES 
+
+``degenerate'' ROC fits. Hence, in an attempt to overcome the problem of inappropriate fitted ROC curves, we build upon early work by Birdsall (1966) to develop here a ``proper'' (Egan, 1975) version of the binormal model in which decisions are assumed to be based upon use of a monotonic transformation of likelihood ratio as the decision variable. This new model is still ``binormal'' in the sense that it employs as its decision variable a monotonic transformation of the likelihood ratio that is associated with a quantity which arises from a pair of normal distributions with generally different means and variances. 
+
+A simple visual interpretation of the relationship between conventional and proper binormal ROC curves can be seen as follows. Suppose that a conventional binormal ROC curve is divided into many small line segments. Because the slope, on ``probability'' axes, of any ROC curve at any given point is equal to the likelihood ratio of the underlying decision variable at the critical value of the decision variable which produces that ROC point (Egan, 1975), a corresponding proper binormal ROC curve can be formed by reordering the line segments, if necessary, according to the values of the slopes associated with them. Thus, we see immediately that a proper binormal ROC curve is essentially equal to that of the conventional binormal model when the conventional binormal ROC curve shows no evident ``hook'' or ``degeneracy.'' 
+
+This paper is organized as follows. In Section 2, the theory of the proper binormal model is formulated, and several different parameterizations of this model are considered. Algorithms for reliable maximum-likelihood estimation of the parameters of the proper binormal model are considered in Section 3. Results of extensive simulation studies that validate the theory and algorithms are presented in Section 4. The conclusions that we draw from these results are discussed in Section 5. 
+
+The theory and algorithms associated with this work are described here primarily in terms of discrete ordinal-category data, but they can be applied readily to continuously distributed data by use of the categorization schemes proposed by Metz et al. (1998). 
+
+2. THEORY 
+
+2.1. Likelihood Function of the Data
+
+In any ROC model for discrete ordinal-category data, a latent decision variable axis t is partitioned into I categories by I&1 cut-points, ti (i=1, 2, ..., I&1). Suppose that the probability of a response in category ``i '' is given by pi for actually negative cases and by qi for actually positive cases, and that the data collected in the I categories are obtained from Mn independent actually negative trials and Ms independent actually positive trials (Dorfman 6 Alf, 1969; Grey 6 Morgan, 1972). The categorical data from any outcome of the experiment will consist of k#[k1 , k2 , ..., kI | �i ki=Mn] responses to actually negative cases and l#[l1 , l2 , ..., lI | �i li=Ms] responses to actually positive cases, and, due to the assumed independence of trials, these random vectors will follow independent multinomial distributions. Therefore, the probability 
+
+4 
+
+METZ AND PAN 
+
+(i.e., the likelihood) of obtaining any particular set of data is given by (Dorfman 6 Alf, 1969; Grey 6 Morgan, 1972) 
+
+==> picture [235 x 27] <==
+
+Up to this point, no assumption has been made concerning the underlying probability density functions that yield the probabilities pi and qi , respectively, by categorization. Different density functions give rise to different families of ROC curves. For the purpose of flexible but reliable fitting of the data, one usually assumes that the relationship between the two underlying density functions involves two adjustable curve parameters (Dorfman 6 Alf, 1969; Grey 6 Morgan, 1972). Therefore, I+1 parameters (i.e., a combination of the two curve parameters and the I&1 cut-point parameters ti , where i=1, 2, ..., I&1) determine the value of the likelihood function, given a particular outcome of the data set. The task of maximum-likelihood estimation of the ROC curve is that of determining the values of the I+1 parameters that maximize the likelihood function in Eq. (1), given the data. 
+
+A simplified form of the likelihood function L in Eq. (1) is obtained if we take its natural logarithm and then delete terms that do not depend on the model parameters: 
+
+==> picture [271 x 63] <==
+
+Because LL is a monotonic transformation of L, the task of maximizing L becomes equivalent to that of maximizing LL, which has a much more tractable form and is called the log-likelihood function. 
+
+2.2. The Conventional Binormal Model 
+
+The conventional binormal model assumes, in effect, that two normal probability densities underlie the ROC curve: 
+
+==> picture [237 x 29] <==
+
+for actually negative trials and 
+
+==> picture [252 x 29] <==
+
+5 
+
+``PROPER'' BINORMAL ROC CURVES 
+
+for actually positive trials. In this parameterization, the actually negative density has zero mean and unit standard deviation, whereas the actually positive density has mean a�b and standard deviation 1�b. Without loss of generality, we assume that a�0 and b>0, and that a positive decision is made if the outcome of the decision variable x is greater than a critical value xc . 
+
+In this model, the false positive fraction (FPF ) and true positive fraction (TPF ) of any point on the ROC curve are given by the probabilities that outcomes of x from actually negative and actually positive trials, respectively, exceed a critical value xc . Therefore, these quantities can be expressed readily by 
+
+and 
+
+==> picture [221 x 12] <==
+
+==> picture [229 x 12] <==
+
+respectively, where 8(z) represents the standard normal distribution function (i.e., the probability that a normal random variable with zero mean and unit variance will produce an outcome �z); where a and b are the parameters that determine the ROC curve; and where the cut-point parameter, xc , determines a particular point on the ROC curve. The area under this conventional binormal ROC curve can be expressed as (Metz, 1986b) 
+
+==> picture [225 x 27] <==
+
+In the conventional binormal model, the probability, pi , of a data outcome in category ``i '' from an actually negative case is given by 
+
+==> picture [287 x 11] <==
+
+whereas the probability, qi , of a response in category ``i '' from an actually positive case is given by 
+
+==> picture [299 x 12] <==
+
+where xi and xi&1<xi are the cut-points that bound the interval on the decision variable axis x that corresponds to data outcomes in category i, with x0 #&� and xI #+�. Substitution of Eqs. (8) and (9) into Eq. (2) yields the log-likelihood function LL for the data set k#[k1 , k2 , ..., kI | �i ki=Mn] and l#[l1 , l2 , ..., lI | �i li=Ms] in the conventional binormal ROC model. 
+
+The conditions necessary for maximization of LL are �LL��a=0, �LL��b=0 and �LL��xi=0 for i=1, 2, ..., I&1. After appropriate differentiation of Eq. (2), these conditions yield I+1 non-linear equations with I+1 parameters, a, b, x1 , x2 , ..., xI&1 , as their independent variables, and the task of maximizing LL becomes one of finding the parameter values that solve this set of non-linear equations. These solution values can be found by a variety of algorithms. The computer 
+
+6 
+
+METZ AND PAN 
+
+programs RSCORE II by Dorfman (1982) and ROCFIT by Metz (1988; 1989) have been developed for maximum-likelihood estimation of conventional binormal ROC curves by use of the ``Method of Scoring'' (Rao, 1970; Kendall 6 Stuart, 1979). RSCORE4, by Dorfman and Berbaum (1995), employs the Method of Scoring but perturbs degenerate data sets in an arbitrary way and defaults to other iterative techniques, if necessary, to achieve convergence. 
+
+As implemented by RSCORE II, ROCFIT, and RSCORE4, the conventional binormal model has been employed widely and has been found to provide good fits to data obtained in a broad variety of situations (Swets, 1986; Hanley, 1988). However, clearly inappropriate ROC curve fits can be obtained from data sets that are small or that are collected on a discrete categorical scale in which the categories are few and�or poorly distributed (Metz, 1989; Rockette et al., 1990; Dorfman 6 Berbaum, 1995). 
+
+2.3. The ``Proper'' Binormal Model 
+
+We propose here an alternative ROC curve fitting model in an attempt to overcome the problems of hooks and degeneracy in ROC curves that are fit by the conventional binormal model. Because the conventional binormal ROC model provides appropriate fits to data in many situations, we believe that any alternative ROC model should yield ROC curves that are essentially equivalent to those of the conventional binormal model when the fitted conventional binormal ROC does not show an evident ``hook'' or ``degeneracy.'' 
+
+Use of likelihood ratio as a decision variable always produces ROC curves with monotonic slope (Egan, 1975). Therefore, our new curve-fitting model is based upon a ``proper'' (Egan, 1975) version of the binormal model, in which each decision is assumed to be based upon the likelihood ratio (or any monotonic transformation thereof) of a variable that arises from one of two normal density functions, rather than upon the normally distributed variable itself. From Eqs. (3) and (4), the likelihood ratio calculated from the two density functions that underlie the conventional binormal model is given by 
+
+==> picture [281 x 27] <==
+
+One should note from Eq. (10) that unless b=1, the quantity ;(x) is not a monotonic transformation of the normally distributed variable x, which is the decision variable assumed in the conventional binormal ROC model, so the ROC curves produced by ;(x) will differ, in general, from those produced by x. Because a decision variable and any of its monotonic transformations yield identical ROC curves (Swets et al., 1961; Egan, 1975), we define a new decision variable y, which is a monotonic transformation of the likelihood ratio decision variable ;(x), to simplify the derivation that follows. This new decision variable y is defined as 
+
+==> picture [260 x 28] <==
+
+7 
+
+``PROPER'' BINORMAL ROC CURVES 
+
+Equation (11) indicates that y is given by the log-likelihood ratio, ln ;(x), after subtraction of a constant quantity, ln b, so y is clearly a monotonic transformation of the likelihood ratio ;(x). Because the new decision variable y in Eq. (11) is an explicit function of x, its conditional distribution functions, and hence its values of FPF and TPF for each critical value of y on a proper ROC curve, can be derived (Papoulis, 1994) from the underlying conditional density functions of the random variable x, which are given by Eqs. (3) and (4) and serve as the basis for the conventional binormal model. 
+
+2.4. The (a, b, y) Parameterization 
+
+As shown in Eq. (11), y is a quadratic function of x (unless b=1), and the values of the random variable x that correspond to y� yc depend upon the values of a and b. Specifically, y� yc is equivalent to 
+
+==> picture [287 x 12] <==
+
+where x1<x2 , and to 
+
+==> picture [233 x 12] <==
+
+where x2<x1 , in which x1 and x2 are the two roots of Eq. (11), 
+
+==> picture [247 x 27] <==
+
+and 
+
+==> picture [305 x 30] <==
+
+The second expression for the root x2 in Eq. (15) avoids the 0�0 ambiguity that occurs in the first expression for x2 as b � 1 from either above or below. 
+
+For b<1, the values of FPF and TPF that correspond to a particular setting of the critical value of the decision variable y in the proper ROC model are given by 
+
+==> picture [308 x 45] <==
+
+and 
+
+==> picture [308 x 45] <==
+
+8 
+
+METZ AND PAN 
+
+where x1 #x1( yc) and x2 #x2( yc). On the other hand, for b>1, 
+
+==> picture [320 x 26] <==
+
+and 
+
+==> picture [356 x 26] <==
+
+Substitution of Eqs. (14) and (15) into Eqs. (16)�(19) yields 
+
+==> picture [283 x 61] <==
+
+and 
+
+==> picture [311 x 63] <==
+
+where H( } ) represents the Heaviside step function such that H(x)=0 if x<0 but H(x)=1 if x>0. The values of the new decision variable y range from &a[2] �[2(1&b[2] )] to � if b<1, or from &� to a[2] �[2(b[2] &1)] if b>1. The proper binormal and conventional binormal ROC models are equivalent to each other at b=1, because the variable y is a monotonic (linear) transformation of x in this situation (see Eq. (11)). One can show that, in the limit as b � 1 from either below or above 1, the terms of Eqs. (20) and (21) in curly braces disappear and only the first terms remain, thereby yielding the conventional equal-variance binormal form 
+
+==> picture [234 x 27] <==
+
+and 
+
+==> picture [230 x 27] <==
+
+One can show also that all derivatives of the expressions for FPF and TPF in Eqs. (20) and (21) with respect to a, b and yc are continuous at b=1. From the expressions for FPF and TPF in Eqs. (20) and (21), one can evaluate the probabilities, pi and qi , of response in category ``i '' for an actually negative case 
+
+9 
+
+``PROPER'' BINORMAL ROC CURVES 
+
+and for an actually positive case, respectively. These can be employed subsequently in Eq. (2) for calculation of the log-likelihood function LL for the proper binormal model. The probabilities pi and qi are given by 
+
+==> picture [237 x 12] <==
+
+and 
+
+==> picture [239 x 11] <==
+
+where yi and yi&1< yi are the cut-points that bound the region on the new decision variable axis y for category i. 
+
+2.5. The (d $e , c, v) Parameterization 
+
+The value of the likelihood function for any ROC model (Eq. (2)) depends upon the categorical probabilities pi and qi . Because each of the expressions for FPF and TPF in Eqs. (20) and (21) involves two 8 functions, the evaluation of each categorical probability pi and qi for the proper binormal model involves four 8 functions. In the conventional binormal model, however, evaluation of pi and qi involves only two 8 functions (Eqs. (8) and (9)). Therefore, calculation of likelihood-function derivatives for the proper binormal model is generally less stable numerically than in analogous calculations for the conventional binormal model. More fundamentally, the arguments of the 8 functions in Eqs. (20) and (21) are highly nonlinear combinations of the parameters (a, b, yc) that may cause the topographic structure of the log-likelihood function LL to exhibit a long, narrow and twisting ridge in parameter space upon which the maximum value is located. This observation will be elaborated in more detail below. Unfortunately, the task of searching iteratively for a function maximum that lies on such a ridge in parameter space is, in general, a numerically unstable process. 
+
+To address this problem, we propose a new parameterization of the proper binormal model that simplifies the arguments in the 8 functions in Eqs. (20) and (21) and at least partially simplifies the topography of the likelihood function LL in the new parameter space. This new set of parameters consists of two curve parameters,[1] 
+
+==> picture [250 x 25] <==
+
+> 1 The parameter d $e has been used previously in connection with the conventional binormal model, where it indicates the location at which the conventional binormal ROC intersects the &45% diagonal when it is plotted as a straight line on ``normal-deviate'' axes (Simpson 6 Fitter, 1973). One can show that the parameter c represents the tangent of the angle between the +45% diagonal and the straight-line ROC plot in that situation. More generally, in terms of the effective normal distributions that are assumed to underlie both the conventional binormal and the proper binormal models, d $e represents the difference between the means of the two distributions, relative to the average of the two standard deviations. In terms of the effective underlying normal distributions, c represents the difference between the two standard deviations relative to their sum.
+
+10 
+
+METZ AND PAN 
+
+where 0�d$e<� and &1<c<1, and a new decision variable v given by 
+
+==> picture [236 x 27] <==
+
+One can show that v is a monotonic transformation of y in its allowed range. Thus, this set of parameters provides a proper ROC curve identical to that obtained by use of the parameters (a, b, y). 
+
+As shown in the Appendix, this new set of parameters yields 
+
+==> picture [327 x 27] <==
+
+and 
+
+==> picture [329 x 27] <==
+
+where 
+
+==> picture [240 x 78] <==
+
+In each case, the smallest possible value of vc yields FPF=1 and TPF=1, whereas the largest possible value of vc provides FPF=0 and TPF=0. Notice that the 8 functions involved in the expressions for FPF and TPF in Eqs. (28) and (29) have substantially simpler arguments than do those in Eqs. (20) and (21). In particular, these arguments depend linearly upon vc , the critical value of the new decision variable v. 
+
+The area under an ROC curve of this proper binormal model is given by 
+
+==> picture [306 x 29] <==
+
+where F (X, Y; \) is the bivariate standard-normal distribution function with correlation coefficient \ (Papoulis, 1994). As discussed above, a proper binormal ROC curve and its corresponding conventional binormal ROC curve are identical when b � 1 and, hence, when c � 0. The second term in Eq. (31) for the proper ROC area Aprop then disappears, whereas the first term becomes equivalent to the expression in Eq. (7) for the area under a conventional binormal ROC curve. Figure 1 displays isopleths of the area Aprop in the [d $e , c] curve-parameter space. 
+
+11 
+
+``PROPER'' BINORMAL ROC CURVES 
+
+==> picture [193 x 185] <==
+
+FIG. 1. Isopleths of proper binormal ROC area (Eq. (31)) in the [d$e , c] subspace. Notice that for either c<0 or c>0, two different values of c give the same ROC area for a given value of d $e. Positive and negative values of c correspond to ROC curves that are skewed toward opposite sides of the &45% diagonal of the ROC graph. 
+
+In either the region c<0 or the region c>0, two distinct values of c yield the same area for a given value of d $e . This undesirable behavior of the area as a function of d$e and c is caused by the fact that the parameter c appears in the denominator of the argument of the 8 function and in the denominator of the first argument of the F function in Eq. (31). An attempt to eliminate this undesirable feature of the $ [d e , c] parameterization leads to another parameterization, which we describe next. 
+
+2.6. The (da , c, v) Parameterization 
+
+In order to remove c from the denominator of the argument of the 8 function and the first argument of the F function in Eq. (31), we replace the curve parameter d$e by the well-known conventional binormal curve parameter da (Simpson 6 Fitter, 1973; Swets, 1979; Swets 6 Pickett, 1982), which is defined as[2] 
+
+==> picture [233 x 30] <==
+
+Under this parameterization, the expressions for FPF and TPF in Eqs. (28) and (29) become 
+
+> 2 Like d $e , the parameter da has a simple interpretation in terms of the conventional binormal model: - 2 times the perpendicular distance from the origin to the straight-line ROC when it is plotted on ``normal-deviate'' axes. In terms of the effective underlying normal distributions, da represents the difference between the two means, relative to the root-mean-square of the two standard deviations (Simpson 6 Fitter, 1973).
+
+12 
+
+METZ AND PAN 
+
+==> picture [297 x 61] <==
+
+and 
+
+==> picture [299 x 61] <==
+
+where 
+
+==> picture [273 x 78] <==
+
+and the area is given by 
+
+==> picture [274 x 29] <==
+
+This new parameterization in terms of da complicates the expressions for the arguments of the 8 functions in FPF and TPF somewhat, although these arguments remain linear functions of the parameter vc . Most importantly, however, the simpler expression for the area under the ROC curve [Eq. (36)] now provides a one-to-one relationship between the values of c and ROC area for each value of da in the region c>0 and in the region c<0, as shown in Fig. 2. As we explain below, the simple expression for area in Eq. (36) will be employed to obtain initial estimates of the curve parameters that are required in the iterative maximization of the log-likelihood function. 
+
+Notice that the first term in Eq. (36) gives the area under the conventional binormal ROC curve for a given pair of latent normal densities and that the area under the proper binormal ROC is equivalent to the area under the conventional binormal equal-variance binormal ROC if c=0 (i.e., b=1), because the second term in Eq. (36) then equals zero. This was to be expected, because the proper and conventional binormal models are equivalent if c=0 (i.e., b=1), as noted in Section 2.4. On the other hand, the second term in Eq. (36) is positive for c{0, indicating that the proper ROC area is greater than that of the conventional ROC curve with the same values of da and c (i.e., the same values of a and b), as one would expect in 
+
+13 
+
+``PROPER'' BINORMAL ROC CURVES 
+
+==> picture [192 x 185] <==
+
+FIG. 2. Isopleths of proper binormal ROC area (Eq. (36)) in the [da , c] subspace. There is a oneto-one relationship between the values of c and ROC area for each value of da in the region c<0 or in the region c>0. The loci of points such that da=2 |c| and da=6 |c| are indicated by dotted and dashed lines, respectively; these lines partition the [da , c] parameter subspace into regions in which the proper binormal ROC curves have distinct properties. 
+
+view of the fact that the decision strategy that employs likelihood ratio as its decision variable always achieves the highest possible ROC (Egan, 1975). 
+
+The points on a particular isopleth in Fig. 2 correspond to proper ROC curves with the same area but, in principle, different shapes. Proper ROC curves obtained from values of c<0 or c>0 are skewed toward opposite sides of the negative 45% line in the ROC plot, respectively, with the amount of skew increasing as the value of c becomes increasingly different from zero. Empirically, for combinations of da and c on an isopleth in Fig. 2, the ROC curves change noticeably when da -6 |c|, though their area remains constant. On the other hand, the ROC curves remain virtually unchanged for different combinations of da and c on an isopleth if da �2 |c|. The boundaries da=6 |c| and da=2 |c| are shown in Fig. 2 by dashed and dotted lines, respectively. Figure 3 displays three proper ROC curves that correspond to different combinations of (da , c): (2.00, &0.20), (2.03, 0.00), and (2.00, 0.20). The three ROCs have the same area but are noticeably different because the da and c values of these three curves lie on the same isopleth of Fig. 2 in region da>6 |c|. In contrast, Fig. 4 displays two proper ROC curves that correspond to (da , c)= (0.10, &0.85) and (0.70, &0.83). These two ROCs are virtually the same because the da and c values lie on the same isopleth of Fig. 2 in the region da<2 |c|. Because the isopleths of ROC area are nearly vertical and roughly horizontal, respectively, in the regions da -6 |c| and da �2 |c|, the observations immediately above indicate also that proper binormal ROC curves change noticeably with c but have almost constant area when da is held constant if da -6 |c|, whereas the ROCs change slowly with da when c is held constant if da �2 |c|. 
+
+For a given pair of curve parameter values, the corresponding proper and conventional binormal ROC curves are indistinguishable if and only if no ``hook'' is 
+
+14 
+
+METZ AND PAN 
+
+==> picture [258 x 236] <==
+
+FIG. 3. Proper binormal ROC curves for three different combinations of (da , c): (2.0, &0.2), (2.03, 0.0), and (2.0, 0.2). The three curves have identical area but are noticeably different because the da and c values of these three curves lie on the same isopleth of Fig. 2 in the region da>6|c|. 
+
+==> picture [257 x 238] <==
+
+FIG. 4. Proper binormal ROC curves for two different combinations of (da , c): (0.1, &0.85) and (0.7, &0.83). The two curves are virtually identical because the da and c values of the curves lie on the same isopleth of Fig. 2 in the region da<2|c|. 
+
+15 
+
+``PROPER'' BINORMAL ROC CURVES 
+
+==> picture [258 x 237] <==
+
+FIG. 5. Proper and conventional binormal ROC curves for curve parameter values a=1.2 and b=0.6 (i.e., da=1.46 and c=&0.25). Because there is no evident hook in the conventional binormal ROC curve, the proper and conventional binormal ROC curves are indistinguishable. 
+
+==> picture [258 x 235] <==
+
+FIG. 6. Proper and conventional binormal ROC curves for curve parameters a=1.0 and b=0.325 (i.e., da=1.34 and c=&0.51). Because a hook is evident in the conventional binormal ROC curve, the proper and conventional binormal ROC curves are clearly different. 
+
+16 
+
+METZ AND PAN 
+
+evident in the conventional binormal ROC, as mentioned in the Introduction and illustrated in Fig. 5. Empirically, this occurs if and only if da -6 |c|. However, for a given pair of curve parameter values, the proper and conventional binormal ROC curves are visually distinct if the ``hook'' is evident in the conventional binormal ROC, as shown in Fig. 6. Empirically, this occurs if da �6 |c|. 
+
+3. ALGORITHM 
+
+Here we consider the use of the proper ROC model and the parameters (da , c, v) described in Section 2.6 to fit a particular set of data collected in I discrete categories. Although the (d$e , c, v) parameterization yields somewhat simpler expressions for the arguments of the 8 functions in Eqs. (28) and (29), the expression for the area Aprop in Eq. (31) has the undesirable property of yielding identical values of area for different values of c when d $e is held fixed and either c>0 or c<0. On the other hand, the (da , c, v) parameterization eliminates this behavior. Although the arguments of the 8 functions become somewhat more complicated when they are expressed in terms of da in Eqs. (33) and (34), they remain linear functions of the variable v. Therefore, we use the (da , c, v) parameterization and Eqs. (33) and (34) to evaluate FPF and TPF for calculation of the probabilities pi and qi , which are needed for evaluation of the log-likelihood function LL. A numerical optimization scheme is then employed to find the values of the curve parameters (da , c) and the cut-point parameters (v1 , v2 , ..., vI&1) that maximize the log-likelihood function LL given by Eq. (2). 
+
+3.1. Topographic Features of the Log-Likelihood Function 
+
+Equation (2) indicates that, for a given set of data, the value of the function LL depends upon the values of the parameters (da , c, v1 , v2 , ..., vI&1) that span an (I+1)-dimensional parameter space. The task of maximizing this function consists of finding the particular set of parameter values in this space at which LL reaches its maximum. We have found empirically that, in general, the log-likelihood function expressed by Eq. (2) has distinct topographic features in the two parameter subspaces [da , c] and [v1 , v2 , ..., vI&1]. This difference is not surprising, because the curve parameters (da , c) are distinct from the cut-point parameters (v1 , v2 , ..., vI&1) in the sense that an ROC curve is completely determined by the former and independent of the latter. After several unsuccessful attempts to develop iterative schemes to maximize Eq. (2) directly, we found that a clear understanding of the topographic features of the log-likelihood function in parameter space, especially in the [da , c] parameter subspace, provides important insight concerning the selection of a reliable strategy for finding the maximum of the log-likelihood function. It is virtually impossible to study the topography of the log-likehood function analytically, due to its complicated form as a function of the parameters (da , c, v1 , v2 , ..., vI&1). However, the topography of the log-likelihood function can be investigated numerically. 
+
+To study the topographic features of the LL function in the [da , c] parameter subspace, we evaluate this function at each (da , c) point on a grid by maximizing 
+
+17 
+
+``PROPER'' BINORMAL ROC CURVES 
+
+it in the [v1 , v2 , ..., vI&1] parameter subspace. Figure 7 displays isopleths of the LL function in the [da , c] parameter subspace for a particular data set corresponding to outcomes of the decision variable y for 50 actually negative cases and 50 actually positive cases. This data set was obtained by converting, according to Eq. (11), values of x that had been sampled independently from the conventional binormal model with a=0.4 and b=0.3 (i.e., da=0.5418 and c=&0.5385). This conversion causes the resulting values of y to represent decision-variable outcomes that yield a proper binormal ROC curve. The log-likelihood function is well behaved for this data set. However, Fig. 8 shows the isopleths for another data set obtained in the same way as that used for Fig. 7. The shapes of the isopleths of LL in Fig. 8 show that the log-likelihood function for the proper binormal model can have a long, narrow, and curved ridge in the subspace [da , c] near its maximum. This behavior of the log-likelihood function occurs because, as noted above, the proper binormal ROC curve is virtually unchanged at different positions on an isopleth of constant area in the [da , c] parameter subspace if da �2 |c| (see Fig. 4). Hence, if the loglikelihood function of a particular data is maximized by a combination of da and c such that da �2 |c|, the data set will be fit almost as well, in a maximumlikelihood sense, by other combinations of da and c that lie on the same isopleth in this region. This issue is discussed in more detail in Section 4.1. 
+
+Similarly, one can study the topographic features of the log-likehood function in the [v1 , v2 , ..., vI&1] cut-point parameter subspace. This may be accomplished by maximizing the log-likelihood function in the [da , c] subspace for each set of values of (v1 , v2 , ..., vI&1). In our experience, the log-likelihood function LL always has an essentially quadratic form in the neighborhood of the cut-points that maximize the LL in the subspace [v1 , v2 , ..., vI&1], with isopleths that are much more elliptical than those shown in Fig. 8. These observations concerning the distinctive 
+
+==> picture [192 x 192] <==
+
+FIG. 7. Isopleths of a well-behaved LL function in the [da , c] parameter subspace (see text). For this particular data set, the log-likelihood function has a roughly quadratic form in the [da , c] subspace near its maximum. 
+
+18 
+
+METZ AND PAN 
+
+==> picture [193 x 192] <==
+
+FIG. 8. Isopleths of the LL function in the [da , c] parameter subspace for another data set (see text), which causes the log-likelihood function to have a long, narrow, and curved ridge in the [da , c] subspace near its maximum. Notice that the ridge of the LL function lies in the region da �2 |c|. 
+
+topographic features of the log-likelihood function, which are supported by the extensive results that follow, have an important implication for the selection of an optimization strategy: a numerical algorithm that is stable and efficient in maximizing the likelihood function in one subspace may not be stable and effective in the other subspace. This naturally suggests a strategy of maximizing the likelihood function by the use of different iterative techniques that are numerically stable and efficient in the respective subspaces. 
+
+3.2. Maximum Likelihood Estimation 
+
+Because the log-likelihood function generally has a quadratic form in the neighborhood of the cut-point parameter values that maximize log-likelihood, we employ a quasi-Newton method (Polak, 1971; Dennis 6 More, 1977) to optimize the log-likelihood function in the subspace [v1 , v2 , ..., vI&1] for fixed values of the curve parameters (da , c). This method requires calculation of the gradient of the log-likelihood function in the subspace [v1 , v2 , ..., vI&1]. Our reparameterization from the parameter y to the parameter v in Eq. (27) causes the arguments of the 8 functions to be linear functions of v in Eqs. (33) and (34) and, thus, simplifies and numerically stabilizes the task of calculating the gradient of the log-likelihood function LL in the subspace [v1 , v2 , ..., vI&1]. 
+
+On the other hand, the likelihood function may have a long, curved ridge in the [da , c] parameter subspace, as shown in Fig. 8. A quadratically convergent method such as the quasi-Newton method is unreliable in such situations, because these methods try to extrapolate along a quadratic surface which simply is not yet there, whereas the conjugacy of the transverse directions is spoiled by the curvature of the ridge. Therefore, we use Powell's method (Brent, 1973; Press, Flannery, Teukolsky, 6 Vetterling, 1989) for maximization of the log-likelihood function in the subspace 
+
+19 
+
+``PROPER'' BINORMAL ROC CURVES 
+
+[da , c]. Powell's method requires only the evaluation of values of the function to be maximized and is particularly robust in searching for the maximum of a function with a ridge. 
+
+Thus far, we have identified only the topographic features of the log-likelihood function in the subspaces [da , c] and [v1 , v2 , ..., vI&1] and corresponding iterative strategies that may be effective in the two parameter subspaces. In order to maximize the log-likelihood function in the full parameter space [da , c, v1 , v2 , ..., vI&1], we employ a composite strategy, as follows. Powell's method is used to find the maximum of the LL function in the subspace [da , c]. At each point (da , c) that is explored by Powell's method, the value of the LL function there is evaluated by using the quasi-Newton method to maximize it with respect to values of the cutpoint parameters [v1 , v2 , ..., vI&1]. Therefore, the maximum of the LL function in the subspace [da , c] that is obtained from Powell's method is the maximum of the log-likelihood function in the full parameter space [da , c, v1 , v2 , ..., vI&1]. 
+
+3.3. Initial Estimates of Parameters 
+
+In principle, the choice of the initial estimates that are provided to an iterative optimization algorithm should not affect the final results. However, in many practical situations, initial estimates play an important role, often affecting the rate of convergence and even the final result. Therefore, it is important to provide an optimization algorithm with consistent, objective, and empirically fruitful initial estimates. 
+
+A method was proposed by Metz et al. (1998) to obtain reliable initial estimates of the cut-point parameters x1 , x2 , ..., xI&1 in the conventional binormal ROC model, given any particular estimates of the values of the curve parameters. Basically, the idea is to consider each cut-point parameter individually and to find the particular value of that parameter which maximizes the LL function when the data are dichotomized by it��a simple univariate optimization task. In the work reported here, we employ that method to calculate initial estimates of the cut-point parameter values for optimization of the log-likelihood function of the proper binormal model in the subspace [v1 , v2 , ..., vI&1], given current values of the curve parameters da and c. 
+
+Powell's method, which searches for the maximum of the maxima of the LL function in the subspace [da , c], also requires initial estimates of the curve parameters da and c. Because FPF and TPF are expressed simply in terms of 8 functions in the conventional binormal ROC model (Eqs. (5) and (6)), rough initial estimates of the curve parameters a and b for that model can be evaluated easily by simple linear regression when the data are plotted on a normal deviate plot (Dorfman 6 Alf, 1969). However, due to the complexity of the expressions for FPF and TPF in Eqs. (33) and (34), it is not immediately evident how to obtain initial estimates of the proper binormal ROC curve parameters da and c from available data. However, for a given data set, one can readily evaluate the trapezoidal area under the data points in the ROC plot (Hanley 6 McNeil, 1982). Using the value for this area, one can identify a particular isopleth of area in the [da , c] subspace, as shown in Fig. 2. The curve parameter values that maximize the log-likelihood function for 
+
+20 
+
+METZ AND PAN 
+
+this particular data set should, in general, lie in the neighborhood of this isopleth curve. Therefore, we maximize the log-likelihood function in the subspace [v1 , v2 , ..., vI&1] for 20 sets of da and c that are equally spaced on this isopleth, and we choose the (da , c) point that yields the largest value of the log-likelihood function as the initial estimates of da and c. 
+
+3.4. Computer Program 
+
+We have developed a FORTRAN computer program entitled ``PROPROC'' for Unix, MS Windows, and Apple Macintosh operating systems by implementing the theory and algorithms discussed in Sections 2 and 3 for the proper binormal ROC model. PROPROC fits proper binormal ROC curves to either discrete ordinalcategory data or continuously distributed data. 
+
+4. RESULTS 
+
+To validate the proper binormal ROC model and to investigate the behavior and reliability of the PROPROC program, we conducted a series of simulation studies in which both discrete-categorical data and continuously distributed data were generated and then analyzed. 
+
+4.1. Five-Category Data 
+
+The solid curve in Fig. 9 shows a conventional binormal ROC curve with a=1.5 and b=0.8 (i.e., da=1.657 and c=&0.111) that is typical of ROCs encountered in observer-performance studies in diagnostic medical imaging. A proper binormal ROC curve with da=1.657 and c=&0.111 also is plotted as a solid curve in Fig. 9. As discussed above, because this conventional binormal ROC has no evident hook, it is virtually identical to its proper binormal counterpart. Therefore, the two solid curves in Fig. 9 are graphically indistinguishable. However, for a five-category data set (30 actually negative cases, 40 actually positive cases) that was sampled from this population ROC (indicated by diamonds on Fig. 9), the ROC fit by the conventional binormal model (dotted curve) has an obvious hook, whereas the ROC fit by the proper binormal model (dashed curve) has monotonic slope. Figure 9 clearly demonstrates that the proper ROC curve is closer to the true curve than is the conventional curve, especially in the region of high FPF values. 
+
+A conventional binormal ROC curve discussed by Metz (1989) and studied extensively by Dorfman and Berbaum (1995) has population curve parameters a=1.5 and b=0.8 and population operating points (FPF, TPF )=(0.00025, 0.10), (0.000328, 0.25), (0.03040, 0.50), and (0.28114, 0.85). This conventional binormal population ROC curve is of particular interest because it does not show any evident hook but is likely to produce the most common form of data degeneracy when small data sets are sampled from it. A typical form of data degeneracy arises when all of the operating-point estimates except one have FPFs equal to zero, thereby lying on the left border of the unit square of the ROC plot, and only one point estimate falls inside the unit square (Metz, 1989; Dorfman 6 Berbaum, 1995). 
+
+21 
+
+``PROPER'' BINORMAL ROC CURVES 
+
+==> picture [239 x 220] <==
+
+FIG. 9. Solid lines: the true conventional binormal ROC curve with a=1.5 and b=0.8 and the corresponding proper binormal ROC curve with da=1.657 and c=&0.111; diamonds: five-category data points; dotted curve: the ROC curve fit by the conventional binormal model; dashed curve: the ROC curve fit by the proper binormal model. Because the true conventional binormal ROC curve contains no visually evident hook, it is graphically identical to and indistinguishable from the corresponding proper binormal ROC curve. 
+
+Dorfman and Berbaum studied the behavior of ROCFIT and RSCORE4, two computer programs for fitting conventional binormal ROC curves to discrete categorical data, when they were applied to 5-category data sets sampled from this population ROC. For comparison in this simulation study, we used PROPROC to fit proper binormal ROC curves to similar 5-category data that we sampled independently from the same population ROC and the same population operating points. Like Dorfman and Berbaum (1995), we generated 1000 five-category data sets, each representing 30 actually negative cases and 40 actually positive cases. Notice that although our data in this simulation were sampled from the conventional binormal model, the proper binormal model is capable of producing fits that are virtually identical to the population ROC because the latter shows no evident hook (da r15 |c|>6 |c|). 
+
+Table 1 displays the mean estimates of TPF (i.e., sensitivity) obtained at several fixed values of FPF (i.e., 1-specificity) by ROCFIT, RSCORE4 and PROPROC. These results allow comparisons of the accuracies with which ROC curve shape is recovered. Table 1 shows that ROC estimates obtained from PROPROC are closer to the true population values at all fixed values of specificity than are those from ROCFIT and RSCORE4. The partial area under the ROC curve within an interval of FPF is another meaningful indicator of the quality and accuracy of the fitted curves (McClish, 1989). Table 2 shows mean estimates of the partial areas within several intervals of FPF that were obtained by PROPROC, ROCFIT, and 
+
+22 
+
+METZ AND PAN 
+
+TABLE 1 
+
+Sensitivity (TPF ) Estimates 
+
++---------+------+----------+-----------------+--------+
+|         | FPF  | True TPF | Mean fitted TPF | RMSE   |
++---------+------+----------+-----------------+--------+
+| ROCFIT  | 0.05 | 0.573    | 0.645           | 0.2060 |
++---------+------+----------+-----------------+--------+
+| RSCORE4 | 0.05 | 0.573    | 0.627           | 0.1603 |
++---------+------+----------+-----------------+--------+
+| PROPROC | 0.05 | 0.573    | 0.615           | 0.1557 |
++---------+------+----------+-----------------+--------+
+| ROCFIT  | 0.10 | 0.683    | 0.739           | 0.1403 |
++---------+------+----------+-----------------+--------+
+| RSCORE4 | 0.10 | 0.683    | 0.717           | 0.1179 |
++---------+------+----------+-----------------+--------+
+| PROPROC | 0.10 | 0.683    | 0.705           | 0.1150 |
++---------+------+----------+-----------------+--------+
+| ROCFIT  | 0.20 | 0.796    | 0.814           | 0.0847 |
++---------+------+----------+-----------------+--------+
+| RSCORE4 | 0.20 | 0.796    | 0.808           | 0.0829 |
++---------+------+----------+-----------------+--------+
+| PROPROC | 0.20 | 0.796    | 0.802           | 0.0795 |
++---------+------+----------+-----------------+--------+
+| PROPROC | 0.30 | 0.860    | 0.857           | 0.0639 |
++---------+------+----------+-----------------+--------+
+| PROPROC | 0.50 | 0.933    | 0.921           | 0.0459 |
++---------+------+----------+-----------------+--------+
+| PROPROC | 0.70 | 0.973    | 0.960           | 0.0297 |
++---------+------+----------+-----------------+--------+
+| PROPROC | 0.90 | 0.994    | 0.988           | 0.0111 |
++---------+------+----------+-----------------+--------+
+
+Note. Estimates of TPF and their root-mean-square errors (RMSE) obtained from 1,000 small data sets (30 normal cases and 40 abnormal cases) sampled from a pair of normal distributions with a=1.5 and b=0.8. The results for ROCFIT and RSCORE are those reported by Dorfman and Berbaum (1995). No ROCFIT or RSCORE4 results for FPF>0.20 were reported by Dorfman and Berbaum (1995). 
+
+TABLE 2 
+
+Mean Partial Area (PA) Estimates 
+
++---------+-------------+---------------+---------------+---------------+
+|         | PA=0.169    | True PA=0.222 | True PA=0.240 | True PA=0.248 |
++---------+-------------+---------------+---------------+---------------+
+|         | (0.0, 0.25) | (0.25, 0.50)  | (0.50, 0.75)  | (0.75, 1.0)   |
++---------+-------------+---------------+---------------+---------------+
+| ROCFIT  | 0.184       | 0.218         | 0.228         | 0.233         |
++---------+-------------+---------------+---------------+---------------+
+|         | (0.0348)    | (0.0369)      | (0.0213)      | (0.0246)      |
++---------+-------------+---------------+---------------+---------------+
+| RSCORE4 | 0.178       | 0.220         | 0.234         | 0.243         |
++---------+-------------+---------------+---------------+---------------+
+|         | (0.0286)    | (0.0159)      | (0.0135)      | (0.0097)      |
++---------+-------------+---------------+---------------+---------------+
+| PROPROC | 0.176       | 0.221         | 0.237         | 0.246         |
++---------+-------------+---------------+---------------+---------------+
+|         | (0.0277)    | (0.0140)      | (0.0089)      | (0.0033)      |
++---------+-------------+---------------+---------------+---------------+
+
+Note. Partial area (PA) estimates obtained from 1,000 small data sets (30 normal cases and 40 abnormal cases) sampled from a pair of normal distributions with a=1.5 and b=0.8. RMS errors of these PA estimates are given in parentheses. The results for ROCFIT and RSCORE4 are those reported by Dorfman and Berbaum (1995). 
+
+23 
+
+``PROPER'' BINORMAL ROC CURVES 
+
+RSCORE4. The results in this table indicate that PROPROC outperforms both ROCFIT and RSCORE4 in yielding unbiased partial area estimates. 
+
+Table 3 shows mean curve parameter estimates (a, b), ROC area estimates, and corresponding root mean square errors (RMSE) for ROCFIT, RSCORE4, and PROPROC obtained from 1000 data sets. The ROC area estimates provided by PROPROC are clearly better than those from ROCFIT or RSCORE4. It is also interesting to notice that estimates of a and b obtained from PROPROC (after conversion from estimates of da and c by use of the relationships a=da - 1+c[2] �(1&c) and b=(1+c)�(1&c)) appear to be biased. This is not surprising because, as we discussed above, graphically indistinguishable proper ROC curves can be obtained with many distinct combinations of the values of da and c that correspond to distinct combinations of a and b. However, the curve parameters (either a and b or da and c) are less directly meaningful than other indices of diagnostic accuracy, such as TPF versus FPF, total area and partial area. In summary, the results in Tables 1�3 clearly demonstrate that PROPROC provides estimates of practically meaningful indices with less bias and smaller RMSE than do ROCFIT and RSCORE4 when data sets are small. 
+
+We also applied PROPROC to 1000 large data sets, each with 2000 actually negative cases and 2000 actually positive cases. In this situation, PROPROC produced results virtually identical to those from ROCFIT and RSCORE4 reported by Dorfman and Berbaum (1995). 
+
+Tables 1�3 indicate that although the results of ROCFIT, RSCORE4, and PROPROC are generally consistent with each other, they differ to some degree. The ROCFIT and RSCORE4 algorithms are both based upon the conventional binormal model, but they employ different non-linear strategies for computational efficiency and numerical stability, and so may respond to the same data set differently and hence yield different results. Also, when data are degenerate, RSCORE4 intentionally avoids calculating the maximum-likelihood solution by 
+
+TABLE 3 
+
+ROC Parameter Estimates 
+
++---------+----------+----------+----------+-----------+
+| Methods | a        | b        | Area     | True area |
++---------+----------+----------+----------+-----------+
+| ROCFIT  | 1.631    | 0.948    | 0.869    | 0.879     |
++---------+----------+----------+----------+-----------+
+|         | (0.5474) | (0.3505) | (0.0500) |           |
++---------+----------+----------+----------+-----------+
+| RSCORE4 | 1.508    | 0.701    | 0.876    | 0.879     |
++---------+----------+----------+----------+-----------+
+|         | (0.4795) | (0.3938) | (0.0505) |           |
++---------+----------+----------+----------+-----------+
+| PROPROC | 1.067    | 0.668    | 0.879    | 0.879     |
++---------+----------+----------+----------+-----------+
+|         | (0.9359) | (0.6495) | (0.0437) |           |
++---------+----------+----------+----------+-----------+
+
+Note. Estimates obtained from 1,000 small data sets (30 normal cases and 40 abnormal cases) sampled from a pair of normal distributions with a=1.5 and b=0.8. RMS errors of these parameter estimates are given in parentheses. The results for ROCFIT and RSCORE4 are those reported by Dorfman and Berbaum (1995). 
+
+24 
+
+METZ AND PAN 
+
+perturbing the data in an arbitrary way (Dorfman 6 Berbaum, 1995). On the other hand, our PROPROC algorithm is based upon a different model, so it produces fitted ROC curves that sometimes differ in shape from those that are available from ROCFIT and RSCORE4. 
+
+4.2. Continuously Distributed Data 
+
+As a preliminary step in analyzing continuously distributed data, PROPROC forms an effectively categorical data set by employing a strategy similar to that used by our LABROC5 algorithm for the conventional binormal model (Metz et al., 1998). In this strategy: (i) the continuously distributed data are rank ordered; and 
+
+==> picture [173 x 173] <==
+
+==> picture [173 x 174] <==
+
+==> picture [173 x 172] <==
+
+FIG. 10. Scatter plots in [da , c] space for the low ROC with curve parameters a=0.75 and b=0.9 (da=0.788 and c=&0.053) and sample sizes (a) 25 : 25, (b) 50 : 50, and (c) 1000 : 1000, respectively. The cluster of estimates becomes tighter as the data-set size increases, indicating that the standard errors of the curve parameter estimates become smaller. The functions da=2 |c| and da=6 |c| are plotted with dotted and dashed lines, respectively, dividing the isopleths into different regions in which the proper ROC curves have distinct properties. 
+
+25 
+
+``PROPER'' BINORMAL ROC CURVES 
+
+(ii) sequences of rank-ordered data that correspond to the same actually positive or actually negative state of the truth are interpreted as falling within a single ordinal category. The number of resulting ordinal categories is then reduced to 10 or 20 by deleting category boundaries in a way which leads to an approximately uniform spread of ``operating points'' inside the unit square that is used to plot an ROC curve. 
+
+In our second simulation study, we generated continuously distributed data from three conventional binormal ROC curves that did not show evident hooks, with (a, b)=(0.75, 0.90), (1.50, 0.85), and (2.50, 0.70). The areas under the conventional binormal ROC curves generated by these three sets of curve parameters are Az=0.711, 0.873, and 0.980, respectively. The first and third combinations of curve 
+
+==> picture [172 x 173] <==
+
+==> picture [172 x 173] <==
+
+==> picture [173 x 173] <==
+
+FIG. 11. Scatter plots in [da , c] space for the middle ROC with curve parameters a=1.5 and b=.85 (da=1.616 and c=&0.081) and sample sizes (a) 25 : 25, (b) 50 : 50, and (c) 1000 : 1000, respectively. The cluster of estimates becomes tighter as the data-set size increases, indicating that the standard errors of the curve parameter estimates become smaller. The functions da=2 |c| and da=6 |c| are plotted with dotted and dashed lines, respectively, dividing the isopleths into different regions in which the proper ROC curves have distinct properties. 
+
+26 
+
+METZ AND PAN 
+
+parameters correspond to low and high ROC curves, respectively, and represent bounds on the range of ROC curves encountered in most practical applications, whereas the second combination of curve parameters corresponds to a more typical ROC. In fitting each curve, we employed data sets with varying numbers of actually negative cases, Mn , and actually positive cases, Ms . Three different data-set sizes��(Mn : Ms)=(25 : 25), (50 : 50), and (1000 : 1000)��were used in this simulation study. For each set of curve parameters and for data sets of each size, we sampled 1000 continuously-distributed sets of random variables x from the conventional binormal model and subsequently converted these samples to continuouslydistributed proper-binormal data y according to Eq. (11). (Notice that this conversion 
+
+==> picture [172 x 173] <==
+
+==> picture [173 x 175] <==
+
+==> picture [173 x 172] <==
+
+FIG. 12. Scatter plots in [da , c] space for the high ROC with curve parameters a=2.5 and b=0.7 (da=2.896 and c=&0.176) and sample sizes (a) 25 : 25, (b) 50 : 50, and (c) 1000 : 1000, respectively. The cluster of estimates becomes tighter as the data-set size increases, indicating that the standard errors of the curve parameter estimates become smaller. The functions da=2 |c| and da=6 |c| are plotted with dotted and dashed lines, respectively, dividing the isopleths into different regions in which the proper ROC curves have distinct properties. 
+
+27 
+
+``PROPER'' BINORMAL ROC CURVES 
+
+by use of Eq. (11) was not performed in analyzing the 5-category data sets described in the previous section.) The categorization strategy discussed briefly above was then employed to form a categorical data set from each continuously distributed data set, which was then analyzed by PROPROC. 
+
+In Figs. 10a�10c, each of the scattered dots represents a combination of the curve parameter values da and c estimated for the low curve (a=0.75, b=0.90; da=0.788, c=&0.053) with data-set sizes of (25 : 25), (50 : 50) and (1000 : 1000), respectively. Similarly, Figs. 11a�11c and Figs. 12a�12c show curve parameter estimates for the middle curve (a=1.50, b=0.85; da=1.616, c=&0.081) and the high curves (a=2.50, b=0.70; da=2.896, c=&0.176) obtained with data sets of the three different sizes. For relatively high ROC curves, some data-set outcomes may imply perfect detection accuracy. In this situation, PROPROC does not attempt to estimate the curve parameters. For the middle curve, we obtained one data set that implies perfect performance when (Mn : Ms)=(25 : 25), so there are 999 dots in Fig. 11a. However, for the high curve, we obtained 6 and 78 data sets that implied perfect performance for (Mn : Ms)=(50 : 50) and (25 : 25), respectively. Hence, there are 994 and 922 dots in Figs. 12a and 12b, respectively. One should note that it is inherently impossible to obtain a unique pair of curveparameter estimates from any model when a data-set outcome implies perfect performance. 
+
+Figures 10�12 show how curve-parameter estimates obtained by PROPROC scatter around the values of the expected parameters and the expected areas. For each combination of population ROC curve parameters, the dispersion of estimates becomes smaller as data-set size increases. This demonstrates, as one would expect, that the standard errors of the curve parameter estimates become smaller when more cases are used in ROC studies. Although most of the curve-parameter estimates cluster around their true values, Figs. 10a and 10b, 11a and 11b, and 12a and 12b show that, when sample sizes are small, some estimates gather at da=0 in the neighborhood of the isopleth on which the true curve parameters lie. This occurs when statistical fluctuation in a data-set outcome happens to produce ROC 
+
+TABLE 4 
+
+Sensitivity (TPF ) Estimates 
+
++------+----------+-----------------+--------+
+| FPF  | True TPF | Mean fitted TPF | RMSE   |
++------+----------+-----------------+--------+
+| 0.05 | 0.540    | 0.559           | 0.1121 |
++------+----------+-----------------+--------+
+| 0.10 | 0.659    | 0.672           | 0.0900 |
++------+----------+-----------------+--------+
+| 0.20 | 0.784    | 0.791           | 0.0670 |
++------+----------+-----------------+--------+
+| 0.30 | 0.854    | 0.858           | 0.0544 |
++------+----------+-----------------+--------+
+| 0.50 | 0.933    | 0.931           | 0.0372 |
++------+----------+-----------------+--------+
+| 0.70 | 0.974    | 0.970           | 0.0227 |
++------+----------+-----------------+--------+
+| 0.90 | 0.995    | 0.993           | 0.0082 |
++------+----------+-----------------+--------+
+
+Note. Estimates obtained from 1,000 data sets (50 normal cases and 50 abnormal cases) sampled from the middle ROC curve (a=1.50, b=0.85; da=1.616, c=&0.081). 
+
+28 
+
+METZ AND PAN 
+
+TABLE 5 
+
+Estimation of ROC Parameters 
+
++-------+---+-------+---------+---------+-----------------+-----------+-----------+--------+
+| (Mn   | : | Ms)   | True    | (da, c) | Mean (da, c)    | True area | Mean area | RMSE   |
++-------+---+-------+---------+---------+-----------------+-----------+-----------+--------+
+| (25   | : | 25)   | (0.788, | &0.053) | (0.454, &0.098) | 0.711     | 0.735     | 0.0744 |
++-------+---+-------+---------+---------+-----------------+-----------+-----------+--------+
+| (50   | : | 50)   | (0.788, | &0.053) | (0.620, &0.088) | 0.711     | 0.713     | 0.0526 |
++-------+---+-------+---------+---------+-----------------+-----------+-----------+--------+
+| (1000 | : | 1000) | (0.788, | &0.053) | (0.788, &0.053) | 0.711     | 0.711     | 0.0115 |
++-------+---+-------+---------+---------+-----------------+-----------+-----------+--------+
+| (25   | : | 25)   | (1.616, | &0.081) | (1.306, &0.170) | 0.873     | 0.885     | 0.0479 |
++-------+---+-------+---------+---------+-----------------+-----------+-----------+--------+
+| (50   | : | 50)   | (1.616, | &0.081) | (1.491, &0.115) | 0.873     | 0.876     | 0.0360 |
++-------+---+-------+---------+---------+-----------------+-----------+-----------+--------+
+| (1000 | : | 1000) | (1.616, | &0.081) | (1.618, &0.084) | 0.873     | 0.873     | 0.0079 |
++-------+---+-------+---------+---------+-----------------+-----------+-----------+--------+
+| (25   | : | 25)   | (2.896, | &0.176) | (2.419, &0.207) | 0.980     | 0.979     | 0.0168 |
++-------+---+-------+---------+---------+-----------------+-----------+-----------+--------+
+| (50   | : | 50)   | (2.896, | &0.176) | (2.653, &0.198) | 0.980     | 0.977     | 0.0190 |
++-------+---+-------+---------+---------+-----------------+-----------+-----------+--------+
+| (1000 | : | 1000) | (2.896, | &0.176) | (2.899, &0.180) | 0.980     | 0.980     | 0.0027 |
++-------+---+-------+---------+---------+-----------------+-----------+-----------+--------+
+
+Note. The parameter estimates in each row were obtained from 1,000 data sets sampled from a pair of normal distributions with the values of da and c given in the second column. RMS errors of the estimated areas for each combination of curve parameters and data-set size are given in the last column. 
+
+points that are highly skewed to one side of the &45% diagonal of the ROC graph, causing PROPROC to fit a proper binormal ROC curve that is skewed as much as possible for the appropriate ROC area. 
+
+Table 4 displays the mean estimates of TPF (i.e., sensitivity) obtained at several fixed values of FPF (i.e., 1-specificity) for the middle curve from 1000 data sets, each of which represented 50 actually positive cases and 50 actually negative cases. These results show that ROC estimates obtained from PROPROC are close to the true sensitivity at each specificity. Table 5 displays the mean estimates of da , c, and area that were obtained from 1000 data sets sampled from the low, middle, and high ROC curves. The mean estimates of the curve parameters are biased, due to the contribution of the clusters of the curve parameter estimates near da=0. However, these results demonstrate that PROPROC provides reliable estimates of the area under the ROC curve as well as the curve itself. 
+
+5. DISCUSSION 
+
+We have proposed a new ``proper'' binormal model for ROC curve fitting that does not allow ``hooked'' or ``degenerate'' curve shapes. Some might argue that the broad variety of ROC curve shapes provided by the conventional binormal model is an advantage, allowing greater flexibility in ROC curve fitting. However, we consider ``hooked'' or ``degenerate'' ROC curve fits to be artifacts, at least in humanobserver studies. In our experience with human confidence-rating data, obviously hooked or degenerate ROC curve fits are obtained with the conventional binormal model only when data sets are small, and�or when the data are collected on a discrete categorical scale with categories that are few and�or poorly distributed. In the first of these situations, the conventional binormal model produces hooked or degenerate fits to accommodate large statistical fluctuations in the data, whereas in 
+
+29 
+
+``PROPER'' BINORMAL ROC CURVES 
+
+the later situation, the conventional binormal model's inappropriate behavior occurs outside the range of the data and can be considered an extrapolation artifact. Empirically, no hook or degeneracy is evident for data sets with large numbers of both negative and positive cases collected on a continuous or well-distributed categorical scale, in which case the data contain little statistical uncertainty and span the ROC graph. Because the proper binormal ROC model prevents the hooks and degeneracy that are possible with the conventional binormal ROC model, the new model yields more accurate and more precise ROC curve estimates than does the conventional binormal model in situations where fits based on the conventional binormal model are vulnerable to this behavior. However, the proper binormal model provides fits that are virtually identical to those of the conventional binormal model when no hooks are evident with the conventional approach. This theoretical prediction is confirmed by the results of our simulation studies. 
+
+Another possible objection to the proper binormal ROC model is that it employs likelihood ratio (or any monotonic transformation thereof) as its decision variable, yielding the highest possible ROC curve for a given pair of underlying normal distributions. A human observer may or may not use likelihood ratio as his or her decision variable; we may never know. However, it is equally unclear whether such observers use the normally distributed latent decision variables assumed by the conventional binormal ROC model. From an empirical perspective, the ROC curve fitting model of choice should be that which allows appropriate curve shapes and is as insensitive as possible to weaknesses in the data sets of practical interest in real ROC studies. According to the results reported in this paper, we consider the proper binormal model to be superior to the conventional binormal model in that sense. 
+
+We have introduced a set of parameters for the proper binormal model that greatly simplifies the model's mathematical expression. In addition, we have proposed a novel approach to the task of maximizing the log-likelihood function of the data by splitting this task into two alternating maximizations in two different parameter subspaces. Different optimizers, Powell's method and the quasi-Newton method, are employed to converge robustly upon the maxima of log-likelihood functions that may have long, narrow, and curved ridges in the [da , c] parameter subspace. We also devised a scheme that provides reliable initial estimates of the curve parameters. Based upon this approach, we developed a computer program, entitled PROPROC, to calculate maximum-likelihood estimates of proper binormal ROC curves from discrete-categorical or continuously distributed data. 
+
+In extensive computer simulation studies, we tested PROPROC on more 10,000 computer-simulated data sets of various sizes with various combinations of population ROC curve parameters without encountering a single failure to converge. Therefore, we conclude that PROPROC is high reliable. Although our proper binormal ROC model yields biased curve parameter estimates in some situations, it reduces both the bias and the standard error of various indices of diagnostic accuracy, such as sensitivity and ROC area, that are practically meaningful in comparisons of diagnostic performance. 
+
+As shown in Fig. 4, two pairs of the parameters da and c with obviously distinct values can yield virtually identical proper ROC curves. This suggests that the 
+
+30 
+
+METZ AND PAN 
+
+estimates of the parameters da and c can be biased (as confirmed by results shown in our tables) without providing ROC curves that are graphically distinguishable from the population (i.e., true) ROC curves. The magnitudes of such biases depend upon several factors, such as data-set size and the population values of da and c. In general, we found that the estimates of da and c obtained from data sets with small sizes and�or with population values of da and c in the region da �2 |c| are more strongly biased than are those from data sets with large sizes and with population values of da and c in the region da -2 |c|, probably because the likelihood function in the former situation is likely to have a long curved ridge in parameter space. In order to reduce such biases, one may be able to reparameterize the model by replacing da and c with a pair of new parameters so that the likelihood function of the data is always well behaved in the new parameter space. This remains a topic of future research. 
+
+We have developed versions of the PROPROC program for Unix, MS Windows, and Apple Macintosh operating systems. The exact computation time required for fitting a proper binormal ROC curve depends upon various factors, including the height of the ROC curve, the scale used to collect the data, and the particular outcome of the data set. For a typical ROC curve that is likely to be encountered in practical applications (e.g., ROC area=0.85) and five-category data, execution of the current version of PROPROC requires about 4 s on an SGI Indy-2 workstation, and about 6 s on a 133 MHz Pentium PC or a 120 MHz Power Macintosh 8500. 
+
+APPENDIX 
+
+One can show that 
+
+and 
+
+==> picture [317 x 61] <==
+
+==> picture [320 x 62] <==
+
+Using the last expressions in Eqs. (A1) and (A2) to replace the arguments of the first 8 functions in Eqs. (20) and (21) yields 
+
+==> picture [307 x 62] <==
+
+31 
+
+``PROPER'' BINORMAL ROC CURVES 
+
+and 
+
+==> picture [311 x 64] <==
+
+respectively. 
+
+From Eqs. (26) and (27), we have d $e #2a�(b+1), c#(b&1)�(b+1) and v#(b+1) y�[a+- a[2] +2(1&b[2] ) y] (Eq. (27). Using these expressions, one can rewrite the arguments in the 8 functions in Eqs. (28) and (29) as 
+
+==> picture [287 x 94] <==
+
+and, similarly, 
+
+==> picture [280 x 27] <==
+
+Also, one can show that 
+
+==> picture [294 x 93] <==
+
+and, similarly, that 
+
+==> picture [278 x 27] <==
+
+Using the last expressions in Eqs. (A5)�(A8) to replace the arguments of the 8 functions in Eqs. (28) and (29) and noticing that c and b&1 have the same signs yields the expressions for FPF and TPF in Eqs. (A3) and (A4). Therefore, Eqs. (20) and (21) are identical to Eqs. (28) and (29). 
+
+32 
+
+METZ AND PAN 
+
+REFERENCES 
+
+Birdsall, T. G. (1966). The theory of signal detectability: ROC curves and their character. Unpublished Ph.D. thesis, University of Michigan, Ann Arbor.
+
+Brent, R. P. (1973). Algorithms for minimization without derivatives. Englewood Cliffs, NJ: Prentice�Hall.
+
+Dennis, J. E., 6 More, J. J. (1977). Quasi-Newton methods, motivation and theory. SIAM Review, 19, 46�89.
+
+Dorfman, D. D., 6 Alf, E. (1969). Maximum likelihood estimation of parameters of signal detection theory and determination of confidence intervals��Rating method data. Journal of Mathematical Psychology, 6, 487�496.
+
+Dorfman, D. D. (1982). RSCORE II. In J. A. Swets 6 R. M. Pickett (Eds.), Evaluation of diagnostic systems: Methods from signal detection theory (pp. 208�232). New York: Academic Press.
+
+Dorfman, D. D., 6 Berbaum, K. S. (1995). Degeneracy and discrete receiver operating characteristic rating data. Academic Radiology, 2, 907�915.
+
+Egan, J. P. (1975). Signal detection theory and ROC analysis. New York: Academic Press.
+
+Grey, D. R., 6 Morgan, B. J. T. (1972). Some aspects of ROC curve-fitting: Normal and logistic models. Journal of Mathematical Psychology, 9, 128�139.
+
+Hanley, J. A., 6 McNeil, B. J. (1982). The meaning and use of the area under a receiver operating characteristic (ROC) curve. Radiology, 143, 29�36.
+
+Hanley, J. A. (1988). The robustness of the binormal assumptions used in fitting ROC curves. Medical Decision Making, 8, 197�203.
+
+International Commission on Radiation Units and Measurements. (1996). Medical imaging��The assessment of image quality (ICRU Report 54). Bethesda, MD: ICRU.
+
+Kendall, M., 6 Stuart, A. (1979). The advanced theory of statistics (Vol. 2, Chap. 18). New York: MacMillan.
+
+McClish, D. K. (1989). Analyzing a portion of the ROC curve. Medical Decision Making, 9, 190�195.
+
+Metz, C. E. (1986a). ROC methodology in radiologic imaging. Investigative Radiology, 21, 720� 733.
+
+Metz, C. E. (1986b). Statistical analysis of ROC data in evaluating diagnostic performance. In D. Herbert 6 R. Myers (Eds.), Multiple regression analysis: Applications in the health sciences, pp. 365�384. New York: American Institute of Physics.
+
+Metz, C. E. (1988). Current problems in ROC analysis. In W. W. Peppler 6 A. A. Alter (Eds.), Proceedings of the Chest Imaging Conference 1987 (pp. 315�316). Madison, WI: Department of Medical Physics, University of Wisconsin-Madison.
+
+Metz, C. E. (1989). Some practical issues of experimental design and data analysis in radiological ROC studies. Investigative Radiology, 24, 243�245.
+
+Metz, C. E., Herman, B. A., 6 Shen, J.-H. (1998). Maximum-likelihood estimation of ROC curves from continuously-distributed data, Statistics in Medicine, 17, 1033�1053.
+
+Papoulis, A. (1994). Probability, random variables, and stochastic processes. New York: McGraw�Hill.
+
+Polak, E. (1971). Computational methods in optimization. New York: Academic Press.
+
+Press, W. H., Flannery, B. P., Teukolsky, S. A., 6 Vetterling, W. T. (1989). Numerical recipes. Cambridge, UK: Cambridge Univ. Press.
+
+Rao, C. R. (1970). Advanced statistical methods in biometric research. Darien, CT: Hafner.
+
+Rockette, H. E., Obuchowski, N. A., 6 Gur, D. (1990). Nonparametric estimation of degenerate ROC data sets used for comparison of imaging systems. Investigations in Radiology, 25, 835�837.
+
+Simpson, A. J., 6 Fitter, M. J. (1973). What is the best index of detectability? Psychology Bulletin, 80, 481�488.
+
+Swets, J. A., Tanner, W. P., Jr., 6 Birdsall, T. G. (1961). Decision processes in perception. Psychology Reviews, 68, 301�340.
+
+33 
+
+``PROPER'' BINORMAL ROC CURVES 
+
+Swets, J. A. (1979). ROC analysis applied to the evaluation of medical imaging techniques. Investigative Radiology, 14, 109�121.
+
+Swets, J. A., 6 Pickett, R. M. (1982). Evaluation of diagnostic systems: Methods from signal detection theory. New York: Academic Press.
+
+Swets, J. A. (1983). Measuring the accuracy of diagnostic systems. Science, 240, 1285�1293.
+
+Swets, J. A. (1986). Form of empirical ROCs in discrimination and diagnostic tasks: Implication for theory and measurement of performance. Psychological Bulletin, 99, 181�198.
+
+Van Trees, H. L. (1968). Detection, estimation, and modulation theory (Part I). New York: Academic Press.
+
+Received: May 20, 1996 
+

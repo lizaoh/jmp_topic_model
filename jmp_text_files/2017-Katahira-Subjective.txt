@@ -1,0 +1,2886 @@
+10.1016/j.jmp.2017.05.005
+Subjective values (or utilities) assigned to positive or negative events by living systems in general differ from their objective value (e.g., amount of money). Rewards with larger amounts and less delay are basically preferable, but the subjective values are not linearly related to objective, measurable values such as amount and delay (e.g.,  Kahneman & Tversky, 1979 ). Investigations into the valuation systems of living systems have gained significant attention in various fields such as psychology, neuroscience, and psychiatry (e.g.,  O’Doherty, 2014; Rangel, Camerer, & Montague, 2008 ). For example, some psychiatric disorders (e.g., depression) can be characterized by altered subjective values (for a review, see  Chen, Takahashi, Nakagawa, Inoue, & Kusumi, 2015 ). Thus, the validity of animal models of a psychiatric disorder may be evaluated based on the subjective values of the subjects.
+
+Traditional econometric methods of estimating subjective value cannot be applied to animals because they rely on verbal instruction (e.g.,  Kable & Glimcher, 2007; Kahneman & Tversky, 1979 ). Several methods have been used to estimate subjective values or preferences in animal studies. A typical procedure is to have the subjects learn the relationship between a specific response (e.g., pressing a lever or remaining in a specific location) and the resulting outcome, from which the subjective value is measured (e.g.,  Green & Estle, 2003 ). This approach requires sufficient training so that the animals learn the relationships among all of the items and the choice behavior reaches the steady state. Another common method utilizes the law of how animals distribute their responses depending on the reinforcement, i.e., the matching law  (Miller, 1976) . Both approaches rely on the pairwise comparison of preferences for two items. Thus, to measure the subjective values of several items, the researcher must examine the preferences for multiple combinations of items. This method requires much time and sophisticated experimental considerations.
+
+In the present study, we propose a novel method for estimating subjective values especially from animal behaviors using novel behavioral tasks and reinforcement learning (RL) model-based analysis. RL is usually formulated as an algorithm that attempts to maximize the total reward that a decision-maker can obtain. Recent studies, however, have begun to use the RL framework to model human behavior that does not necessarily lead to reward maximization  (Neiman & Loewenstein, 2011; Shteingart & Loewenstein, 2014) . For example, basketball players tend to choose to make a 3-point shot immediately after an experience of success; however, this dependence decreases the success rate. This choice behavior is modeled using an RL model  (Neiman & Loewenstein, 2011, 2014) . Additionally, RL models have been important data analysis tools for experiments involving value-based, decision-making tasks  (Corrado & Doya, 2007; Daw, 2011; O’Doherty,Hampton & Kim, 2007) .
+
+Standard RL theory assumes that there is an increased probability of choosing an option that has been reinforced in the immediate past. The magnitude of dependence decays exponentially with the passage of time (trials)  (Katahira, 2015) . The main idea of the proposed method is to utilize this property. The RL theory also assumes that the larger the subjective value of an outcome, the more frequently the decision-maker repeats the same choice in the immediate future. Using the model parameter fit of RL models to trial-by-trial data, one can effectively estimate the subjective values of various decision-outcomes. The proposed method takes advantage of transient, trial-level dynamics of behavior, whereas other conventional methods examine only steady-state behavior. By using the transient effect of outcome on subsequent choices, it can estimate the value of multiple types of outcomes in a single experiment consisting of only two options.
+
+The remainder of this paper is organized as follows. First, we describe the proposed method, which consists of the novel experimental design and RL model-based analysis. Next, we examine the validity and several properties of the proposed method based on synthetic data. We then apply the proposed method to actual behavioral data from rats. In the demonstration, we examined the rats’ subjective values regarding amounts of rewards and delays of the reward (and no-reward) signal. Finally, we discuss the advantages and limitations of the proposed method.
+
+The proposed method consists of novel experimental tasks and RL model-based trial-by-trial analysis of behavioral data. In the following, we describe the basic task structure, the RL models, and the statistical analysis procedure.
+
+The proposed choice task has the following structure. First, the outcome of choice (decision-outcome) should contain at least one appetitive outcome. This point is particularly crucial in animal studies to ensure that there is an incentive that will motivate animals to engage in the task. Second, the task must have contingency between the valence of outcome (appetitive, neutral, or aversive) and the animal’s choice, as in conventional decision-making tasks. Contingency is required because it provides the animal with an incentive to learn the value of its actions. Within the outcome valence, however, the outcomes may be randomly chosen, irrespective of the animal’s choice. Third, the contingency between choice and outcome valence must change during the task so that the animals’ choice does not converge with the same option. Although a class of RL models, as employed in the present study, does not converge to deterministic choice behavior, actual animals’ choice behavior often becomes deterministic if they are exposed to the constant contingency condition. This also occurs with other RL models, such as actor-critic learning  (Sakai & Fukai, 2008) . Using dynamic changing contingency prevents subjects from converging to a deterministic choice behavior, which is less useful for estimating subjective values. Specific task examples are presented in the following simulation and in experiments using rats.
+
+In this section, we introduce RL models  (Sutton & Barto, 1998) . Specifically, we consider several variants of Q-learning with a single state  (Watkins & Dayan, 1992) , which is the model most commonly used in the model-based analysis of choice behavior. The model assigns each action an action value denoted as  
+                            
+                               
+                                  Q 
+                               
+                               
+                                  i 
+                               
+                            
+                            
+                               
+                                  t 
+                               
+                            
+                         , where  
+                            i 
+                          is the index of the action and  
+                            t 
+                          is the index of the trial. In the common setting, the initial action values are set to zero, i.e.,  
+                            
+                               
+                                  Q 
+                               
+                               
+                                  i 
+                               
+                            
+                            
+                               
+                                  1 
+                               
+                            
+                            = 
+                            0 
+                          for all  
+                            i 
+                         . Based on the outcome, the action values for the action  
+                            i 
+                          are updated as follows:  
+                            
+                               (1) 
+                               
+                                  
+                                     
+                                        Q 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  
+                                     
+                                        t 
+                                        + 
+                                        1 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        Q 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  
+                                     
+                                        t 
+                                     
+                                  
+                                  + 
+                                  
+                                     
+                                        α 
+                                     
+                                     
+                                        L 
+                                     
+                                  
+                                  
+                                     
+                                        r 
+                                        
+                                           
+                                              t 
+                                           
+                                        
+                                        − 
+                                        
+                                           
+                                              Q 
+                                           
+                                           
+                                              i 
+                                           
+                                        
+                                        
+                                           
+                                              t 
+                                           
+                                        
+                                     
+                                  
+                               
+                            
+                         where  
+                            
+                               
+                                  α 
+                               
+                               
+                                  L 
+                               
+                            
+                          is the learning rate that determines the degree to which the model updates the action value depending on the reward prediction error,  
+                            r 
+                            
+                               
+                                  t 
+                               
+                            
+                            − 
+                            
+                               
+                                  Q 
+                               
+                               
+                                  i 
+                               
+                            
+                            
+                               
+                                  t 
+                               
+                            
+                         . The range of the learning rate is restricted between 0 and 1. For the unchosen action option  
+                            j 
+                          ( 
+                            i 
+                            ≠ 
+                            j 
+                         ), the action value is updated as follows:  
+                            
+                               (2) 
+                               
+                                  
+                                     
+                                        Q 
+                                     
+                                     
+                                        j 
+                                     
+                                  
+                                  
+                                     
+                                        t 
+                                        + 
+                                        1 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        1 
+                                        − 
+                                        
+                                           
+                                              α 
+                                           
+                                           
+                                              F 
+                                           
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        Q 
+                                     
+                                     
+                                        j 
+                                     
+                                  
+                                  
+                                     
+                                        t 
+                                     
+                                  
+                                  , 
+                               
+                            
+                         where  
+                            
+                               
+                                  α 
+                               
+                               
+                                  F 
+                               
+                            
+                          is the forgetting rate ( Erev & Roth, 1998; Ito & Doya, 2009 ). In a typical RL model, the action value of the unchosen option is not updated. This convention can be represented by setting  
+                            
+                               
+                                  α 
+                               
+                               
+                                  F 
+                               
+                            
+                            = 
+                            0 
+                         . We call this the standard Q-learning model. The model with an identical learning rate and forgetting rate ( 
+                            
+                               
+                                  α 
+                               
+                               
+                                  L 
+                               
+                            
+                            = 
+                            
+                               
+                                  α 
+                               
+                               
+                                  F 
+                               
+                            
+                         ) is called Q-learning with forgetting (F-Q-learning). We also consider the model in which the learning rate and forgetting rate are allowed to differ ( 
+                            
+                               
+                                  α 
+                               
+                               
+                                  L 
+                               
+                            
+                            ≠ 
+                            
+                               
+                                  α 
+                               
+                               
+                                  F 
+                               
+                            
+                         ) and the learning rate can take a non-zero value. This is called Q-learning with differential forgetting (DF-Q-learning).
+
+We suppose that there are at least two different types of decision-outcomes. To estimate the subjective value of the outcomes, we propose two methods to represent the subjective value. One method is non-parametric and assigns a single parameter for each outcome type. The other method uses a parametric function, which represents subjective values as a function of the objective quantity of outcomes (e.g., amount, or delay).
+
+In the non-parametric method, we set the value of outcome  
+                            m 
+                          ( 
+                            m 
+                          is the index of decision-outcome) as  
+                            
+                               
+                                  κ 
+                               
+                               
+                                  m 
+                               
+                            
+                         , and  
+                            r 
+                            
+                               ( 
+                               t 
+                               ) 
+                            
+                            = 
+                            
+                               
+                                  κ 
+                               
+                               
+                                  m 
+                               
+                            
+                          if outcome  
+                            m 
+                          appears at trial  
+                            t 
+                          
+                         (Katahira, Fujimura, Matsuda, Okanoya, & Okada, 2014; Katahira, Fujimura, Okanoya, & Okada, 2011) . For example, the index of outcome indicates the reward amount (in the following simulations and Task 1 of the rat experiments) and the delay in reward (no-reward) signals (Task 2 of the rat experiments). We denote the value of the reference outcome (such as absence of reward) as  
+                            
+                               
+                                  κ 
+                               
+                               
+                                  0 
+                               
+                            
+                         . This is often fixed at zero, but we also examine the case in which  
+                            
+                               
+                                  κ 
+                               
+                               
+                                  0 
+                               
+                            
+                          is estimated as a free parameter. We call  
+                            r 
+                            
+                               ( 
+                               t 
+                               ) 
+                            
+                          and thus  
+                            
+                               
+                                  κ 
+                               
+                               
+                                  m 
+                               
+                            
+                         s the reward value. We assume that the reward value reflects the subjective value of the corresponding outcome.
+
+When the outcome types are quantifiable, one can parameterize the value function. In the parametric method, for example, the reward value may be parameterized by the prospect utility function, which is a power function of the reward amount (e.g.,  Ahn, Busemeyer, Wagenmakers, & Stout, 2008 ), as  
+                            
+                               (3) 
+                               
+                                  r 
+                                  
+                                     
+                                        t 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        x 
+                                        
+                                           ( 
+                                           t 
+                                           ) 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              α 
+                                           
+                                           
+                                              U 
+                                           
+                                        
+                                     
+                                  
+                                  , 
+                               
+                            
+                         where  
+                            x 
+                            
+                               ( 
+                               t 
+                               ) 
+                            
+                          is the amount of reward given in trial  
+                            t 
+                         . When  
+                            
+                               
+                                  α 
+                               
+                               
+                                  U 
+                               
+                            
+                            = 
+                            0 
+                         , the reward values are homogeneous over different amounts. If  
+                            
+                               
+                                  α 
+                               
+                               
+                                  U 
+                               
+                            
+                            = 
+                            1 
+                         , the reward value function is a linear function of the actual reward amount. Intermediate values of  
+                            
+                               
+                                  α 
+                               
+                               
+                                  U 
+                               
+                            
+                          indicate a non-linear relationship between the actual reward amount and subjective reward values. Other examples of parametric value functions (a hyperbolic function and a polynomial function) are given in the application in the rat experiment (Task 2). Based on the set of action values, the model computes the probability of choosing option  
+                            i 
+                          at trial  
+                            t 
+                          using the softmax function:  
+                            
+                               (4) 
+                               
+                                  P 
+                                  
+                                     
+                                        a 
+                                        
+                                           
+                                              t 
+                                           
+                                        
+                                        = 
+                                        i 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        exp 
+                                        
+                                           ( 
+                                           
+                                              
+                                                 β 
+                                                 Q 
+                                              
+                                              
+                                                 i 
+                                              
+                                           
+                                           
+                                              
+                                                 t 
+                                              
+                                           
+                                           + 
+                                           φ 
+                                           
+                                              
+                                                 c 
+                                              
+                                              
+                                                 i 
+                                              
+                                           
+                                           
+                                              ( 
+                                              t 
+                                              ) 
+                                           
+                                           ) 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              ∑ 
+                                           
+                                           
+                                              j 
+                                              = 
+                                              1 
+                                           
+                                           
+                                              K 
+                                           
+                                        
+                                        exp 
+                                        
+                                           
+                                              
+                                                 
+                                                    β 
+                                                    Q 
+                                                 
+                                                 
+                                                    j 
+                                                 
+                                              
+                                              
+                                                 
+                                                    t 
+                                                 
+                                              
+                                              + 
+                                              φ 
+                                              
+                                                 
+                                                    c 
+                                                 
+                                                 
+                                                    j 
+                                                 
+                                              
+                                              
+                                                 ( 
+                                                 t 
+                                                 ) 
+                                              
+                                           
+                                        
+                                     
+                                  
+                               
+                            
+                         where  
+                            β 
+                          is the inverse temperature parameter that determines the sensitivity of the choice probabilities to differences in values.  
+                            K 
+                          represents the number of possible actions. The term  
+                            φ 
+                            ⋅ 
+                            
+                               
+                                  c 
+                               
+                               
+                                  j 
+                               
+                            
+                            
+                               
+                                  t 
+                               
+                            
+                          is a choice autocorrelation factor. The parameter  
+                            φ 
+                          controls the tendency to repeat (when the parameter is positive) or avoid (when the parameter is negative) recently chosen options. The choice trace  
+                            
+                               
+                                  c 
+                               
+                               
+                                  j 
+                               
+                            
+                            
+                               
+                                  t 
+                               
+                            
+                          is set to 1 if the subject chooses option  
+                            j 
+                          in the previous trial (at trial  
+                            t 
+                         -1) and zero otherwise. Choice perseverance (repetition of a choice) is also caused by decay of an unchosen option value (forgetting) because the decreases in the value of the unchosen value increase the relative value of the chosen option  (Worthy et al., 2013) . However, as the choice autocorrelation factor causes the perseveration (or switching) tendency irrespective of outcomes, the effect is not identical to forgetting  (Katahira, 2015) . Thus, we include both components. If all initial values of  
+                            
+                               
+                                  Q 
+                               
+                               
+                                  i 
+                               
+                            
+                          are zero, the magnitude of inverse temperature  
+                            β 
+                          has the equivalent effect of the scale of the reward value. Formally, the transformation  
+                            r 
+                            
+                               ( 
+                               t 
+                               ) 
+                            
+                            ← 
+                            a 
+                            ⋅ 
+                            r 
+                            
+                               ( 
+                               t 
+                               ) 
+                            
+                          with a constant  
+                            a 
+                          has the same choice probability as the transformation  
+                            β 
+                            ← 
+                            a 
+                            ⋅ 
+                            β 
+                          
+                         (Katahira, 2015) . Thus, the scale of  
+                            
+                               
+                                  κ 
+                               
+                               
+                                  m 
+                               
+                            
+                          is confounded with the magnitude of the inverse temperature. Thus, only the relative magnitude among decision-outcomes can be estimated. In the present paper, we set  
+                            β 
+                            = 
+                            1 
+                          as a fixed parameter in all models except for those with the prospect utility function; because the prospect utility function given in Eq.  (3)  has no scaling factor (when  
+                            x 
+                            
+                               ( 
+                               t 
+                               ) 
+                            
+                            = 
+                            1 
+                         , the value is 1, irrespective of the parameter  
+                            
+                               
+                                  α 
+                               
+                               
+                                  U 
+                               
+                            
+                         ), we used  
+                            β 
+                          as a scaling factor.
+
+The model parameters are estimated based on the maximum likelihood method. Specifically, the negative log likelihood for each subject is minimized using the Matlab function “fmincon”. To prevent a poor local minimum solution, the algorithm is run several times for each subject; each run is initiated from a random initial value (from the uniform distribution with the range between 0.0 and 1.0 for each parameter), and the parameter set that provides the lowest negative log likelihood is selected. In the following simulations, we empirically confirmed that it only in very rare cases was the solver “fmincon” trapped by a poor local minimum. Thus, we ran the optimization only three times, which is considered sufficient to obtain the maximum likelihood estimate. To evaluate the reliability of parameter estimates, the standard error of the parameter estimate can be estimated by computing the Hessian of the negative log likelihood at the maximum likelihood point. The Hessian is computed by using the function “hessian” in DERIVESTsuite ( https://jp.mathworks.com/matlabcentral/fileexchange/13490-adaptive-robust-numerical-differentiation ). The square roots of the diagonal terms of its matrix inverse correspond to one standard error for the parameter  (Daw, 2011) .
+
+To determine which model among the candidate models best describes the given behavioral data and whether different outcomes indeed yield different subjective values, we consider two model selection criteria: Akaike’s Information Criterion (AIC;  Akaike, 1974 ) and the Bayesian Information Criterion (BIC;  Schwarz, 1978 ). They are defined as  
+                               
+                                  (5) 
+                                  
+                                     AIC 
+                                     = 
+                                     − 
+                                     2 
+                                     L 
+                                     +2 
+                                     k 
+                                     , 
+                                  
+                               
+                            
+                            
+                               
+                                  (6) 
+                                  
+                                     BIC 
+                                     = 
+                                     − 
+                                     2 
+                                     L 
+                                     + 
+                                     k 
+                                     ln 
+                                     
+                                        
+                                           n 
+                                        
+                                     
+                                     , 
+                                  
+                               
+                            respectively, where  
+                               L 
+                             is the maximized value of the log likelihood function for the model,  
+                               k 
+                             is the number of estimated parameters in the model, and  
+                               n 
+                             is the number of samples (here, the total number of trials). Both criteria introduce a penalty for the number of parameters in the model. AIC is a measure of the predictive ability of a model: a smaller AIC score indicates better prediction ability. BIC approximates the model evidence, which quantifies how likely the model is for the given data set. A smaller BIC score indicates a more likely model.
+
+In addition to model selection based on AIC or BIC, the proposed method performs hypothesis testing (specifically, the likelihood-ratio test) when the best model contains heterogeneous reward values ( 
+                               
+                                  
+                                     κ 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                               ≠ 
+                               
+                                  
+                                     κ 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               ≠ 
+                               … 
+                               ≠ 
+                               
+                                  
+                                     κ 
+                                  
+                                  
+                                     M 
+                                  
+                               
+                             for non-parametric value models, and  
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     U 
+                                  
+                               
+                               ≠ 
+                               0 
+                             for models with the prospect utility function). We compare the log likelihood of the null model ( 
+                               
+                                  
+                                     L 
+                                  
+                                  
+                                     null 
+                                  
+                               
+                            ) to that of the alternative model ( 
+                               
+                                  
+                                     L 
+                                  
+                                  
+                                     alt 
+                                  
+                               
+                            ). Here, the alternative model is selected based on AIC or BIC. The null model has homogeneous reward value parameters ( 
+                               
+                                  
+                                     κ 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                               = 
+                               
+                                  
+                                     κ 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               = 
+                               … 
+                               = 
+                               
+                                  
+                                     κ 
+                                  
+                                  
+                                     M 
+                                  
+                               
+                            , or  
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     U 
+                                  
+                               
+                               = 
+                               0 
+                            ), whereas the other model structure is identical to that of the alternative model. When the null model is the true model, the statistic  
+                               D 
+                               = 
+                               − 
+                               2 
+                               
+                                  ( 
+                                  
+                                     
+                                        L 
+                                     
+                                     
+                                        null 
+                                     
+                                  
+                                  − 
+                                  
+                                     
+                                        L 
+                                     
+                                     
+                                        alt 
+                                     
+                                  
+                                  ) 
+                               
+                             obeys the chi-square distribution with the degree of freedom  
+                               M 
+                               − 
+                               1 
+                            . If the null model is rejected, we consider that the subjective values are not homogeneous among the outcomes to be tested.
+
+To examine the validity of the proposed method, we perform computer simulations based on the synthesized data set. One of the advantages of simulations using synthetic data compared with real behavioral data is that we can know the ground truth about the underlying subjective reward values. Thus, we can evaluate how the method works in a straightforward manner. Specifically, we address the following 7 points.
+
+1. 
+                            The validity of the estimates of subjective values (addressed in Case 1). 
+                            – Can the proposed method recover true subjective values? How accurate are the estimates? 
+                         
+                         
+                            2. 
+                            The validity of the model selection criterion (addressed in Case 1). 
+                            – Can AIC and BIC lead to correct conclusions about the difference or equivalence of subjective values? Which criterion, AIC or BIC, is more appropriate for our purpose? 
+                         
+                         
+                            3. 
+                            The robustness of the proposed method (addressed in Case 1). 
+                            – What happens if the true model (for generating synthesized data) differs from the fitted model? 
+                         
+                         
+                            4. 
+                            The validity of hypothesis testing (addressed in Case 2). 
+                            – Is the frequency of type I error (the error in which the method detects a difference in the reward values although the actual reward values are homogeneous) suppressed to a specific range (a critical value) as intended? 
+                         
+                         
+                            5. 
+                            The effect of (true) parameter values (addressed in Case 3). 
+                            – How does the true parameter value, especially for learning rates, affect the quality of estimates? 
+                         
+                         
+                            6. 
+                            The effect of reference outcome (addressed in Case 4). 
+                            – What happens if the reward value of reference  
+                                  
+                                     
+                                        κ 
+                                     
+                                     
+                                        0 
+                                     
+                                  
+                                is also estimated as a free parameter rather than fixed to zero? 
+                         
+                         
+                            7. 
+                            Effectiveness of value parameterization (addressed in Case 5). 
+                            – When does the parameterization of reward value lead to better estimation, and when is the non-parametric value function better?
+
+The validity of the estimates of subjective values (addressed in Case 1).
+
+– Can the proposed method recover true subjective values? How accurate are the estimates?
+
+The validity of the model selection criterion (addressed in Case 1).
+
+– Can AIC and BIC lead to correct conclusions about the difference or equivalence of subjective values? Which criterion, AIC or BIC, is more appropriate for our purpose?
+
+The robustness of the proposed method (addressed in Case 1).
+
+– What happens if the true model (for generating synthesized data) differs from the fitted model?
+
+The validity of hypothesis testing (addressed in Case 2).
+
+– Is the frequency of type I error (the error in which the method detects a difference in the reward values although the actual reward values are homogeneous) suppressed to a specific range (a critical value) as intended?
+
+The effect of (true) parameter values (addressed in Case 3).
+
+– How does the true parameter value, especially for learning rates, affect the quality of estimates?
+
+The effect of reference outcome (addressed in Case 4).
+
+– What happens if the reward value of reference  
+                                  
+                                     
+                                        κ 
+                                     
+                                     
+                                        0 
+                                     
+                                  
+                                is also estimated as a free parameter rather than fixed to zero?
+
+Effectiveness of value parameterization (addressed in Case 5).
+
+– When does the parameterization of reward value lead to better estimation, and when is the non-parametric value function better?
+
+Throughout the simulations, we adopt the following procedure. First, we generate the choice data from the Q-learning models (hypothetical subjects) that perform hypothetical decision-making tasks. Each hypothetical subject performs 10 sessions; each session consists of 200 choice trials. We assume that there are two options. An option may correspond to a lever press or nose poke in a typical choice experiment using rats. One option is an advantageous (good) option, which has an 80% probability of a reward outcome and a 20% probability of the absence of a reward. Another option is a disadvantageous (bad) option, which has an 80% probability of the absence of a reward and a 20% probability of a reward. The advantageous and disadvantageous options are switched when the choice frequency of the advantageous option during the previous 10 choice trials reaches 80%. In a rewarded trial, the reward amount (a number of pellets for a rat experiment) is randomly drawn from 1, 2, or 3 pellets for Cases 1–4. For Case 5, the maximum number of the reward amount is varied as 3, 5, or 7.
+
+A “true model” for generating synthetic data is described for each simulation setting. In Cases 1–4,the reward values are set as  
+                               
+                                  (7) 
+                                  
+                                     r 
+                                     
+                                        
+                                           t 
+                                        
+                                     
+                                     = 
+                                     
+                                        
+                                           
+                                              
+                                                 
+                                                    
+                                                       
+                                                          κ 
+                                                       
+                                                       
+                                                          1 
+                                                       
+                                                    
+                                                    
+                                                    if the reward amount was one at trial 
+                                                    
+                                                    t 
+                                                 
+                                              
+                                              
+                                                 
+                                                    
+                                                       
+                                                          κ 
+                                                       
+                                                       
+                                                          2 
+                                                       
+                                                    
+                                                    
+                                                    if the reward amount was two at trial 
+                                                    
+                                                    t 
+                                                 
+                                              
+                                              
+                                                 
+                                                    
+                                                       
+                                                          κ 
+                                                       
+                                                       
+                                                          3 
+                                                       
+                                                    
+                                                    
+                                                    if the reward amount was three at trial 
+                                                    
+                                                    t 
+                                                 
+                                              
+                                              
+                                                 
+                                                    
+                                                       
+                                                          κ 
+                                                       
+                                                       
+                                                          0 
+                                                       
+                                                    
+                                                    
+                                                    if no reward was given at trial 
+                                                    
+                                                    t 
+                                                    , 
+                                                 
+                                              
+                                           
+                                        
+                                     
+                                  
+                               
+                            where the values of the parameter  
+                               
+                                  
+                                     κ 
+                                  
+                                  
+                                     m 
+                                  
+                               
+                             and the other parameters are also described for each simulation. For Case 5, the true reward value is the prospect utility function model described in Eq.  (3) .
+
+For all candidate models, the model parameters are fit to each hypothetical subject’s data using the maximum likelihood method as described in the Proposed Method section. For Cases 1–4, models with only non-parametric values are fit (listed in  Table 1 ). For Case 5, models with both parametric and non-parametric value functions are used.
+
+The estimation accuracy is evaluated by computing the root mean square error (RMSE), defined as  
+                               
+                                  (8) 
+                                  
+                                     RMSE 
+                                     = 
+                                     
+                                        
+                                           
+                                              
+                                                 1 
+                                              
+                                              
+                                                 N 
+                                                 M 
+                                              
+                                           
+                                           
+                                              
+                                                 ∑ 
+                                              
+                                              
+                                                 i 
+                                              
+                                           
+                                           
+                                              
+                                                 ∑ 
+                                              
+                                              
+                                                 m 
+                                              
+                                           
+                                           
+                                              
+                                                 
+                                                    ( 
+                                                    
+                                                       
+                                                          
+                                                             
+                                                                κ 
+                                                             
+                                                             
+                                                                ˆ 
+                                                             
+                                                          
+                                                       
+                                                       
+                                                          i 
+                                                          , 
+                                                          m 
+                                                       
+                                                    
+                                                    − 
+                                                    
+                                                       
+                                                          κ 
+                                                       
+                                                       
+                                                          i 
+                                                          , 
+                                                          m 
+                                                       
+                                                       
+                                                          ∗ 
+                                                       
+                                                    
+                                                    ) 
+                                                 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                        
+                                     
+                                  
+                               
+                            where  
+                               
+                                  
+                                     κ 
+                                  
+                                  
+                                     i 
+                                     , 
+                                     m 
+                                  
+                                  
+                                     ∗ 
+                                  
+                               
+                             is the true reward value of outcome  
+                               m 
+                             for subject  
+                               i 
+                            ,  
+                               
+                                  
+                                     
+                                        
+                                           κ 
+                                        
+                                        
+                                           ˆ 
+                                        
+                                     
+                                  
+                                  
+                                     i 
+                                     , 
+                                     m 
+                                  
+                               
+                             is its estimate and  
+                               N 
+                             is the number of simulated subjects. For parametric value cases,  
+                               
+                                  
+                                     κ 
+                                  
+                                  
+                                     i 
+                                     , 
+                                     m 
+                                  
+                                  
+                                     ∗ 
+                                  
+                               
+                             and  
+                               
+                                  
+                                     
+                                        
+                                           κ 
+                                        
+                                        
+                                           ˆ 
+                                        
+                                     
+                                  
+                                  
+                                     i 
+                                     , 
+                                     m 
+                                  
+                               
+                             are defined using the true parametric function (with the true parameter) and with the estimated parametric function, respectively.
+
+First, we consider an ideal case in which the true subjective values are indeed heterogeneous (different from each other). The model for generating the synthesized data is as follows. The true value of the absence of reward is zero ( 
+                            
+                               
+                                  κ 
+                               
+                               
+                                  0 
+                               
+                            
+                            = 
+                            0 
+                         ), and the reward values of the three reward amounts (1, 2 and 3) are  
+                            
+                               
+                                  κ 
+                               
+                               
+                                  1 
+                               
+                            
+                            = 
+                            1 
+                            . 
+                            0 
+                            , 
+                            
+                               
+                                  κ 
+                               
+                               
+                                  2 
+                               
+                            
+                            = 
+                            1 
+                            . 
+                            5 
+                            , 
+                            
+                               
+                                  κ 
+                               
+                               
+                                  3 
+                               
+                            
+                            = 
+                            2 
+                            . 
+                            0 
+                         . The true model is the standard Q-learning model with a choice-autocorrelation factor (Model 4). The other true parameters are  
+                            
+                               
+                                  α 
+                               
+                               
+                                  L 
+                               
+                            
+                            = 
+                            0 
+                            . 
+                            7 
+                         ,  
+                            
+                               
+                                  α 
+                               
+                               
+                                  F 
+                               
+                            
+                            = 
+                            0 
+                         ,  
+                            φ 
+                            = 
+                            0 
+                            . 
+                            3 
+                         . We generated data from 200 hypothetical subjects and performed the parameter fit, the model selection, and the likelihood-ratio test for each subject’s data.
+
+Fig. 1  shows the typical model results for the first 100 trials of one hypothetical subject. Each model assigns the probability of choosing each option via the softmax function. The probabilities of choosing option 1 of four different models (the combinations of standard-Q or F-Q and the common reward value variant or different reward value variant) and the true model are depicted in  Fig. 1  A. As expected, Model 4 (red, solid line), which has the same structure as the true model, shows the closest probability to the true model (gray line). The standard Q-learning retains the action value of the unchosen option. Thus, the action value of the bad option tends to persist even after the contingency changes ( Fig. 1  B). In contrast, in the F-Q-learning, the value of the bad option decays to nearly zero when the contingency changes ( Fig. 1  C). The effect of this difference on the choice probability is evident around the 16th–19th trials ( Fig. 1  A). In addition, differences between common value models (broken lines) and differential value models (solid lines) are also evident at approximately the 16th–19th trials ( Fig. 1  A). This is because in the 15th, 16th, and 17th trials, the largest reward amount ( 
+                               = 
+                               3 
+                            ) appears consecutively, and the action value of differential value models (including the true model) increases compared with the models with common reward values ( Fig. 1  B, C).
+
+The parameter estimates are shown in  Table 2 . Model 4, which has the same structure as the true model, yields the closest mean value to the true reward values ( 
+                               
+                                  
+                                     κ 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                               = 
+                               1 
+                               . 
+                               0 
+                               , 
+                               
+                                  
+                                     κ 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               = 
+                               1 
+                               . 
+                               5 
+                               , 
+                               
+                                  
+                                     κ 
+                                  
+                                  
+                                     3 
+                                  
+                               
+                               = 
+                               2 
+                               . 
+                               0 
+                            ). Model 12 is a redundant model that includes the forgetting rate  
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     F 
+                                  
+                               
+                             as a free parameter but also includes the true model (with  
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     F 
+                                  
+                               
+                               = 
+                               0 
+                            ). Thus, its parameter estimates are close to the true values. Other models (Models 3, 7, 8, 11) do not include the true model. Accordingly, the reward value estimates differ substantially from the true value; however, the relative order among the three outcomes (i.e.,  
+                               
+                                  
+                                     κ 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                               < 
+                               
+                                  
+                                     κ 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               < 
+                               
+                                  
+                                     κ 
+                                  
+                                  
+                                     3 
+                                  
+                               
+                            ) is retained. We also evaluate the estimation accuracy of the reward value by computing the RMSE ( Table 2 ). As expected, Model 4, which has the true model structure, gives the lowest RMSE. Although Model 12 contains the true model, it gives a slightly larger RMSE than Model 4 due to the estimation error of the redundant parameter ( 
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     F 
+                                  
+                               
+                            ).
+
+For each hypothetical subject, the best model is selected based on AIC and BIC ( Table 2 ). AIC selected Model 4 a total of 185 times (of 200 simulations), Model 11 once, and Model 12 a total of 14 times. All of these models have different reward values. For every hypothetical subject, a log likelihood test shows that the best model has a significantly better fit than its variant with the common reward value ( 
+                               p 
+                               < 
+                               0 
+                               . 
+                               05 
+                            ). In contrast, BIC selects Model 4 a total of 172 times, Model 2 a total of 24 times, and Model 11 four times. Model 2 has the common reward value. Thus, BIC cannot detect the true difference in reward value for 12% of the simulations, i.e., BIC has low detection power for the differences in reward values due to the over-penalization of free parameters.
+
+We next consider the case in which the true reward values are identical among decision-outcomes. In particular, we examine how often type I error occurs, that is, how often the method erroneously determines that the reward values are different. In Case 2, the true model parameter for the no-reward outcome is zero, and the true reward values are identical irrespective of the reward amount:  
+                            
+                               
+                                  κ 
+                               
+                               
+                                  0 
+                               
+                            
+                            = 
+                            0 
+                         ,  
+                            
+                               
+                                  κ 
+                               
+                               
+                                  1 
+                               
+                            
+                            = 
+                            
+                               
+                                  κ 
+                               
+                               
+                                  2 
+                               
+                            
+                            = 
+                            
+                               
+                                  κ 
+                               
+                               
+                                  3 
+                               
+                            
+                            = 
+                            1 
+                         . The other true model parameters are  
+                            
+                               
+                                  α 
+                               
+                               
+                                  L 
+                               
+                            
+                            = 
+                            0 
+                            . 
+                            7 
+                         ,  
+                            
+                               
+                                  α 
+                               
+                               
+                                  F 
+                               
+                            
+                            = 
+                            0 
+                         ,  
+                            φ 
+                            = 
+                            0 
+                            . 
+                            3 
+                         . Thus, the true model structure is Model 2 (Standard Q-learning with a choice-autocorrelation factor). We generate the synthesized data for 2000 subjects, and each model is fit to each subject’s data. Then, we examine the distribution of the log likelihood difference statistic  
+                            D 
+                          (see the Proposed Method section).
+
+First, we consider the hypothesis testing in which we assume that the null model is the true model (Model 2) and that the alternative model is the one whose reward values are permitted to differ (Model 4). For this case, the distribution of statistic  
+                               D 
+                             agrees with the theoretically predicted chi-square distribution ( Fig. 2  A), thus validating the use of the likelihood-ratio test. Even when the true model is not included among the models (null model: Model 5 vs. the alternative model: Model 7; both are F-Q-learning) and when both models are redundant (null model: Model 9 vs. the alternative model: Model 11; both are DF-Q-learning), the distribution of  
+                               D 
+                             agrees with the chi-square distribution ( Fig. 2  B, C). Accordingly, if the significance level is set to 0.05, the likelihood-ratio test rejects the null model 0.053 (Model 2 vs. Model 4), 0.051 (Model 5 vs. Model 7), and 0.034 (Model 9 vs. Model 11) times; all are close to the type I error (false positive) rate as intended ( 
+                               α 
+                               = 
+                               0 
+                               . 
+                               05 
+                            ).
+
+AIC selected Model 4 (with different reward values) 273 times in 2000 simulations, although the likelihood-ratio test suppressed the type I error to approximately 0.05. This result suggests that demonstrating that AIC selects the model with different reward values is not sufficient to assert that different outcomes have different reward values; likelihood-ratio tests should also be performed. In contrast, BIC selected Model 1 a total of 4 times, Model 2 a total of 1960 times, Model 5 a total of 5 times, and Model 9 a total of 29 times; all selected models had a common reward value. For this case, BIC leads to the correct conclusion more frequently than AIC, albeit at the cost of detection power (as shown in Case 1).
+
+The next case (Case 3) considers the effect of the true model parameters on the accuracy of the reward value estimates. Our random feedback paradigm utilizes the property that the impact of a single outcome decays rapidly; thus, a lower learning rate is expected to degrade the estimation accuracy by slowing the decay of the impact and thus conflating the influence of several past outcomes  (Katahira, 2015) . Because of this conflation, the impacts of outcomes are averaged out.
+
+The models for generating the synthesized data are as follows. The true value of the absence of reward is zero ( 
+                            
+                               
+                                  κ 
+                               
+                               
+                                  0 
+                               
+                            
+                            = 
+                            0 
+                         ), and the reward values of three reward amounts (1, 2, and 3) are  
+                            
+                               
+                                  κ 
+                               
+                               
+                                  1 
+                               
+                            
+                            = 
+                            1 
+                            . 
+                            0 
+                            , 
+                            
+                               
+                                  κ 
+                               
+                               
+                                  2 
+                               
+                            
+                            = 
+                            1 
+                            . 
+                            5 
+                            , 
+                            
+                               
+                                  κ 
+                               
+                               
+                                  3 
+                               
+                            
+                            = 
+                            2 
+                            . 
+                            0 
+                         . For Case 3-1, the true model is the standard Q-learning model (Model 4), and for Case 3-2, the true model is the F-Q-learning model (Model 8). The true parameter of choice autocorrelation is  
+                            φ 
+                            = 
+                            0 
+                            . 
+                            3 
+                         . For Case 3-1, the forgetting rate is fixed at  
+                            
+                               
+                                  α 
+                               
+                               
+                                  F 
+                               
+                            
+                            = 
+                            0 
+                         , and the learning rate,  
+                            
+                               
+                                  α 
+                               
+                               
+                                  L 
+                               
+                            
+                         , varies from 0.01 to 0.99. For Case 3-2, forgetting is equated to the learning rate,  
+                            
+                               
+                                  α 
+                               
+                               
+                                  L 
+                               
+                            
+                            = 
+                            
+                               
+                                  α 
+                               
+                               
+                                  F 
+                               
+                            
+                         , and varies from 0.01 to 0.99. We performed 200 simulations for each condition. Both Model 4 and Model 8 are fit to both data sets.
+
+The results of Case 3 are shown in  Table 3 . As we expected, when the learning rate is very small (0.01), the RMSE is much larger. In addition, when the fitted model includes the true model, the RMSE is minimized. The error rate of model selection based on AIC and BIC also increases as the learning rate decreases. For this case, AIC and BIC provide identical results because the number of free parameters is identical between the two models. 
+                               1 
+                             
+                            
+                               1 
+                               Although AIC and BIC give different penalizations, the two models are subject to the same penalization if they have the same number of parameters and are compared by either AIC or BIC. Thus, only the log likelihood matters in the model comparison here.
+
+Fig. 3  shows examples of reward value estimates. We can confirm that the variances of the estimates decrease as the true learning rate increases. When the model with the same structure as the true model (here, F-Q-learning, Model 8;  Fig. 3  A, B, C) is used, the means of the estimates are close to the true values (1.0, 1.5 and 2.0). In contrast, when the fitted model is different from the true model, a bias arises. When the true model is F-Q-learning but the standard Q-learning model is fit to the data, the estimates for the reward value are overestimated; however, the order among outcomes is basically retained ( Fig. 3  D, E, F).
+
+Thus far, we have set the value of the no-reward outcome to zero in both the true model and fitted models. Here, we examine what happens if this reference outcome is absent, i.e., when the reward value of the no-reward outcome is also estimated as a free parameter. The reward values of the true model are shifted by -0.5 from their values in Case 1; that is,  
+                            
+                               
+                                  κ 
+                               
+                               
+                                  0 
+                               
+                            
+                            = 
+                            − 
+                            0 
+                            . 
+                            5 
+                          for the value of the absence of reward, and  
+                            
+                               
+                                  κ 
+                               
+                               
+                                  1 
+                               
+                            
+                            = 
+                            0 
+                            . 
+                            5 
+                            , 
+                            
+                               
+                                  κ 
+                               
+                               
+                                  2 
+                               
+                            
+                            = 
+                            1 
+                            . 
+                            0 
+                            , 
+                          and  
+                            
+                               
+                                  κ 
+                               
+                               
+                                  3 
+                               
+                            
+                            = 
+                            1 
+                            . 
+                            5 
+                          for the reward values of three reward amounts (1, 2, and 3, respectively). For Case 4-1, the true model is the standard Q-learning model (a variant of Model 4, referred to as Model 4’). The other true parameters are  
+                            
+                               
+                                  α 
+                               
+                               
+                                  L 
+                               
+                            
+                            = 
+                            0 
+                            . 
+                            6 
+                         ,  
+                            
+                               
+                                  α 
+                               
+                               
+                                  F 
+                               
+                            
+                            = 
+                            0 
+                         , and  
+                            φ 
+                            = 
+                            0 
+                            . 
+                            3 
+                         . For Case 4-2, the true model is the F-Q-learning model (a variant of Model 8, referred to as Model 8’). The other true parameters are  
+                            
+                               
+                                  α 
+                               
+                               
+                                  L 
+                               
+                            
+                            = 
+                            0 
+                            . 
+                            6 
+                         ,  
+                            
+                               
+                                  α 
+                               
+                               
+                                  F 
+                               
+                            
+                            = 
+                            0 
+                            . 
+                            6 
+                         , and  
+                            φ 
+                            = 
+                            0 
+                            . 
+                            3 
+                         . We performed 100 simulations for each condition.
+
+The results are shown in  Table 4 . Even when the true value of no-reward is non-zero ( 
+                               
+                                  
+                                     κ 
+                                  
+                                  
+                                     0 
+                                  
+                               
+                               = 
+                               − 
+                               0 
+                               . 
+                               5 
+                            ), both AIC and BIC often select the model with  
+                               
+                                  
+                                     κ 
+                                  
+                                  
+                                     0 
+                                  
+                               
+                               = 
+                               0 
+                            . The reason is that the absolute values (rather than the relative values) of the reward values are meaningful only in the difference from the initial Q-values, which we set to zero  (Katahira, 2015; Katahira, Matsuda, Fujimura, Ueno, Asamizuya, Suzuki, et al., 2015) . Thus, when the impact of the initial value decays rapidly, such as when the learning rate is sufficiently high, the absolute values do not have a significant impact on the prediction (and thus the likelihood) of the model. Rather, what affects the model prediction is the relative reward values among outcomes. When the models with free  
+                               
+                                  
+                                     κ 
+                                  
+                                  
+                                     0 
+                                  
+                               
+                             are fit to the data, the variance of the estimates is larger ( Fig. 4  B, D, F, H) than that of the models with a fixed  
+                               
+                                  
+                                     κ 
+                                  
+                                  
+                                     0 
+                                  
+                               
+                             ( Fig. 4  A, C, E, G). Although the relative reward values among the three rewards are relatively stable and the order is recovered, the absolute level of the reward values is unstable. This result suggests that the absolute value of the reference outcome may be obtained, but it may be unreliable. In contrast, the relative values of the outcomes are more reliable. The root mean square error of the relative values is defined as  
+                               
+                                  (9) 
+                                  
+                                     
+                                        
+                                           RMSE 
+                                        
+                                        
+                                           (relative) 
+                                        
+                                     
+                                     = 
+                                     
+                                        
+                                           
+                                              
+                                                 1 
+                                              
+                                              
+                                                 3 
+                                                 N 
+                                              
+                                           
+                                           
+                                              
+                                                 ∑ 
+                                              
+                                              
+                                                 i 
+                                              
+                                           
+                                           
+                                              
+                                                 ∑ 
+                                              
+                                              
+                                                 m 
+                                                 = 
+                                                 1 
+                                              
+                                              
+                                                 3 
+                                              
+                                           
+                                           
+                                              
+                                                 
+                                                    [ 
+                                                    
+                                                       ( 
+                                                       
+                                                          
+                                                             
+                                                                
+                                                                   κ 
+                                                                
+                                                                
+                                                                   ˆ 
+                                                                
+                                                             
+                                                          
+                                                          
+                                                             i 
+                                                             , 
+                                                             m 
+                                                          
+                                                       
+                                                       − 
+                                                       
+                                                          
+                                                             
+                                                                
+                                                                   κ 
+                                                                
+                                                                
+                                                                   ˆ 
+                                                                
+                                                             
+                                                          
+                                                          
+                                                             i 
+                                                             , 
+                                                             0 
+                                                          
+                                                       
+                                                       ) 
+                                                    
+                                                    − 
+                                                    
+                                                       ( 
+                                                       
+                                                          
+                                                             κ 
+                                                          
+                                                          
+                                                             i 
+                                                             , 
+                                                             m 
+                                                          
+                                                          
+                                                             ∗ 
+                                                          
+                                                       
+                                                       − 
+                                                       
+                                                          
+                                                             κ 
+                                                          
+                                                          
+                                                             i 
+                                                             , 
+                                                             0 
+                                                          
+                                                          
+                                                             ∗ 
+                                                          
+                                                       
+                                                       ) 
+                                                    
+                                                    ] 
+                                                 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                        
+                                     
+                                     . 
+                                  
+                               
+                            When the fitted model is the standard Q-learning model, the relative RMSE is smaller than the absolute RMSE even if the true model is also the standard Q-learning model ( Table 4 ).
+
+Here, we examine the effect of reward value parameterizations. As the number of reward types increases, the number of parameters increases for non-parametric value models but not parametric value models. Thus, value parameterization is more effective for suppressing the estimation error for larger reward-type cases. To confirm this, we manipulate the number of reward types (as 3, 5, and 7) and confirm the absolute RMSE. For the data generation model (true model) and fitted model, the prospect utility function given in Eq.  (3)  is used. The true model is the standard Q-learning model with a choice-autocorrelation factor. The reward values of the true model were determined by the prospect utility function described in Eq.  (3) , with  
+                            
+                               
+                                  α 
+                               
+                               
+                                  U 
+                               
+                            
+                            = 
+                            0 
+                            . 
+                            4 
+                         . The parameter values other than those for reward values are  
+                            
+                               
+                                  α 
+                               
+                               
+                                  L 
+                               
+                            
+                            = 
+                            0 
+                            . 
+                            4 
+                         ,  
+                            
+                               
+                                  α 
+                               
+                               
+                                  F 
+                               
+                            
+                            = 
+                            0 
+                         , and  
+                            φ 
+                            = 
+                            0 
+                            . 
+                            3 
+                         . We perform the parameter fitting using both the non-parametric value model and the parametric value model with the prospect utility function. For the later model, the inverse temperature parameter  
+                            β 
+                          was included as a free parameter. The other parts of the two models have the same structure as the true model. We performed 100 simulations for each condition.
+
+Fig. 5  shows the reward value estimates for both the non-parametric value model (left panels) and the parametric value model (right panels). For parametric value models, the reward values are obtained by multiplying the prospect utility function by the inverse temperature parameter  
+                               β 
+                            . When the number of reward amount types is three (top panels, A and B), the two models give estimates with similar reliability. Overall, as the number of reward types increases (middle panels and bottom panels), the estimates become unstable even though both models recover the true reward value on average (red dotted lines). The increase in the estimation error is larger for the non-parametric value model than for the parametric value model, as confirmed by the RMSE ( Table 5 ). The number of parameters is smaller for parametric models, and the difference become marked as the number of reward types increases. Correspondingly, AIC and BIC tend to select parametric models, especially when the number of reward-type cases is large.
+
+The simulation results suggest the following points. First, the estimation of the reward values in this framework relies on an assumption about the model structure. Generally, the correct model provides a better estimation. It is desirable to consider several candidate model structures and to perform model selection based on AIC or BIC. As we showed, BIC tends to favor an overly parsimonious model in terms of the reward values. It is known that BIC generally tends to over-penalize more complex models  (Kuha, 2004) , consistent with our results.
+
+Second, an extremely low learning rate leads to poor estimates of reward values. The learning rate in humans changes depending on the volatility of the reward schedule  (Behrens, Walton, & Rushworth, 2007) . To increase the learning rate of a subject, introducing volatility into the task design may be effective. A simple way to introduce volatility is to switch the contingency, as in the proposed method. In addition, whether the estimated learning rate has an extremely small value should be confirmed.
+
+Third, the estimates of the reward values are meaningful only in a relative sense (between different outcomes). The absolute value may be estimated, but it tends to be unstable and meaningful only compared with the initial value. Thus, if the assumption about the initial value (which is usually assumed to be zero) is incorrect, the absolute value is less meaningful. Accordingly, one should not ask about the absolute value of the outcome, e.g., “Is the subjective value of the absence of reward zero or negative?” In many cases, it is better to set the value of the reference outcome as a fixed value because it stabilizes the parameter estimates.
+
+Fourth, when the number of reward types increases, the reliability of estimates becomes worse. The use of parametric value functions can alleviate the deterioration of the estimates. However, if the parametric function cannot represent the underlying true relation between the outcome and subjective value, a misleading conclusion is obtained. Thus, it is recommended that both non-parametric value models and parametric value models be used and that one should confirm that the results of non-parametric estimates do not differ substantially from those of the parametric estimates.
+
+We next demonstrate how the proposed method works for an actual animal experiment using rats. The goal here is not to extract general conclusions about rat behavior. Rather, we intend to confirm that the proposed method can extract valid and interpretable estimates from individual rats. Two rats both performed two tasks. In Task 1, we randomly manipulated the reward amount. It is reasonable to expect that the reward value should be a non-decreasing function of the reward amount because it is unlikely that a small reward is preferred to a large reward. The non-parametric value models do not include such a non-decreasing assumption. We checked whether such a non-decreasing property is obtained as a result of the parameter fit. Task 2 considered the effect of delays in feedback on outcomes. Task 2 presents a more complicated situation than Task 1; a shorter delay would be preferred (by better reinforcing the choice) for the reward signal, whereas for the non-reward signal, the impact of a delay would not be straightforward. For the data from both tasks, we employed parametric value models as well as non-parametric value models.
+
+Two adult male Long-Evans rats (labeled as Rat 1 and Rat 2) were used in both tasks. They were housed individually under a normal light/dark cycle (lights on at 8:00 A.M. and off at 8:00 P.M.). The experiments were performed during the light phase. Water was supplied ad libitum. Food was provided after the task so that body weights were maintained at no less than 85% of the initial level. All experiments were performed in accordance with the guidelines of the Animal Experiment Committee at the University of Tokyo.
+
+All experiments were conducted in an experimental chamber (ENV-009L, Med Associates, Vermont, USA) placed in a soundproof box (Muromachi Kikai, Tokyo, Japan). The chamber had two levers (ENV-112CM), a pellet dispenser (ENV-203-45), and a speaker (ENV-224AM) on one side and 9 poke holes ( 
+                               2 
+                               . 
+                               5 
+                               
+                               cm 
+                               × 
+                               2 
+                               . 
+                               5 
+                               
+                               cm 
+                               × 
+                               2 
+                               . 
+                               2 
+                             cm; ENV-115-9NP) on the other side. An audio generator (ANL-926) was used to generate pure tones that were delivered via the speaker.
+
+Before performing the main tasks, the rats were trained to learn the association between feedback tones and outcomes (existence or absence of rewards). For this procedure, the rats performed a simplified version of Task 1, in which the reward amount was fixed to one pellet. This pre-training was conducted until the rats had learned to press the advantageous lever. Both rats performed both Task 1 and Task 2, which are detailed below. Each task was conducted on consecutive days (excluding weekends) until a sufficient number of trials was obtained. The order of the tasks differed between the two rats.
+
+Each trial started with a tone presentation (800 Hz; 500 ms) and the lighting of the center poke hole. When the rat performed a nose poke in the center hole, two levers were inserted into the chamber. After the rat pressed one of the levers, a feedback tone that informed the rat whether the reward would appear was presented. A 500 ms feedback tone at 2000 Hz indicated that a reward was present, and a 500 ms tone at 1200 Hz indicated that a reward was absent. The onset of the feedback tone was 200 ms after the detection of the lever press. Whether the trial was rewarded or non-rewarded was determined by the lever pressed by the rat. One lever was the advantageous lever, which was associated with a reward at a probability of 80% and with no reward at a probability of 20%. The second lever was the disadvantageous lever, which had a no-reward probability of 80% and a reward probability of 20%. The advantageous and disadvantageous levers switched when the choice frequency of the advantageous lever over the previous 10 choice trials reached 80%. The initial advantageous lever was randomly selected. In the rewarded trial, sucrose pellet(s) were delivered 0.5 s from the onset of the reward tone. The number of pellets was randomly drawn from 1, 2, or 3 pellets. A new trial started 3 s after the final pellet was delivered in the reward trials and 3 s after the onset of the no-reward tone in the no-reward trials.
+
+A session was terminated when the rats obtained 300 pellets or when 60 min passed from the first trial. The rats performed one session per day. Rat 1 underwent Task 1 for 10 sessions, resulting in a total of 2515 trials. Rat 2 experienced this task for 12 sessions, for a total of 3012 trials.
+
+To evaluate whether the reward value is a non-decreasing function of the reward amount, we primarily focus only on the non-parametric reward value modes, although it is natural to use parametric models because the reward types are quantifiable. This analysis is also intended to be a model case for general cases with non-quantifiable reward types. Thereafter, we present the results of the parametric value models. For the non-parametric value models, we used the same model set with simulations as shown in  Table 1 . For the parametric value models, we used the prospect utility function described in Eq.  (3) , with the combination of standard Q-learning/F-Q-learning/DF-Q-learning and the absence/presence of the auto-correlation factor, resulting in a total of 6 models. For these models, the inverse temperature parameter  
+                               β 
+                             was included as a free parameter to scale the magnitude of reward value.
+
+We first report the results of the non-parametric value models ( Table 6 ). Within these models, for Rat 1, AIC selected Model 12 (DF-Q-learning with differential reward values and choice-autocorrelation;  
+                               AIC 
+                               = 
+                               3045 
+                            ), and BIC selected Model 6 (F-Q-learning with common reward values and choice-autocorrelation;  
+                               BIC 
+                               = 
+                               3074 
+                            ). For Rat 2, both AIC and BIC selected Model 8 (F-Q-learning with differential reward values and choice-autocorrelation;  
+                               AIC 
+                               = 
+                               2888 
+                            ,  
+                               BIC 
+                               = 
+                               2918 
+                            ). With the exception of the BIC results for Rat 1, the best model had different values for different reward amounts. The likelihood-ratio test showed that the differences in the reward value were significant (for Rat 1; Model 10 (null model) vs. Model 12,  
+                               
+                                  
+                                     χ 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               
+                                  ( 
+                                  2 
+                                  ) 
+                               
+                               = 
+                               11 
+                               . 
+                               50 
+                            ,  
+                               p 
+                               = 
+                               0 
+                               . 
+                               00318 
+                            ; for Rat 2; Model 10 (null model) vs. Model 15,  
+                               
+                                  
+                                     χ 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               
+                                  ( 
+                                  2 
+                                  ) 
+                               
+                               = 
+                               100 
+                               . 
+                               86 
+                            ,  
+                               p 
+                               < 
+                               1 
+                               
+                                  
+                                     0 
+                                  
+                                  
+                                     − 
+                                     10 
+                                  
+                               
+                            ).  Fig. 6  plots the reward value estimates of the best non-parametric value model for each subject (gray bars). We obtained reasonable results: the estimated reward value increased (for Rat 1, from one pellet to three pellets; for Rat 2, from one pellet to two pellets) or remained constant (for Rat 2, 2 pellets and 3 pellets). To confirm the robustness of the estimates, we divided the data into odd-number sessions and even-number sessions. We then fit the best non-parametric value model selected using the data from all sessions to divide the data set independently. 
+                               2 
+                             
+                            
+                               2 
+                               A standard method to confirm the robustness of model fit is cross-validation. However, cross-validation is not practical for our purpose: to estimate a reward value parameter rather than to explain or to predict the behavioral data themselves. 
+                            The estimates are shown in  Fig. 6  with symbols (triangles for the odd-number sessions and crosses for the even-number sessions). The estimates for the divided data set showed similar tendencies, suggesting the robustness of the parameter estimates.
+
+Next, we report the results of the parametric value models. For Rat 1, the parametric value models yielded smaller values of AIC and BIC (indicating better fit) than the non-parametric value models did. AIC selected DF-Q-learning with choice-autocorrelation ( 
+                               AIC 
+                               = 
+                               3043 
+                            ;  
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     U 
+                                  
+                               
+                               = 
+                               0 
+                               . 
+                               30 
+                            ,  
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                               = 
+                               0 
+                               . 
+                               80 
+                            ,  
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     F 
+                                  
+                               
+                               = 
+                               99 
+                            ,  
+                               φ 
+                               = 
+                               − 
+                               0 
+                               . 
+                               44 
+                            , and  
+                               β 
+                               = 
+                               1 
+                               . 
+                               64 
+                            ), and BIC selected F-Q-learning with choice-autocorrelation (BIC  
+                               = 
+                               3070 
+                            ;  
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     U 
+                                  
+                               
+                               = 
+                               0 
+                               . 
+                               30 
+                            ,  
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                               = 
+                            
+                            
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     F 
+                                  
+                               
+                               = 
+                               0 
+                               . 
+                               89 
+                            ,  
+                               φ 
+                               = 
+                               − 
+                               0 
+                               . 
+                               42 
+                            , and  
+                               β 
+                               = 
+                               1 
+                               . 
+                               47 
+                            ). This is because the parametric reward value function (scaled by the inverse temperature parameter,  
+                               β 
+                            ) agreed with the non-parametric reward value ( Fig. 6  A, broken line) and the parametric value model has one fewer parameter than the non-parametric value model. In contrast, for Rat 2, the parametric value models did not provide a better fit than non-parametric value models (the minimum value of AIC was 2899, and that of BIC is 2923; both were given by F-Q-learning with choice-autocorrelation;  
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     U 
+                                  
+                               
+                               = 
+                               0 
+                               . 
+                               40 
+                            ,  
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                               = 
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     F 
+                                  
+                               
+                               = 
+                               0 
+                               . 
+                               99 
+                            ,  
+                               φ 
+                               = 
+                               − 
+                               0 
+                               . 
+                               74 
+                            , and  
+                               β 
+                               = 
+                               2 
+                               . 
+                               32 
+                            ). This is because the parametric value function cannot capture the saturated pattern of reward value in Rat 2 ( Fig. 6  B, broken line). This result suggests that when the parametric function does not match the true reward values, non-parametric models would be the better models.
+
+Task 2 manipulated the feedback delays regarding outcomes while fixing the reward amount in the reward trials. In this task, we examined the utility of the parametric models. As there are five outcome types for both rewarded trials and non-rewarded trials, parameterization may facilitate the estimation of the underlying patterns.
+
+The basic task design of Task 2 was similar to Task 1, with some exceptions. First, the latency of the feedback tones (reward tone: 2000 Hz, 500 ms; no-reward tone: 1200 Hz, 500 ms) was drawn randomly from 0 s, 1 s, 2 s, 4 s, or 6 s for both feedback types. A single pellet was always provided for the reward trials. The reward probability was 85% for the advantageous lever and 15% for the disadvantageous lever. These probabilities made the discrimination slightly easier on average than in Task 1. The goal of this modification was to alleviate the difficulty due to long feedback delays. Independent of the feedback delay, the next trial started 10 s after the lever was pressed; for example, if the feedback delay was 6 s, the next trial began 4 s after the feedback tone.
+
+A session was terminated when the rats obtained 300 pellets or when 90 min passed from the first lever push. Each rat performed one session per day. Rat 1 experienced Task 2 for 10 sessions, resulting in 4069 trials, whereas Rat 2 experienced this task for 15 sessions, resulting in 5455 trials.
+
+The fitted models with non-parametric values consist of all combinations of (1) standard Q learning ( 
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     F 
+                                  
+                               
+                               = 
+                               0 
+                            )/F-Q-learning ( 
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                               = 
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     F 
+                                  
+                               
+                            )/DF-Q-learning ( 
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                               ≠ 
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     F 
+                                  
+                               
+                            ); (2) reward values of reward signals: homogeneous/heterogeneous, (3) reward values of no-reward signals: homogeneous/heterogeneous (no-fixed values)/heterogeneous with the value of the no-delay signal ( 
+                               
+                                  
+                                     κ 
+                                  
+                                  
+                                     N 
+                                     0 
+                                  
+                               
+                            ) being fixed at zero, resulting in a total of 24 models. We included models in which the choice-autocorrelation factor was a free parameter only because we confirmed that the no-autocorrelation factor model was clearly a worse fit to the data (data not shown), as in Task 1.
+
+As the models with reward-value parameterization, we included the two parameterization methods for reward feedback. One variation assumed the polynomial function for the reward trials:  
+                               
+                                  (10) 
+                                  
+                                     r 
+                                     
+                                        
+                                           t 
+                                        
+                                     
+                                     = 
+                                     
+                                        
+                                           w 
+                                        
+                                        
+                                           R 
+                                           , 
+                                           0 
+                                        
+                                     
+                                     + 
+                                     
+                                        
+                                           w 
+                                        
+                                        
+                                           R 
+                                           , 
+                                           1 
+                                        
+                                     
+                                     D 
+                                     
+                                        
+                                           t 
+                                        
+                                     
+                                     + 
+                                     
+                                        
+                                           w 
+                                        
+                                        
+                                           R 
+                                           , 
+                                           2 
+                                        
+                                     
+                                     
+                                        
+                                           D 
+                                           
+                                              
+                                                 t 
+                                              
+                                           
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     , 
+                                  
+                               
+                            where  
+                               D 
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                             denotes the delay of reward signal at trial  
+                               t 
+                            . The  
+                               w 
+                             coefficients are free parameters. We also examined the first-order function by setting  
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     R 
+                                     , 
+                                     2 
+                                  
+                               
+                               = 
+                               0 
+                             and the zero-th order function (only in the constant term version) by setting  
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     R 
+                                     , 
+                                     1 
+                                  
+                               
+                               = 
+                               0 
+                             and  
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     R 
+                                     , 
+                                     2 
+                                  
+                               
+                               = 
+                               0 
+                            . The polynomial function for the no-reward trials are similarly defined as  
+                               r 
+                               
+                                  
+                                     t 
+                                  
+                               
+                               = 
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     N 
+                                     R 
+                                     , 
+                                     0 
+                                  
+                               
+                               + 
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     N 
+                                     R 
+                                     , 
+                                     1 
+                                  
+                               
+                               D 
+                               
+                                  
+                                     t 
+                                  
+                               
+                               + 
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     N 
+                                     R 
+                                     , 
+                                     2 
+                                  
+                               
+                               
+                                  
+                                     D 
+                                     
+                                        
+                                           t 
+                                        
+                                     
+                                  
+                                  
+                                     2 
+                                  
+                               
+                            . The different parameterization function for the reward signal is the hyperbolic discounting function:  
+                               
+                                  (11) 
+                                  
+                                     r 
+                                     
+                                        
+                                           t 
+                                        
+                                     
+                                     = 
+                                     
+                                        
+                                           A 
+                                        
+                                        
+                                           1 
+                                           + 
+                                           k 
+                                           D 
+                                           
+                                              
+                                                 t 
+                                              
+                                           
+                                        
+                                     
+                                     , 
+                                  
+                               
+                            where  
+                               A 
+                             and  
+                               k 
+                             are the free parameters. The hyperbolic discounting function is often used to represent the effect of delay on a subjective value (e.g.,  Mazur & Biondi, 2011 ) but less frequently to represent the reward value in reinforcement learning models. For the models with a hyperbolic discounting function, polynomial functions (first-order, second-order, or zero-th order) are used for non-reward trials. Null models regarding the hyperbolic discount function with  
+                               k 
+                               = 
+                               0 
+                             (indicating homogeneous reward values) are included. For each combination of the value parameterizations, there are standard Q-learning, F-Q-learning and DF-Q-learning versions, constituting a total of 45 models.
+
+For both subjects, a parametric model was selected by AIC and BIC. For the data from Rat 1, AIC selected the standard Q-learning model with hyperbolic discounting (for the reward signal) and the second-order polynomial model (for the no-reward signal). The estimated parameter values were  
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                               = 
+                               0 
+                               . 
+                               155 
+                            ,  
+                               φ 
+                               = 
+                               − 
+                               0 
+                               . 
+                               167 
+                            ,  
+                               A 
+                               = 
+                               2 
+                               . 
+                               50 
+                            ,  
+                               k 
+                               = 
+                               0 
+                               . 
+                               163 
+                            ,  
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     N 
+                                     R 
+                                     , 
+                                     0 
+                                  
+                               
+                               = 
+                               0 
+                               . 
+                               285 
+                               , 
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     N 
+                                     R 
+                                     , 
+                                     1 
+                                  
+                               
+                               = 
+                               − 
+                               0 
+                               . 
+                               26 
+                               , 
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     N 
+                                     R 
+                                     , 
+                                     2 
+                                  
+                               
+                               = 
+                               0 
+                               . 
+                               062 
+                            . Regarding the hyperbolic discounting function, the likelihood was significantly improved compared with the null model (with  
+                               k 
+                            
+                            
+                               = 
+                               0 
+                            ), which assigns common values for reward signals ( 
+                               
+                                  
+                                     χ 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               
+                                  ( 
+                                  1 
+                                  ) 
+                               
+                               = 
+                               8 
+                               . 
+                               08 
+                            ,  
+                               p 
+                               = 
+                               0 
+                               . 
+                               0045 
+                            ). Regarding the polynomial function for non-reward trials, the selected model (including the second-order term) exhibited a marginally significant difference in likelihood compared with the zero-th order model, with  
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     N 
+                                     R 
+                                     , 
+                                     1 
+                                  
+                               
+                               = 
+                               0 
+                             and  
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     N 
+                                     R 
+                                     , 
+                                     2 
+                                  
+                               
+                               = 
+                               0 
+                             ( 
+                               
+                                  
+                                     χ 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               
+                                  ( 
+                                  2 
+                                  ) 
+                               
+                               = 
+                               5 
+                               . 
+                               98 
+                            ,  
+                               p 
+                               = 
+                               0 
+                               . 
+                               05 
+                            ), but not when compared with the first-order model, with  
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     N 
+                                     R 
+                                     , 
+                                     2 
+                                  
+                               
+                               = 
+                               0 
+                             ( 
+                               
+                                  
+                                     χ 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               
+                                  ( 
+                                  1 
+                                  ) 
+                               
+                               = 
+                               2 
+                               . 
+                               53 
+                            ,  
+                               p 
+                               = 
+                               0 
+                               . 
+                               112 
+                            ). Thus, we deemed the first-order model the best model, with estimates of  
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                               = 
+                               0 
+                               . 
+                               115 
+                            ,  
+                               φ 
+                               = 
+                               − 
+                               0 
+                               . 
+                               166 
+                            ,  
+                               A 
+                               = 
+                               2 
+                               . 
+                               55 
+                            ,  
+                               k 
+                               = 
+                               0 
+                               . 
+                               162 
+                            ,  
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     N 
+                                     R 
+                                     , 
+                                     0 
+                                  
+                               
+                               = 
+                               0 
+                               . 
+                               021 
+                               , 
+                               a 
+                               n 
+                               d 
+                               
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     N 
+                                     R 
+                                     , 
+                                     1 
+                                  
+                               
+                               = 
+                               0 
+                               . 
+                               13 
+                               . 
+                             Regarding Rat 2, AIC selected the standard Q-learning model with a first-order polynomial function (linear function) for both the reward signal and the no-reward signal, with estimated parameters of  
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     L 
+                                  
+                               
+                               = 
+                               0 
+                               . 
+                               091 
+                            ,  
+                               φ 
+                               = 
+                               − 
+                               0 
+                               . 
+                               477 
+                            ,  
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     R 
+                                     , 
+                                     0 
+                                  
+                               
+                               = 
+                               3 
+                               . 
+                               309 
+                               , 
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     R 
+                                     , 
+                                     1 
+                                  
+                               
+                               = 
+                               − 
+                               0 
+                               . 
+                               382 
+                               , 
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     N 
+                                     R 
+                                     , 
+                                     0 
+                                  
+                               
+                               = 
+                               0 
+                               . 
+                               394 
+                               , 
+                             and  
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     N 
+                                     R 
+                                     , 
+                                     1 
+                                  
+                               
+                               = 
+                               0 
+                               . 
+                               29 
+                            . Both polynomial functions exhibited significant differences in likelihood compared with the first-order models (vs. model with  
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     R 
+                                     , 
+                                     2 
+                                  
+                               
+                               = 
+                               0 
+                            ,  
+                               
+                                  
+                                     χ 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               
+                                  ( 
+                                  1 
+                                  ) 
+                               
+                               = 
+                               27 
+                               . 
+                               44 
+                            ,  
+                               p 
+                               < 
+                               1 
+                               
+                                  
+                                     0 
+                                  
+                                  
+                                     − 
+                                     10 
+                                  
+                               
+                            ;  
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     N 
+                                     R 
+                                     , 
+                                     2 
+                                  
+                               
+                               = 
+                               0 
+                            ,  
+                               
+                                  
+                                     χ 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               
+                                  ( 
+                                  1 
+                                  ) 
+                               
+                               = 
+                               16 
+                               . 
+                               57 
+                            ,  
+                               p 
+                               = 
+                               0 
+                               . 
+                               000047 
+                            ), indicating that the linear trends are significant.
+
+Fig. 7  shows the estimated reward values obtained from the selected parametric models (lines) with the results of the non-parametric value estimates (whose model structure is the same as that of the selected parametric models). For reward signals, the reward value decreased as the delay increased ( Fig. 7  A, B). For no-reward feedback, the parametric model suggested that the value increased in a positive direction as the delay increased. The non-parametric model suggested that the values are non-monotonic, reaching a minimum when the feedback latency was 1 s and then increasing, but our analysis indicated that these non-monotonic properties were not supported by the data. The estimates for the divided data set showed that the estimated tendency was robust (triangles for the odd-number sessions and crosses for the even-number sessions), even though the linear increasing trend for the no-reward signal in Rat 1 was weak for the even-number sessions.
+
+In the present paper, we have proposed a novel framework for estimating subjective values. The framework consists of novel behavioral tasks and model-based analysis of the behavioral data. Our methods utilize the history dependence of choice behavior (i.e., the larger the subjective value of the outcome, the more likely the action is to be repeated; this influence decays as subjects experience additional trials). This tendency is represented by the RL framework, from which we can estimate the subjective values. The proposed method has at least two advantages over previous methods of estimating subjective values. First, it can estimate the subjective values of multiple outcomes within a single experimental design. Second, the number of outcomes types from which the subjective value is estimated is flexible and can be changed.
+
+Several previous studies have attempted to estimate the value of various outcomes using similar RL model-based methods  (Katahira et al., 2014, 2011; Lindström, Selbing, Molapour, & Olsson, 2014) . In contrast to our experimental design, in previous studies, the outcome stimulus type (e.g., the valence of pictures) was stochastically contingent on the subjects’ choices. This approach limits the number of outcome categories. With this constraint, increasing the number of outcome types complicates the design of the experiment schedule. Indeed, these studies have estimated the subjective values of only a few stimulus outcome categories. In contrast, our novel experimental design randomly chooses the outcome (within the same valence) independent of the subject’s choice; thus, researchers can easily include an arbitrary number of outcome types without special consideration of the task design, albeit with the number of outcome types being limited according to the number of trials.
+
+As we have discussed, the proposed method relies in part on the assumption that the RL model structure is valid. If the underlying decision-making processes in the actual animal behavior differ from the fitted model, the resulting estimates can differ from the true subjective value. Thus, it is desirable to consider several candidate model structures and perform statistical model selection. For example, the subjects may learn the higher-order structure of the task, such as the timing of reward schedule reversal  (Myers, 1976) . For our task design, if the subjects were able to take advantage of such a structure, the estimated subjective value would be flat over different reward types. This was not the case, suggesting that our subjects could not follow the strategy and that at least a part of the RL model was valid. Nevertheless, the researcher should consider such a possibility and design the task so that such an unintended factor does not contaminate the estimates. In addition, estimated reward values are meaningful in the relative value between different outcome types; however, one advantage of the proposed method is that relative values among outcomes are often retained even if the fitted model is incorrect. Nevertheless, this property may depend on the discrepancy between the fitted model structure and the true model structure.
+
+We assumed that the subjective value of the decision-outcome is represented as the “reward value” in the RL framework, i.e., the outcome evaluation (OE) hypothesis  (Lindström et al., 2014) . Others have argued that the stimulus property of outcome in the RL framework influences the learning rate, a view that is termed the outcome learning (OL) hypothesis  (Lindström et al., 2014) . In general, the higher the learning rate, the more recent outcomes influence future choices. However, the total impact of past outcomes essentially does not change even if the learning rate changes because a higher learning rate also induces greater decay  (Katahira, 2015) . Therefore, it is not reasonable to assume that the subjective value is reflected in the magnitude of the learning rate. Indeed, we examined data from both the OL model and a hybrid of the OL and OE models from the random amount experiment (Task 1), but neither provided a better fit than the (OE) models used in the proposed framework (data not shown).
+
+We demonstrated how the proposed method works for actual animal behavior using data from rat experiments. As the goal of the demonstration was to confirm that the proposed method could obtain valid estimates from individual rats, we used only two rats. We showed that the reward values were not identical among three reward amounts for both rats and that the value monotonically increased or remained the same as the reward amount (the number of pellets) increased, a reasonable result. We also showed that the reward values roughly decreased as the delay in the reward signal increased, in accordance with previous studies on delay discounts  (Green, Myerson, Holt, Slevin, & Estle, 2004; Hirsh, Guindon, Morisano, & Peterson, 2010; Paglieri, 2013) . Regarding the delay of the no-reward signal, the value increased as the delay increased. This result may indicate that a longer delay causes the next trial to begin sooner based on how we fixed the inter-trial interval in the present experimental design. However, these results are preliminary and far from conclusive. The proposed framework provides a promising way to understand these complex psychological processes. Although we intended to propose a framework for extracting the subjective value of animal subjects, future work is needed to examine how the proposed framework also works for human subjects. For human subjects, econometric methods are available, but using the same task with animal studies enables a direct comparison between animal models and humans.
+
+In the present paper, we have focused most of our attention on the estimation of subjective value. Perhaps more importantly, however, the advantage of the model-based approach is that it can estimate and represent animals’ internal computational processes. Constructing a better model is beneficial for estimating internal variables such as the action value, reward prediction error, and attention. By incorporating the estimation of subjective values, we can derive better estimates of the variables involved in the subjective experiences of animals. In addition, the computational approaches carry implications for psychiatry  (Huys, Pizzagalli, Bogdan, & Dayan, 2013; Maia & Frank, 2011 ; Montague, Dolan, Friston, & Dayan, 2012) . The method presented here will contribute to this promising field.
+
+This work was partially supported by Grants-in-Aid for  Scientific Research (KAKENHI)  Nos.  24700238 ,  26118506 ,  15K12140 , and  23118003 .

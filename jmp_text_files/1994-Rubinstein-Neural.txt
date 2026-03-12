@@ -1,0 +1,273 @@
+10.1006/jmps.1994.1013
+JOURNAL OF MATHEMATICAL PSYCHOLOGY 38, 149-158 (1994) 
+
+Neural Models of Menta! Transformations and Invariants 
+
+J. RUBINSTEIN 
+
+Technion-Israel Institute of Technology, Haifa, Israel 
+
+Neural networks related to the process of mental imagery are analysed, It is shown that under appropriate conditions the delta rule algorithm of Widrow and Hoff converges. Special emphasis is given to mental rotations, but the analysis is applicable to a much larger class of transformation groups. It is further shown that associative (Hebbian) networks are capable of projecting transformed patterns into the invariant subspaces of the underlying group. © 1994 Academic Press, Inc. 
+
+1. INTRODUCTION 
+
+The ability of humans to perform mental transformations has been demonstrated in many experiments by Shepard and his colleagues and others (Shepard & Metzler, 1971; Shepard, 1984). A probiem that attracted particular attention is mental rotation. It is possible, however, to perform other imaginary transformations such as scaling, shift, etc. In fact, a thinking process can be interpreted as a particular transformation of a given set of initial concepts and objects. The goal of this paper is to study neural models associated with mental transformations. In particular we use the algebraic structure of the transformation group to analyse the relevant algorithms. 
+
+A computational model for mental transformations has been proposed recently by Goebel (1991). The model is based on the parallel distributed processing (PDP) approach (Rumelhart, Hinton, and McClelland, 1986a, p.61). An initial pattern (object) is represented as an M-dimensional vector ¥. The time evolution of yw is governed by a simple neural network 
+
+==> picture [199 x 11] <==
+
+The matrix C is the connection matrix, that is, the entry C, is the strength of the connection between neuron i and neuron j. Goebel argued that with a proper choice of C, the solution of (1) should correspond to a rotation of the pattern yw around some preferred axis. He reports on an experiment in which he used the “delta rule” (DR) algorithm (Rumelhart, Hinton, and Williams, 1986b, p. 322) to compute a matrix C that generates rotations of a two-dimensional retinal image. 
+
+A number of questions abide. Does the DR algorithm converge? Can this model be extended to other transformations? What is the relation between C and the 
+
+149 
+
+0022-2496/94 $6.00 Copyright © 1994 by Academic Press, Inc. All rights of reproduction in any form reserved. 
+
+150 
+
+J. RUBINSTEIN. 
+
+algebraic properties of the underlying transformation group? To what extent does C depend on the representation of the pattern (i.¢., the choice of y)? 
+
+In the next section we give sufficient conditions for the convergence of the DR algorithm for the periodic shift operator, which is mathematically equivalent to a rotation of functions defined over the circle. A general result in the theory of Lie groups says that all one-parameter transformation groups are equivalent to a shift through an appropriate change of coordinates. Thus our result applies to other transformations as well. We conclude Section 2 by discussing the other questions mentioned above. 
+
+In contrast to the idea of mental imagery, Gibson advanced the point of view that only matertal images can participate in a thinking process. His thesis (Gibson, 1974, 1979) is that we extract invariant parameters from real world objects and situations. These invariants characterize the objects even after they (or the observer) have been transformed. Gibson did not specify any particular mechanism by which we can manufacture these invariants. In Section 3 we study associative neural networks related to (1) and its output. It is shown that the equilibrium state of the associative net is determined by the algebraic structure of the group. In particular it is argued that associative networks are capable of decomposing the input into invariant subspaces. Therefore the algebraic approach we adopt here provides a natural tool for computing invariant features. These characteristics are what Shepard calls first-order invariants. Gibson’s high-level invariants might be extracted from them through further processing that we do not consider here. 
+
+2. THe PDP Moper oF MENTAL TRANSFORMATIONS 
+
+We first study in detail the transformation produced by the rotation of functions defined on the circle. This is equivalent to a shift operator Mod(2z). The real object is given by a function u(x): [0,22] > R. Its mental image is an M-dimensional vector w. The evolution of uy is determined by 
+
+==> picture [274 x 11] <==
+
+Let 4x = 22/M and discretize (0, 2x} by the sequence x, = 0, x, =x, + AX, .., Xy= 2n— Ax. A vector U(t)eR™ is associated with u(x, t) through U;(t}=u(x,, t). In analogy with (2), y% evolves according to (1). Therefore U is the exact solution sampled at the points {x,}, while y is an approximation for it. 
+
+The connections (or weights) matrix C is determined by the DR algorithm (Rumelhart & McCelland, 1986): Start with an arbitrary C. Present an image w(0) = U(O) and consider its evolution under (1) for a short time 42. Compare the difference between the exact solution U(4t) with (41). Update the weights in the direction of steepest descent, and proceed with a new image. This algorithm was proposed on functional grounds. It is not clear yet whether there exists a specific physiological mechanism which might implement it. A proposal for such a mechanism has been suggested recently by Hancock, Smith, and Phillips (1991). 
+
+MENTAL IMAGERY NEURAL MODELS 
+
+151 
+
+Except for very special choices of 4t and 4x, the DR algorithm will not converge for patterns having infinitely many degrees of freedom. Thus we limit ourselves to situations where the discretization is fine enough to capture all the frequencies of the original patterns. Therefore we assume that uy has a finite Fourier expansion 
+
+==> picture [221 x 27] <==
+
+Hence the smallest number of points needed to characterize the patterns is M= 2N + 1. We can now state the main result of this section: 
+
+THEOREM 1. Let u(x, t) and W(t) evolve according to (2) and (1), respectively, with band-limited initial data of the type in (3). Let the connection matrix C be updated by the delta rule algorithm. Then C(t) converges to the connection matrix C* =(1/At)(E~—1), where E is given by (11) below. 
+
+Proof. Homogeneity and periodicity imply that the matrix C is circulant; that is, it has the structure 
+
+==> picture [251 x 50] <==
+
+Thus C is fully determined by the M coefficients { g,}. Propagating (1) by a forward difference approximation, we get 
+
+==> picture [229 x 12] <==
+
+It is useful to apply here the discrete Fourier transform (DFT) approach. For this purpose, we introduce the Mth root of unity, w= e7/™, and the vectors 
+
+==> picture [280 x 68] <==
+
+The DFT is computed by the symmetric matrix F whose columns are {V‘}: F= (V-*, .., V°,.., V"). The M-dimensional coefficient vector a in (3) is given by 
+
+==> picture [218 x 22] <==
+
+152 
+
+J. RUBINSTEIN 
+
+To compare yw and U we expand both of them in the basis {V’}. At time 1=0 they are identical: 
+
+==> picture [232 x 27] <==
+
+From (6) and (7) we see that 6,= a, for all 1. Now, it is well known that the vectors V’ are the eigenvectors of any circulant matrix. Let {/,} be the eigenvalues of E=1+ At C corresponding to the eigenvectors { V‘}. Propagating each frequency of (3) according to (2), we get 
+
+==> picture [266 x 16] <==
+
+It follows that for generic initial data of the form (3) the DR algorithm will send EF into the circulant matrix whose eigenvalues are 
+
+==> picture [264 x 12] <==
+
+Let the circulant matrix E be written in the form 
+
+==> picture [252 x 52] <==
+
+The similarity transformation from its diagonalized form provides a formula for h, in terms of the eigenvalues: 
+
+==> picture [304 x 60] <==
+
+As an example, consider the case where 4t=4x. Then A,=1 and all other coefficients vanish. Therefore C* is the simple finite difference matrix, 
+
+==> picture [249 x 50] <==
+
+Remarks. 1. If a certain frequency, say k, is absent from (3), then the corresponding A, is not determined by the algorithm. This will not affect the convergence, 
+
+MENTAL IMAGERY NEURAL MODELS 
+
+153 
+
+since in that case a, does not appear in (9). After stabilization is achieved, we can present the system with other initial patterns until all the frequencies are captured. 
+
+2. Any reasonable finite-difference approximation for 0, will be close to the minimizer C* if M (the number of sampling points) is large compared to N (the highest frequency of the initial pattern). Consider, for example, the finite difference matrix 
+
+==> picture [249 x 51] <==
+
+The eigenvalues of the associated £ matrix are 
+
+==> picture [227 x 23] <==
+
+Comparing with (10), we see that 2, — pu, = O(k At, k Ax). 
+
+3. Goebel (1991) wondered whether the matrix C is related to the representation of the rotation group. Since the neural model is discrete, we should consider the finite group R,, of rotations with increments 4x. Then we see that the eigenvectors of C (ie, {V‘\) are indeed the irreducible representations of that group. 
+
+4. The convergence does not depend on the choice of sampling points. To see this, let {x,} be an arbitrary collection of different M points in [0, 27]. Since (3) is a trigonometric polynomial of order 2N, its coefficients are determined by the sampled pattern U? =u(x,, t) in the form b= B~'U*, where B is the matrix with entries B,,=e'" “1+”, We now get a new transformation matrix E, associated with the new sampling points. Setting A= FB™', it can easily be shown that E, is related to E of (11) through F,=A7~'EA. 
+
+Our results can be extended to any one parameter transformation group. The reason is that any such transformation is equivalent (through a proper change of variables) to the translation group (Rubinstein, Segman, and Zeevi, 1991). As an example, consider the three-dimensional transformation generated by the operator 
+
+==> picture [209 x 12] <==
+
+This is one of the generators of SO(3) discussed in Goeble (1991). We define a new set of coordinates (Segman, Rubinstein, and Zeevi, 1992): 
+
+==> picture [305 x 23] <==
+
+154 
+
+J. RUBINSTEIN 
+
+In the new coordinates L takes the simple form ¥Y =0@, with periodic boundary conditions. Therefore it does not affect at all the (4, €) coordinates. Choosing a convenient basis for the invariant directions, the previous analysis shows that the DR algorithm will converge if we sample the patterns over sufficiently many points. The precise form of E will depend on the order of the sampling. 
+
+A particularly important mental transformation is the rotation of threedimensional objects. In general, such an operation is described as a sequence of infinitesimal rotations about the three coordinate axes. That is why Goebel (1991) needed three networks of the type in (1) to encode the motion. Each of these infinitesimal rotations is generated by an operator of the form (16). Therefore we have shown that it can be encoded by the PDP model {1). We point out, however, that this is not the only way to perform rotations. In fact, any rigid body motion in space, with one fixed point, can be considered a single rotation about a certain axis (Goldstein, 1978, p. 118). 
+
+3. CONNECTION WITH ASSOCIATIVE NETWORKS 
+
+Several psychological theories maintain that organisms are able to extract invariants to characterize relevant objects (Gibson, 1979). Shepard (1984) argued that there should also exist dynamical representations, such as a mechanism to perform mental imagery. We now propose that the two approaches can be related to each other through the formation of asseciative neural networks. In order to obtain invariants, one has to decompose the pattern into invariant subspaces. In the context of transformation groups, the subspaces are related to the group representations. The idea is to feed the output of the network considered in Section 2 into an associative (Hebbian) network. The weights of the new network evolve towards some equilibrium that is shown to correspond to the natural spectral decomposition of the transformation group. To simplify the presentation we consider the particular group SO(2) with sampling at the M=2N-+1 roots of unity. Other compact groups can be analysed similarly. 
+
+Denote the network analysed in the previous section by N,. Suppose that the connection matrix C of N, converged to the desired value. Let y(t) be the output vector of N, (cf. (1)). Then 
+
+==> picture [210 x 14] <==
+
+where G, denotes the operation of the relevant group G. Assume that (ft) is fed into a subsequent associative network N,. Let W be the connection vector from N, to some particular neuron S$ in N,. In the linear regime of the network, the output of Sis S=M-!1 > Wab,+k,, where k, is a parameter. Updating the weights by the Hebb rule (Rumelhart ef a/., 1986a, p. 53) 
+
+==> picture [75 x 13] <==
+
+==> picture [17 x 13] <==
+
+MENTAL IMAGERY NEURAL MODELS 
+
+155 
+
+we obtain the evolution equation for W(t), 
+
+==> picture [304 x 22] <==
+
+where «é is the learning rate and k, is some control parameter. - Let the vector Z(t) evolve according to 
+
+==> picture [281 x 13] <==
+
+Here P is the matrix with entries P,;=1 Vi, j, # is the vector all of whose components are 1, and Q is the autocorrelation matrix 
+
+==> picture [232 x 23] <==
+
+Assume now that the learning rate of NV, is much slower than the rate of the transformation produced by N,; that is, e<1. Then a classical result in perturbation analysis (Murdock, 1991, p. 290), called the averaging principle, states that W can be approximated by Z in the sense that 
+
+==> picture [250 x 12] <==
+
+for some positive constants c, and ¢. 
+
+The solution of (21) is dominated by the eigenvectors of 0+ 4, P with the highest eigenvalues. To see this, we organize the eigenvectors {J'} of Q+k,P by decreasing order of their eigenvalues {6,}. If we denote by Z* the equilibrium point of (21), and by X,,, the projection of some vector X on the /th eigenvector J‘ of 0+ k,P, then 
+
+Realistic models should include constraints on the weights to prevent them from growing to infinity. From the mathematical point of view it is convenient to confine the dynamics to lie within some ball in the Euclidean norm. This constraint can be incorporated into (19) (or (21)) by adding a Lagrange multiplier on the right-hand side. It is easy to see that the solution of the modified form of (21) will converge to J' (Oja, 1989). 
+
+Since changes in the connections involve modifications in the distribution of the chemical receptors in the synapses, it is probably more adequate to impose hard limits on the components of W; e.g. —l1<W;,<1, i=1,2,..., M. This model was simulated by Linsker (1986) for a few particular autocorrelation matrices Q. The results were supported later on by heuristic arguments in Mackay and Miller (1990). Linsker found that, when the components of the initial conditions Z(0) are 
+
+156 
+
+J. RUBINSTEIN 
+
+not too close to the boundary of the A¢-dimensional hypercube, Z will, in general, saturate in the direction of a vector J* whose components are well approximated by 
+
+==> picture [197 x 17] <==
+
+We have verified numerically similar results when Q is given by (26) below, using a large number of initial data. It should be pointed out, though, that (25) is by no means a rigorous result, and counterexamples can be constructed. In fact, the mathematical study of Eq. (21) with hard limits is in its infancy. Preliminary results (Schatzman and Bienenstock, 1984) indicate a quite complex behaviour, but (25) seems to be a reasonable approximation. 
+
+There are other physiologically feasible constraints. For example, we could limit the dynamics to a ball in the 7, norm, or impose a combination of the restrictions mentioned above. In all these cases, the value of Z at large t is well characterized by the leading eigenvector of 0 +k, P. It remains to compute the spectrum of 0+k-,P. For real images, it follows from (3) and (22) that 
+
+==> picture [253 x 26] <==
+
+Therefore the eigenvalues {6,} of M~'(Q+k,P) are 
+
+==> picture [264 x 12] <==
+
+Each of the 6, (/21) has an eigenspace of dimension two, while J° is a vector parallel to 7. The subspace of the /th eigenvalue of M~'(Q+k,P) is spanned by two vectors J” of the form 
+
+==> picture [276 x 15] <==
+
+Here {@,;} are arbitrary phases, such that their difference for a fixed / is not a multiple of x. 
+
+The equilibrium state of W is thus determined by the spectral (Fourier) decomposition of the initial pattern uy. Any two neurons in N, with connections saturating in the subspace of a particular 6, completely characterize the projection of an image on an invariant subspace. Suppose we present the network N, with a sequence of rotated patterns (using, for example, N,). For each member of the sequence we allow a few neurons in N, to saturate. If the initial patterns have diverse spectra, then the network N, will form the natural decomposition of SO(2). Oja (1989) has proposed a modification of the elementary Hebb mechanism (20) that automatically provides projection into the subspaces of dimension larger than 
+
+; 
+
+MENTAL IMAGERY NEURAL MODELS 
+
+157 
+
+one that are spanned by the leading eigenvectors of Q. Oja’s “subspace method” is based on lateral interactions that provide an appropriate feedback for the development of each neuron. 
+
+Our analysis applies to other transformation groups, since the spectrum of the autocorrelation matrix Q is always related to the representation of the group (Rubinstein, 1991). Specifically, every eigenspace of Q is a union of subspaces that are invariant under the operation of the group. The decomposition of an image into subspaces that are invariant under the transformation group is necessary in order to compute invariants. Therefore the model we propose here provides a first step towards the computation of invariant features. 
+
+4. DISCUSSION 
+
+The convergence of a connectionist network that performs mental transformations has been analysed. We have given sufficient conditions for the convergence of the delta rule algorithm suggested by Goebel (1991). In particular, we found that the connection matrix is intimately related to the irreducible representations of the group. The convergence of the algorithm and the algebraic structure of the network is not sensitive to the sampling precedure. 
+
+We have further considered the possibility of using associative PDP algorithms to obtain invariants. We assumed that the network is presented with a sequence of transformations of a given image. The analysis of Section2 indicates that this sequence could be produced by another network. When the learning rate is slow, the associative net converges in general to one of the leading eigenvectors of the autocorrelation matrix of the input. Since each eigenspace of that matrix is a union of subspaces that are invariant under the group operation (Rubinstein, 1991), an associative network provides a decomposition of patterns that is convenient (and in fact necessary) for the extraction of invariant features. This extraction is a higher level process that we are now investigating. 
+
+The invariants mentioned in Section 3 are global invariants. For example, in the case of planar rotation these invariants are provided by the absolute value of the angular Fourier transform of the image (Gourd, Gauthier, and Younes, 1989; Rubinstein et al, 1991). Therefore these features are unchanged regardless of the magnitude of the deformation. Such invariants are considered to be more efficient for the recognition task than the dynamical approach, which requires transforming the image until a satisfactory match is achieved with a given pattern. Note, however, that if the deformations are small, the dynamical algorithm can be quite fast, particularly since it has (cf. {1)) a natural parallel implementation. Therefore mental transformation can be preferred in such environments over global invariants. 
+
+158 J. RUBINSTEIN 
+
+REFERENCES 
+
+Gipson, J. J. (1974). Visualizing conceived as visual apprehending without any particular point of observation. Leonardo, 7, 41-42. 
+
+Gipson, J. J. (1979). The ecological approach to visual perception. Boston: Houghton Mifflin. 
+
+Goepet, R. P. (1990). The mathematics of mental rotations. Journal of Mathematical Psychology 34, 435-444, 
+
+GOLDSTEIN, H. (1978). Classical mechanics, Reading, MA: Addison-Wesley. 
+
+GourD, F., GAUTHIER, J. P., & Youngs, H. (1989). Une méthode d’invariants de l'analyse harmonique 
+
+en reconnaissance de formes. Traitement du signal, 6, 161-178. 
+
+Hancock, P. J. B., Smitu, L. S., & Puriiips, W. A. (1991). A biologically supported error-correcting learning rule. Neural Computation, 3, 201-212. 
+
+Linsker, R. (1986). From basic network principles to neural architecture. Proceedings of the National Academy of Sciences USA, 83, 7508-7512, 8390-8394, 
+
+Mackay, D., & MILLER, K. D. (1990). Analysis of Linsker’s simulations of Hebbian nets. Neural Computation 2, 173-187. 
+
+Murpock, J. A. (1991). Perturbations: Theory and methods. New York: Wiley. 
+
+Osa, E. (1989). Neural networks, principal components and subspaces. international Journal of Neural 
+
+Systems, 1, 61-68. 
+
+RuBinsTEIN, J. (1991). invariant low dimensional approximations for distorted patterns (Tech. Rep.). Technion. 
+
+RUBINSTEIN, J., SEGMAN, J., & ZEEVI, Y. Y. (1991). Recognition of distorted patterns by invariance kernels. Pattern Recognition, 24, 959-967. 
+
+RuMELHART, D. E., Hinton, G. E., & MCCLELLAND, J. L. (1986a). A general framework for parallel 
+
+distributed processing. In D. E. Rumelhart and J. L. McClelland (Eds.}, Parailel distributed processing (Vol. !, pp. 45-76). Cambridge, MA: MIT Press. 
+
+RuMELuART, D. E., Hinton, G. E., & WILLIAMs, R. J. (1986b). Learning internal representations by error propagation. In D. E. Rumelhart and J.L. McClelland (Eds.), Parallel distributed processing (Vol. 1, pp. 318-362). Cambridge, MA: MIT Press. RuMELHART, D. E., & MCCLELLAND, J. L. (Eds.) (1986). Parallel distributed processing (Vol. 1). Cambridge, MA: MIT Press. 
+
+SCHATZMAN, M., & BIENENSTOCK, FE. (1984). Neurophysiological models, spin models, and pattern formation (unpublished notes). SeGMan, J., Rupinstein, |, & Zeevi, Y. Y. (1992). The canonical coordinates method for pattern recognition: Theoretical and computational aspects. /EEE Transactions on Pattern Analysis and Machine Intelligence 14, 1171-1183. 
+
+SHEPARD, R. N. (1984). Ecological consiraints on internal representation: Resonant kinematics of perceiving, imagining, thinking, and dreaming. Psychological Review, 91, 417-447. 
+
+SHeparb, R. N., & METZLER, J. (1971). Mental rotation of three-dimensional objects. Science, 171, 701-703. 
+
+REcEIVED: August 3, 1992 
+

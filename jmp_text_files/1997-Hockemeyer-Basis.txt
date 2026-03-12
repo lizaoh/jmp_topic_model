@@ -1,0 +1,169 @@
+10.1006/jmps.1997.1170
+journal of mathematical psychology 41, 275�279 (1997) article no. MP971170 
+
+Using the Basis of a Knowledge Space for Determining the Fringe of a Knowledge State 
+
+Cord Hockemeyer 
+
+Karl-Franzens-Universita�t Graz 
+
+Doignon and Falmagne have developed the concept of the fringe of a knowledge state based upon the neighborhood of knowledge states. This concept is useful for probabilistic assessment of knowledge and for the suggestion of training problems in an intelligent tutoring system. In this paper, a generalized definition of the fringe of knowledge states is introduced. An efficient procedure is presented which computes the fringe of knowledge states using the basis of a knowledge space. In a simulation study, this procedure is compared with the approach described by Doignon and Falmagne. ] 1997 Academic Press 
+
+1. INTRODUCTION 
+
+Doignon and Falmagne (1985; see also Falmagne, Koppen, Villano, Doignon, and Johannesen, 1990) have introduced the theory of knowledge spaces as a mathematical framework for the adaptive assessment of pupils' knowledge. This theory assumes that, for a specified domain of knowledge, a finite set of items is given. These items are, for example, descriptions of skills, classes of similar problems, or examination questions. For each pupil, an individual sequence of items is selected and one at a time presented to the pupil. Whenever a new item is selected, the pupil's performance to the previous items is considered. Hence, the questions are increasingly adapted to the pupil's knowledge state. A pupil's knowledge state is defined as the subset of items which he�she is able to solve correctly (Doignon and Falmagne, 1985). The set of possible knowledge states is called knowledge space. It is restricted by prerequisite relationships between the items. These prerequisite relationships and the resulting knowledge space can be obtained by querying experts (Koppen, 1993; Dowling, 
+
+The work described in this paper was done at the Technische Universita�t Braunschweig, Germany. The author feels indebted to Cornelia Dowling and the members of her research group for their support. This work was supported by a post-graduation grant to the author by the Land Niedersachsen according to the Niedersa�chsisches Graduiertenfo�rderungsgesetz; by a Grant to Cornelia Dowling by the Ministe�re de l 'E�ducation, Luxembourg; and by a Grant of the Alexander-von-Humboldt Stiftung to Cornelia Dowling and Jean-Claude Falmagne. 
+
+Correspondence and reprint requests should be sent to Cord Hockemeyer, Institut fu�r Psychologie, Karl-Franzens-Universita�t Graz, Universita�tsplatz 2�III, A-8010 Graz, Austria. E-mail: Cord.Hockemeyer �kfunigraz.ac.at. 
+
+1993), analysis of pupils' data (Villano, 1991), or systematic problem analysis (Albert and Held 1994; for an overview of these three approaches see Held et al. 1995). 
+
+Falmagne and Doignon (1988; Doignon 1994) have developed a discrete probabilistic assessment algorithm which works in two steps: First a deterministic procedure determines a provisional knowledge state. Afterward, the algorithm searches for a more suitable knowledge state in the neighborhood of the first, provisional knowledge state. The basic idea behind this second step is the assumption that only a few of the pupil's answers do not correspond to his�her knowledge state (e.g., due to careless errors, lucky guesses). Therefore, the provisional knowledge state determined in the first phase of the procedure should be close to the pupil's real knowledge state. In this context, they introduced the concept of the fringe of a knowledge state, i.e., the set of all items which distinguish the knowledge state from its direct neighbors in the knowledge space. 
+
+Choosing lessons or training problems adapted to a pupil's knowledge in an intelligent tutoring system is another application of the fringe of a knowledge state: After assessing a pupil's knowledge state the system can suggest items for training which the pupil has probably just learned or it can suggest items for learning and training which the pupil is learning at the moment or could immediately learn since he�she knows all its prerequisite items (Dowling, Hockemeyer, and Ludwig, 1996). 
+
+In addition to knowledge spaces, Falmagne et al. (1990) have developed a number of different ways to represent the structure of knowledge domains. One of these representations is the basis of a knowledge space which is introduced in Section 2. Empirical data show that knowledge spaces can grow very large (Baumunk and Dowling, in press). Bases, however, are in general much smaller than the knowledge spaces. Therefore, a procedure is suggested which uses the basis of a knowledge space to represent prerequisite relationships. This procedure is generalized to an extended concept of fringes that also involves larger neighborhoods of knowledge states. In Section 3, a simulation study will be presented which compares this new procedure with another one working on the complete knowledge space. 
+
+275 
+
+0022-2496�97 �25.00 
+
+Copyright � 1997 by Academic Press All rights of reproduction in any form reserved. 
+
+276 
+
+CORD HOCKEMEYER 
+
+2. A PROCEDURE FOR COMPUTING THE FRINGE OF A KNOWLEDGE STATE 
+
+As a precondition for the description of procedures, Definition 1 will introduce some concepts from knowledge space theory which have been developed by Doignon and Falmagne (1985) and will be used later in this section. This includes a formal redefinition of concepts already mentioned in Section 1. 
+
+Definition 1. Let Q be a finite set of items. A family K of subsets of Q is called a knowledge space if and only if (i) K contains the empty set < and the complete item set Q, and (ii) for any subsets of items K1 , K2 , # K, their union K1 _ K2 is also member of the family K (closure under union). The sets K # K are called knowledge states. For any q # Q, the family [K # K : q # K] is written as Kq and the family [K # K : q � K] is written as Kq� . The smallest subfamily of a knowledge space from which the complete knowledge space can be reconstructed by closure under union is called the basis of the knowledge space. A knowledge state K # Kq is minimal for an item q # Q if and only if, for any K$ # Kq , the condition K$/ K holds. The basis B of a knowledge space K is the family of all knowledge states which are minimal for at least one item. 
+
+Analogously to the knowledge space K, its basis B can also be partitioned into two subfamilies Bq and Bq� containing those elements of the basis which do or do not, respectively, contain item q. Another useful partition of the basis B of a knowledge space K is given by the knowledge states: Each knowledge state K # K partitions the basis B into its subfamilies B[K] and B[K�] of basis elements which are or are not, respectively, subsets of the state K. 
+
+Example 1 below illustrates the concepts introduced in Definition 1. This example was taken from empirical data (Baumunk, 1995; Dowling et al., 1996). However, only the structure itself is presented here. 
+
+Example 1. Let Q=[a, b, c, d, e] be a set of items and let K=[<, [d ], [e], [b, d ], [d, e], [a, b, d], [b, d, e], [c, d, e], [a, b, d, e], [a, c, d, e], [b, c, d, e], Q] be a knowledge space on Q. Regarding the minimal states in this knowledge space we find that item a has two minimal states [a, b, d ] and [a, c, d, e], while each of the other items (b, c, d, and e) has one minimal state ([b, d ], [c, d, e], [d ], and [e], respectively). Hence, the basis B of the knowledge space K given above is the set B=[[a, b, d ], [a, c, d, e], [b, d], [c, d, e], [d ], [e]]. 
+
+We have defined two different ways of partitioning the basis into two parts: based on an item or based on a knowledge state. The subfamily Ba of the basis, e.g., is the set [[a, b, d, ], [a, c, d, e]] of states. An example for a subfamily induced by a knowledge state is the set B[[b][,][ d][,][ e]] =[[b, d ], [d ], [e]]. 
+
+Based on the general concepts specified above, the following definition gives a formalization of the concepts of neighborhood and fringes (Falmagne and Doignon, 1988): 
+
+Definition 2. Let Q be a finite set of items, let K be a knowledge space on Q, and let 2 denote the symmetric set difference. For any knowledge state K # K and for any natural number =, the set of knowledge states 
+
+N(K, =)=[K$ # K : |K2K$|�=], 
+
+is called the =-neighborhood of K. A knowledge state K$ # N(K, =) is called an =-neighbor of K. For = = 1, we also use the terms neighborhood and neighbor instead of 1-neighborhood and 1-neighbor, respectively. 
+
+The set F(K)=[� N(K, 1)"� N(K, 1)] is called the fringe of K. The fringe F(K) can be divided into two parts: the inner fringe F[i] (K)=K & F(K)=[K "� N(K, 1)] and the outer fringe F[o] (K)=F(K)"K=[� N(K, 1)"K]. 
+
+This definition of the term neighborhood implies that a knowledge state K # K is its own =-neighbor for any =�0. In addition, for any knowledge state K # K, its inner fringe F[i] (K) is a subset of K, and K and its outer fringe F[o] (K) are disjoint subsets of Q. For any item q # F[i] (K), the set K "[q] is a knowledge state. Analogously, for any item q$ # F[o] (K), the set K _ [q$] is also a knowledge state. 
+
+Example 2. Let Q and K be the item set and knowledge space introduced in Example 1, and let us take the knowledge state K=[b, d ] from this knowledge space. The 1-neighborhood N(K, 1) of this knowledge state is the set [[d ], [b, d ], [a, b, d ], [b, d, e]]. Hence we get � N(K, 1)=[a, b, d, e] and � N(K, 1)=[d ], and, thus, F(K)=[a, b, d, e]"[d ]=[a, b, e]. This set can be partitioned into the inner fringe F[i] (K)=[b] and the outer fringe F[o] (K)=[a, e]. 
+
+Since knowledge spaces may grow very large (Baumunk and Dowling, in press), one sometimes needs a lot of computing time and memory to compute the fringe of a knowledge state as described above. For this reason, another, more efficient procedure for computing the inner and the outer fringes of a knowledge state is described in Theorem 1. This new procedure uses only the basis of a knowledge space as its data and, therefore, does not cause such problems with computing time and memory. 
+
+Theorem 1. Let Q be a finite set of items, K a knowledge space on Q, and B the basis of K. 
+
+(i) For any q # K, we get q # F[i] (K) if and only if � (B[K] "Bq)=K"[q]. 
+
+(ii) For any q � K, we get q # F[o] (K) if and only if there exists a basis element B # Bq for which the condition B"K=[q] holds. 
+
+277 
+
+DETERMINING THE FRINGE OF A KNOWLEDGE STATE 
+
+Proof. (i) Let K be a knowledge state in K, and let q be an item in K. Item q is an element of the inner fringe F[i] (K) if and only if there exists a knowledge state K$=K"[q]. Regarding the subsets B[K] , B[K][$] , and Bq of the basis B, we get B[K][$] /B[K] , B[K][$] & Bq=<, B[K] "B[K][$] /Bq , and, hence, B[K][$] =B[K] "Bq . 
+
+(ii) Let K be a knowledge state in K, and let q be an item which is not contained in K. Item q is an element of the outer fringe F[o] (K) if and only if there exists a knowledge state K$=(K _ [q]) # K. Similar to part (i), we get B[K] /B[K][$] and B[K][$] "B[K] /Bq . Let B be a basis element with B # (B[K][$] "B[K] ). From q # B, q � K, and B�(K _ [q]), we obtain B"K=[q]. K 
+
+Falmagne and Doignon (1988) have introduced the fringe via the 1-neighborhood of knowledge states. They have, however, defined the neighborhood of knowledge states as the more general =-neighborhood. Based on the =-neighborhood, a generalized concept of the fringe of a knowledge state is introduced in Definition 3 below. 
+
+Definition 3. Let Q be a finite set of items and let K be a knowledge space on Q. For any knowledge state K # K and for any natural number = the subset of items F(K, =)=[� N(K, =)"� N(K, =)] denotes the =-fringe of the knowledge state K. The set F[i] (K, =)=K & F(K, =) is called the inner =-fringe of K, the set F[o] (K, =)=F(K, =)"K is called the outer =-fringe of K. 
+
+For this generalized =-fringe we get similar properties as for the (1-) fringe from Definition 2: For any knowledge state K # K and for any natural number =, the inner fringe F[i] (K, =) is a subset of K, and the outer fringe F[o] (K, =) and K are disjoint subsets of Q. For each q # F[o] (K), there exists a knowledge state K$ # K such that q # K$ and |K2K$|�=. Similarly, for each q # F[i] (K, =), there exists a knowledge state K$ # K such that q � K$ and K 2K$�=. 
+
+Example 3. Let Q and K be the item set and the knowledge space presented in Example 1. The 2-neighborhood of the knowledge state K = [b, d ] is the set of knowledge state N(k, 2)=[<, [d], [b, d ], [d, e], [a, b, d], [b, d, e], [a, b, d, e], [b, c, d, e]]. Hence, we get as 2-fringe of K the set of items F(K, 2)=[a, b, c, d, e]=Q. This fringe of K can again be partitioned into two subsets, the inner 2-fringe F[i] (K, 2) = [b, d ] and the outer 2-fringe F[o] (K, 2)=[a, c, e]. 
+
+Theorem 2 describes, similar to Theorem 1, a procedure for computing the =-fringe of a knowledge state using the basis instead of the knowledge space. However, while 1-neighbors of a knowledge state K are always subsets of supersets of K, this does not necessarily hold for =-neighbors with =>1. This fact implies an indirect procedure for the computation of the inner =-fringe of knowledge states for =>1. 
+
+Theorem 2. Let Q be a finite set of items, K a knowledge space on Q, and B the basis of K. 
+
+(i) For any q # K, we get q # F[i] (K, =) if and only if there exists two sets B1 �(B[K] & Bq�) and B2 �(B[K�] & Bq�)) of basis elements such that |[� (B1 _ B2]2K|�=. 
+
+(ii) For any q � K, we get q # F[o] (K, =) if and only if there exists a basis element B # Bq for which the condition |B"K|�= holds. 
+
+Proof. (i) Let K be a knowledge state in K, and let q be an item in K. Item q is an element of the inner fringe F[i] (K, =) if there exists a knowledge state K$ such that q � K$ and |K2K$|�=. We can now partition the subset B[K][$] of the basis into two subsets B1=B[K][$] & B[K] and B2=B[K][$] & B[K�] . Since q � K$, we get B[K][$] /Bq� . On the other side, if there exist two subsets B1 and B2 as described in the theorem, we get a knowledge state K$=�(B1 _ B2) with q � K$ and K$ # N(K, =). 
+
+(ii) Let K be a knowledge state in K, and let q be an item which is not contained in K. Item q is an element of the outer fringe F[o] (K, =) if and only if there exists a knowledge state K$ # K such that q # K$ and |K2K$|�=. Select a knowledge state K$ fulfilling this condition such that, for any K" # Kq , we obtain K"/ K$, or K / K". This means that a B # Bq exists such that K$=K _ B. With this basis element, we get |B"K|=|(B _ K)"K|=|K$"K|� |K$2K|�=. K 
+
+Example 4. Let Q, K, and B be the set of items, the knowledge space, and the basis introduced in Example 1. Determining the 2-fringe of the knowledge state K=[b, d ] is illustrated for two of the items: For d # K, we obtain, using B1=B2=<, that d # F[i] (K, 2). For the item a � K, on the other side, there exists the basis element B=[a, b, d ] # Ba with |B"K|�2 and, therefore, we get as a result that a # F[o] (K, 2). 
+
+For ==1, the procedure as described in Theorem 1 can be implemented in a straightforward manner. For =>1, a recursive algorithm is suggested. In a first, nonrecursive step, this algorithm determines all those items from the fringe which lead to a subset or superset of the knowledge state considered. At this point, some items from the inner fringe which lead only to neighboring states that are neither superset (upper =-neighbor) nor subset (lower =-neighbor) are still missing. In order to determine these items, in a second, recursive step, also the fringe of the upper neighbors is determined using an =-value decreased by the distance between the knowledge state under consideration and the actual upper neighbor. This algorithm has a complexity of |B|[=] } |Q|[2] . The recursive part of the algorithm primarily consists of a loop over the basis elements. Since the maximal depth of recursion is =, this leads to a factor of |B|[=] . One factor of |Q| is due to a loop over the items q # Q, the other 
+
+278 
+
+CORD HOCKEMEYER 
+
+is due to the complexity of the set operations which themselves depend on the size of Q. Please note that, for ==1 this results in a linear dependence between the computing time and |B|. 
+
+Regarding the space-based procedure, we find a complexity of |K| } |Q|: We search once throughout the complete knowledge space and get an additional factor of |Q| for the set operations. 
+
+3. A SIMULATION STUDY 
+
+In Section 2, we developed a procedure for determining the fringe of a knowledge state using only the basis of the knowledge space. Our main motive was the acceleration of this computation. In this section, we will present results of a simulation study in which this new basis-based procedure was compared with the straightforward space-based one. 
+
+In the simulation study, 10 knowledge spaces from the field of fractions were used. All these knowledge spaces are based on a set of 77 items from the field of fractions investigated by Baumunk (1995). The spaces had between 402 and 1,310,950 knowledge states. The hypotheses on the influence of the number of items have not been tested in this study because the critical point lies within the exponential term |B|[=] . The different knowledge spaces were obtained by querying different experts and, partially, by combining several experts' knowledge spaces. From each knowledge space, 1,000 knowledge states were randomly selected. For these knowledge states, we computed the =-fringes for ==1, 2, 3, 5. For each knowledge space, and for each =-value, we took the average time needed by the two algorithms for computing the =-fringe of a knowledge state. Computing times were determined on a personal computer with an 80486 processor running the Linux operating system. Figure 1 shows the computing time needed by the two procedures for determining the 1-fringe of knowledge states in knowledge spaces of different sizes. As expected, there is a linear dependence between the computing time and the size of the knowledge space for the space-based procedure. Especially for larger knowledge spaces, the basis-based procedure needs far less computing time, and there is no dependency between the computing time and the size of the knowledge space for this procedure. Correlation coefficients between the observed computation times and the estimated values based upon the complexity analysis were determined. For ==1 we had predicted linear dependency between computing time and space size or basis size, respectively. For the space-based procedure, we obtained a correlation coefficient \=1.000 between computing time and space size; for the basis-based procedure we got a coefficient of \=0.9999 between computation time and basis size. 
+
+For the more general case of =�1, we obtained a correlation coefficient of \=0.9999 between computation time and space size for the space-based procedure and a value of 
+
+==> picture [181 x 223] <==
+
+FIG. 1. Computing time required to determine the fringe of knowledge states in different knowledge spaces. \=0.8917 between computation time and the value of |B|[=] for the basis-based procedure. These values show that the actual computing times are quite close to their theoretical order. 
+
+While, for ==1, only for very small knowledge spaces the basis-based algorithm is slower than the space-based algorithm, we obtain different results for larger values of =. With a space of 8,753 knowledge states the algorithms show almost equal computation times for ==2. For a larger knowledge space of 747,283 states, however, the basis-based procedure was still faster using a value of 5 for =. 
+
+4. CONCLUSIONS 
+
+The concept of fringes developed by Doignon and Falmagne is a powerful means for the probabilistic assessment of knowledge and, moreover, for the adapted selection of training problems and teaching lessons. The large sizes of knowledge spaces which may appear in empirical applications suggest using the basis instead of the complete knowledge space. As Baumunk and Dowling (in press) stated, the size of knowledge spaces makes it sometimes practically impossible to compute and to handle the knowledge spaces. 
+
+The simulation studies presented in Section 3 have shown that, at least for large knowledge spaces and small =-values, using the basis reduces the computing time. For smaller knowledge spaces and�or large =-values, this saving shrinks. For large =-values and for small knowledge spaces with large bases, the new procedure can even need more time. 
+
+These results suggest that basis-based procedures for the applications of knowledge space theory should continue to 
+
+279 
+
+DETERMINING THE FRINGE OF A KNOWLEDGE STATE 
+
+be developed. This would offer a choice between spacebased and basis-based procedures depending on the structure of the domain of knowledge under consideration. 
+
+REFERENCES 
+
+Albert, D., 6 Held, T. (1994). Establishing knowledge spaces by systematical problem construction. In D. Albert (Ed.), Knowledge structures (pp. 78�112). New York: Springer-Verlag.
+
+Baumunk, K. (1995). Die empirische Erhebung einer Struktur von Schulwissen im Fach Mathematik. Diplomarbeit, Technische Universita�t Carolo-Wilhelmina, Braunschweig, Germany.
+
+Baumunk, K., 6 Dowling, C. E. (in press). On the validity of spaces for assessing knowledge on fractions.
+
+Doignon, J.-P. (1994). Probabilistic assessment of knowledge. In D. Albert (Ed.), Knowledge structures (pp. 1�56). New York: Springer-Verlag.
+
+Doignon, J.-P., 6 Falmagne, J.-C. (1985). Spaces for the assessment of knowledge. International Journal of Man-Machine Studies, 23, 175�196.
+
+Dowling, C. E. (1993). Applying the basis of a knowledge space for controlling the questioning of an expert. Journal of Mathematical Psychology, 37, 21�48.
+
+Dowling, C. E., Hockemeyer, C., 6 Ludwig, A. H. (1996). Adaptive assessment and training using the neighborhood of knowledge states. In C. Frasson, G. Gauthier, 6 A. Lesgold (Eds.), Intelligent tutoring systems (pp. 578�586). Lecture Notes in Computer Science (Vol. 1086). Berlin: Springer-Verlag.
+
+Falmagne, J.-C., 6 Doignon, J.-P. (1988). A Markovian procedure for assessing the state of a system. Journal of Mathematical Psychology, 32, 232�258.
+
+Falmagne, J.-C., Koppen, M., Villano, M., Doignon, J.-P., 6 Johannesen, L. (1990). Introduction to knowledge spaces: How to build, test and search them. Psychological Review, 97, 201�224.
+
+Held, T., Schrepp, M., 6 Fries, S. (1995). Methoden zur Bestimmung von Wissensstrukturen��Eine Vergleischsstudie. Zeitschrift fu�r Experimentelle Psychologie, XLIII (2), 205�236.
+
+Koppen, M. (1993). Extracting human expertise for constructing knowledge spaces: an algorithm. Journal of Mathematical Psychology, 37, 1�20.
+
+Villano, M. (1991). Computerized knowledge assessment: Building the knowledge structure and calibrating the assessment routine. Unpublished doctoral dissertation, New York University, New York.
+
+Received: March 21, 1997 
+

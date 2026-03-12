@@ -1,0 +1,3046 @@
+10.1016/j.jmp.2005.02.003
+Two popular dependent measures in psychological research are response accuracy (i.e., proportion of items responded to correctly) and response time (RT; i.e., time from stimulus onset until response execution). For response accuracy of a random variable  X , the binomial model with success parameter  p  and number of observations  n  allows for a simple and formal description of the mean,  
+                         
+                            E 
+                            ( 
+                            X 
+                            ) 
+                            = 
+                            np 
+                         
+                      , and its variance,  
+                         
+                            
+                               var 
+                            
+                            ( 
+                            X 
+                            ) 
+                            = 
+                            np 
+                            ( 
+                            1 
+                            - 
+                            p 
+                            ) 
+                         
+                      . It follows that the binomial variance decreases as  p  (and hence  
+                         
+                            E 
+                            ( 
+                            X 
+                            ) 
+                         
+                      ) becomes more extreme, that is, as  p  gets closer to either zero or one. The fact that the binomial variance depends on the binomial mean is a violation of the “homogeneity of variance” assumption of a traditional analysis of variance (ANOVA), and this has inspired the development of variance-stabilizing transformations such as the arcsine transform (i.e.,  
+                         
+                            
+                               
+                                  
+                                     p 
+                                  
+                                  ˜ 
+                               
+                            
+                            = 
+                            arcsin 
+                            ( 
+                            
+                               p 
+                            
+                            ) 
+                         
+                      ,  Snedecor & Cochran, 1989, p. 289 ) and motivated application of alternative statistical procedures such as logistic regression (e.g.,  Pampel, 2000 ).
+
+For RT, it has often been observed that here too the variance fluctuates with the mean. Specifically, an increase in RT mean is almost always accompanied by an increase in RT variance. The precise nature of the relationship between RT mean and RT variance is of interest for several reasons. First, knowledge of this relation may guide the search for an appropriate variance stabilizing transformation (cf.  Levine & Dunlap, 1983, p. 597 ;  Snedecor & Cochran, 1989, pp. 286–287 ). For instance, when the variance is proportional to the mean, such as for Poisson distributed data, the square root transformation is appropriate, whereas the logarithmic transformation is advisable when the standard deviation is proportional to the mean. A variance stabilizing transformation often also diminishes skew, further reducing the number of ANOVA violations exhibited by RT data (cf.  Emerson & Stoto, 2000 ;  Keselman, Othman, Wilcox, & Fradette, 2004 ).
+
+Second, several statistical techniques assume a specific relation between mean and variance. For instance, in the aging literature it has recently been proposed that effects of aging primarily express themselves in RT variability rather than in RT mean (e.g.,  Hultsch, MacDonald, & Dixon, 2002 ;  Li, 2002 ;  MacDonald, Hultsch, & Dixon, 2003 ;  Shammi, Bosman, & Stuss, 1998 ). In order to study differences in RT variability while controlling for possible differences in RT means, researchers sometimes use a linear regression technique whose aim is to partial out effects of differences in RT mean on the observed differences in RT standard deviation. Alternatively, the coefficient of variation (i.e.,  
+                         
+                            
+                               
+                                  
+                                     var 
+                                  
+                                  ( 
+                                  X 
+                                  ) 
+                               
+                            
+                            / 
+                            E 
+                            ( 
+                            X 
+                            ) 
+                         
+                      ) is sometimes used to control for baseline differences in processing speed (e.g.,  Segalowitz & Segalowitz, 1993 ). Both methods tacitly assume a linear relationship between RT mean and RT standard deviation, and their efficiency will depend on the extent to which this assumption is correct.
+
+Third, the claim is sometimes made that RT distributions are log-normally distributed (e.g.,  Van Orden, Pennington, & Stone, 2001, p. 147 ); this is an important claim in the context of nonlinear dynamical systems theory, as the log-normal distribution can closely mimic a self-similar power law (cf.  Peterson & Leckman, 1998, p. 1346 ;  Sornette, 2000, pp. 80–82 ). When RTs are log-normally distributed, the standard deviation is proportional to the mean. Log-normally distributed data may require a different method of analysis than do normally distributed data (e.g.,  Zhou, Gao, & Hui, 1997 ).
+
+Finally, we believe the relation between RT mean and RT variance is important because of general theoretical considerations. The field of mathematical psychology has invested considerable effort in the study of RT distributions (cf.  Van Zandt, 2000, 2002 ), and the relation between RT mean and RT variance is a fundamental property of a family of RT distributions.
+
+In order to study the precise relationship between RT mean and RT variance, we ideally need a mathematical model that is generally acknowledged to provide a close fit to a wide range of empirical RT distributions, much like the binomial model is an accepted statistical model for response accuracy. Such a mathematical model allows any conclusions to be very general and unaffected by measurement noise. The model that is the focus of our work here is the continuous random walk or diffusion model (e.g.,  Diederich & Busemeyer, 2003 ;  Ratcliff, 1978, 2002 ;  Smith, 2000 ).
+
+Our choice for the diffusion model as an RT counterpart to the binomial model for accuracy was motivated by mathematical tractability, by the fact that the diffusion model often performs better than competitor sequential sampling models (cf.  Ratcliff & Smith, 2004 ), and—most important—by the fact that the diffusion model has been successfully applied to a wide range of two-choice tasks. The different paradigms to which the diffusion model has been applied include short- and long-term recognition memory tasks, same/different letter-string matching, numerosity judgments, visual-scanning tasks, brightness discrimination, letter discrimination, and lexical decision (e.g.,  Ratcliff, 1978, 1981, 2002 ;  Ratcliff & Rouder, 1998, 2000 ;  Ratcliff, Van Zandt, & McKoon, 1999 ;  Ratcliff, Gomez, & McKoon, 2004 ). In all these applications, the diffusion model provided a close fit to the observed RT distributions. In addition, the above applications provide a range of plausible parameter values (i.e., the so-called practical distribution,  Raftery & Zheng, 2003 ) that can be used in the formal study of the RT mean–variance relationship.
+
+The outline of this article is as follows. The next section briefly describes the diffusion model used here. We then derive closed-form analytical expressions for the mean and variance of the diffusion model RT distribution. Next, these expressions are used to illustrate the mean–variance relation for plausible ranges of diffusion model parameter values.
+
+The diffusion model is a continuous-time random walk sequential sampling model (for similar models see  Brown & Heathcote, 2005 ;  Link, 1992 ;  Link & Heath, 1975 ;  Laming, 1968 ). The theoretical properties of the diffusion model are well known (e.g.,  Luce, 1986 ;  Ratcliff, 2002 ;  Ratcliff & Smith, 2004 ;  Townsend & Ashby, 1983 ; for a mathematical treatment see for instance  Gardiner, 2004 ;  Honerkamp, 1994)  and a range of different methods for fitting the model to data is available ( Diederich & Busemeyer, 2003 ;  Ratcliff & Tuerlinckx, 2002 ;  Smith, 2000 ).
+
+In a diffusion model, illustrated in  Fig. 1 
+                      , noisy accumulation of information drives a decision process that terminates when the accumulated evidence in favor of one or the other response alternative exceeds threshold (i.e., a relative rather than absolute response criterion). The diffusion model has several key parameters: (1) drift rate  v ,  
+                         
+                            - 
+                            ∞ 
+                            < 
+                            v 
+                            < 
+                            ∞ 
+                         
+                      , which quantifies the deterministic component of the continuous-time random walk process. For high absolute values of  v  (e.g., high-frequency words in a lexical decision task,  Ratcliff et al., 2004 ), processing will terminate relatively quickly at one of the absorbing response boundaries; 
+                         1 
+                      
+                      
+                         1 
+                         In most of Ratcliff's work on the diffusion model,  
+                               
+                                  ξ 
+                               
+                             is the drift rate of an individual trial, whereas  v  is the mean drift rate associated with an across-trial distribution of drift rates. In this article, we ignore across-trial variability in drift rate, which implies that  
+                               
+                                  v 
+                                  = 
+                                  ξ 
+                               
+                            . 
+                       in applications of the diffusion model to real data,  v  usually ranges from 0.1 to 0.5; (2)  
+                         
+                            
+                               
+                                  s 
+                               
+                               
+                                  2 
+                               
+                            
+                         
+                      , the variance of the diffusion function, which quantifies the random component of the continuous-time random walk process. This parameter is usually treated as a scaling parameter and set to a default value of 0.01; 
+                         2 
+                      
+                      
+                         2 
+                         Several equations simplify when  
+                               
+                                  
+                                     
+                                        s 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                                  = 
+                                  1 
+                               
+                             is used. We chose to use  
+                               
+                                  
+                                     
+                                        s 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                                  = 
+                                  0.01 
+                               
+                             for historical reasons. Moreover, changing  s 
+                            2  would also change the ranges of plausible parameter values obtained from earlier applications of the model that all use  
+                               
+                                  
+                                     
+                                        s 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                                  = 
+                                  0.01 
+                               
+                            . 
+                       (3) boundary separation  a  and starting point  
+                         
+                            z 
+                            = 
+                            
+                               
+                                  1 
+                               
+                               
+                                  2 
+                               
+                            
+                            a 
+                         
+                      . In many applications of the diffusion model, the decision process is not very biased against one or the other response alternatives—consequently, the starting point is about equidistant from the response boundaries. As an added bonus, with the starting point in the middle there is no need to complicate the presentation of the results by conditioning on the specific boundary that was reached first: when  
+                         
+                            z 
+                            = 
+                            
+                               
+                                  
+                                     1 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                            
+                            
+                            a 
+                         
+                      , the RT distributions that terminate at the top and bottom boundaries are identical, irrespective of drift rate  v  (e.g.,  Laming, 1973, p. 192 , footnote 7;  Link & Heath, 1975 ;  Smith & Vickers, 1988 ;  Tuerlinckx, Maris, Ratcliff, & De Boeck, 2001 ). 
+                         3 
+                      
+                      
+                         3 
+                         This identity no longer holds when across-trial variability in drift rate or starting point is included in the model ( Ratcliff & Rouder, 1998 ). For the purpose of this paper (i.e., to study the relation between RT mean and RT variance in the diffusion model) these possible sources of variability have been ignored (see also below). Note that  Link and Heath (1975)  provide equations for mean RT in the more general case of  
+                               
+                                  z 
+                                  ≠ 
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                                  a 
+                               
+                            . 
+                       Large values of  a  indicate the presence of a conservative response criterion: the system requires relatively much discriminative information before deciding on one or the other response alternative. A conservative response criterion results in long RTs, but also in highly accurate performance, since with large  a  it is unlikely that the incorrect boundary will be reached by chance fluctuations. Therefore, manipulation of boundary separation  a  provides a natural mechanism to model the speed-accuracy tradeoff (e.g.,  Wickelgren, 1977 ). In practical applications,  a  generally ranges from 0.07 to 0.17.
+
+Before proceeding, we would like to point out that the diffusion model outlined above is a simplified version of the model that is used to fit empirical data. When the diffusion model is fitted to empirical data, several additional free parameters come into play, such as across-trial variability in drift rate and starting point, and an additive amount of time allotted to the non-decisional component of processing (which may also vary from trial-to-trial). As the aim of this paper is not to fit empirical data, but rather to determine the general mean–variance relationship of a diffusion process, we prefer the model in its simplest form.
+
+In addition, it should be noted that many of the additional free parameters that enter the diffusion model when it is fitted to data either do not affect the mean–variance relationship (i.e., the mean of the non-decisional processing time which simply adds to the decisional processing time), or make it more difficult to detect the underlying relationship because these free parameters add noise (i.e., across-trial variability in drift rate and starting point), somewhat comparable to overdispersion for a binomial model. As we will demonstrate below, the version of the diffusion model described here allows a closed-form mathematical solution for RT mean and RT variance, and this greatly enhances mathematical tractability and conceptual clarity.
+
+In sum, the diffusion model is a popular sequential sampling model. Two important parameters of the model are drift rate  v  and boundary separation  a .  Fig. 2 
+                       illustrates how these parameters affect both RT mean and RT variance. Specifically, decreasing drift rate will lead to an increase in RT mean and an increase in RT variance; increasing boundary separation will also lead to an increase in RT mean and an increase in RT variance. Before studying the precise nature of the mean–variance relationship we will first discuss three procedures to obtain the mean and variance of the diffusion process outlined above.
+
+Several methods are available to determine the mean and variance of a diffusion model RT distribution, and three of these are described in detail below. The method of brute force simulation requires a substantial amount of iterations to converge. The method based on integrating the probability density function (pdf) will yield results that convergence in a much shorter amount of computer time. Nevertheless, integration of the diffusion pdf involves an infinite sum inside an infinite integral, which is still computationally demanding and does not provide much conceptual insight. Also, when the decision to stop the evaluation of the infinite integral and the infinite sum is premature, the solution will of course be incorrect. The third method is to analytically derive closed-form solutions for the mean and variance of a diffusion model RT distribution, based on the backward Fokker–Planck equation. This derivation produces two relatively simple formulas. The reader may easily compare the properties of the various methods by using a free-ware software program written in the statistical computation environment  R , available at the first author's internet site. 
+                         4 
+                      
+                      
+                         4 
+                         The open source statistical computation environment R ( R Development Core Team, 2004 ) is available free of charge from  http://cran.r-project.org/ . The software program that performs the calculations is available at  http://www.psych.nwu.edu/~ej/diffvar.R , and the accompanying help file is available at  http://www.psych.nwu.edu/~ej/help.txt 
+                         
+                       The reader who is mainly interested in the results may safely skip to the next section.
+
+The method of brute force simulation (for details see  Feller, 1968 , Chap. 14;  Ratcliff & Tuerlinckx, 2002, pp. 441–442 ; for a review of four different brute force methods see  Tuerlinckx et al., 2001 ) is usually employed whenever it is necessary to obtain quantities from the diffusion model that are not available from more efficient analytical procedures or whenever diffusion model data are needed to check the adequacy of specific model fitting procedures. The brute force procedure is based on the approximation of the continuous-time random walk process by a discrete-time, small-step process. Let the step size in time be given by  h , and let the step size in space be given by  
+                            
+                               δ 
+                               = 
+                               s 
+                               
+                                  h 
+                               
+                            
+                         . It can be shown that if the probability of taking a step of size  
+                            
+                               δ 
+                            
+                          down is given by  
+                            
+                               P 
+                               ( 
+                               down 
+                               ) 
+                               = 
+                               
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                               
+                               [ 
+                               1 
+                               - 
+                               ( 
+                               v 
+                               
+                                  h 
+                               
+                               / 
+                               s 
+                               ) 
+                               ] 
+                            
+                         , the diffusion process can be simulated by using a random number generator and taking a small step down when the randomly drawn variable  
+                            
+                               X 
+                               ∼ 
+                               Uniform 
+                               ( 
+                               0 
+                               , 
+                               1 
+                               ) 
+                            
+                          is smaller than  
+                            
+                               P 
+                               ( 
+                               down 
+                               ) 
+                            
+                         , and taking a step up otherwise. 
+                            5 
+                         
+                         
+                            5 
+                            
+                               Ratcliff and Tuerlinckx (2002, p. 442)  give the probability of a step down as  
+                                  
+                                     P 
+                                     ( 
+                                     down 
+                                     ) 
+                                     = 
+                                     
+                                        
+                                           
+                                              1 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                     
+                                     [ 
+                                     1 
+                                     - 
+                                     ( 
+                                     v 
+                                     
+                                        
+                                           h 
+                                           / 
+                                           s 
+                                        
+                                     
+                                     ) 
+                                     ] 
+                                  
+                               —a typographical error. 
+                          After the process has reached a boundary, the RT for a single trial is calculated as  nh , where  n  is the number of steps taken. Obviously, this is a time consuming process. Moreover, we found that even 10,000 trials are not always sufficient to get a stable estimate for the variance.
+
+One of the standard methods to obtain the mean and the variance for a given model is by integrating over the pdf and calculating expected values. The pdf of first-passage times for a diffusion process in which the starting point in equidistant from the response boundaries is given by (e.g.,  Feller, 1968 ;  Ratcliff & Smith, 2004 ) 
+                            
+                               (1) 
+                               
+                                  
+                                     g 
+                                     ( 
+                                     t 
+                                     ) 
+                                     = 
+                                     
+                                        
+                                           π 
+                                           
+                                              
+                                                 s 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                        
+                                        
+                                           
+                                              
+                                                 a 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                        
+                                     
+                                     
+                                     exp 
+                                     
+                                        ( 
+                                        
+                                           
+                                              
+                                                 va 
+                                              
+                                              
+                                                 2 
+                                                 
+                                                    
+                                                       s 
+                                                    
+                                                    
+                                                       2 
+                                                    
+                                                 
+                                              
+                                           
+                                           - 
+                                           
+                                              
+                                                 
+                                                    
+                                                       v 
+                                                    
+                                                    
+                                                       2 
+                                                    
+                                                 
+                                                 t 
+                                              
+                                              
+                                                 2 
+                                                 
+                                                    
+                                                       s 
+                                                    
+                                                    
+                                                       2 
+                                                    
+                                                 
+                                              
+                                           
+                                        
+                                        ) 
+                                     
+                                     
+                                        
+                                           ∑ 
+                                        
+                                        
+                                           k 
+                                           = 
+                                           1 
+                                        
+                                        
+                                           ∞ 
+                                        
+                                     
+                                     
+                                        
+                                           [ 
+                                           
+                                              k 
+                                              
+                                              exp 
+                                              
+                                                 ( 
+                                                 
+                                                    
+                                                       
+                                                          - 
+                                                          
+                                                             
+                                                                k 
+                                                             
+                                                             
+                                                                2 
+                                                             
+                                                          
+                                                          
+                                                             
+                                                                π 
+                                                             
+                                                             
+                                                                2 
+                                                             
+                                                          
+                                                          
+                                                             
+                                                                s 
+                                                             
+                                                             
+                                                                2 
+                                                             
+                                                          
+                                                          t 
+                                                       
+                                                       
+                                                          2 
+                                                          
+                                                             
+                                                                a 
+                                                             
+                                                             
+                                                                2 
+                                                             
+                                                          
+                                                       
+                                                    
+                                                 
+                                                 ) 
+                                              
+                                              sin 
+                                              
+                                                 ( 
+                                                 
+                                                    
+                                                       
+                                                          
+                                                             1 
+                                                          
+                                                          
+                                                             2 
+                                                          
+                                                       
+                                                    
+                                                    k 
+                                                    π 
+                                                 
+                                                 ) 
+                                              
+                                           
+                                           ] 
+                                        
+                                     
+                                     , 
+                                  
+                               
+                            
+                         which can be further simplified to ( Tuerlinckx et al., 2001 ): 
+                            
+                               (2) 
+                               
+                                  
+                                     g 
+                                     ( 
+                                     t 
+                                     ) 
+                                     = 
+                                     
+                                        
+                                           π 
+                                           
+                                              
+                                                 s 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                        
+                                        
+                                           
+                                              
+                                                 a 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                        
+                                     
+                                     
+                                     exp 
+                                     
+                                        ( 
+                                        
+                                           
+                                              
+                                                 va 
+                                              
+                                              
+                                                 2 
+                                                 
+                                                    
+                                                       s 
+                                                    
+                                                    
+                                                       2 
+                                                    
+                                                 
+                                              
+                                           
+                                           - 
+                                           
+                                              
+                                                 
+                                                    
+                                                       v 
+                                                    
+                                                    
+                                                       2 
+                                                    
+                                                 
+                                                 t 
+                                              
+                                              
+                                                 2 
+                                                 
+                                                    
+                                                       s 
+                                                    
+                                                    
+                                                       2 
+                                                    
+                                                 
+                                              
+                                           
+                                        
+                                        ) 
+                                     
+                                     
+                                        
+                                           ∑ 
+                                        
+                                        
+                                           n 
+                                           = 
+                                           0 
+                                        
+                                        
+                                           ∞ 
+                                        
+                                     
+                                     
+                                        
+                                           [ 
+                                           
+                                              ( 
+                                              2 
+                                              n 
+                                              + 
+                                              1 
+                                              ) 
+                                              ( 
+                                              - 
+                                              1 
+                                              
+                                                 
+                                                    ) 
+                                                 
+                                                 
+                                                    n 
+                                                 
+                                              
+                                              exp 
+                                              
+                                                 ( 
+                                                 
+                                                    
+                                                       
+                                                          - 
+                                                          ( 
+                                                          2 
+                                                          n 
+                                                          + 
+                                                          1 
+                                                          
+                                                             
+                                                                ) 
+                                                             
+                                                             
+                                                                2 
+                                                             
+                                                          
+                                                          
+                                                             
+                                                                π 
+                                                             
+                                                             
+                                                                2 
+                                                             
+                                                          
+                                                          
+                                                             
+                                                                s 
+                                                             
+                                                             
+                                                                2 
+                                                             
+                                                          
+                                                          t 
+                                                       
+                                                       
+                                                          2 
+                                                          
+                                                             
+                                                                a 
+                                                             
+                                                             
+                                                                2 
+                                                             
+                                                          
+                                                       
+                                                    
+                                                 
+                                                 ) 
+                                              
+                                           
+                                           ] 
+                                        
+                                        . 
+                                     
+                                  
+                               
+                            
+                         The mean,  E ( T ), can then be calculated as  
+                            
+                               E 
+                               ( 
+                               T 
+                               ) 
+                               = 
+                               
+                                  ∫ 
+                                  
+                                     t 
+                                     = 
+                                     0 
+                                  
+                                  
+                                     ∞ 
+                                  
+                               
+                               
+                                  t 
+                                  × 
+                                  g 
+                                  ( 
+                                  t 
+                                  ) 
+                                  
+                                  dt 
+                               
+                            
+                         , and the variance, var( T ), can be calculated as 
+                            
+                               (3) 
+                               
+                                  
+                                     
+                                        var 
+                                     
+                                     ( 
+                                     T 
+                                     ) 
+                                     = 
+                                     E 
+                                     ( 
+                                     [ 
+                                     T 
+                                     - 
+                                     E 
+                                     ( 
+                                     T 
+                                     ) 
+                                     
+                                        
+                                           ] 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     ) 
+                                     = 
+                                     E 
+                                     ( 
+                                     
+                                        
+                                           T 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     ) 
+                                     - 
+                                     [ 
+                                     E 
+                                     ( 
+                                     T 
+                                     ) 
+                                     
+                                        
+                                           ] 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     = 
+                                     
+                                        ∫ 
+                                        
+                                           t 
+                                           = 
+                                           0 
+                                        
+                                        
+                                           ∞ 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                        × 
+                                        g 
+                                        ( 
+                                        t 
+                                     
+                                     ) 
+                                     
+                                     dt 
+                                     - 
+                                     
+                                        
+                                           
+                                              [ 
+                                              
+                                                 
+                                                    ∫ 
+                                                    
+                                                       t 
+                                                       = 
+                                                       0 
+                                                    
+                                                    
+                                                       ∞ 
+                                                    
+                                                 
+                                                 
+                                                    t 
+                                                    × 
+                                                    g 
+                                                    ( 
+                                                    t 
+                                                 
+                                                 ) 
+                                                 
+                                                 dt 
+                                              
+                                              ] 
+                                           
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     , 
+                                  
+                               
+                            
+                         where  E  denotes statistical expectation. The application of this procedure presents two challenges. First, the pdf contains an infinite sum over  k .  Ratcliff and Tuerlinckx (2002, p. 478)  recommend to truncate this sum at the point where the series contains two consecutive values that are both less than some tolerance value, say  
+                            
+                               1 
+                               
+                                  
+                                     0 
+                                  
+                                  
+                                     
+                                        - 
+                                        29 
+                                     
+                                  
+                               
+                            
+                          times the current sum of the series. Second, the integral over  t  also needs to be truncated at some point. One possibility is to again terminate the integral (or the sum, since we approximate the integral by discrete small steps) at the point where the values add less than some tolerance value. Other solutions to this problem exist (i.e., explicitly solving the integral over  t  or transforming the interval of integration) but these will not be explored here.
+
+The most satisfying solution is to derive closed form expressions for RT mean and RT variance. 
+                            6 
+                         
+                         
+                            6 
+                            A Maple spreadsheet that shows the derivation is available at  http://www.psych.nwu.edu/~ej/meanvarderivation.mws 
+                            
+                          In mathematical terms, our aim is to derive the moments of the first passage time distribution for a homogeneous (i.e., drift rate and diffusion variance are independent) diffusion process with two absorbing boundaries. These moments may be obtained using the adjoint or “backward” Fokker–Planck equation, and the general method of solution is described for instance in  Gardiner (2004, pp. 136–138)  and  Honerkamp (1994, pp. 279–285) ; see also ( Karlin & Taylor, 1981, p. 197) . For the Ornstein–Uhlenbeck process,  Busemeyer and Townsend (1992, p. 271)  present equations for the raw moments that are derived on the same basis.
+
+To briefly reiterate the notation, let the drift rate be  v , the diffusion variance be  
+                            
+                               
+                                  
+                                     s 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                            
+                         , let the bottom boundary be located at 0 and the top boundary be located at  a , and let the starting point be  z ,  
+                            
+                               z 
+                               ∈ 
+                               [ 
+                               0 
+                               , 
+                               a 
+                               ] 
+                            
+                         . Let  
+                            
+                               p 
+                               ( 
+                               x 
+                               , 
+                               t 
+                               | 
+                               z 
+                               , 
+                               0 
+                               ) 
+                            
+                          denote the time-dependent pdf of the continuous random walk occupying position  x  at time  t , given that the process started at  z . The walk ends as soon as it hits one of the absorbing boundaries. Thus, the probability that the position  x  of the walker is in the interval [0,  a ] after absorption is zero. Consequently, the probability that the process never left the [0,  a ] interval before a certain time  t  is given by  
+                            
+                               G 
+                               ( 
+                               t 
+                               | 
+                               z 
+                               ) 
+                               = 
+                               
+                                  ∫ 
+                                  
+                                     0 
+                                  
+                                  
+                                     a 
+                                  
+                               
+                               
+                                  p 
+                                  ( 
+                                  x 
+                                  , 
+                                  t 
+                                  | 
+                                  z 
+                                  , 
+                                  0 
+                                  ) 
+                                  
+                                  dx 
+                               
+                            
+                         . At the same time, if  T  is the time of absorption, that is, the time at which the random walk reaches one of the two boundaries, then also  
+                            
+                               
+                                  Pr 
+                               
+                            
+                            ( 
+                            T 
+                            
+                               ⩾ 
+                            
+                            t 
+                            ) 
+                            = 
+                            
+                               ∫ 
+                               
+                                  0 
+                               
+                               
+                                  a 
+                               
+                            
+                            
+                               p 
+                               ( 
+                               x 
+                               , 
+                               t 
+                               | 
+                               z 
+                               , 
+                               0 
+                               ) 
+                               
+                               dx 
+                            
+                         . Consequently,  
+                            
+                               G 
+                               ( 
+                               t 
+                               | 
+                               z 
+                               ) 
+                               = 
+                               
+                                  Pr 
+                               
+                               ( 
+                               T 
+                               
+                                  ⩾ 
+                               
+                               t 
+                               ) 
+                            
+                         , and hence  
+                            
+                               
+                                  
+                                     F 
+                                  
+                                  
+                                     T 
+                                  
+                               
+                               ( 
+                               t 
+                               ) 
+                               = 
+                               1 
+                               - 
+                               G 
+                               ( 
+                               t 
+                               | 
+                               z 
+                               ) 
+                               = 
+                               
+                                  Pr 
+                               
+                               ( 
+                               T 
+                               < 
+                               t 
+                               ) 
+                            
+                          gives the distribution of  T . The moments of  T  as a function of the starting point  z  are given by  
+                            
+                               (4) 
+                               
+                                  
+                                     
+                                        
+                                           M 
+                                        
+                                        
+                                           n 
+                                        
+                                     
+                                     ( 
+                                     z 
+                                     ) 
+                                     = 
+                                     E 
+                                     ( 
+                                     
+                                        
+                                           T 
+                                        
+                                        
+                                           n 
+                                        
+                                     
+                                     | 
+                                     z 
+                                     ) 
+                                     = 
+                                     
+                                        ∫ 
+                                        
+                                           - 
+                                           ∞ 
+                                        
+                                        
+                                           ∞ 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              n 
+                                           
+                                        
+                                        
+                                           
+                                              f 
+                                           
+                                           
+                                              T 
+                                           
+                                        
+                                        ( 
+                                        t 
+                                        ) 
+                                        
+                                        dt 
+                                     
+                                     = 
+                                     - 
+                                     
+                                        ∫ 
+                                        
+                                           0 
+                                        
+                                        
+                                           ∞ 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              n 
+                                           
+                                        
+                                        
+                                           
+                                              ∂ 
+                                           
+                                           
+                                              t 
+                                           
+                                        
+                                        G 
+                                        ( 
+                                        t 
+                                        | 
+                                        z 
+                                        ) 
+                                        
+                                        dt 
+                                        , 
+                                     
+                                  
+                               
+                            
+                         where  
+                            
+                               
+                                  
+                                     f 
+                                  
+                                  
+                                     T 
+                                  
+                               
+                               ( 
+                               t 
+                               ) 
+                               = 
+                               
+                                  
+                                     d 
+                                  
+                                  
+                                     dt 
+                                  
+                               
+                               
+                                  
+                                     F 
+                                  
+                                  
+                                     T 
+                                  
+                               
+                               ( 
+                               t 
+                               ) 
+                               = 
+                               - 
+                               
+                                  
+                                     ∂ 
+                                  
+                                  
+                                     t 
+                                  
+                               
+                               G 
+                               ( 
+                               t 
+                               | 
+                               z 
+                               ) 
+                            
+                          is the density function. Integrating the right-hand side of Eq.  (4)  by parts yields  
+                            
+                               
+                                  
+                                     M 
+                                  
+                                  
+                                     n 
+                                  
+                               
+                               ( 
+                               z 
+                               ) 
+                               = 
+                               
+                                  [ 
+                                  
+                                     n 
+                                     
+                                        ∫ 
+                                        
+                                           0 
+                                        
+                                        
+                                           ∞ 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              
+                                                 n 
+                                                 - 
+                                                 1 
+                                              
+                                           
+                                        
+                                        G 
+                                        ( 
+                                        t 
+                                        | 
+                                        z 
+                                        ) 
+                                     
+                                     
+                                     dt 
+                                  
+                                  ] 
+                               
+                               - 
+                               [ 
+                               
+                                  
+                                     t 
+                                  
+                                  
+                                     n 
+                                  
+                               
+                               G 
+                               ( 
+                               t 
+                               | 
+                               z 
+                               ) 
+                               
+                                  
+                                     | 
+                                  
+                                  
+                                     0 
+                                  
+                                  
+                                     ∞ 
+                                  
+                               
+                               ] 
+                            
+                         . If  
+                            
+                               - 
+                               
+                                  
+                                     t 
+                                  
+                                  
+                                     n 
+                                  
+                               
+                               G 
+                               ( 
+                               t 
+                               | 
+                               z 
+                               ) 
+                               → 
+                               0 
+                            
+                          as  
+                            
+                               t 
+                               → 
+                               ∞ 
+                            
+                         , it follows that the second term vanishes. It can be seen as follows that this is in fact the case. Let  
+                            
+                               u 
+                               = 
+                               1 
+                               / 
+                               t 
+                            
+                         , and write  
+                            
+                               
+                                  
+                                     lim 
+                                  
+                                  
+                                     
+                                        t 
+                                        → 
+                                        ∞ 
+                                     
+                                  
+                               
+                               
+                               
+                                  
+                                     t 
+                                  
+                                  
+                                     n 
+                                  
+                               
+                               G 
+                               ( 
+                               t 
+                               | 
+                               z 
+                               ) 
+                               = 
+                               
+                                  
+                                     lim 
+                                  
+                                  
+                                     
+                                        u 
+                                        → 
+                                        0 
+                                     
+                                  
+                               
+                               
+                               G 
+                               ( 
+                               1 
+                               / 
+                               u 
+                               | 
+                               z 
+                               ) 
+                               / 
+                               
+                                  
+                                     u 
+                                  
+                                  
+                                     n 
+                                  
+                               
+                            
+                         . Because as  
+                            
+                               t 
+                               → 
+                               ∞ 
+                            
+                          the process will terminate with probability one,  
+                            
+                               G 
+                               
+                                  ( 
+                                  
+                                     t 
+                                     | 
+                                     z 
+                                  
+                                  ) 
+                               
+                            
+                          as well as all of its first  n  derivatives approach zero, and hence one may apply l’Hôpital's rule  n  times to show that this limit is in fact zero. 
+                            7 
+                         
+                         
+                            7 
+                            We thank Richard Chechile for providing this argument. 
+                          Therefore, 
+                            
+                               (5) 
+                               
+                                  
+                                     
+                                        
+                                           M 
+                                        
+                                        
+                                           n 
+                                        
+                                     
+                                     ( 
+                                     z 
+                                     ) 
+                                     = 
+                                     n 
+                                     
+                                        ∫ 
+                                        
+                                           0 
+                                        
+                                        
+                                           ∞ 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              
+                                                 n 
+                                                 - 
+                                                 1 
+                                              
+                                           
+                                        
+                                        G 
+                                        ( 
+                                        t 
+                                        | 
+                                        z 
+                                        ) 
+                                        
+                                        dt 
+                                        .
+
+The pdf of the diffusion process under investigation,  
+                            
+                               p 
+                               ( 
+                               x 
+                               , 
+                               t 
+                               | 
+                               z 
+                               , 
+                               0 
+                               ) 
+                            
+                         , is governed by the backward Fokker–Planck equation ( Gardiner, 2004 ): 
+                            
+                               (6) 
+                               
+                                  
+                                     
+                                        
+                                           ∂ 
+                                        
+                                        
+                                           t 
+                                        
+                                     
+                                     p 
+                                     ( 
+                                     x 
+                                     , 
+                                     t 
+                                     | 
+                                     z 
+                                     , 
+                                     0 
+                                     ) 
+                                     = 
+                                     v 
+                                     
+                                        
+                                           ∂ 
+                                        
+                                        
+                                           z 
+                                        
+                                     
+                                     p 
+                                     ( 
+                                     x 
+                                     , 
+                                     t 
+                                     | 
+                                     z 
+                                     , 
+                                     0 
+                                     ) 
+                                     + 
+                                     
+                                        
+                                           
+                                              1 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                     
+                                     
+                                        
+                                           s 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     
+                                        
+                                           ∂ 
+                                        
+                                        
+                                           z 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     p 
+                                     ( 
+                                     x 
+                                     , 
+                                     t 
+                                     | 
+                                     z 
+                                     , 
+                                     0 
+                                     ) 
+                                     . 
+                                  
+                               
+                            
+                         Integrating both sides:  
+                            
+                               
+                                  
+                                     ∂ 
+                                  
+                                  
+                                     t 
+                                  
+                               
+                               
+                                  ∫ 
+                                  
+                                     0 
+                                  
+                                  
+                                     a 
+                                  
+                               
+                               
+                                  p 
+                                  ( 
+                                  x 
+                                  , 
+                                  t 
+                                  | 
+                                  z 
+                                  , 
+                                  0 
+                                  ) 
+                                  
+                                  dx 
+                                  = 
+                               
+                               v 
+                               
+                                  
+                                     ∂ 
+                                  
+                                  
+                                     z 
+                                  
+                               
+                               
+                                  ∫ 
+                                  
+                                     0 
+                                  
+                                  
+                                     a 
+                                  
+                               
+                               
+                                  p 
+                                  ( 
+                                  x 
+                                  , 
+                                  t 
+                                  | 
+                                  z 
+                                  , 
+                                  0 
+                                  ) 
+                                  
+                                  dx 
+                               
+                               + 
+                               
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                               
+                               
+                                  
+                                     s 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               
+                                  
+                                     ∂ 
+                                  
+                                  
+                                     z 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               
+                                  ∫ 
+                                  
+                                     0 
+                                  
+                                  
+                                     a 
+                                  
+                               
+                               
+                                  p 
+                                  ( 
+                                  x 
+                                  , 
+                                  t 
+                                  | 
+                                  z 
+                                  , 
+                                  0 
+                                  ) 
+                                  
+                                  dx 
+                                  . 
+                               
+                            
+                         
+                         
+                            8 
+                         
+                         
+                            8 
+                            Exchanging the order of integration and differentiation is permitted because the following three conditions hold (e.g.,  Amemiya, 1985 , Theorem 1.3.2): First,  p  is continuous in both  t  and  x , as their derivatives exist by Eq.  (6) . Second, the integral  
+                                  
+                                     
+                                        ∫ 
+                                        
+                                           0 
+                                        
+                                        
+                                           a 
+                                        
+                                     
+                                     
+                                        p 
+                                        ( 
+                                        x 
+                                        , 
+                                        t 
+                                        | 
+                                        z 
+                                        , 
+                                        0 
+                                        ) 
+                                     
+                                     
+                                     dx 
+                                     = 
+                                     P 
+                                     ( 
+                                     T 
+                                     
+                                        ⩾ 
+                                     
+                                     t 
+                                     ) 
+                                  
+                                is bounded because it represents a probability. Third,  
+                                  
+                                     
+                                        ∫ 
+                                        
+                                           0 
+                                        
+                                        
+                                           a 
+                                        
+                                     
+                                     
+                                        | 
+                                        
+                                           
+                                              ∂ 
+                                           
+                                           
+                                              t 
+                                           
+                                        
+                                        p 
+                                        ( 
+                                        x 
+                                        , 
+                                        t 
+                                        | 
+                                        z 
+                                        , 
+                                        0 
+                                        ) 
+                                        | 
+                                     
+                                     
+                                     dx 
+                                  
+                                is bounded because otherwise Eq.  (6)  has no solution in the interval from 0 to  a .
+
+Recalling that  
+                            
+                               G 
+                               ( 
+                               t 
+                               | 
+                               z 
+                               ) 
+                               = 
+                               
+                                  ∫ 
+                                  
+                                     0 
+                                  
+                                  
+                                     a 
+                                  
+                               
+                               
+                                  p 
+                                  ( 
+                                  x 
+                                  , 
+                                  t 
+                                  | 
+                                  z 
+                                  , 
+                                  0 
+                                  ) 
+                                  
+                                  dx 
+                               
+                            
+                          then yields the governing equation for  G : 
+                            
+                               (7) 
+                               
+                                  
+                                     
+                                        
+                                           ∂ 
+                                        
+                                        
+                                           t 
+                                        
+                                     
+                                     G 
+                                     ( 
+                                     t 
+                                     | 
+                                     z 
+                                     ) 
+                                     = 
+                                     v 
+                                     
+                                        
+                                           ∂ 
+                                        
+                                        
+                                           z 
+                                        
+                                     
+                                     G 
+                                     ( 
+                                     t 
+                                     | 
+                                     z 
+                                     ) 
+                                     + 
+                                     
+                                        
+                                           
+                                              1 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                     
+                                     
+                                        
+                                           s 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     
+                                        
+                                           ∂ 
+                                        
+                                        
+                                           z 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     G 
+                                     ( 
+                                     t 
+                                     | 
+                                     z 
+                                     ) 
+                                     . 
+                                  
+                               
+                            
+                         Note that  G  satisfies the boundary conditions: 
+                            
+                               
+                                  
+                                     G 
+                                     ( 
+                                     0 
+                                     | 
+                                     z 
+                                     ) 
+                                     = 
+                                     1 
+                                     
+                                     
+                                     0 
+                                     
+                                        ⩽ 
+                                     
+                                     z 
+                                     
+                                        ⩽ 
+                                     
+                                     a 
+                                     , 
+                                     G 
+                                     ( 
+                                     0 
+                                     | 
+                                     z 
+                                     ) 
+                                     = 
+                                     0 
+                                     
+                                     
+                                     z 
+                                     
+                                     
+                                        
+                                           elsewhere 
+                                        
+                                        ; 
+                                     
+                                  
+                               
+                            
+                         which state that the time until absorption is greater than zero when the starting point is located in between the two boundaries. Another boundary condition is  
+                            
+                               G 
+                               ( 
+                               t 
+                               | 
+                               0 
+                               ) 
+                               = 
+                               G 
+                               ( 
+                               t 
+                               | 
+                               a 
+                               ) 
+                               = 
+                               0 
+                            
+                         , which states that if the process starts at one of the absorbing boundaries, it is absorbed immediately.
+
+After multiplying both sides of Eq.  (7)  by  
+                            
+                               
+                                  
+                                     t 
+                                  
+                                  
+                                     
+                                        n 
+                                        - 
+                                        1 
+                                     
+                                  
+                               
+                            
+                         , and integrating  t  from 0 to  
+                            
+                               ∞ 
+                            
+                         , we are left with  
+                            
+                               
+                                  ∫ 
+                                  
+                                     0 
+                                  
+                                  
+                                     ∞ 
+                                  
+                               
+                               
+                                  
+                                     
+                                        t 
+                                     
+                                     
+                                        
+                                           n 
+                                           - 
+                                           1 
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        ∂ 
+                                     
+                                     
+                                        t 
+                                     
+                                  
+                                  G 
+                                  ( 
+                                  t 
+                                  | 
+                                  z 
+                                  ) 
+                                  
+                                  dt 
+                               
+                               = 
+                               v 
+                               
+                                  
+                                     ∂ 
+                                  
+                                  
+                                     z 
+                                  
+                               
+                               
+                                  ∫ 
+                                  
+                                     0 
+                                  
+                                  
+                                     ∞ 
+                                  
+                               
+                               
+                                  
+                                     
+                                        t 
+                                     
+                                     
+                                        
+                                           n 
+                                           - 
+                                           1 
+                                        
+                                     
+                                  
+                                  G 
+                                  ( 
+                                  t 
+                                  | 
+                                  z 
+                                  ) 
+                                  
+                                  dt 
+                               
+                               + 
+                               
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                               
+                               
+                                  
+                                     s 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               
+                                  
+                                     ∂ 
+                                  
+                                  
+                                     z 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               
+                                  ∫ 
+                                  
+                                     0 
+                                  
+                                  
+                                     ∞ 
+                                  
+                               
+                               
+                                  
+                                     
+                                        t 
+                                     
+                                     
+                                        
+                                           n 
+                                           - 
+                                           1 
+                                        
+                                     
+                                  
+                                  G 
+                                  ( 
+                                  t 
+                                  | 
+                                  z 
+                                  ) 
+                                  
+                                  dt 
+                               
+                            
+                         . From the definition of moments it follows that  
+                            
+                               
+                                  ∫ 
+                                  
+                                     0 
+                                  
+                                  
+                                     ∞ 
+                                  
+                               
+                               
+                                  
+                                     
+                                        t 
+                                     
+                                     
+                                        
+                                           n 
+                                           - 
+                                           1 
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        ∂ 
+                                     
+                                     
+                                        t 
+                                     
+                                  
+                                  G 
+                                  ( 
+                                  t 
+                                  | 
+                                  z 
+                                  ) 
+                                  
+                                  dt 
+                                  = 
+                                  - 
+                                  
+                                     
+                                        M 
+                                     
+                                     
+                                        
+                                           n 
+                                           - 
+                                           1 
+                                        
+                                     
+                                  
+                                  ( 
+                                  z 
+                                  ) 
+                               
+                            
+                         , and from Eq.  (5)  it follows that  
+                            
+                               
+                                  ∫ 
+                                  
+                                     0 
+                                  
+                                  
+                                     ∞ 
+                                  
+                               
+                               
+                                  
+                                     
+                                        t 
+                                     
+                                     
+                                        
+                                           n 
+                                           - 
+                                           1 
+                                        
+                                     
+                                  
+                                  G 
+                                  ( 
+                                  t 
+                                  | 
+                                  z 
+                                  ) 
+                                  
+                                  dt 
+                               
+                               = 
+                               
+                                  
+                                     M 
+                                  
+                                  
+                                     n 
+                                  
+                               
+                               ( 
+                               z 
+                               ) 
+                               / 
+                               n 
+                            
+                         . Substituting these identities, and multiplying both sides of the equation by  n  gives the recursion equation 
+                            
+                               (8) 
+                               
+                                  
+                                     - 
+                                     n 
+                                     
+                                        
+                                           M 
+                                        
+                                        
+                                           
+                                              n 
+                                              - 
+                                              1 
+                                           
+                                        
+                                     
+                                     ( 
+                                     z 
+                                     ) 
+                                     = 
+                                     v 
+                                     
+                                        
+                                           ∂ 
+                                        
+                                        
+                                           z 
+                                        
+                                     
+                                     
+                                        
+                                           M 
+                                        
+                                        
+                                           n 
+                                        
+                                     
+                                     ( 
+                                     z 
+                                     ) 
+                                     + 
+                                     
+                                        
+                                           
+                                              1 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                     
+                                     
+                                        
+                                           s 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     
+                                        
+                                           ∂ 
+                                        
+                                        
+                                           z 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     
+                                        
+                                           M 
+                                        
+                                        
+                                           n 
+                                        
+                                     
+                                     ( 
+                                     z 
+                                     ) 
+                                     , 
+                                  
+                               
+                            
+                         which holds for all existing moments of  T  (e.g.,  Gardiner, 2004, p. 138 ). In particular, for  
+                            
+                               n 
+                               = 
+                               1 
+                            
+                          this yields 
+                            
+                               (9) 
+                               
+                                  
+                                     v 
+                                     
+                                        
+                                           ∂ 
+                                        
+                                        
+                                           z 
+                                        
+                                     
+                                     
+                                        
+                                           M 
+                                        
+                                        
+                                           1 
+                                        
+                                     
+                                     ( 
+                                     z 
+                                     ) 
+                                     + 
+                                     
+                                        
+                                           
+                                              1 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                     
+                                     
+                                        
+                                           s 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     
+                                        
+                                           ∂ 
+                                        
+                                        
+                                           z 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     
+                                        
+                                           M 
+                                        
+                                        
+                                           1 
+                                        
+                                     
+                                     ( 
+                                     z 
+                                     ) 
+                                     = 
+                                     - 
+                                     1 
+                                     , 
+                                  
+                               
+                            
+                         as  
+                            
+                               
+                                  
+                                     M 
+                                  
+                                  
+                                     0 
+                                  
+                               
+                               = 
+                               1 
+                            
+                         . All moments are subject to the boundary conditions mentioned above, that is,  
+                            
+                               
+                                  
+                                     M 
+                                  
+                                  
+                                     n 
+                                  
+                               
+                               ( 
+                               0 
+                               ) 
+                               = 
+                               
+                                  
+                                     M 
+                                  
+                                  
+                                     n 
+                                  
+                               
+                               ( 
+                               a 
+                               ) 
+                               = 
+                               0 
+                               , 
+                               
+                               n 
+                               = 
+                               1 
+                               , 
+                               2 
+                               , 
+                               … 
+                            
+                          . Solving Eq.  (9)  for  
+                            
+                               
+                                  
+                                     M 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                               ( 
+                               z 
+                               ) 
+                            
+                          and evaluation in the symmetric starting point  
+                            
+                               z 
+                               = 
+                               
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                               
+                               a 
+                            
+                          results in the mean absorption time  
+                            
+                               (10) 
+                               
+                                  
+                                     E 
+                                     ( 
+                                     T 
+                                     ) 
+                                     = 
+                                     
+                                        
+                                           M 
+                                        
+                                        
+                                           1 
+                                        
+                                     
+                                     
+                                        ( 
+                                        
+                                           
+                                              
+                                                 1 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                           a 
+                                        
+                                        ) 
+                                     
+                                     = 
+                                     
+                                        [ 
+                                        
+                                           
+                                              
+                                                 a 
+                                              
+                                              
+                                                 2 
+                                                 v 
+                                              
+                                           
+                                        
+                                        ] 
+                                     
+                                     
+                                        
+                                           1 
+                                           - 
+                                           exp 
+                                           ( 
+                                           y 
+                                           ) 
+                                        
+                                        
+                                           1 
+                                           + 
+                                           exp 
+                                           ( 
+                                           y 
+                                           ) 
+                                        
+                                     
+                                     , 
+                                  
+                               
+                            
+                         where  
+                            
+                               y 
+                               = 
+                               - 
+                               va 
+                               / 
+                               
+                                  
+                                     s 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                            
+                         . In the limit when drift rate  v  goes to zero,  
+                            
+                               v 
+                               → 
+                               0 
+                            
+                         , the mean absorption time is given by  
+                            
+                               E 
+                               ( 
+                               T 
+                               ) 
+                               = 
+                               
+                                  
+                                     
+                                        
+                                           a 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                  
+                                  
+                                     4 
+                                     
+                                        
+                                           s 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                  
+                               
+                            
+                         . Solving the second order moment  
+                            
+                               
+                                  
+                                     M 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               
+                                  ( 
+                                  
+                                     
+                                        
+                                           
+                                              1 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                     
+                                     a 
+                                  
+                                  ) 
+                               
+                            
+                          from the recursion equation and using the equality  
+                            
+                               
+                                  
+                                     var 
+                                  
+                                  ( 
+                               
+                               T 
+                               
+                                  ) 
+                               
+                               = 
+                               E 
+                               ( 
+                               
+                                  
+                                     T 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               ) 
+                               - 
+                               [ 
+                               E 
+                               ( 
+                               T 
+                               ) 
+                               
+                                  
+                                     ] 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                            
+                          one obtains 
+                            
+                               (11) 
+                               
+                                  
+                                     
+                                        var 
+                                     
+                                     ( 
+                                     T 
+                                     ) 
+                                     = 
+                                     
+                                        
+                                           M 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     
+                                        ( 
+                                        
+                                           
+                                              
+                                                 1 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                           a 
+                                        
+                                        ) 
+                                     
+                                     - 
+                                     
+                                        
+                                           
+                                              [ 
+                                              
+                                                 
+                                                    
+                                                       M 
+                                                    
+                                                    
+                                                       1 
+                                                    
+                                                 
+                                                 
+                                                    ( 
+                                                    
+                                                       
+                                                          
+                                                             1 
+                                                          
+                                                          
+                                                             2 
+                                                          
+                                                       
+                                                       a 
+                                                    
+                                                    ) 
+                                                 
+                                              
+                                              ] 
+                                           
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     = 
+                                     
+                                        [ 
+                                        
+                                           
+                                              
+                                                 a 
+                                              
+                                              
+                                                 2 
+                                                 v 
+                                              
+                                           
+                                        
+                                        ] 
+                                     
+                                     
+                                        [ 
+                                        
+                                           
+                                              
+                                                 
+                                                    
+                                                       s 
+                                                    
+                                                    
+                                                       2 
+                                                    
+                                                 
+                                              
+                                              
+                                                 
+                                                    
+                                                       v 
+                                                    
+                                                    
+                                                       2 
+                                                    
+                                                 
+                                              
+                                           
+                                        
+                                        ] 
+                                     
+                                     
+                                        
+                                           2 
+                                           y 
+                                           
+                                           exp 
+                                           ( 
+                                           y 
+                                           ) 
+                                           - 
+                                           exp 
+                                           ( 
+                                           2 
+                                           y 
+                                           ) 
+                                           + 
+                                           1 
+                                        
+                                        
+                                           ( 
+                                           exp 
+                                           ( 
+                                           y 
+                                           ) 
+                                           + 
+                                           1 
+                                           
+                                              
+                                                 ) 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                        
+                                     
+                                     . 
+                                  
+                               
+                            
+                         In the limit of  
+                            
+                               v 
+                               → 
+                               0 
+                            
+                         ,  
+                            
+                               
+                                  var 
+                               
+                               ( 
+                               T 
+                               ) 
+                               = 
+                               
+                                  
+                                     
+                                        
+                                           a 
+                                        
+                                        
+                                           4 
+                                        
+                                     
+                                  
+                                  
+                                     24 
+                                     
+                                        
+                                           s 
+                                        
+                                        
+                                           4 
+                                        
+                                     
+                                  
+                               
+                            
+                         .
+
+From Eqs.  (10) and (11)  it follows that a closed-form expression for the relation between mean and variance is given by 
+                            
+                               (12) 
+                               
+                                  
+                                     
+                                        var 
+                                     
+                                  
+                                  ( 
+                                  T 
+                                  ) 
+                                  = 
+                                  
+                                     { 
+                                     
+                                        
+                                           
+                                              
+                                                 
+                                                    E 
+                                                    
+                                                       ( 
+                                                       T 
+                                                       ) 
+                                                    
+                                                    
+                                                       [ 
+                                                       
+                                                          
+                                                             
+                                                                
+                                                                   
+                                                                      s 
+                                                                   
+                                                                   
+                                                                      2 
+                                                                   
+                                                                
+                                                             
+                                                             
+                                                                
+                                                                   
+                                                                      v 
+                                                                   
+                                                                   
+                                                                      2 
+                                                                   
+                                                                
+                                                             
+                                                          
+                                                       
+                                                       ] 
+                                                    
+                                                    
+                                                       
+                                                          
+                                                             exp 
+                                                             
+                                                                ( 
+                                                                
+                                                                   2 
+                                                                   y 
+                                                                
+                                                                ) 
+                                                             
+                                                             - 
+                                                             2 
+                                                             y 
+                                                             exp 
+                                                             
+                                                                ( 
+                                                                y 
+                                                                ) 
+                                                             
+                                                             - 
+                                                             1 
+                                                          
+                                                          
+                                                             exp 
+                                                             
+                                                                ( 
+                                                                
+                                                                   2 
+                                                                   y 
+                                                                
+                                                                ) 
+                                                             
+                                                             - 
+                                                             1 
+                                                          
+                                                       
+                                                    
+                                                 
+                                              
+                                              
+                                                 
+                                                    
+                                                       if 
+                                                    
+                                                    
+                                                    v 
+                                                    ≠ 
+                                                    0 
+                                                    , 
+                                                 
+                                              
+                                           
+                                           
+                                              
+                                                 
+                                                    E 
+                                                    
+                                                       ( 
+                                                       T 
+                                                       ) 
+                                                    
+                                                    
+                                                       
+                                                          
+                                                             
+                                                                
+                                                                   a 
+                                                                
+                                                                
+                                                                   2 
+                                                                
+                                                             
+                                                          
+                                                          
+                                                             6 
+                                                             
+                                                                
+                                                                   s 
+                                                                
+                                                                
+                                                                   2 
+                                                                
+                                                             
+                                                          
+                                                       
+                                                    
+                                                 
+                                              
+                                              
+                                                 
+                                                    
+                                                       if 
+                                                    
+                                                    
+                                                    v 
+                                                    = 
+                                                    0 
+                                                    . 
+                                                 
+                                              
+                                           
+                                        
+                                     
+                                  
+                               
+                            
+                         To the best of our knowledge, Eqs.  (11) and (12)  have not yet been reported in the psychological literature on RT modeling. The standard literature on stochastic differential equations (e.g.,  Gardiner, 2004 ;  Honerkamp, 1994 ) also does not mention these equations, although they may be easily derived.
+
+Note that Eqs.  (11) and (12)  are not conditional on whether responses are correct or in error. For a diffusion model with starting point equidistant from the response boundaries and with no variability across trials in drift-rate, the distribution of  T  is the same for correct and incorrect responses (e.g.,  Laming, 1973, p. 192 , footnote 7).
+
+As mentioned earlier, drift rate  v ,  
+                         
+                            - 
+                            ∞ 
+                            < 
+                            v 
+                            < 
+                            ∞ 
+                         
+                      , quantifies the deterministic component of the decision process, and in practical applications  v  usually ranges from absolute values of 0.1 to about 0.5 (e.g.,  Ratcliff, Thapar, & McKoon, 2003 ;  Ratcliff et al., 2004 ). Setting the diffusion variance  
+                         
+                            
+                               
+                                  s 
+                               
+                               
+                                  2 
+                               
+                            
+                         
+                       to its default value of 0.01, the left panel of  Fig. 3 
+                       plots the relation between mean and variance when drift rate is systematically decreased from 0.5 to 0.1. Each of the six lines corresponds to a different plausible value of the boundary separation parameter  a . The left panel of  Fig. 3  clearly shows that the relation between RT mean and RT variance resulting from a change in drift rate is highly nonlinear, as the variance increases faster than the mean. In contrast, the relation between RT mean and RT standard deviation, shown in the right panel of  Fig. 3 , is very close to linear across the entire parameter space of plausible drift rate values. Moreover, this approximate linearity holds for the entire range of plausible boundary separation values. Thus, a decrease in drift rate makes the standard deviation increase approximately linearly with the mean.
+
+The above result implies that effects of processing speed on response variability may perhaps best be discounted by using the coefficient of variability,  
+                         
+                            
+                               
+                                  
+                                     var 
+                                  
+                                  ( 
+                                  X 
+                                  ) 
+                               
+                            
+                            / 
+                            E 
+                            ( 
+                            X 
+                            ) 
+                         
+                      . That is, if participants or experimental conditions only differ in processing speed (i.e., drift rate), their CVs should be almost identical. A further consequence of the almost perfect linearity between RT mean and RT standard deviation as a function of drift rate differences is that the log transform gains credence as a suitable variance-stabilizing transformation.
+
+Finally, it is interesting that the literature on automaticity and learning has shown that practice decreases the mean and the standard deviation at approximately the same rate (e.g.,  Logan, 1988, 1992 ;  Kramer, Strayer, & Buckley, 1990 )—a phenomenon predicted by Logan's instance theory (e.g.,  Logan, 1988, 1992 ).  Cohen, Dunbar, and McClelland (1990, pp. 345–346)  developed a neural network for which simulations showed that practice decreases RT mean and RT standard deviation at approximately the same rate. In their model, output from a neural net drives a random walk decision process. The right panel from  Fig. 3  confirms that if automaticity or learning selectively affects the drift rate parameter of a diffusion process, an approximate linear relation between RT mean and RT standard deviation will result.
+
+In practical applications, the parameter for boundary separation usually varies from 0.07, a very risky progressive response criterion, to 0.17, which is a very safe conservative response criterion (e.g.,  Ratcliff et al., 2003, 2004 ). Similar to our illustration of the effect of drift rate differences, we now examine the effect of an increase in boundary separation on the mean–variance relationship.
+
+The left panel of  Fig. 4 
+                       plots five lines, one for each of five plausible values of the drift rate parameter. Each line separately is constructed by calculating both mean and variance for a range of different plausible values for boundary separation.  Fig. 4 , left panel, shows that the relation between mean and variance is approximately linear for high values of drift rate, but becomes strongly nonlinear for low values of drift rate, such that the variance increases as a faster rate than the mean.
+
+The right panel of  Fig. 4  plots the mean against the standard deviation. For low values of the drift rate parameter, the mean varies approximately linearly with the standard deviation. For high values of the drift rate parameter, however, the relation is more curvilinear. Thus, it turns out that the relation between mean and standard deviation is more complex for a difference in boundary separation than it is for a difference in drift rate: the relation between mean and standard deviation that results from a difference in boundary separation is conditional on the value of the drift rate parameter, whereas the effects of differences in drift rate are qualitatively unaffected by the specific values of the boundary separation parameter (cf.  Fig. 3 , right panel).
+
+In this article, we studied the relation between the mean and the variance of a diffusion model RT distribution. 
+                         9 
+                      
+                      
+                         9 
+                         The focus of this article has been on response time, and not on response accuracy. Equations for diffusion model response accuracy can be found, for instance, in  Ratcliff (1978)  and in  Link (1992) . 
+                       We used a simple diffusion model (i.e., starting point always equidistant from the response boundaries, no across-trial variability in drift rate or starting point) to obtain closed-form expressions for RT mean and RT variance as a function of drift rate, diffusion variance, and boundary separation. Next, we studied how the variance goes with the mean when either drift rate or boundary separation is gradually increased along a range of plausible parameter values. The results showed that RT mean increases in an approximately linear fashion with RT standard deviation as drift rate is decreased. When boundary separation is gradually increased, the relation between RT mean and RT standard deviation depends on the value of the drift rate parameter: only when drift rate is relatively low will the relation between mean and standard deviation be approximately linear.
+
+In this theoretical note, the focus has been entirely on the diffusion model for choice RT. It is certainly possible, and potentially informative, to study the mean–variance relationship for alternative models of choice RT, such as accumulator models (e.g.,  Smith & Vickers, 1988 ), Poisson counter models (e.g.,  LaBerge, 1994 ;  Pike, 1966, 1973 ;  Townsend & Ashby, 1983 ), Ornstein–Uhlenbeck models with non-negligible decay in drift-rate, and the recently proposed ballistic model of choice RT ( Brown & Heathcote, 2005 ). These alternative models may or may not produce approximate linearity between RT mean and RT standard deviation as the efficiency of processing is manipulated. As mentioned above, at least one alternative model (i.e., Logan's instance model) yields results that are similar to those derived from the diffusion model.
+
+The theoretical work presented here also outlines a qualitative prediction for the diffusion model that could be subjected to empirical tests. That is, two-choice experiments that manipulate task-difficulty (e.g., word frequency in a lexical decision task) across many different levels should find an approximate linear relationship between RT mean and RT standard deviation. Unfortunately, most experiments to date have manipulated task difficulty across only two or three levels, and this is clearly an insufficient number to empirically assess the mean–variance relationship. A few experiments, however, did systematically manipulate task difficulty across many levels ( Chocholle, 1940 ;  Green & Luce, 1971 ). The results, summarized in  Luce (1986, p. 64) , support the theoretical analysis reported here, as both studies found a strong linear relationship between RT mean and RT standard deviation. Also, the extensive data sets presented by  Logan (1988, 1992)  provide evidence that the result of practice is to decrease RT mean and RT standard deviation at the same rate. This result is consistent with a diffusion model account in which the effect of practice is to increase drift rate.
+
+In sum, Eq.  (12)  gives the relation between the mean and variance of a diffusion model RT distribution. In general, the variance will always increase with the mean, but the specific form of this relation depends on the nature of the model parameters that differ between experimental conditions or participants.
+
+Preparation of this article was supported by a VENI grant from the Netherlands Organisation for Scientific Research (NWO). We would like to thank Scott Brown, Richard Chechile, Michael Lee, and Jim Townsend for helpful comments.

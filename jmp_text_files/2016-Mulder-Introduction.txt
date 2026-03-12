@@ -1,0 +1,406 @@
+10.1016/j.jmp.2016.01.002
+Many empirical researchers seek to evaluate and test hypotheses by comparing theoretical predictions to observed data. The dominant statistical vehicle for this activity is null hypothesis significance testing using  
+                         p 
+                       values. Despite their popularity, the literature contains an intense and ongoing debate about the usefulness of  
+                         p 
+                       values for testing scientific expectations (e.g.,   Berger & Sellke, 1987; Cohen, 1994; Edwards, Lindman, & Savage, 1963; Hubbard & Armstrong, 2006; Wagenmakers, 2007; Wainer, 1999 , among many others).
+
+One important critique of  
+                         p 
+                       values is that they cannot be used to quantify evidence in favor of the null hypothesis; a  
+                         p 
+                       value can only be used to falsify that null hypothesis. This is a limitation for replication research ( Wagenmakers, Verhagen, & Ly, in press ), or when the null hypothesis reflects a surprising prediction from a substantive theory ( Gallistel, 2009 ). When the  
+                         p 
+                       value is larger than the chosen significance level we enter a state of suspended disbelief: there are insufficient grounds to reject the null hypothesis but we cannot claim evidence in its favor. In other words, the  
+                         p 
+                       value does not allow one to discriminate absence of evidence (i.e., uninformative data) from evidence of absence (i.e., data supporting the null hypothesis;  Dienes, 2014 ). Another important critique is that  
+                         p 
+                       values tend to overestimate the evidence against the null hypothesis ( Berger & Delampady, 1987; Johnson, 2013; Sellke, Bayarri, & Berger, 2001 ). This critique is particularly relevant in light of the present discussion about the lack of reproducibility of key results in psychology ( Open Science Collaboration, 2015; Pashler & Wagenmakers, 2012 ). A third critique is that  
+                         p 
+                       values are computed as integrals over the sample space of more extreme outcomes, and therefore depend on the sampling plan (i.e., the intention with which the data are collected,  Berger & Berry, 1988a,b ). This is a serious practical limitation for research fields in which there is no known sampling plan and data become available over time, as is common in ecology, geophysics, and astronomy.
+
+A final critique we mention here is that  
+                         p 
+                       values are limited regarding the types of hypotheses that can be tested. For example,  
+                         p 
+                       values cannot be used for testing two nonnested regression models, such as a model  
+                         
+                            
+                               M 
+                            
+                            
+                               1 
+                            
+                         
+                       with “gender” and “income” as explanatory variables versus a model  
+                         
+                            
+                               M 
+                            
+                            
+                               2 
+                            
+                         
+                       with “educational level” and “age” as explanatory variables. Furthermore,  
+                         p 
+                       values are of limited use for testing hypotheses with order constraints on the parameters of interest ( Braeken, Mulder, & Wood, 2015 ). This is unfortunate because psychologists often use order constraints to formulate expectations. For example, a strong treatment is expected to have more effect than a mild treatment, and a mild treatment is expected to have more effect than a placebo treatment.
+
+These and other considerations have stimulated statisticians and scientists to explore alternative methods for testing theories (e.g.,   Hoijtink, Klugkist, & Boelen, 2008; Mulder, Hoijtink, & Klugkist, 2010; Rouder, Morey, Speckman, & Province, 2012; Vanpaemel, 2010 ). Recently, there has been an increasing interest in the use of the Bayes factor, the standard Bayesian method for model selection and hypothesis testing ( Jeffreys, 1961; Kass & Raftery, 1995; Lewis & Raftery, 1997; O’Hagan & Forster, 2004 ). As a result, Bayes factors have been effectively used for testing hypotheses in various subdisciplines of psychology, such as cognitive psychology ( Cavagnaro & Davis-Stober, 2014; Massaro, Cohen, Campbell, & Rodriguez, 2001 ), experimental psychology ( Kammers, Mulder, de Vignemont, & Dijkerman, 2009a ), clinical psychology ( van den Hout et al., 2012 ), and developmental psychology ( van de Schoot et al., 2011 ).
+
+The current special issue “Bayes factors for Testing Hypotheses in Psychological Research: Practical Relevance and New Developments” brings together a series of papers about Bayes factor tests for psychological research. The papers can roughly be divided into three categories. The first category consists of papers that explore the philosophical foundations of the Bayes factor, such as its interpretation as statistical evidence ( Morey, Romeijn, & Rouder, 2016 ) and the origin of default Bayes factors as proposed by Sir Harold Jeffreys ( Jeffreys, 1961; Ly, Verhagen, & Wagenmakers, 2016b ). In the second category papers present new statistical developments, such as hypothesis testing based on the odds of correct rejection of the null hypothesis to incorrect rejection ( Bayarri, Benjamin, Berger, & Sellke, 2016 ) and Bayes factors for testing order constraints on correlations ( Mulder, 2016 ). The third category presents new applications of Bayes factor tests, such as category learning ( Vanpaemel, 2016 ), differential item functioning in educational assessment ( Verhagen, Levy, Millsap, & Fox, 2016 ), and sport statistics ( Wetzels et al., 2016 ).
+
+Before discussing the contributions in this special issue in more detail we highlight some fundamental properties of Bayes factor tests and its relation to classical tests in Section   2 . In Section   3  currently available statistical software packages are discussed that can be used for computing Bayes factors without needing to know all the details of statistical modeling. Finally, an overview is given of the contributions of this special issue, followed by some closing remarks.
+
+The Bayes factor, originally advocated by  Jeffreys (1961) , aims to quantify the relative evidence that the data provide for two competing hypotheses. For instance, a Bayes factor of a null hypothesis  
+                         
+                            
+                               H 
+                            
+                            
+                               0 
+                            
+                         
+                       against an alternative  
+                         
+                            
+                               H 
+                            
+                            
+                               1 
+                            
+                         
+                       of  
+                         
+                            
+                               B 
+                            
+                            
+                               01 
+                            
+                         
+                         = 
+                         10 
+                       implies that the data are ten times more likely under  
+                         
+                            
+                               H 
+                            
+                            
+                               0 
+                            
+                         
+                       than under  
+                         
+                            
+                               H 
+                            
+                            
+                               1 
+                            
+                         
+                      . Bayes factors are computed by assessing the relative predictive adequacy of the hypotheses under consideration, as provided by the so-called  marginal likelihood  ( Kass & Raftery, 1995; Morey et al., 2016 ).
+
+The goal of a null hypothesis significance test (NHST) on the other hand is to determine whether there is enough evidence in the data to reject the null hypothesis, while controlling the probability of incorrectly rejecting the null (i.e., the type I error probability), using a significance level  
+                         α 
+                      . A NHST is constructed such that the probability of not rejecting an incorrect null (i.e., the type II error probability) is minimized, resulting in a test with maximal power. This methodology dates back to Neyman and Pearson (see   Lehmann, 1959 , for a classic reference on this paradigm). In practice a NHST is typically performed using the  
+                         p 
+                       value, which was originally proposed by Fisher. A  
+                         p 
+                       value smaller than  
+                         α 
+                       indicates there is enough evidence to reject the null and a  
+                         p 
+                       value larger than  
+                         α 
+                       indicates there is not enough evidence in the data to reject the null. This mechanism automatically implies that a NHST can only be used to falsify the null hypothesis; it cannot be used to quantify evidence in favor of the null, even when the sample size  
+                         N 
+                       is large and the  
+                         p 
+                       value is close to 1.
+
+Another fundamental difference is the scale of the outcome of both tests. In a Bayes factor test the outcome is the relative evidence in the data for  
+                         
+                            
+                               H 
+                            
+                            
+                               0 
+                            
+                         
+                       against  
+                         
+                            
+                               H 
+                            
+                            
+                               1 
+                            
+                         
+                      , which lies on a  continuous  scale from 0 (which implies infinitely more evidence for  
+                         
+                            
+                               H 
+                            
+                            
+                               1 
+                            
+                         
+                       against  
+                         
+                            
+                               H 
+                            
+                            
+                               0 
+                            
+                         
+                      ) to infinity  
+                         ∞ 
+                       (which implies infinitely more evidence for  
+                         
+                            
+                               H 
+                            
+                            
+                               0 
+                            
+                         
+                       against  
+                         
+                            
+                               H 
+                            
+                            
+                               1 
+                            
+                         
+                      ). Based on the outcome of the Bayes factor, researchers can judge for themselves whether the evidence is sufficiently compelling in the context of the research question at hand. It can also happen that both hypotheses predict the observed data about equally well, in which case the Bayes factor is approximately 1. On the other hand, the outcome of a NHST, as advocated by Neyman and Pearson, is a  dichotomous decision : There is either enough evidence in the data to reject the null, i.e., the evidence against the null is “significant”, or there is not enough evidence in the data to reject the null, i.e., the evidence against the null is “not significant”.
+
+For researchers who perform a NHST it may not be satisfactory that the outcome of the test is dichotomous because the decision is based on the significance level which is arbitrarily chosen. An undesirable consequence is that the paradigm of Neyman and Pearson, who advocated making a dichotomous decision about rejecting the null while controlling the type I and type II error probabilities, is sometimes mixed up with the paradigm of Fisher, who advocated interpreting the  
+                         p 
+                       value in a NHST as a continuous measure of evidence against the null while avoiding any clear formulation about the effect under the alternative. For instance researchers tend to interpret a  
+                         p 
+                       value in the range  
+                         0.05 
+                         < 
+                         p 
+                         < 
+                         0.10 
+                      ,  
+                         0.01 
+                         < 
+                         p 
+                         < 
+                         0.05 
+                      , and  
+                         p 
+                         < 
+                         0.01 
+                       as “mildly significant”, “significant”, or “highly significant”, respectively, while having the idea that the type I error probability is controlled. This practice however results in an inflation of the type I error probability because the significance level  
+                         α 
+                       is chosen after observing the data where  
+                         α 
+                       is specified as small as possible but still larger than the observed  
+                         p 
+                       value.
+
+The cause of this mixup may be that on the one hand researchers want to include the alternative hypothesis in the testing procedure, for example via the type II error probability as advocated by Neyman and Pearson (but not by Fisher). On the other hand researchers want to interpret the evidence in the data on a continuous scale as advocated by Fisher (but not by Neyman and Pearson). In that sense one could argue that the Bayes factor test has the best of both worlds. First the Bayes factor quantifies the evidence in the data on a continuous scale and no dichotomous decision has to be made about which hypothesis to select based on an arbitrarily chosen cut-off value. Second this measure of evidence is a  relative  measure which balances between the plausibility of the null hypothesis and the alternative hypothesis where the prior under the alternative formalizes the anticipated effect if the null is not true. A Bayes factor of, say,  
+                         
+                            
+                               B 
+                            
+                            
+                               01 
+                            
+                         
+                         = 
+                         10 
+                      , simply implies that researchers need to adjust their prior beliefs about the relative plausibility of the competing hypotheses by a factor of 10. It is up to the scientific community to determine whether this evidence is sufficiently compelling to warrant publication, something that needs to be assessed in the context of the prior plausibility of the competing hypotheses ( Dreber et al., in press; Jeffreys, 1935 ).
+
+Finally we note another important difference between both approaches regarding consistency. Roughly speaking a statistical test is called consistent if the true hypothesis is always selected if the sample size is large enough. The Bayes factor test is generally consistent (e.g.,   O’Hagan, 1995 ). Thus as the sample size goes to infinity, the Bayes factor of  
+                         
+                            
+                               H 
+                            
+                            
+                               0 
+                            
+                         
+                       against  
+                         
+                            
+                               H 
+                            
+                            
+                               1 
+                            
+                         
+                       either goes to 0 (if  
+                         
+                            
+                               H 
+                            
+                            
+                               1 
+                            
+                         
+                       is true) or to  
+                         ∞ 
+                       (if  
+                         
+                            
+                               H 
+                            
+                            
+                               0 
+                            
+                         
+                       is true). In contrast, NHST is not consistent. When the null hypothesis is true we still have a probability of incorrectly rejecting the null hypothesis that is equal to the chosen  
+                         α 
+                      -level, even in the case of extremely large samples. The Bayes factor on the other hand always points toward the true hypothesis as long as the sample is large enough.
+
+Easy-to-use statistical software is crucial in order for researchers and practitioners to use Bayes factors in their own field. Currently several statistical packages are available that can be used for computing Bayes factors without needing to know all the intricate details of statistical modeling: JASP ( Love et al., 0000 ), the BayesFactor package in R ( Morey & Rouder, 2015 ), BIEMS ( Mulder, Hoijtink, & de Leeuw, 2012 ), BIG ( Gu, Mulder, Decović, & Hoijtink, 2014 ), and BOCOR ( Mulder, 2016 ). All programs are freely downloadable and easy to use.
+
+The first program, JASP, has a point-and-click graphical user interface ( jasp-stats.org ). JASP is a spreadsheet program that features both classical and Bayesian data analysis methods. Many of the statistical models used by social scientists (e.g., ANOVA, regression, repeated measures) are implemented in JASP, often by using the functionality of the BayesFactor package.
+
+The second program is the BayesFactor package in R. This package provides much of the same functionality as JASP, and users who are comfortable with R may prefer to work with the BayesFactor package.
+
+The third program, BIEMS, also produces Bayes factors for commonly used statistical models via a graphical user interface ( jorismulder.com ). BIEMS is particularly useful for testing hypotheses with order constraints (possibly in addition to equality constraints) between the parameters of interest, say,  
+                         
+                            
+                               μ 
+                            
+                            
+                               1 
+                            
+                         
+                         > 
+                         
+                            
+                               μ 
+                            
+                            
+                               2 
+                            
+                         
+                         > 
+                         
+                            
+                               μ 
+                            
+                            
+                               3 
+                            
+                         
+                      , i.e., group mean 1 is expected to be larger than group mean 2, and group mean 2 is expected to be larger than group mean 3. The program has a point-and-click tool for formulating hypotheses with equality and/or order constraints in an easy manner.
+
+Finally, BIG ( informative-hypotheses.sites.uu.nl ) and BOCOR ( jorismulder.com ) can be used for computing Bayes factors between hypotheses with only order constraints. BIG can be used to test constrained hypotheses in general statistical models, such as structure equation models, and BOCOR can be used to test constrained hypotheses on correlations coefficients.
+
+The Bayes factors in the above software packages can be computed without needing to formulate prior distributions for the model parameters. The motivation was that users who are new to Bayesian statistics may find it difficult to translate one’s prior beliefs into distributions. It may also be the case that prior information is simply unavailable. For this reason default priors can be used for computing Bayes factors in JASP, the BayesFactor package, BIEMS, BIG, and BOCOR. The default prior in JASP and the BayesFactor package builds on the work of  Jeffreys (1961) ,  Zellner and Siow (1980) ,  Rouder, Morey, Speckman, and Province (2012b)  and  Rouder, Speckman, Sun, and Iverson (2009) . The default prior in BIEMS builds on earlier work of  Berger and Pericchi (1996)  and  Mulder et al. (2010, 2009) , and it contains the information of a minimal experiment to ensure that the prior distribution is not unrealistically vague but also not too informative. In BIG and BOCOR very vague proper priors are specified, which is allowed when computing Bayes factors between hypotheses with only order constraints on the parameters of interest ( Klugkist & Hoijtink, 2007; Mulder, 2014 ). Note that arbitrarily vague proper priors should not be used when testing hypotheses with strict equality constraints due to the Jeffreys–Bartlett–Lindley paradox ( Bartlett, 1957; Jeffreys, 1961; Lindley, 1957; Ly, Verhagen, & Wagenmakers, 2016a ).
+
+As indicated above, Bayes factors avoid many of the limitations inherent to  
+                         p 
+                       value testing. The development of Bayes factors for testing statistical models and its application to evaluate scientific theories therefore remains an active area of research. This is witnessed by the many applications of Bayes factor tests in psychology (e.g.   Cavagnaro & Davis-Stober, 2014; Kammers et al., 2009a; Massaro et al., 2001 ) and other fields of research such as genetics ( Sawcer, 2010 ), ecology ( King, Morgan, Gimenez, & Brooks, 2010 ), and management research ( Andraszewicz et al., 2015; Braeken et al., 2015 ). The increasing interest in Bayes factor hypothesis testing motivated the current special issue “Bayes Factors for Testing Hypotheses in Psychological Research: Practical Relevance and New Developments” for the  Journal of Mathematical Psychology . The contributions in this special issue aim to (i) provide new insights about the philosophical underpinnings of Bayes factors for testing statistical hypotheses, (ii) present methodological advancements of Bayes factor tests for yet unexplored testing problems, and (iii) show how Bayes factors can address research questions in various applications which could not be properly addressed using alternative approaches. The technical level of many contributions is relatively low so that most readers are able to understand the new insights and key results. The contributions can be divided into three partly overlapping categories outlined below.
+
+• 
+                               In  The philosophy of Bayes factors and the quantification of statistical evidence , Morey, Romeijn, and Rouder show how the Bayes factor formalizes the important scientific concept of statistical evidence. Furthermore the authors show how Bayes factors provide a natural means for updating one’s prior beliefs about scientific claims, hypotheses, or theories in light of the newly observed data. 
+                            
+                            
+                               • 
+                               In  Harold Jeffreys’s default Bayes factor hypothesis tests: Explanation, extension, and application in psychology , Ly, Verhagen, and Wagenmakers discuss in an accessible manner how Sir Harold Jeffreys, one of the most influential Bayesian statisticians, initiated the development of default Bayes factor for testing statistical hypotheses which can be used without having subjective prior information. Furthermore, these authors presented useful extensions of Jeffreys’ methodology such as a one-sided hypothesis test for a bivariate correlation. Interesting response papers were provided about this discussion of Jeffreys’ work by Robert, and Chandramouli and Shiffrin, which was followed by a rejoinder by Ly, Verhagen, and Wagenmakers. 
+                            
+                            
+                               • 
+                               In  Bayes factors, relations to minimum description length, and overlapping model classes , Shiffrin, Chandramouli, and Grünwald investigate the theoretical and practical differences between two prominent methods, the Bayes factor and minimum description length. Although both methods have different philosophical backgrounds, the authors show in a nontechnical manner that both methods behave similarly when testing one-sided hypotheses of the success probability in a binomial experiment. 
+                            
+                            
+                               • 
+                               In  How Bayes factors change scientific practice , Dienes shows how Bayes factors can help in solving several important problems underlying the credibility crisis which currently plagues psychology. These problems are partly caused by the misuse of classical  
+                                     p 
+                                   values in null hypothesis significance testing. Bayes factors potentially resolve these issues due to the fact that the Bayes factor is a symmetric measure of evidence between two hypotheses and the fact that Bayes factors are not sensitive to the stopping rule that is used by researchers when they collect data.
+
+In  The philosophy of Bayes factors and the quantification of statistical evidence , Morey, Romeijn, and Rouder show how the Bayes factor formalizes the important scientific concept of statistical evidence. Furthermore the authors show how Bayes factors provide a natural means for updating one’s prior beliefs about scientific claims, hypotheses, or theories in light of the newly observed data.
+
+In  Harold Jeffreys’s default Bayes factor hypothesis tests: Explanation, extension, and application in psychology , Ly, Verhagen, and Wagenmakers discuss in an accessible manner how Sir Harold Jeffreys, one of the most influential Bayesian statisticians, initiated the development of default Bayes factor for testing statistical hypotheses which can be used without having subjective prior information. Furthermore, these authors presented useful extensions of Jeffreys’ methodology such as a one-sided hypothesis test for a bivariate correlation. Interesting response papers were provided about this discussion of Jeffreys’ work by Robert, and Chandramouli and Shiffrin, which was followed by a rejoinder by Ly, Verhagen, and Wagenmakers.
+
+In  Bayes factors, relations to minimum description length, and overlapping model classes , Shiffrin, Chandramouli, and Grünwald investigate the theoretical and practical differences between two prominent methods, the Bayes factor and minimum description length. Although both methods have different philosophical backgrounds, the authors show in a nontechnical manner that both methods behave similarly when testing one-sided hypotheses of the success probability in a binomial experiment.
+
+In  How Bayes factors change scientific practice , Dienes shows how Bayes factors can help in solving several important problems underlying the credibility crisis which currently plagues psychology. These problems are partly caused by the misuse of classical  
+                                     p 
+                                   values in null hypothesis significance testing. Bayes factors potentially resolve these issues due to the fact that the Bayes factor is a symmetric measure of evidence between two hypotheses and the fact that Bayes factors are not sensitive to the stopping rule that is used by researchers when they collect data.
+
+• 
+                               In  Rejection odds and rejection ratios: A proposal for statistical practice in testing hypotheses , Bayarri, Benjamin, Berger, and Sellke present Bayesian as well as classical methods that avoid four common problems with standard statistical testing, such as the failure to incorporate power when quantifying statistical evidence. Furthermore the authors show that the Bayes factor satisfies important frequentist principles. This holds out hope for a possible synthesis of frequentist and Bayesian hypothesis testing, a subject which statisticians have been struggling with for decades. 
+                            
+                            
+                               • 
+                               In  Bayes factors for testing order-constrained hypotheses on correlations , Mulder presents a methodology for computing Bayes factors for testing order constraints on correlation coefficients. Applications include multitrait–multimethod analyses, repeated measures studies, and tests for ordered moderator effects. The methodology is implemented in the freely downloadable software package “BOCOR”. This package allows researchers to test complex order constraints on correlations using the Bayes factor in a relatively easy manner. 
+                            
+                            
+                               • 
+                               In  Bayes factors for state-trace analysis , Davis-Stober, Morey, Gretton, and Heathcote generalize existing Bayes factor methodology for state-trace analysis. The authors’ methodology efficiently assesses the evidence for a monotonic relation; in addition, the authors propose a group-level Bayes factor to evaluate whether or not all individuals satisfy monotonicity. Particular attention is paid to the specification of prior distributions in order to ensure that the statistical models under test are veridical reflections of the underlying theory. 
+                            
+                            
+                               • 
+                               In  Error probabilities in default Bayesian hypothesis testing , Gu, Hoijtink, and Mulder investigate classical error probabilities of commonly used default Bayes factors for a simple Student  
+                                     t 
+                                   test. This work was motivated by the fact that Bayes factors minimize the sum of the type I and type II error probabilities when generating data via the proper priors that are specified under the hypotheses. The authors show how the prior implicitly controls for which effects one obtains good frequentist performance. 
+                            
+                            
+                               • 
+                               In  Bayesian alternatives to null-hypothesis significance testing for repeated-measures designs , Nathoo and Masson show how to compute the BIC (i.e., a large sample approximation of the Bayes factor) for testing hypotheses in repeated measures designs. An R-package is provided to compute this BIC which only needs standard output of a classical ANOVA analysis. 
+                            
+                            
+                               • 
+                               In  Automatic Bayes factors for testing variances of two independent normal distributions , Böing-Messing and Mulder propose different default Bayes factors for a multiple testing problem of two population variances. The proposed methods can be used to quantify the evidence in the data in favor of the null hypothesis that two population variances are equal, something that is not possible using classical  
+                                     p 
+                                   value tests. The authors show how to compute these Bayes factors in a simple manner.
+
+In  Rejection odds and rejection ratios: A proposal for statistical practice in testing hypotheses , Bayarri, Benjamin, Berger, and Sellke present Bayesian as well as classical methods that avoid four common problems with standard statistical testing, such as the failure to incorporate power when quantifying statistical evidence. Furthermore the authors show that the Bayes factor satisfies important frequentist principles. This holds out hope for a possible synthesis of frequentist and Bayesian hypothesis testing, a subject which statisticians have been struggling with for decades.
+
+In  Bayes factors for testing order-constrained hypotheses on correlations , Mulder presents a methodology for computing Bayes factors for testing order constraints on correlation coefficients. Applications include multitrait–multimethod analyses, repeated measures studies, and tests for ordered moderator effects. The methodology is implemented in the freely downloadable software package “BOCOR”. This package allows researchers to test complex order constraints on correlations using the Bayes factor in a relatively easy manner.
+
+In  Bayes factors for state-trace analysis , Davis-Stober, Morey, Gretton, and Heathcote generalize existing Bayes factor methodology for state-trace analysis. The authors’ methodology efficiently assesses the evidence for a monotonic relation; in addition, the authors propose a group-level Bayes factor to evaluate whether or not all individuals satisfy monotonicity. Particular attention is paid to the specification of prior distributions in order to ensure that the statistical models under test are veridical reflections of the underlying theory.
+
+In  Error probabilities in default Bayesian hypothesis testing , Gu, Hoijtink, and Mulder investigate classical error probabilities of commonly used default Bayes factors for a simple Student  
+                                     t 
+                                   test. This work was motivated by the fact that Bayes factors minimize the sum of the type I and type II error probabilities when generating data via the proper priors that are specified under the hypotheses. The authors show how the prior implicitly controls for which effects one obtains good frequentist performance.
+
+In  Bayesian alternatives to null-hypothesis significance testing for repeated-measures designs , Nathoo and Masson show how to compute the BIC (i.e., a large sample approximation of the Bayes factor) for testing hypotheses in repeated measures designs. An R-package is provided to compute this BIC which only needs standard output of a classical ANOVA analysis.
+
+In  Automatic Bayes factors for testing variances of two independent normal distributions , Böing-Messing and Mulder propose different default Bayes factors for a multiple testing problem of two population variances. The proposed methods can be used to quantify the evidence in the data in favor of the null hypothesis that two population variances are equal, something that is not possible using classical  
+                                     p 
+                                   value tests. The authors show how to compute these Bayes factors in a simple manner.
+
+• 
+                               In  Evaluating evidence for invariant items: A Bayes factor approach to testing measurement invariance , Verhagen, Levy, Millsap, and Fox present a Bayes factor test for detecting differential item functioning in educational testing. The test is applied to a mathematical test to investigate whether women answer geometry items differently than men. An attractive feature of the proposed test is that it can be used to quantify evidence in favor of the hypothesis that an item is gender invariant. 
+                            
+                            
+                               • 
+                               In  Prototypes, exemplars and the response scaling parameter: A Bayes factor perspective , Vanpaemel shows that the Bayes factor can be used to break the stalemate between prototype and exemplar theorists in category learning. As described by the author this is due to the fact that Bayes factors behave like an Occam’s razor where model fit and model complexity are naturally balanced when quantifying the relative evidence in the data between the two models. 
+                            
+                            
+                               • 
+                               In  Bayesian analysis of simulation-based models , Turner, Sederberg, and McClelland explore likelihood-free posterior estimation for the Leaky, Competing Accumulator (LCA) model and the Feed-Forward Inhibition (FFI) model. The authors then compare these two models on the basis of the several performance measures including Bayes factors based on the BIC. The results reveal considerable participant heterogeneity, where the LCA does better than the FFI for some participants, but worse for others. 
+                            
+                            
+                               • 
+                               In  A Bayesian test for the hot hand phenomenon , Wetzels, Dolan, Tutschkow, van der Sluis, Dutilh, and Wagenmakers present a Bayes factor test to determine whether the performance of sports players is punctuated by streaks of exceptional performance. The results indicate that very long data sequences are needed to determine whether the hot hand really exists or not. The new method is applied to empirical basketball data and time-series data of a visual perception task. 
+                            
+                            
+                               • 
+                               In  Using Bayes factors to test the predictions of models: A case study in visual working memory , Kary, Taylor, and Donkin use Bayes factors to quantify the relative predictive adequacy of two models for visual working memory, that is, hierarchical versions of standard slots and resource models. Data from previous experiments are used to update the prior distributions, resulting in more focused predictions. The authors rightly stress the difference between fitting a model to data and evaluating that model’s predictions.
+
+In  Evaluating evidence for invariant items: A Bayes factor approach to testing measurement invariance , Verhagen, Levy, Millsap, and Fox present a Bayes factor test for detecting differential item functioning in educational testing. The test is applied to a mathematical test to investigate whether women answer geometry items differently than men. An attractive feature of the proposed test is that it can be used to quantify evidence in favor of the hypothesis that an item is gender invariant.
+
+In  Prototypes, exemplars and the response scaling parameter: A Bayes factor perspective , Vanpaemel shows that the Bayes factor can be used to break the stalemate between prototype and exemplar theorists in category learning. As described by the author this is due to the fact that Bayes factors behave like an Occam’s razor where model fit and model complexity are naturally balanced when quantifying the relative evidence in the data between the two models.
+
+In  Bayesian analysis of simulation-based models , Turner, Sederberg, and McClelland explore likelihood-free posterior estimation for the Leaky, Competing Accumulator (LCA) model and the Feed-Forward Inhibition (FFI) model. The authors then compare these two models on the basis of the several performance measures including Bayes factors based on the BIC. The results reveal considerable participant heterogeneity, where the LCA does better than the FFI for some participants, but worse for others.
+
+In  A Bayesian test for the hot hand phenomenon , Wetzels, Dolan, Tutschkow, van der Sluis, Dutilh, and Wagenmakers present a Bayes factor test to determine whether the performance of sports players is punctuated by streaks of exceptional performance. The results indicate that very long data sequences are needed to determine whether the hot hand really exists or not. The new method is applied to empirical basketball data and time-series data of a visual perception task.
+
+In  Using Bayes factors to test the predictions of models: A case study in visual working memory , Kary, Taylor, and Donkin use Bayes factors to quantify the relative predictive adequacy of two models for visual working memory, that is, hierarchical versions of standard slots and resource models. Data from previous experiments are used to update the prior distributions, resulting in more focused predictions. The authors rightly stress the difference between fitting a model to data and evaluating that model’s predictions.
+
+The Bayes factor is increasingly used across many fields of empirical research. Reasons for its increased popularity include its intuitive interpretation as the relative evidence provided by the data between the hypotheses of interest, its flexibility to test nonnested hypotheses (possibly in the presence of order constraints), and its straightforward availability through user-friendly software packages. Together, the contributions to this special issue form another step toward a better understanding of the Bayes factor’s potential to address substantive research questions in an appropriate and coherent fashion. We also would like to alert readers to a special issue on Bayesian methods in psychology which is scheduled to appear in  Psychonomic Bulletin and Review  later this year. These and other contributions demonstrate how psychology and other empirical disciplines can benefit from using Bayes factors to test statistical hypotheses and evaluate scientific theories.
+
+This work was partly funded by a Veni Grant awarded to the first author by the  Netherlands Organization for Scientific Research  (VENI Grant Number  451-13-011 ).

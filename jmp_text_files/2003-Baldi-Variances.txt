@@ -1,0 +1,668 @@
+10.1016/s0022-2496(03)00036-1
+This note provides some inequalities concerning random variables taking values in [0,1]. The inequalities are used to compute constraints on the variances of estimators of parameters for binary multinomial processing tree (hereafter called MPT) models (see  Batchelder & Riefer, 1999 , for discussion of MPT models). In particular,  Knapp and Batchelder (2001)  provide general methods of accommodating parametric order constraints of the form 
+                         
+                            (1) 
+                            0⩽θ N ⩽⋯⩽θ 1 ⩽1 
+                         
+                      in MPT models. Their solution is to reparameterize the MPT into an equivalent MPT without any order constraints, that is, the new parameters are functionally independent and each is free to vary in [0,1]. Standard procedures based on a special application of the expectation maximization (EM) algorithm have been developed to obtain maximum-likelihood estimates (MLEs) of the new parameters as well as estimates of their variances ( Hu & Batchelder, 1994 ;  Hu & Phillips, 1999 ). It is straightforward to use the MLEs of the new model to obtain MLEs of the original constrained parameters; however, there is no general procedure for using the variances of the estimators of the new parameters to obtain variances of the MLEs of the constrained parameters. Our results provide some useful inequalities for bounding the variances of the estimators of the constrained parameters.
+
+Following the introduction, this note is organized into four main sections. First, we review the definition of MPT models, and second, we review some of the reparametrization methods in  Knapp and Batchelder (2001) . Third, we provide our inequality results and, finally, we apply them to bound estimator variances of parameters in MPT models with parametric order constraints.
+
+In its most simple form, a (binary) MPT model is defined by a set of categories  
+                         
+                            C 
+                         ={C 1 ,…,C J } , a directed rooted tree  T , and a set of parameters  Θ ={ θ 
+                      1 ,…, θ 
+                      
+                         s 
+                      }. The parameters are functionally independent, each with full range in [0,1], and to each internal vertex  ν  of  T  is associated a parameter  θ 
+                      
+                         νs 
+                      ∈ Θ , where  θ 
+                      
+                         νs 
+                       and 1− θ 
+                      
+                         νs 
+                       represent the transition probabilities to the two children of  ν . The same parameter can be associated with several vertices of the tree, and the tree has a single root.
+
+Each leaf of the tree is associated with a category  C  in  C . If  π  represents the branch (path) of the tree ending with a leaf associated with category  C , we have 
+                         
+                            (2) 
+                            P π = 
+                                  ∏ 
+                                  θ s ∈Θ 
+                               θ s 
+                               n(π,s) (1−θ s ) m(π,s) , 
+                         
+                      where  n ( π , s ) and  m ( π , s ) are the number of times, respectively, that parameters  θ 
+                      
+                         s 
+                       and (1− θ 
+                      
+                         s 
+                      ) appear along branch  π . In other words, the probability of choosing or observing category  C  in conjunction with path  π  is given by the product of the transitional probability parameters along  π . The probability of category  C 
+                      
+                         j 
+                       is then the sum over all branches that lead to it, that is, 
+                         
+                            (3) 
+                            P(C j )= 
+                                  
+                                     Σ 
+                                  
+                                  π:C j 
+                                  
+                               P(π), 
+                         
+                      where “ π : C 
+                      
+                         j 
+                      ” represents the set of all branches associated with class  C 
+                      
+                         j 
+                      ,  j =1,…, J .
+
+The data  D =( N 
+                      1 , N 
+                      2 ,…, N 
+                      
+                         J 
+                      ) consist of the counts  N 
+                      
+                         j 
+                       representing how many times category  C 
+                      
+                         j 
+                       is observed. The multinomial data likelihood is 
+                         
+                            (4) 
+                            P( 
+                                  D 
+                               
+                               
+                                  Θ) =N! 
+                                  ∏ 
+                                  j=1 
+                                  J 
+                               
+                               
+                                  P(C j ) Nj 
+                                  
+                                  N j ! 
+                               , 
+                         
+                      where  N= 
+                            ∑ 
+                         N j 
+                      . A number of algorithms are available to estimate the parameters  θ 
+                      
+                         s 
+                       from  D , including maximizing the likelihood or suitable posterior functions using gradient descent or the EM algorithm ( Hu & Batchelder, 1994 ), on-line (example by example) or off-line.
+
+There are a number of situations where it is reasonable to apply an MPT model to data with constraints among the  S  parameters.  Knapp and Batchelder (2001)  analyze the example of a multitrial experiment wherein a particular parameter  θ  is constrained to be non-increasing (or non-decreasing) over successive experimental trials, for example, as depicted in  Eq. (1) . They discuss several ways to reparameterize the model to reflect the order constraints where the reparameterized model has an equal number of parameters, can be represented as an MPT model (with no parameter constraints), and is equivalent to the original model with the order constraints. These methods are applied to two data sets in  Riefer, Knapp, Batchelder, Bamber and Manifold (2002) .
+
+One example of reparameterization that handles  Eq. (1)  is to define new parameters 0⩽ α 
+                      
+                         i 
+                      ⩽1 for  i =1,…, N , and satisfy  Eq. (1)  by 
+                         
+                            (5) 
+                            θ s = 
+                                  ∏ 
+                                  i=1 
+                                  s 
+                               α i , 
+                         
+                      where  α 
+                      1 = θ 
+                      1  
+                      Eq. (5)  defines a one-to-one transformation of  Θ =〈 θ 
+                      
+                         i 
+                      |1⩾ θ 
+                      1 ⩾⋯⩾ θ 
+                      
+                         N 
+                      ⩾0, i =1,…, N 〉 onto the subset  Λ  of 〈 α 
+                      
+                         i 
+                      |0⩽ α 
+                      
+                         i 
+                      ⩽1, i =1,…, N 〉, where  α 
+                      
+                         i 
+                      =0 implies  α 
+                      
+                         i + k 
+                      =0, k =1,…,( N − i ). The inverse is given by  α 
+                      1 = θ 
+                      1  and 
+                         
+                            (6) 
+                            α i = 
+                                  
+                                  
+                                     
+                                        θ i /θ i−1 
+                                        
+                                        
+                                           if 
+                                           θ i−1 >0, 
+                                     
+                                     
+                                        0 
+                                        
+                                           if 
+                                           θ i−1 =0 
+                                     
+                                  
+                               
+                            
+                         
+                      for  i =2,…, N .
+
+Knapp and Batchelder (2001)  show that if  Θ  is a subset of the parameters of an MPT model subject to  Eq. (1) , then a new MPT model, with  Λ  replacing  Θ , can be constructed. The practical thrust of this result is that the new model without order constraints can be analyzed with the EM algorithm implemented in  Hu and Phillips (1999)  yielding MLEs  
+                         
+                            α 
+                            ̂ 
+                         
+                         i 
+                      , and then the MLEs of the original model with constraints are given through  Eq. (5)  by replacing the  α 
+                      
+                         i 
+                       by the  
+                         
+                            α 
+                            ̂ 
+                         
+                         i 
+                      . Further, if the original model with order constraints is identified, then there will be a unique MLE of the new model that leads via  Eq. (5)  to a unique MLE of the constrained model that satisfies the order constraints.
+
+Knapp and Batchelder (2001)  provide other reparameterizations that have similar properties as the one in  Eq. (5) . For example, another reparameterization method is given by noting from  Eq. (1)  that 
+                         
+                            (7) 
+                            0⩽1−θ 1 ⩽⋯⩽1−θ N ⩽1. 
+                         
+                      Then one can introduce 0⩽ β 
+                      
+                         i 
+                      ⩽1 for  i =1,…, N  and satisfy  Eq. (1)  by 
+                         
+                            (8) 
+                            θ s =1− 
+                                  ∏ 
+                                  i=s 
+                                  N 
+                               β i , 
+                         
+                      where  β 
+                      
+                         N 
+                      =1− θ 
+                      
+                         N 
+                       
+                      Eq. (8)  has an inverse like  Eq. (5)  given by  β 
+                      
+                         N 
+                      =1− θ 
+                      
+                         N 
+                       and 
+                         
+                            (9) 
+                            β i = 
+                                  
+                                  
+                                     
+                                        (1−θ i )/(1−θ i+1 ) 
+                                        
+                                           if 
+                                           0 i <θ i+1 , 
+                                     
+                                     
+                                        0 
+                                        
+                                           if 
+                                           0=θ i+1 
+                                        
+                                     
+                                  
+                               
+                            
+                         
+                      for  i =1,…, N −1.
+
+Theorem 
+                         
+                            Let X and Y be two random variables in the  [0,1]  interval. Then 
+                            
+                               
+                                  (10) 
+                                  Var[XY]⩽Var[X]+Var[Y]+2 
+                                        Var[X] Var[Y] 
+                                     ⩽2(Var[X]+Var[Y]). 
+                               
+                            
+                         
+                      
+                      
+                         Proof 
+                         Consider a pair ( X ′, Y ′) of auxiliary random variables independent and identically distributed as ( X , Y ). Note immediately that  Var[X]= 
+                                  1 
+                                  2 
+                               E[(X−X′) 2 ] . Then similarly: 
+                               
+                                  (11) 
+                                  Var[XY]= 
+                                        1 
+                                        2 
+                                     E[(XY−X′Y′) 2 ]= 
+                                        1 
+                                        2 
+                                     E[(XY+XY′−XY′−X′Y′) 2 ]= 
+                                        1 
+                                        2 
+                                     E[(X(Y−Y′)+Y′(X−X′)) 2 ]= 
+                                        1 
+                                        2 
+                                     
+                                     
+                                        E[X 2 (Y−Y′) 2 ]+E[Y 2 (X−X′) 2 ] 
+                                     
+                                        +2E[XY′(X−X ′ )(Y−Y′) 
+                                        
+                                        
+                                     
+                                  
+                               
+                            Now using the fact that  X , Y ′≤1, we get 
+                               
+                                  (12) 
+                                  Var[XY]⩽ 
+                                        1 
+                                        2 
+                                     {E[(Y−Y′) 2 ]+E[(X−X′) 2 ]+ 2E[ 
+                                           ( X−X′)(Y−Y′) 
+                                     ]}=Var[X]+Var[Y]+E[ 
+                                        (X−X′)(Y−Y′ ) 
+                                        
+                                     ]. 
+                               
+                            This inequality is in general strict unless  X  and  Y  are equal to 1 with probability 1. 
+                         Applying Schwarz's inequality ( Billingsley, 1995 ) yields 
+                               
+                                  (13) 
+                                  E[ 
+                                        X−X′ || Y−Y′ 
+                                     ]⩽ 
+                                        E[(X−X′) 2 ]E[(Y−Y′) 2 ] 
+                                     =2 
+                                        Var[X]Var[Y]. 
+                                     
+                                  
+                               
+                            Finally, using the geometric–arithmetic mean inequality yields 
+                               
+                                  Var[X]+Var[Y]⩾2 
+                                        Var[X]Var[Y] 
+                                     . 
+                               
+                            Thus, 
+                               
+                                  (14) 
+                                  Var[XY]⩽2(Var[X]+Var[Y]). 
+                               
+                            As an example, if  X  has a two-dimensional Dirichlet (Beta) distribution with parameters 2 and 3, and  Y  has a similar distribution with parameters 4 and 6, then  E(X)=0.4=E(Y), Var(X)=0.040  and  Var ( Y )=0.022. Using the theorem,  Var ( XY )⩽.124. The bound in  Eq. (14)  is general and simple; however, it is not always tight (the bound in  Eq. (12)  is, of course, tighter). For example, when  X =0 with probability 1, then  Var ( XY )=0. With additional assumptions, tighter bounds or useful formulae are easy to achieve. For example, if  X  and  Y  are independent, then 
+                               
+                                  (15) 
+                                  Var[XY]=E[X 2 ]E[Y 2 ]−E 2 [X]E 2 [Y]=Var[X]Var[Y]+E 2 [X]Var[Y]+E 2 [Y]Var[X]. 
+                               
+                            It is easy to see that  Eq. (15)  is a much tighter bound than  Eq. (14) . 
+                         Another case that is useful for applications to parametric order constraints is where ( X , Y ) is (approximately) bivariate normal with known means, variances, and correlation  ρ .  Kotz, Balakrishnan, and Johnson (2000)  state that in the case of standardized variables  z 
+                            1  and  z 
+                            2  with a bivariate normal distribution 
+                               
+                                  (16) 
+                                  E[z 1 
+                                     2 z 2 
+                                     2 ]=1+2ρ 2 , 
+                               
+                            where  σ  is the Pearson correlation. 
+                         Inserting  z 
+                            1 
+                            2 =( X − E [ X ]) 2 / Var [ X ] and  z 
+                            2 
+                            2 =( Y − E [ Y ]) 2 / Var [ Y ] into  Eq. (16)  and performing routine operations with expectations yields 
+                               
+                                  (17) 
+                                  Var[XY]=Var[X]Var[Y](1+ρ 2 )+E 2 [X]Var[Y]+E 2 [Y]Var[X]+2ρE[X]E[Y] 
+                                        Var[X]Var[Y] 
+                                     . 
+                               
+                            
+                            
+                            ■
+
+Let X and Y be two random variables in the  [0,1]  interval. Then 
+                            
+                               
+                                  (10) 
+                                  Var[XY]⩽Var[X]+Var[Y]+2 
+                                        Var[X] Var[Y] 
+                                     ⩽2(Var[X]+Var[Y]).
+
+Consider a pair ( X ′, Y ′) of auxiliary random variables independent and identically distributed as ( X , Y ). Note immediately that  Var[X]= 
+                                  1 
+                                  2 
+                               E[(X−X′) 2 ] . Then similarly: 
+                               
+                                  (11) 
+                                  Var[XY]= 
+                                        1 
+                                        2 
+                                     E[(XY−X′Y′) 2 ]= 
+                                        1 
+                                        2 
+                                     E[(XY+XY′−XY′−X′Y′) 2 ]= 
+                                        1 
+                                        2 
+                                     E[(X(Y−Y′)+Y′(X−X′)) 2 ]= 
+                                        1 
+                                        2 
+                                     
+                                     
+                                        E[X 2 (Y−Y′) 2 ]+E[Y 2 (X−X′) 2 ] 
+                                     
+                                        +2E[XY′(X−X ′ )(Y−Y′) 
+                                        
+                                        
+                                     
+                                  
+                               
+                            Now using the fact that  X , Y ′≤1, we get 
+                               
+                                  (12) 
+                                  Var[XY]⩽ 
+                                        1 
+                                        2 
+                                     {E[(Y−Y′) 2 ]+E[(X−X′) 2 ]+ 2E[ 
+                                           ( X−X′)(Y−Y′) 
+                                     ]}=Var[X]+Var[Y]+E[ 
+                                        (X−X′)(Y−Y′ ) 
+                                        
+                                     ]. 
+                               
+                            This inequality is in general strict unless  X  and  Y  are equal to 1 with probability 1.
+
+Applying Schwarz's inequality ( Billingsley, 1995 ) yields 
+                               
+                                  (13) 
+                                  E[ 
+                                        X−X′ || Y−Y′ 
+                                     ]⩽ 
+                                        E[(X−X′) 2 ]E[(Y−Y′) 2 ] 
+                                     =2 
+                                        Var[X]Var[Y]. 
+                                     
+                                  
+                               
+                            Finally, using the geometric–arithmetic mean inequality yields 
+                               
+                                  Var[X]+Var[Y]⩾2 
+                                        Var[X]Var[Y] 
+                                     . 
+                               
+                            Thus, 
+                               
+                                  (14) 
+                                  Var[XY]⩽2(Var[X]+Var[Y]). 
+                               
+                            As an example, if  X  has a two-dimensional Dirichlet (Beta) distribution with parameters 2 and 3, and  Y  has a similar distribution with parameters 4 and 6, then  E(X)=0.4=E(Y), Var(X)=0.040  and  Var ( Y )=0.022. Using the theorem,  Var ( XY )⩽.124. The bound in  Eq. (14)  is general and simple; however, it is not always tight (the bound in  Eq. (12)  is, of course, tighter). For example, when  X =0 with probability 1, then  Var ( XY )=0. With additional assumptions, tighter bounds or useful formulae are easy to achieve. For example, if  X  and  Y  are independent, then 
+                               
+                                  (15) 
+                                  Var[XY]=E[X 2 ]E[Y 2 ]−E 2 [X]E 2 [Y]=Var[X]Var[Y]+E 2 [X]Var[Y]+E 2 [Y]Var[X]. 
+                               
+                            It is easy to see that  Eq. (15)  is a much tighter bound than  Eq. (14) .
+
+Another case that is useful for applications to parametric order constraints is where ( X , Y ) is (approximately) bivariate normal with known means, variances, and correlation  ρ .  Kotz, Balakrishnan, and Johnson (2000)  state that in the case of standardized variables  z 
+                            1  and  z 
+                            2  with a bivariate normal distribution 
+                               
+                                  (16) 
+                                  E[z 1 
+                                     2 z 2 
+                                     2 ]=1+2ρ 2 , 
+                               
+                            where  σ  is the Pearson correlation.
+
+Inserting  z 
+                            1 
+                            2 =( X − E [ X ]) 2 / Var [ X ] and  z 
+                            2 
+                            2 =( Y − E [ Y ]) 2 / Var [ Y ] into  Eq. (16)  and performing routine operations with expectations yields 
+                               
+                                  (17) 
+                                  Var[XY]=Var[X]Var[Y](1+ρ 2 )+E 2 [X]Var[Y]+E 2 [Y]Var[X]+2ρE[X]E[Y] 
+                                        Var[X]Var[Y] 
+                                     . 
+                               
+                            
+                            
+                            ■
+
+From a Bayesian perspective, the parameters are random variables, so when the parameters  α 
+                      
+                         i 
+                       in  Eq. (5)  are independent of each other, we obviously have 
+                         
+                            (18) 
+                            E[θ i ]=E 
+                                  
+                                  
+                                     ∏ 
+                                     k=1 
+                                     i 
+                                  α k 
+                                  
+                               = 
+                                  ∏ 
+                                  k=1 
+                                  i 
+                               E[α k ]. 
+                         
+                      and  Eq. (15)  can be applied iteratively if the  E [ α 
+                      
+                         k 
+                      ] and  E [ α 
+                      
+                         k 
+                      
+                      2 ] are known.
+
+For the maximum-likelihood estimates, the relationship  
+                         
+                            θ 
+                            ̂ 
+                         
+                         i = 
+                            ∏ 
+                            k−1 
+                            i 
+                         
+                         
+                            α 
+                            ̂ 
+                         
+                         k 
+                       is true even when the  
+                         
+                            α 
+                            ̂ 
+                         
+                         i 
+                       are not independent. This is true because the likelihood function and, therefore, its maxima are preserved under one-to-one parametric transformations of a model. In order to bound variance and covariance terms for the  
+                         
+                            θ 
+                            ̂ 
+                         
+                         s 
+                      , we can employ the theorem of the previous section. This theorem can be repeated iteratively to find upper bounds for variance and covariance of the  
+                         
+                            θ 
+                            ̂ 
+                         
+                         s 
+                      . Suppose we have estimates of  Var[ 
+                            α 
+                            ̂ 
+                         
+                         i ],i=1,…,N . These can be obtained using the program described in  Hu and Phillips (1999)  either by asymptotic approximations, using the observed Fischer information matrix, or by simulation from the MPT model calibrated by the  
+                         
+                            α 
+                            ̂ 
+                         
+                         i 
+                      . Then it is straightforward to use the theorem to obtain bounds on the  Var[ 
+                            θ 
+                            ̂ 
+                         
+                         i ] , for example (hereinafter suppressing the “hat” for MLE), 
+                         
+                            Var[θ 3 ]⩽2(Var[α 1 ]+Var[α 2 α 3 ])⩽2Var[α 1 ]+2 2 (Var[α 2 ]+Var[α 3 ]). 
+                         
+                      For each  θ 
+                      
+                         i 
+                      , there are many decompositions into pairwise products and, therefore, we can bound the variance of each  θ 
+                      
+                         i 
+                       by 
+                         
+                            (19) 
+                            Var[θ i ]=Var[ 
+                                  ∏ 
+                                  k=1 
+                                  i 
+                               α k ]⩽ 
+                                  
+                                     inf 
+                                  
+                                  η 
+                               
+                               
+                                  ∑ 
+                                  k 
+                               2 η(k) Var[α k ], 
+                         
+                      where  η  runs over all possible binary tree decompositions of the product  
+                         
+                            ∏ 
+                            k=1 
+                            i 
+                         α k 
+                      , and  η ( k ) is the length of the branch in the tree decomposition corresponding to  α 
+                      
+                         k 
+                      . For instance,  θ 
+                      3 = α 
+                      1 
+                      α 
+                      2 
+                      α 
+                      3  can be decomposed in three ways as  θ 
+                      3 = α 
+                      1 ( α 
+                      2 
+                      α 
+                      3 ) or  θ 
+                      3 =( α 
+                      1 
+                      α 
+                      2 ) α 
+                      3 , or  θ 
+                      3 = α 
+                      2 ( α 
+                      1 
+                      α 
+                      3 ). Therefore, 
+                         
+                            Var[θ 3 ]⩽ inf 
+                               
+                                  2 Var[α 1 ]+(2 2 )Var[α 2 ]+(2 2 )Var[α 3 ],2Var[α 3 ]+(2 2 )Var[α 1 ]+(2 2 )Var[α 2 ],2Var[α 2 ]+(2 2 )Var[α 1 ]+(2 2 )Var[α 3 
+                               ] 
+                               . 
+                         
+                      This bound tends to get weaker as the number of  α ′ s  in the product increases. Many models used in practice have a small number of parameters and, therefore, the blow-up caused by the factors of the form 2 
+                         η ( k )  could be contained provided the variances of the  α ′ s  are small in comparison. For large numbers of parameters  N , it is necessary that the individual variances of the  α ′ s  be exponentially small in  N  for the bound to be useful.
+
+Similar estimates and bounds can be derived for covariance products of the form  θ 
+                      
+                         i 
+                      
+                      θ 
+                      
+                         j 
+                       with ( i < j ), by using 
+                         
+                            (20) 
+                            θ i θ j = 
+                                  ∏ 
+                                  k=1 
+                                  i 
+                               (α k 
+                               2 ) 
+                                  ∏ 
+                                  k=i+1 
+                                  j 
+                               α k . 
+                         
+                      When the parameterization using the 1− θ ′ s  in  Eq. (8)  is used, the previous theorem applies again in the same way mutatis mutandis. For instance,  Var (1− θ 
+                      
+                         s 
+                      )= Var ( θ 
+                      
+                         s 
+                      )= Var (∏ 
+                         s =1 
+                      
+                         N 
+                      
+                      β 
+                      
+                         i 
+                      ).
+
+If the number of data points for an MPT is large, one may obtain tighter bounds by the fact that MLEs are asymptotically multivariate normal, with variance–covariance matrix approximated by the inverse of the observed Fischer information matrix. The implementation of the EM algorithm discussed in  Hu and Batchelder (1994)  provides these approximations. Then, an approximate bound for  Var[∏ i=−1 
+                         k 
+                         
+                            α 
+                            ̂ 
+                         
+                         i ] , for  k =2,…, N  can be computed by iterative use of  Eq. (17) . In this application,  E( 
+                            α 
+                            ̂ 
+                         
+                         j )  is approximated by  
+                         
+                            α 
+                            ̂ 
+                         
+                         i 
+                      , and the  Var( 
+                            α 
+                            ̂ 
+                         
+                         j )  and  ρ( 
+                            α 
+                            ̂ 
+                         
+                         j , 
+                            α 
+                            ̂ 
+                         
+                         l )  are approximated by the obvious terms in the inverse of the observed Fischer information matrix.
+
+The work of Pierre Baldi is supported by a Laurel Wilkening Faculty Innovation award and a Sun Microsystems award at UC Irvine. Pierre Baldi acknowledges useful discussions with Y. Rinott. The work of William Batchelder is supported by NSF Grant SES-0136115; William Batchelder also acknowledges the support of the Santa Fe Institute, where he was a Visiting Professor during some of the work.

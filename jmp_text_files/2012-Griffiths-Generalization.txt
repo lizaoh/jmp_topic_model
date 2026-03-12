@@ -1,0 +1,3758 @@
+10.1016/j.jmp.2012.07.002
+Generalizing a property from one stimulus to another is a fundamental problem in cognitive science. The problem arises in many forms across many different domains, from higher-level cognition (e.g., concept learning,  Tenenbaum (2000) ) to linguistics (e.g., word learning,  Xu and Tenenbaum (2007) ) to perception (e.g., color categorization,  Kay and McDaniel (1978) ). The ability to generalize effectively is a hallmark of cognitive agents and seems to take a consistent form across domains and across species ( Shepard, 1987 ). This consistency led  Shepard (1987)  to propose a “universal law” of generalization, arguing that the probability of generalizing a property decays exponentially as a function of the distance between two stimuli in psychological space. This argument was based on a mathematical analysis of generalization as Bayesian inference.
+
+Shepard’s (1987)  analysis asserted that properties pick out regions in psychological space (“consequential regions”). Upon observing that a stimulus possesses a property, an agent makes an inference as to which consequential regions could correspond to that property. This is done by applying Bayes’ rule, yielding a posterior distribution over regions. The probability of generalizing to a new stimulus is computed by summing over all consequential regions that contain both the old and the new stimulus, weighted by their posterior probability. Shepard gave analytical results for generalization along a single dimension, where consequential regions correspond to intervals of the real line, proving that generalization should be a negatively accelerated function of distance, such as an exponential. He also simulated results for generalization in two dimensions, examining how the pattern of generalization related to the choice of consequential regions. The resulting model explains generalization behavior as optimal statistical inference according to a probabilistic model–a rational analysis of generalization ( Anderson, 1990; Chater & Oaksford, 1999 )–and is one of the most important precursors of the recent surge of interest in Bayesian models of cognition, which include extensions of the Bayesian generalization framework beyond spatial representations ( Navarro, Dry, & Lee, 2012; Tenenbaum & Griffiths, 2001 ).
+
+One of the valuable insights yielded by  Shepard’s (1987)  analysis was that different patterns of generalization could be captured by making different assumptions about consequential regions. People use two different kinds of metrics when forming generalizations about multi-dimensional stimuli:  separable  dimensions are associated with exponential decay in “city-block” distance or the  
+                      
+                         
+                            L 
+                         
+                         
+                            1 
+                         
+                      
+                    metric, while  integral  dimensions are associated with exponential decay in Euclidean distance or the  
+                      
+                         
+                            L 
+                         
+                         
+                            2 
+                         
+                      
+                    metric ( Garner, 1974 ). These different metrics also have consequences beyond generalization behavior, influencing how people categorize objects varying along different dimensions ( Handel & Imai, 1972 ) and whether people can selectively attend to each dimension ( Garner & Felfoldy, 1970 ). Additionally, there is evidence that people can learn which metric they should use for generalization based on concept learning ( Austerweil & Griffiths, 2010 ).
+
+In the Bayesian generalization model, the difference between separable and integral dimensions emerges as the result of probabilistic inference with different kinds of consequential regions ( Davidenko & Tenenbaum, 2001; Shepard, 1987, 1991 ). When consequential regions are aligned with the axes of the space, such as rectangles or ellipses that have their major axes parallel to the dimensions in which stimuli are expressed, a pattern of generalization similar to that seen for separable dimensions emerges. When consequential regions are indifferent to the axes of the space, such as circles or randomly-oriented rectangles or ellipses, a pattern of generalization similar to that seen with integral dimensions appears.  Shepard (1987)  noted: “For stimuli, like colors, that differ along dimensions that do not correspond to uniquely defined independent variables in the world, moreover, psychological space should have no preferred axes. The consequential region is then most reasonably assumed to be circular or, whatever other shapes may be assumed, to have all possible orientations in the space with equal probability” (p. 1322).
+
+Despite the importance of considering different kinds of consequential regions in multidimensional spaces to  Shepard’s (1987)  theory, the result that the generalization function should be negatively accelerated was only proved in the unidimensional case. Subsequent analyses have shown that negatively accelerated functions can be obtained with rectangular consequential regions ( Myung & Shepard, 1996; Tenenbaum, 1999b,a ) and generalized the argument to discrete representations ( Austerweil & Griffiths, 2010; Chater & Vitanyi, 2003; Russell, 1986; Tenenbaum & Griffiths, 2001 ). However, the case of circular consequential regions–which are particularly important for representing integral dimensions, as noted above–has not been investigated in detail. In this article, we derive bounds and prove that the function produced by Bayesian generalization with multidimensional circular consequential regions is negatively accelerated, extending Shepard’s original result to this multidimensional case.
+
+The strategy behind our analysis is as follows. We begin by formulating the problem of generalization as Bayesian inference for an unknown consequential region. Next, we reparameterize the problem to allow us to simplify the probability of generalizing to a new stimulus to the integral of a simple function. Unfortunately the integral has no known closed form solution, leading us to attack it in two ways. First, we derive bounds on the integral that approximate the true solution. Second, we prove through analysis of the derivatives of the integral that the solution to the integral is convex and must be monotonically decaying in the Euclidean distance between the two stimuli.
+
+Assume that an observation  
+                         
+                            x 
+                         
+                       is drawn from a circular consequential region in  
+                         
+                            
+                               R 
+                            
+                            
+                               2 
+                            
+                         
+                      . Then we have  
+                         
+                            (1) 
+                            
+                               p 
+                               
+                                  ( 
+                                  
+                                     x 
+                                  
+                                  | 
+                                  
+                                     c 
+                                  
+                                  , 
+                                  s 
+                                  ) 
+                               
+                               = 
+                               
+                                  { 
+                                  
+                                     
+                                        
+                                           
+                                              
+                                                 1 
+                                              
+                                              
+                                                 π 
+                                                 s 
+                                              
+                                           
+                                        
+                                        
+                                           
+                                              
+                                                 
+                                                    ‖ 
+                                                    
+                                                       x 
+                                                    
+                                                    − 
+                                                    
+                                                       c 
+                                                    
+                                                    ‖ 
+                                                 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                           ≤ 
+                                           s 
+                                        
+                                     
+                                     
+                                        
+                                           0 
+                                        
+                                        
+                                           otherwise 
+                                        
+                                     
+                                  
+                               
+                            
+                         
+                       where  
+                         
+                            c 
+                         
+                       is the center of the consequential region, with  
+                         s 
+                       the square of its radius. We can then consider the set of all possible consequential regions from which the observation might have been drawn, which is here the set of all possible circles, and use Bayes’ rule to calculate the probability of that consequential region given the observation of  
+                         
+                            x 
+                         
+                      . Specifically, we have  
+                         
+                            (2) 
+                            
+                               p 
+                               
+                                  ( 
+                                  h 
+                                  | 
+                                  
+                                     x 
+                                  
+                                  ) 
+                               
+                               = 
+                               
+                                  
+                                     p 
+                                     
+                                        ( 
+                                        
+                                           x 
+                                        
+                                        | 
+                                        h 
+                                        ) 
+                                     
+                                     p 
+                                     
+                                        ( 
+                                        h 
+                                        ) 
+                                     
+                                  
+                                  
+                                     p 
+                                     
+                                        ( 
+                                        
+                                           x 
+                                        
+                                        ) 
+                                     
+                                  
+                               
+                            
+                         
+                       where  
+                         h 
+                       is some hypothetical consequential region, here consisting of a pair  
+                         
+                            c 
+                         
+                         , 
+                         s 
+                      . To evaluate the denominator, we simply compute  
+                         
+                            
+                               ∫ 
+                            
+                            
+                               h 
+                               ∈ 
+                               H 
+                            
+                         
+                         p 
+                         
+                            ( 
+                            
+                               x 
+                            
+                            | 
+                            h 
+                            ) 
+                         
+                         p 
+                         
+                            ( 
+                            h 
+                            ) 
+                         
+                         d 
+                         h 
+                      , where  
+                         H 
+                       is the set of all hypotheses under consideration, here being all pairs  
+                         
+                            c 
+                         
+                         , 
+                         s 
+                      . From this we can obtain the probability that some other point  
+                         
+                            y 
+                         
+                       is in the true consequential region from which  
+                         
+                            x 
+                         
+                       was drawn  
+                         
+                            (3) 
+                            
+                               p 
+                               
+                                  ( 
+                                  
+                                     y 
+                                  
+                                  ∈ 
+                                  C 
+                                  | 
+                                  
+                                     x 
+                                  
+                                  ) 
+                               
+                               = 
+                               
+                                  
+                                     ∫ 
+                                  
+                                  
+                                     h 
+                                     ∋ 
+                                     y 
+                                     , 
+                                     h 
+                                     ∈ 
+                                     H 
+                                  
+                               
+                               p 
+                               
+                                  ( 
+                                  h 
+                                  | 
+                                  
+                                     x 
+                                  
+                                  ) 
+                               
+                               d 
+                               h 
+                               = 
+                               
+                                  
+                                     
+                                        
+                                           ∫ 
+                                        
+                                        
+                                           h 
+                                           ∋ 
+                                           y 
+                                           , 
+                                           h 
+                                           ∈ 
+                                           H 
+                                        
+                                     
+                                     p 
+                                     
+                                        ( 
+                                        
+                                           x 
+                                        
+                                        | 
+                                        h 
+                                        ) 
+                                     
+                                     p 
+                                     
+                                        ( 
+                                        h 
+                                        ) 
+                                     
+                                     d 
+                                     h 
+                                  
+                                  
+                                     
+                                        
+                                           ∫ 
+                                        
+                                        
+                                           h 
+                                           ∈ 
+                                           H 
+                                        
+                                     
+                                     p 
+                                     
+                                        ( 
+                                        
+                                           x 
+                                        
+                                        | 
+                                        h 
+                                        ) 
+                                     
+                                     p 
+                                     
+                                        ( 
+                                        h 
+                                        ) 
+                                     
+                                     d 
+                                     h 
+                                  
+                               
+                            
+                         
+                       where  
+                         C 
+                       is the true consequential region. We focus on the numerator for now (the denominator will follow as a special case).
+
+We can think about this problem in terms of the graphical representation shown in  Fig. 1 
+                      . Taking  
+                         
+                            x 
+                         
+                       as the origin, we can express the location of  
+                         
+                            c 
+                         
+                       in polar coordinates  
+                         
+                            ( 
+                            r 
+                            , 
+                            θ 
+                            ) 
+                         
+                      , where  
+                         θ 
+                       is such that  
+                         
+                            y 
+                         
+                       is located at  
+                         
+                            ( 
+                            t 
+                            , 
+                            0 
+                            ) 
+                         
+                      . Let  
+                         r 
+                       be the distance between  
+                         
+                            x 
+                         
+                       and  
+                         
+                            c 
+                         
+                      , 
+                         
+                            ‖ 
+                            
+                               x 
+                            
+                            − 
+                            
+                               c 
+                            
+                            ‖ 
+                         
+                       in Eq.  (1) , and  
+                         t 
+                       be the distance between  
+                         
+                            x 
+                         
+                       and  
+                         
+                            y 
+                         
+                      . This is a nice parameterization for the problem, because it allows us to integrate over all circles containing both  
+                         
+                            x 
+                         
+                       and  
+                         
+                            y 
+                         
+                       (beginning with the smallest circle containing both of them). We can divide the plane into four quadrants, with one axis passing through  
+                         
+                            x 
+                         
+                       and  
+                         
+                            y 
+                         
+                      , and a perpendicular axis that crosses halfway between  
+                         
+                            x 
+                         
+                       and  
+                         
+                            y 
+                         
+                      . Due to the resulting symmetries between the circles containing both  
+                         
+                            x 
+                         
+                       and  
+                         
+                            y 
+                         
+                       in these four quadrants, we need only consider one of the quadrants. In  Fig. 1 ,  
+                         
+                            c 
+                         
+                       is located above the midpoint of  
+                         t 
+                         / 
+                         2 
+                      ,  
+                         
+                            y 
+                         
+                       will always be in  
+                         h 
+                       if  
+                         
+                            x 
+                         
+                       is in  
+                         h 
+                      . Thus we need only consider those circles for which  
+                         s 
+                         ≥ 
+                         
+                            
+                               r 
+                            
+                            
+                               2 
+                            
+                         
+                      , where  
+                         s 
+                       is the variable of integration and represents the area of the circular consequential region. The resulting generalization gradients will be only a function of  
+                         t 
+                      , the distance between  
+                         
+                            x 
+                         
+                       and  
+                         
+                            y 
+                         
+                      , and the denominator of Eq.  (3)  follows from the case where  
+                         t 
+                         = 
+                         0 
+                      , as with generalization in one dimension.
+
+For reasons that will become clear in a moment, we use  
+                         u 
+                         = 
+                         
+                            
+                               r 
+                            
+                            
+                               2 
+                            
+                         
+                       instead of  
+                         r 
+                       directly. This choice of parameterization allows us to write  
+                         
+                            (4) 
+                            
+                               
+                                  
+                                     ∫ 
+                                  
+                                  
+                                     h 
+                                     ∋ 
+                                     y 
+                                     , 
+                                     h 
+                                     ∈ 
+                                     H 
+                                  
+                               
+                               p 
+                               
+                                  ( 
+                                  
+                                     x 
+                                  
+                                  | 
+                                  h 
+                                  ) 
+                               
+                               p 
+                               
+                                  ( 
+                                  h 
+                                  ) 
+                               
+                               d 
+                               h 
+                               ∝ 
+                               
+                                  
+                                     ∫ 
+                                  
+                                  
+                                     0 
+                                  
+                                  
+                                     π 
+                                     / 
+                                     2 
+                                  
+                               
+                               
+                                  
+                                     ∫ 
+                                  
+                                  
+                                     
+                                        
+                                           u 
+                                        
+                                        
+                                           0 
+                                        
+                                     
+                                  
+                                  
+                                     ∞ 
+                                  
+                               
+                               
+                                  
+                                     ∫ 
+                                  
+                                  
+                                     u 
+                                  
+                                  
+                                     ∞ 
+                                  
+                               
+                               p 
+                               
+                                  ( 
+                                  
+                                     x 
+                                  
+                                  | 
+                                  θ 
+                                  , 
+                                  u 
+                                  , 
+                                  s 
+                                  ) 
+                               
+                               p 
+                               
+                                  ( 
+                                  θ 
+                                  , 
+                                  u 
+                                  , 
+                                  s 
+                                  ) 
+                               
+                               
+                               d 
+                               s 
+                               
+                               d 
+                               u 
+                               
+                               d 
+                               θ 
+                            
+                         
+                       where  
+                         
+                            
+                               u 
+                            
+                            
+                               0 
+                            
+                         
+                       is the minimum value of  
+                         u 
+                       to place  
+                         
+                            c 
+                         
+                       in the desired quadrant, which will be a function of  
+                         θ 
+                      . The first two integrals are over the possible centers of circles (that place  
+                         
+                            c 
+                         
+                       in the desired quadrant) and the third integral is over the possible circle sizes (ranging from the smallest circle including both  
+                         
+                            x 
+                         
+                       and  
+                         
+                            y 
+                         
+                      ). This is equivalent to integrating over the entire domain because  
+                         p 
+                         
+                            ( 
+                            
+                               x 
+                            
+                            | 
+                            θ 
+                            , 
+                            u 
+                            , 
+                            s 
+                            ) 
+                         
+                         = 
+                         0 
+                       for the circles that do not contain  
+                         
+                            x 
+                         
+                       and the integral is constrained to include  
+                         
+                            y 
+                         
+                      .
+
+The expression in the above equation requires us to specify a likelihood,  
+                         p 
+                         
+                            ( 
+                            
+                               x 
+                            
+                            | 
+                            h 
+                            ) 
+                         
+                         = 
+                         p 
+                         
+                            ( 
+                            
+                               x 
+                            
+                            | 
+                            θ 
+                            , 
+                            u 
+                            , 
+                            s 
+                            ) 
+                         
+                       and a prior distribution,  
+                         p 
+                         
+                            ( 
+                            h 
+                            ) 
+                         
+                         = 
+                         p 
+                         
+                            ( 
+                            θ 
+                            , 
+                            r 
+                            , 
+                            s 
+                            ) 
+                         
+                      . The likelihood is uniform over all points in the circle specified by  
+                         h 
+                      , which is defined by Eq.  (1) . By taking  
+                         s 
+                       to be the squared radius, we have  
+                         
+                            (5) 
+                            
+                               p 
+                               
+                                  ( 
+                                  
+                                     x 
+                                  
+                                  | 
+                                  h 
+                                  ) 
+                               
+                               = 
+                               p 
+                               
+                                  ( 
+                                  
+                                     x 
+                                  
+                                  | 
+                                  θ 
+                                  , 
+                                  u 
+                                  , 
+                                  s 
+                                  ) 
+                               
+                               = 
+                               
+                                  { 
+                                  
+                                     
+                                        
+                                           
+                                              
+                                                 1 
+                                              
+                                              
+                                                 π 
+                                                 s 
+                                              
+                                           
+                                        
+                                        
+                                           
+                                              x 
+                                           
+                                           ∈ 
+                                           h 
+                                        
+                                     
+                                     
+                                        
+                                           0 
+                                        
+                                        
+                                           otherwise . 
+                                        
+                                     
+                                  
+                               
+                            
+                         
+                       This implements the “size principle” that plays an important role in Bayesian generalization ( Tenenbaum, 1999a; Tenenbaum & Griffiths, 2001 ).
+
+For the prior, we assume a uniform distribution over the location of the center of the circles and an Erlang distribution (with parameters  
+                         k 
+                         = 
+                         2 
+                       and  
+                         λ 
+                         = 
+                         π 
+                      ) over their area. 
+                         1 
+                      
+                      
+                         1 
+                         The Erlang distribution is a special case of the Gamma distribution, where the scale parameter is constrained to be integer valued. 
+                       This is similar to the maximum entropy “expected-size” prior that captured human judgments well for multidimensional axis aligned concepts ( Tenenbaum, 1999b ) and takes the same form as the prior that yielded an exponential generalization function in  Shepard (1987) . Hence we have  
+                         
+                            
+                               (6) 
+                               
+                                  p 
+                                  
+                                     ( 
+                                     θ 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        2 
+                                        π 
+                                     
+                                  
+                               
+                            
+                            
+                               (7) 
+                               
+                                  p 
+                                  
+                                     ( 
+                                     u 
+                                     ) 
+                                  
+                                  ∝ 
+                                  1 
+                               
+                            
+                            
+                               (8) 
+                               
+                                  p 
+                                  
+                                     ( 
+                                     s 
+                                     | 
+                                     k 
+                                     = 
+                                     2 
+                                     , 
+                                     λ 
+                                     = 
+                                     π 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        π 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                                  s 
+                                  
+                                     
+                                        e 
+                                     
+                                     
+                                        − 
+                                        π 
+                                        s 
+                                     
+                                  
+                               
+                            
+                            
+                               (9) 
+                               
+                                  p 
+                                  
+                                     ( 
+                                     h 
+                                     ) 
+                                  
+                                  = 
+                                  p 
+                                  
+                                     ( 
+                                     θ 
+                                     , 
+                                     u 
+                                     , 
+                                     s 
+                                     ) 
+                                  
+                                  ∝ 
+                                  π 
+                                  s 
+                                  
+                                     
+                                        e 
+                                     
+                                     
+                                        − 
+                                        π 
+                                        s 
+                                     
+                                  
+                               
+                            
+                         
+                       which is an improper prior—the integral over all  
+                         H 
+                       diverges when  
+                         H 
+                       includes all circles in the plane. The use of this improper prior motivates the choice of  
+                         u 
+                         = 
+                         
+                            
+                               r 
+                            
+                            
+                               2 
+                            
+                         
+                       rather than  
+                         r 
+                       in the above parameterization.
+
+Another justification for the prior is provided by thinking in terms of a generative process that creates circles by generating a circle location and size independently. To do this, we want a uniform distribution over the locations of the circles. In polar coordinates, this means that we are going to be doing the equivalent of choosing points from a very large circle. For a circle of radius  
+                         R 
+                      , a point in that circle is chosen with probability  
+                         p 
+                         
+                            ( 
+                            
+                               s 
+                            
+                            ) 
+                         
+                         = 
+                         
+                            
+                               d 
+                               
+                                  s 
+                               
+                            
+                            
+                               π 
+                               
+                                  
+                                     R 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                            
+                         
+                      . Transforming to polar coordinates,  
+                         p 
+                         
+                            ( 
+                            
+                               s 
+                            
+                            ) 
+                         
+                         = 
+                         p 
+                         
+                            ( 
+                            θ 
+                            , 
+                            r 
+                            ) 
+                         
+                         r 
+                         
+                         d 
+                         θ 
+                         
+                         d 
+                         r 
+                         = 
+                         p 
+                         
+                            ( 
+                            θ 
+                            ) 
+                         
+                         p 
+                         
+                            ( 
+                            r 
+                            ) 
+                         
+                         r 
+                         
+                         d 
+                         θ 
+                         
+                         d 
+                         r 
+                         = 
+                         
+                            
+                               1 
+                            
+                            
+                               2 
+                               π 
+                            
+                         
+                         
+                            
+                               2 
+                               r 
+                            
+                            
+                               
+                                  
+                                     R 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                            
+                         
+                         
+                         d 
+                         θ 
+                         
+                         d 
+                         r 
+                      . If we now transform to coordinates  
+                         
+                            ( 
+                            θ 
+                            , 
+                            u 
+                            ) 
+                         
+                      , where  
+                         u 
+                         = 
+                         
+                            
+                               r 
+                            
+                            
+                               2 
+                            
+                         
+                      , we have  
+                         d 
+                         u 
+                         = 
+                         2 
+                         r 
+                         
+                         d 
+                         r 
+                      , so  
+                         d 
+                         r 
+                         = 
+                         
+                            
+                               d 
+                               u 
+                            
+                            
+                               2 
+                               r 
+                            
+                         
+                      . This means that  
+                         p 
+                         
+                            ( 
+                            θ 
+                            ) 
+                         
+                         = 
+                         
+                            
+                               1 
+                            
+                            
+                               2 
+                               π 
+                            
+                         
+                         ⇒ 
+                         θ 
+                         ∼ 
+                         U 
+                         
+                            ( 
+                            0 
+                            , 
+                            2 
+                            π 
+                            ) 
+                         
+                      , and  
+                         p 
+                         
+                            ( 
+                            u 
+                            ) 
+                         
+                         = 
+                         
+                            
+                               2 
+                               r 
+                            
+                            
+                               
+                                  
+                                     R 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                            
+                         
+                         
+                            
+                               d 
+                               u 
+                            
+                            
+                               2 
+                               r 
+                            
+                         
+                         = 
+                         
+                            
+                               d 
+                               u 
+                            
+                            
+                               
+                                  
+                                     R 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                            
+                         
+                         ⇒ 
+                         u 
+                         ∼ 
+                         U 
+                         
+                            ( 
+                            0 
+                            , 
+                            
+                               
+                                  R 
+                               
+                               
+                                  2 
+                               
+                            
+                            ) 
+                         
+                      . We are thus choosing points from a simple uniform distribution for both parameters, which allows us to define the improper prior given above and use it in exactly the same way as the unidimensional proof by  Shepard (1987) .
+
+Our desired integral now becomes  
+                         
+                            (10) 
+                            
+                               
+                                  
+                                     ∫ 
+                                  
+                                  
+                                     h 
+                                     ∋ 
+                                     y 
+                                     , 
+                                     h 
+                                     ∈ 
+                                     H 
+                                  
+                               
+                               p 
+                               
+                                  ( 
+                                  
+                                     x 
+                                  
+                                  | 
+                                  h 
+                                  ) 
+                               
+                               p 
+                               
+                                  ( 
+                                  h 
+                                  ) 
+                               
+                               d 
+                               h 
+                               ∝ 
+                               
+                                  
+                                     ∫ 
+                                  
+                                  
+                                     0 
+                                  
+                                  
+                                     π 
+                                     / 
+                                     2 
+                                  
+                               
+                               
+                                  
+                                     ∫ 
+                                  
+                                  
+                                     
+                                        
+                                           u 
+                                        
+                                        
+                                           0 
+                                        
+                                     
+                                  
+                                  
+                                     ∞ 
+                                  
+                               
+                               
+                                  
+                                     ∫ 
+                                  
+                                  
+                                     u 
+                                  
+                                  
+                                     ∞ 
+                                  
+                               
+                               
+                                  
+                                     1 
+                                  
+                                  
+                                     π 
+                                     s 
+                                  
+                               
+                               π 
+                               s 
+                               
+                                  
+                                     e 
+                                  
+                                  
+                                     − 
+                                     π 
+                                     s 
+                                  
+                               
+                               
+                               d 
+                               s 
+                               
+                               d 
+                               u 
+                               
+                               d 
+                               θ 
+                               ∝ 
+                               
+                                  
+                                     ∫ 
+                                  
+                                  
+                                     0 
+                                  
+                                  
+                                     π 
+                                     / 
+                                     2 
+                                  
+                               
+                               
+                                  
+                                     e 
+                                  
+                                  
+                                     − 
+                                     π 
+                                     
+                                        
+                                           u 
+                                        
+                                        
+                                           0 
+                                        
+                                     
+                                  
+                               
+                               d 
+                               θ 
+                               . 
+                            
+                         
+                       We can then solve for  
+                         
+                            
+                               u 
+                            
+                            
+                               0 
+                            
+                         
+                      , the minimum squared distance from  
+                         
+                            x 
+                         
+                       required to place  
+                         
+                            c 
+                         
+                       in the quadrant where it is guaranteed to be closer to  
+                         
+                            y 
+                         
+                       than to  
+                         
+                            x 
+                         
+                      . This means that for a given value of  
+                         θ 
+                      , we have to find the length of the squared hypotenuse  
+                         u 
+                       in a right triangle with  
+                         t 
+                         / 
+                         2 
+                       as the side adjacent to  
+                         θ 
+                      . By the definition of the cosine of an angle as the ratio of the adjacent side to the hypotenuse, this is just  
+                         
+                            
+                               
+                                  
+                                     t 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                            
+                            
+                               4 
+                               
+                                  
+                                     cos 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               θ 
+                            
+                         
+                      . Making the substitution  
+                         v 
+                         = 
+                         
+                            
+                               1 
+                            
+                            
+                               
+                                  
+                                     cos 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               θ 
+                            
+                         
+                      , we obtain  
+                         
+                            
+                               (11) 
+                               
+                                  d 
+                                  θ 
+                                  = 
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                                  
+                                     
+                                        cos 
+                                        θ 
+                                     
+                                     
+                                        sin 
+                                        θ 
+                                     
+                                  
+                                  
+                                     
+                                        cos 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                                  θ 
+                                  d 
+                                  v 
+                               
+                            
+                            
+                               (12) 
+                               
+                                  
+                                     
+                                        ∫ 
+                                     
+                                     
+                                        h 
+                                        ∋ 
+                                        y 
+                                        , 
+                                        h 
+                                        ∈ 
+                                        H 
+                                     
+                                  
+                                  p 
+                                  
+                                     ( 
+                                     
+                                        x 
+                                     
+                                     | 
+                                     h 
+                                     ) 
+                                  
+                                  p 
+                                  
+                                     ( 
+                                     h 
+                                     ) 
+                                  
+                                  d 
+                                  h 
+                                  ∝ 
+                                  
+                                     
+                                        ∫ 
+                                     
+                                     
+                                        0 
+                                     
+                                     
+                                        π 
+                                        / 
+                                        2 
+                                     
+                                  
+                                  
+                                     
+                                        e 
+                                     
+                                     
+                                        − 
+                                        
+                                           
+                                              u 
+                                           
+                                           
+                                              0 
+                                           
+                                        
+                                     
+                                  
+                                  d 
+                                  θ 
+                                  ∝ 
+                                  
+                                     
+                                        ∫ 
+                                     
+                                     
+                                        1 
+                                     
+                                     
+                                        ∞ 
+                                     
+                                  
+                                  
+                                     
+                                        cos 
+                                        θ 
+                                     
+                                     
+                                        sin 
+                                        θ 
+                                     
+                                  
+                                  
+                                     
+                                        cos 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                                  θ 
+                                  exp 
+                                  
+                                     { 
+                                     − 
+                                     
+                                        
+                                           π 
+                                        
+                                        
+                                           4 
+                                        
+                                     
+                                     
+                                        
+                                           t 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     v 
+                                     } 
+                                  
+                                  d 
+                                  v 
+                                  = 
+                                  
+                                     
+                                        ∫ 
+                                     
+                                     
+                                        1 
+                                     
+                                     
+                                        ∞ 
+                                     
+                                  
+                                  
+                                     
+                                        cos 
+                                        θ 
+                                     
+                                     
+                                        
+                                           
+                                              1 
+                                              − 
+                                              
+                                                 
+                                                    cos 
+                                                 
+                                                 
+                                                    2 
+                                                 
+                                              
+                                              θ 
+                                           
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        v 
+                                     
+                                  
+                                  exp 
+                                  
+                                     { 
+                                     − 
+                                     
+                                        
+                                           π 
+                                        
+                                        
+                                           4 
+                                        
+                                     
+                                     
+                                        
+                                           t 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     v 
+                                     } 
+                                  
+                                  d 
+                                  v 
+                                  ∝ 
+                                  
+                                     
+                                        ∫ 
+                                     
+                                     
+                                        1 
+                                     
+                                     
+                                        ∞ 
+                                     
+                                  
+                                  
+                                     
+                                        exp 
+                                        
+                                           { 
+                                           − 
+                                           
+                                              
+                                                 π 
+                                              
+                                              
+                                                 4 
+                                              
+                                           
+                                           
+                                              
+                                                 t 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                           v 
+                                           } 
+                                        
+                                     
+                                     
+                                        v 
+                                        
+                                           
+                                              v 
+                                              − 
+                                              1 
+                                           
+                                        
+                                     
+                                  
+                                  
+                                  d 
+                                  v 
+                               
+                            
+                         
+                       which evaluates to  
+                         π 
+                       for  
+                         t 
+                         = 
+                         0 
+                       (as  
+                         
+                            
+                               ∫ 
+                            
+                            
+                               1 
+                            
+                            
+                               ∞ 
+                            
+                         
+                         
+                            
+                               d 
+                               v 
+                            
+                            
+                               v 
+                               
+                                  
+                                     v 
+                                     − 
+                                     1 
+                                  
+                               
+                            
+                         
+                         = 
+                         π 
+                      ), giving us the denominator of Eq.  (3) . This gives us the final expression  
+                         
+                            (13) 
+                            
+                               p 
+                               
+                                  ( 
+                                  
+                                     y 
+                                  
+                                  ∈ 
+                                  C 
+                                  | 
+                                  
+                                     x 
+                                  
+                                  ) 
+                               
+                               = 
+                               
+                                  
+                                     1 
+                                  
+                                  
+                                     π 
+                                  
+                               
+                               
+                                  
+                                     ∫ 
+                                  
+                                  
+                                     1 
+                                  
+                                  
+                                     ∞ 
+                                  
+                               
+                               
+                                  
+                                     
+                                        
+                                           e 
+                                        
+                                        
+                                           − 
+                                           v 
+                                           π 
+                                           
+                                              
+                                                 t 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                           / 
+                                           4 
+                                        
+                                     
+                                  
+                                  
+                                     v 
+                                     
+                                        
+                                           v 
+                                           − 
+                                           1 
+                                        
+                                     
+                                  
+                               
+                               
+                               d 
+                               v 
+                               , 
+                            
+                         
+                       which unfortunately does not have an elementary solution.
+
+Since the generalization function is not analytically tractable, we attempt to get a clearer picture of its properties by obtaining bounds on the function. We do this in two ways—defining simple fixed bounds, and deriving parameterized variational bounds.
+
+We can obtain simple upper and lower bounds by bounding the integrand in Eq.  (13) . As an upper bound, we can bound the integral by noting that the domain of integration restricts  
+                            v 
+                            ≥ 
+                            1 
+                          (and thus, removing  
+                            v 
+                          from the exponent can only increase the result of the integral) in the following manner:  
+                            
+                               (14) 
+                               
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        π 
+                                     
+                                  
+                                  
+                                     
+                                        ∫ 
+                                     
+                                     
+                                        1 
+                                     
+                                     
+                                        ∞ 
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           
+                                              e 
+                                           
+                                           
+                                              − 
+                                              v 
+                                              π 
+                                              
+                                                 
+                                                    t 
+                                                 
+                                                 
+                                                    2 
+                                                 
+                                              
+                                              / 
+                                              4 
+                                           
+                                        
+                                     
+                                     
+                                        v 
+                                        
+                                           
+                                              v 
+                                              − 
+                                              1 
+                                           
+                                        
+                                     
+                                  
+                                  
+                                  d 
+                                  v 
+                                  ≤ 
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        π 
+                                     
+                                  
+                                  
+                                     
+                                        ∫ 
+                                     
+                                     
+                                        1 
+                                     
+                                     
+                                        ∞ 
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           
+                                              e 
+                                           
+                                           
+                                              − 
+                                              π 
+                                              
+                                                 
+                                                    t 
+                                                 
+                                                 
+                                                    2 
+                                                 
+                                              
+                                              / 
+                                              4 
+                                           
+                                        
+                                     
+                                     
+                                        v 
+                                        
+                                           
+                                              v 
+                                              − 
+                                              1 
+                                           
+                                        
+                                     
+                                  
+                                  
+                                  d 
+                                  v 
+                                  = 
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        π 
+                                     
+                                  
+                                  
+                                     
+                                        e 
+                                     
+                                     
+                                        − 
+                                        π 
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                        / 
+                                        4 
+                                     
+                                  
+                                  
+                                     
+                                        ∫ 
+                                     
+                                     
+                                        1 
+                                     
+                                     
+                                        ∞ 
+                                     
+                                  
+                                  
+                                     
+                                        d 
+                                        v 
+                                     
+                                     
+                                        v 
+                                        
+                                           
+                                              v 
+                                              − 
+                                              1 
+                                           
+                                        
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        e 
+                                     
+                                     
+                                        − 
+                                        π 
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                        / 
+                                        4 
+                                     
+                                  
+                                  . 
+                               
+                            
+                          This gives an upper bound on the generalization function  
+                            p 
+                            
+                               ( 
+                               
+                                  y 
+                               
+                               ∈ 
+                               C 
+                               | 
+                               
+                                  x 
+                               
+                               ) 
+                            
+                            ≤ 
+                            
+                               
+                                  1 
+                               
+                               
+                                  π 
+                               
+                            
+                            
+                               
+                                  e 
+                               
+                               
+                                  − 
+                                  π 
+                                  
+                                     
+                                        t 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                                  / 
+                                  4 
+                               
+                            
+                         . As a lower bound, we can integrate  
+                            
+                               
+                                  
+                                     
+                                        e 
+                                     
+                                     
+                                        − 
+                                        v 
+                                        π 
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                        / 
+                                        4 
+                                     
+                                  
+                               
+                               
+                                  
+                                     
+                                        v 
+                                     
+                                     
+                                        3 
+                                        / 
+                                        2 
+                                     
+                                  
+                               
+                            
+                         , which gives a lower bound on the generalization function  
+                            p 
+                            
+                               ( 
+                               
+                                  y 
+                               
+                               ∈ 
+                               C 
+                               | 
+                               
+                                  x 
+                               
+                               ) 
+                            
+                            ≥ 
+                            
+                               
+                                  2 
+                               
+                               
+                                  π 
+                               
+                            
+                            
+                               
+                                  e 
+                               
+                               
+                                  − 
+                                  π 
+                                  
+                                     
+                                        t 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                                  / 
+                                  4 
+                               
+                            
+                            − 
+                            t 
+                            
+                               ( 
+                               1 
+                               − 
+                               erf 
+                               
+                                  ( 
+                                  t 
+                                  
+                                     
+                                        π 
+                                     
+                                  
+                                  / 
+                                  2 
+                                  ) 
+                               
+                               ) 
+                            
+                         , where  
+                            erf 
+                          is the error function. These bounds are plotted with dotted lines in  Fig. 2 
+                          and are similar in their tightness to those found by  Tenenbaum (1999a)  for Bayesian generalization with axis-aligned rectangular consequential regions.
+
+The simple bounds are unfortunately very poor, and give little idea of the shape of the generalization function. We can obtain better results with variational upper and lower bounds, based upon a decomposition of the integral. For a lower bound, we can introduce a variable  
+                            
+                               
+                                  v 
+                               
+                               
+                                  0 
+                               
+                            
+                         , and use the fact that  
+                            
+                               
+                                  
+                                     
+                                        e 
+                                     
+                                     
+                                        − 
+                                        
+                                           
+                                              v 
+                                           
+                                           
+                                              0 
+                                           
+                                        
+                                        π 
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                        / 
+                                        4 
+                                     
+                                  
+                               
+                               
+                                  v 
+                                  
+                                     
+                                        v 
+                                        − 
+                                        1 
+                                     
+                                  
+                               
+                            
+                            < 
+                            
+                               
+                                  
+                                     
+                                        e 
+                                     
+                                     
+                                        − 
+                                        v 
+                                        π 
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                        / 
+                                        4 
+                                     
+                                  
+                               
+                               
+                                  v 
+                                  
+                                     
+                                        v 
+                                        − 
+                                        1 
+                                     
+                                  
+                               
+                            
+                          for  
+                            v 
+                            < 
+                            
+                               
+                                  v 
+                               
+                               
+                                  0 
+                               
+                            
+                         . This means that the expression  
+                            
+                               (15) 
+                               
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        π 
+                                     
+                                  
+                                  
+                                     [ 
+                                     
+                                        
+                                           ∫ 
+                                        
+                                        
+                                           1 
+                                        
+                                        
+                                           
+                                              
+                                                 v 
+                                              
+                                              
+                                                 0 
+                                              
+                                           
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              
+                                                 e 
+                                              
+                                              
+                                                 − 
+                                                 
+                                                    
+                                                       v 
+                                                    
+                                                    
+                                                       0 
+                                                    
+                                                 
+                                                 π 
+                                                 
+                                                    
+                                                       t 
+                                                    
+                                                    
+                                                       2 
+                                                    
+                                                 
+                                                 / 
+                                                 4 
+                                              
+                                           
+                                        
+                                        
+                                           v 
+                                           
+                                              
+                                                 v 
+                                                 − 
+                                                 1 
+                                              
+                                           
+                                        
+                                     
+                                     
+                                     d 
+                                     v 
+                                     + 
+                                     
+                                        
+                                           ∫ 
+                                        
+                                        
+                                           
+                                              
+                                                 v 
+                                              
+                                              
+                                                 0 
+                                              
+                                           
+                                        
+                                        
+                                           ∞ 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              
+                                                 e 
+                                              
+                                              
+                                                 − 
+                                                 v 
+                                                 π 
+                                                 
+                                                    
+                                                       t 
+                                                    
+                                                    
+                                                       2 
+                                                    
+                                                 
+                                                 / 
+                                                 4 
+                                              
+                                           
+                                        
+                                        
+                                           
+                                              
+                                                 v 
+                                              
+                                              
+                                                 3 
+                                                 / 
+                                                 2 
+                                              
+                                           
+                                        
+                                     
+                                     
+                                     d 
+                                     v 
+                                     ] 
+                                  
+                               
+                            
+                          will be a lower bound on Eq.  (13)  for  
+                            
+                               
+                                  v 
+                               
+                               
+                                  0 
+                               
+                            
+                            ≥ 
+                            1 
+                         . This gives  
+                            
+                               (16) 
+                               
+                                  p 
+                                  
+                                     ( 
+                                     
+                                        y 
+                                     
+                                     ∈ 
+                                     C 
+                                     | 
+                                     
+                                        x 
+                                     
+                                     ) 
+                                  
+                                  ≥ 
+                                  
+                                     
+                                        2 
+                                     
+                                     
+                                        π 
+                                     
+                                  
+                                  
+                                     
+                                        e 
+                                     
+                                     
+                                        − 
+                                        
+                                           
+                                              v 
+                                           
+                                           
+                                              0 
+                                           
+                                        
+                                        π 
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                        / 
+                                        4 
+                                     
+                                  
+                                  
+                                     ( 
+                                     atan 
+                                     
+                                        ( 
+                                        
+                                           
+                                              
+                                                 
+                                                    v 
+                                                 
+                                                 
+                                                    0 
+                                                 
+                                              
+                                              − 
+                                              1 
+                                           
+                                        
+                                        ) 
+                                     
+                                     + 
+                                     
+                                        
+                                           1 
+                                        
+                                        
+                                           
+                                              
+                                                 
+                                                    
+                                                       v 
+                                                    
+                                                    
+                                                       0 
+                                                    
+                                                 
+                                              
+                                           
+                                        
+                                     
+                                     ) 
+                                  
+                                  − 
+                                  t 
+                                  
+                                     ( 
+                                     1 
+                                     − 
+                                     erf 
+                                     
+                                        ( 
+                                        t 
+                                        
+                                           
+                                              π 
+                                              
+                                                 
+                                                    v 
+                                                 
+                                                 
+                                                    0 
+                                                 
+                                              
+                                           
+                                        
+                                        / 
+                                        2 
+                                        ) 
+                                     
+                                     ) 
+                                  
+                                  .
+
+Taking the maximum at each point of the functions resulting from varying the settings of the variational parameter  
+                            
+                               
+                                  v 
+                               
+                               
+                                  0 
+                               
+                            
+                          gives the lower bound shown with a dashed line in  Fig. 2 . Applying a similar procedure to the upper bound an initial portion of the function and the tail separately, we can take  
+                            
+                               (17) 
+                               
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        π 
+                                     
+                                  
+                                  
+                                     [ 
+                                     
+                                        
+                                           ∫ 
+                                        
+                                        
+                                           1 
+                                        
+                                        
+                                           
+                                              
+                                                 v 
+                                              
+                                              
+                                                 0 
+                                              
+                                           
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              
+                                                 e 
+                                              
+                                              
+                                                 − 
+                                                 π 
+                                                 
+                                                    
+                                                       t 
+                                                    
+                                                    
+                                                       2 
+                                                    
+                                                 
+                                                 / 
+                                                 4 
+                                              
+                                           
+                                        
+                                        
+                                           v 
+                                           
+                                              
+                                                 v 
+                                                 − 
+                                                 1 
+                                              
+                                           
+                                        
+                                     
+                                     
+                                     d 
+                                     v 
+                                     + 
+                                     
+                                        
+                                           ∫ 
+                                        
+                                        
+                                           
+                                              
+                                                 v 
+                                              
+                                              
+                                                 0 
+                                              
+                                           
+                                        
+                                        
+                                           ∞ 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              
+                                                 e 
+                                              
+                                              
+                                                 − 
+                                                 
+                                                    
+                                                       v 
+                                                    
+                                                    
+                                                       0 
+                                                    
+                                                 
+                                                 π 
+                                                 
+                                                    
+                                                       t 
+                                                    
+                                                    
+                                                       2 
+                                                    
+                                                 
+                                                 / 
+                                                 4 
+                                              
+                                           
+                                        
+                                        
+                                           v 
+                                           
+                                              
+                                                 v 
+                                                 − 
+                                                 1 
+                                              
+                                           
+                                        
+                                     
+                                     
+                                     d 
+                                     v 
+                                     ] 
+                                  
+                               
+                            
+                          to obtain the variational upper bound  
+                            
+                               (18) 
+                               
+                                  p 
+                                  
+                                     ( 
+                                     
+                                        y 
+                                     
+                                     ∈ 
+                                     C 
+                                     | 
+                                     
+                                        x 
+                                     
+                                     ) 
+                                  
+                                  ≤ 
+                                  
+                                     
+                                        2 
+                                     
+                                     
+                                        π 
+                                     
+                                  
+                                  
+                                     
+                                        e 
+                                     
+                                     
+                                        − 
+                                        π 
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                        / 
+                                        4 
+                                        atan 
+                                        
+                                           ( 
+                                           
+                                              
+                                                 
+                                                    
+                                                       v 
+                                                    
+                                                    
+                                                       0 
+                                                    
+                                                 
+                                                 − 
+                                                 1 
+                                              
+                                           
+                                           + 
+                                           1 
+                                           ) 
+                                        
+                                     
+                                  
+                                  + 
+                                  
+                                     
+                                        e 
+                                     
+                                     
+                                        − 
+                                        
+                                           
+                                              v 
+                                           
+                                           
+                                              0 
+                                           
+                                        
+                                        π 
+                                        
+                                           
+                                              t 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                        / 
+                                        4 
+                                     
+                                  
+                                  
+                                     ( 
+                                     1 
+                                     − 
+                                     
+                                        
+                                           2 
+                                        
+                                        
+                                           π 
+                                        
+                                     
+                                     atan 
+                                     
+                                        ( 
+                                        
+                                           
+                                              
+                                                 
+                                                    v 
+                                                 
+                                                 
+                                                    0 
+                                                 
+                                              
+                                              − 
+                                              1 
+                                           
+                                        
+                                        ) 
+                                     
+                                     ) 
+                                  
+                               
+                            
+                          with  
+                            
+                               
+                                  v 
+                               
+                               
+                                  0 
+                               
+                            
+                            ≥ 
+                            1 
+                         . Taking the lowest value of this function across a range of settings of  
+                            
+                               
+                                  v 
+                               
+                               
+                                  0 
+                               
+                            
+                          gives the upper bound shown with a dashed line in  Fig. 2 .
+
+Finally, we can get an idea of the form of the function  
+                         g 
+                         
+                            ( 
+                            t 
+                            ) 
+                         
+                         = 
+                         P 
+                         
+                            ( 
+                            
+                               y 
+                            
+                            ∈ 
+                            C 
+                            | 
+                            
+                               x 
+                            
+                            ) 
+                         
+                       by computing its derivatives. We can exchange the integral and derivative to give  
+                         
+                            
+                               d 
+                            
+                            
+                               d 
+                               t 
+                            
+                         
+                         
+                            
+                               ∫ 
+                            
+                            
+                               1 
+                            
+                            
+                               ∞ 
+                            
+                         
+                         f 
+                         
+                            ( 
+                            v 
+                            , 
+                            t 
+                            ) 
+                         
+                         d 
+                         v 
+                         = 
+                         
+                            
+                               ∫ 
+                            
+                            
+                               1 
+                            
+                            
+                               ∞ 
+                            
+                         
+                         
+                            
+                               ∂ 
+                            
+                            
+                               ∂ 
+                               t 
+                            
+                         
+                         f 
+                         
+                            ( 
+                            v 
+                            , 
+                            t 
+                            ) 
+                         
+                         d 
+                         v 
+                       if  
+                         
+                            
+                               ∂ 
+                            
+                            
+                               ∂ 
+                               t 
+                            
+                         
+                         f 
+                         
+                            ( 
+                            v 
+                            , 
+                            t 
+                            ) 
+                         
+                       is continuous on  
+                         
+                            [ 
+                            1 
+                            , 
+                            ∞ 
+                            ) 
+                         
+                       and  
+                         
+                            
+                               ∫ 
+                            
+                            
+                               1 
+                            
+                            
+                               ∞ 
+                            
+                         
+                         f 
+                         
+                            ( 
+                            v 
+                            , 
+                            t 
+                            ) 
+                         
+                         d 
+                         v 
+                       has the property of dominated convergence: there is some function  
+                         ϕ 
+                         
+                            ( 
+                            v 
+                            ) 
+                         
+                       such that for all  
+                         v 
+                         ≥ 
+                         1 
+                      ,  
+                         
+                            | 
+                            f 
+                            
+                               ( 
+                               v 
+                               , 
+                               t 
+                               ) 
+                            
+                            | 
+                         
+                         ≤ 
+                         ϕ 
+                         
+                            ( 
+                            v 
+                            ) 
+                         
+                       and  
+                         
+                            
+                               ∫ 
+                            
+                            
+                               1 
+                            
+                            
+                               ∞ 
+                            
+                         
+                         ϕ 
+                         
+                            ( 
+                            v 
+                            ) 
+                         
+                         d 
+                         v 
+                       converges. In the case of  
+                         g 
+                         
+                            ( 
+                            t 
+                            ) 
+                         
+                         = 
+                         
+                            
+                               1 
+                            
+                            
+                               π 
+                            
+                         
+                         
+                            
+                               ∫ 
+                            
+                            
+                               1 
+                            
+                            
+                               ∞ 
+                            
+                         
+                         
+                            
+                               
+                                  
+                                     e 
+                                  
+                                  
+                                     − 
+                                     v 
+                                     π 
+                                     
+                                        
+                                           t 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     / 
+                                     4 
+                                  
+                               
+                            
+                            
+                               v 
+                               
+                                  
+                                     v 
+                                     − 
+                                     1 
+                                  
+                               
+                            
+                         
+                         
+                         d 
+                         v 
+                      , we have  
+                         
+                            (19) 
+                            
+                               
+                                  
+                                     ∂ 
+                                  
+                                  
+                                     ∂ 
+                                     t 
+                                  
+                               
+                               
+                                  
+                                     1 
+                                  
+                                  
+                                     π 
+                                  
+                               
+                               
+                                  
+                                     
+                                        
+                                           e 
+                                        
+                                        
+                                           − 
+                                           v 
+                                           π 
+                                           
+                                              
+                                                 t 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                           / 
+                                           4 
+                                        
+                                     
+                                  
+                                  
+                                     v 
+                                     
+                                        
+                                           v 
+                                           − 
+                                           1 
+                                        
+                                     
+                                  
+                               
+                               = 
+                               − 
+                               
+                                  
+                                     t 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               
+                                  
+                                     
+                                        
+                                           e 
+                                        
+                                        
+                                           − 
+                                           v 
+                                           π 
+                                           
+                                              
+                                                 t 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                           / 
+                                           4 
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           v 
+                                           − 
+                                           1 
+                                        
+                                     
+                                  
+                               
+                            
+                         
+                       which is continuous on  
+                         
+                            [ 
+                            1 
+                            , 
+                            ∞ 
+                            ) 
+                         
+                       (over  
+                         t 
+                      , which is required to interchange derivatives and integrals), 
+                         2 
+                      
+                      
+                         2 
+                         On the other hand, Eq.  (19)  is continuous in  
+                               v 
+                             on  
+                               
+                                  ( 
+                                  1 
+                                  , 
+                                  ∞ 
+                                  ) 
+                               
+                            , but not  
+                               
+                                  [ 
+                                  1 
+                                  , 
+                                  ∞ 
+                                  ) 
+                               
+                            . Regardless, it satisfies the necessary properties for interchanging derivatives and integrals. 
+                       and the simple upper bound derived above uses a function  
+                         ϕ 
+                         
+                            ( 
+                            v 
+                            ) 
+                         
+                       that can be used to establish dominated convergence.
+
+Having shown that we can differentiate under the integral, we now obtain  
+                         
+                            (20) 
+                            
+                               
+                                  
+                                     g 
+                                  
+                                  
+                                     ′ 
+                                  
+                               
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                               = 
+                               − 
+                               
+                                  
+                                     t 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               
+                                  
+                                     ∫ 
+                                  
+                                  
+                                     1 
+                                  
+                                  
+                                     ∞ 
+                                  
+                               
+                               
+                                  
+                                     
+                                        
+                                           e 
+                                        
+                                        
+                                           − 
+                                           v 
+                                           π 
+                                           
+                                              
+                                                 t 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                           / 
+                                           4 
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           v 
+                                           − 
+                                           1 
+                                        
+                                     
+                                  
+                               
+                               
+                               d 
+                               v 
+                               . 
+                            
+                         
+                       We can evaluate this integral by substituting  
+                         w 
+                         = 
+                         v 
+                         − 
+                         1 
+                      ,  
+                         
+                            (21) 
+                            
+                               
+                                  
+                                     g 
+                                  
+                                  
+                                     ′ 
+                                  
+                               
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                               = 
+                               − 
+                               
+                                  
+                                     t 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               
+                                  
+                                     ∫ 
+                                  
+                                  
+                                     0 
+                                  
+                                  
+                                     ∞ 
+                                  
+                               
+                               d 
+                               w 
+                               
+                                  
+                                     
+                                        
+                                           e 
+                                        
+                                        
+                                           − 
+                                           
+                                              
+                                                 
+                                                    ( 
+                                                    w 
+                                                    + 
+                                                    1 
+                                                    ) 
+                                                 
+                                              
+                                              
+                                                 4 
+                                              
+                                           
+                                           π 
+                                           
+                                              
+                                                 t 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           w 
+                                        
+                                     
+                                  
+                               
+                               = 
+                               − 
+                               
+                                  
+                                     t 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               
+                                  
+                                     e 
+                                  
+                                  
+                                     − 
+                                     π 
+                                     
+                                        
+                                           t 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     / 
+                                     4 
+                                  
+                               
+                               
+                                  
+                                     ∫ 
+                                  
+                                  
+                                     0 
+                                  
+                                  
+                                     ∞ 
+                                  
+                               
+                               d 
+                               w 
+                               
+                                  
+                                     
+                                        
+                                           e 
+                                        
+                                        
+                                           − 
+                                           
+                                              
+                                                 w 
+                                              
+                                              
+                                                 4 
+                                              
+                                           
+                                           π 
+                                           
+                                              
+                                                 t 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           w 
+                                        
+                                     
+                                  
+                               
+                               . 
+                            
+                         
+                       This integral is the normalizing constant for a Gamma integral with parameters  
+                         1 
+                         / 
+                         2 
+                       and  
+                         π 
+                         
+                            
+                               t 
+                            
+                            
+                               2 
+                            
+                         
+                         / 
+                         2 
+                      ,  
+                         
+                            (22) 
+                            
+                               
+                                  
+                                     g 
+                                  
+                                  
+                                     ′ 
+                                  
+                               
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                               = 
+                               
+                                  
+                                     − 
+                                     
+                                        
+                                           t 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     Γ 
+                                     
+                                        ( 
+                                        1 
+                                        / 
+                                        2 
+                                        ) 
+                                     
+                                     
+                                        
+                                           e 
+                                        
+                                        
+                                           − 
+                                           
+                                              
+                                                 t 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                           π 
+                                           / 
+                                           4 
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           
+                                              ( 
+                                              π 
+                                              
+                                                 
+                                                    t 
+                                                 
+                                                 
+                                                    2 
+                                                 
+                                              
+                                              / 
+                                              2 
+                                              ) 
+                                           
+                                        
+                                        
+                                           1 
+                                           / 
+                                           2 
+                                        
+                                     
+                                  
+                               
+                               = 
+                               − 
+                               
+                                  
+                                     
+                                        
+                                           2 
+                                        
+                                     
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               
+                                  
+                                     e 
+                                  
+                                  
+                                     − 
+                                     π 
+                                     
+                                        
+                                           t 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     / 
+                                     4 
+                                  
+                               
+                            
+                         
+                       where we have used the identity that  
+                         Γ 
+                         
+                            ( 
+                            1 
+                            / 
+                            2 
+                            ) 
+                         
+                         = 
+                         
+                            
+                               2 
+                            
+                         
+                      . Thus, the derivative of  
+                         g 
+                         
+                            ( 
+                            t 
+                            ) 
+                         
+                       is always nonpositive. It follows directly that  
+                         
+                            (23) 
+                            
+                               
+                                  
+                                     g 
+                                  
+                                  
+                                     ″ 
+                                  
+                               
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                               = 
+                               
+                                  
+                                     π 
+                                     t 
+                                     
+                                        
+                                           2 
+                                        
+                                     
+                                  
+                                  
+                                     4 
+                                  
+                               
+                               
+                                  
+                                     e 
+                                  
+                                  
+                                     − 
+                                     π 
+                                     
+                                        
+                                           t 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     / 
+                                     4 
+                                  
+                               
+                            
+                         
+                       so  
+                         g 
+                         
+                            ( 
+                            t 
+                            ) 
+                         
+                       has inflection points at  
+                         t 
+                         = 
+                         0 
+                       and  
+                         t 
+                         = 
+                         ∞ 
+                       but not at intermediate values, as shown by  Shepard (1987)  for the generalization function in one dimension. Additionally,  
+                         
+                            
+                               g 
+                            
+                            
+                               ′ 
+                            
+                         
+                         
+                            ( 
+                            t 
+                            ) 
+                         
+                         < 
+                         0 
+                         , 
+                         ∀ 
+                         t 
+                         ∈ 
+                         
+                            ( 
+                            0 
+                            , 
+                            ∞ 
+                            ) 
+                         
+                       and  
+                         
+                            
+                               g 
+                            
+                            
+                               ″ 
+                            
+                         
+                         
+                            ( 
+                            t 
+                            ) 
+                         
+                         > 
+                         0 
+                         , 
+                         ∀ 
+                         t 
+                         ∈ 
+                         
+                            ( 
+                            0 
+                            , 
+                            ∞ 
+                            ) 
+                         
+                       implies that  
+                         g 
+                         
+                            ( 
+                            t 
+                            ) 
+                         
+                       is strictly convex on  
+                         
+                            ( 
+                            0 
+                            , 
+                            ∞ 
+                            ) 
+                         
+                       ( Berkovitz, 2002 ).
+
+In this article, we analyzed the nature of the generalization function of the Bayesian generalization model with a hypothesis space of circular consequential regions. Though the generalization function did not have an elementary solution, we reached a form of the generalization function involving a single integral that allowed us to bound the generalization function using simple and variational upper and lower bounds. Finally, using derivatives we found that the generalization function decays monotonically with increasing distance between the stimuli and that it is convex. Consequently, generalization will be a negatively accelerated function of distance in psychological space, extending  Shepard’s (1987)  result for unidimensional consequential regions. Taken as a whole, the series of results bolsters our understanding of a fundamental problem in cognition, yields analytic approximations, and provides a formal basis for cognitive models involving generalization using integral stimuli.
+
+We thank Michael Lee, Dan Navarro, Josh Tenenbaum, Ewart Thomas, and an anonymous reviewer for feedback on a previous draft of this manuscript. This work was supported by grant number  FA-9550-10-1-0232  from the  Air Force Office of Scientific Research .

@@ -1,0 +1,2828 @@
+10.1016/j.jmp.2021.102532
+Computational modeling of cognitive tasks has been widely used to address the limitations of behavioral measures, with which it is often hard to identify underlying cognitive processes ( Ahn et al., 2014; Daw, Gershman, Seymour, Dayan, & Dolan, 2011; Ratcliff, 1978 ). For example, research examining a series of models for the Iowa Gambling Task (IGT) has accounted for the various patterns in behavioral data, provided short- and long-term prediction and good parameter recovery ( Ahn, Busemeyer, Wagenmakers, & Stout, 2008; Ahn et al., 2014; Busemeyer & Stout, 2002; Haines, Vassileva, & Ahn, 2018; Worthy & Maddox, 2014 ), and revealed decision-making deficits in several clinical populations that were not detected by traditional performance indices (see  Ahn, Dai, Vassileva, Busemeyer, & Stout, 2016  for a review).
+
+Like the IGT, the Balloon Analogue Risk Task (BART;  Lejuez et al., 2002 ) was originally designed for the clinical purpose of measuring risk-taking tendencies and the identification of individuals who are prone to take risks ( Lejuez et al., 2002; Lejuez, Simmons, Aklin, Daughters, & Dvir, 2004 ), but its scope has expanded to other areas of psychology and cognitive science ( van Ravenzwaaij, Dutilh, & Wagenmakers, 2011; Wallsten, Pleskac, & Lejuez, 2005 ). The BART has been shown to identify high risk-taking individuals ( Aklin, Lejuez, Zvolensky, Kahler, & Gwadz, 2005; Lejuez et al., 2002, 2004 ) although several previous findings suggested low correlations between the BART performance and risky behavior ( Frey, Pedroni, Mata, Rieskamp, & Hertwig, 2017; Hopko et al., 2006 ). Specifically, the behavioral performance of the BART is significantly correlated with self-report measures of risk-related constructs such as impulsivity and sensation-seeking ( Lejuez et al., 2002 ), and past real-world risky behaviors such as drug use and risky sex ( Lejuez et al., 2004 ). These results presumably reflect at least two features of the BART which make the task similar to real-world situations: First, each trial of the BART includes sequential risk-taking choices and terminates when the participant does not want to take the risk any more or encounters a certain condition that makes it impossible to proceed. Second, the riskiness of the risk-taking choices within a trial increases each time the participant makes a risky choice. Specifically, as the participant makes a risky choice, the loss amount gradually increases, whereas the reward amount remains constant or even decreases. Many actual risky behaviors involve these features. For example, patients with substance use disorders continue to take the drug even in the face of negative consequences until they are satisfied with it or cannot obtain the drug because of external factors such as lack of availability and insufficient money. Also, patients often start with smaller amounts of the drug but gradually increase their dosage as their tolerance increases. As their tolerance increases, they must (and are likely to) take more risks to get the same amount of reward. The BART has the distinct advantage of effectively illustrating this kind of real-world situation in a laboratory setting.
+
+To quantitatively analyze the underlying cognitive processes on the BART, previous studies have proposed two computational models: a four-parameter model ( Wallsten et al., 2005 ) and a two-parameter model ( Pleskac, 2008; van Ravenzwaaij et al., 2011 ). The four-parameter model was proposed as a winning model by comparing several computational models. The parameters of the four-parameter model have been shown to correlate with the frequencies of past real-world risky behaviors such as substance use, unprotected sex, and stealing ( Wallsten et al., 2005 ). However, two parameters related to the learning process of the four-parameter model showed poorer parameter recovery and were systematically overestimated ( Heathcote, Brown, & Wagenmakers, 2015; van Ravenzwaaij et al., 2011 ). Since good parameter recovery performance is crucial for interpreting results based on the model parameters ( van Ravenzwaaij & Oberauer, 2009; Wagenmakers, Van Der Maas, & Grasman, 2007 ), poor parameter recovery performance is a critical limitation of the four-parameter model.
+
+The two-parameter model was proposed to overcome this limitation of the four-parameter model ( Pleskac, 2008; van Ravenzwaaij et al., 2011 ). To develop a model that shows good parameter recovery, the authors simplified the original model by removing parameters that do not exhibit good recovery. The two-parameter model is nested within the four-parameter model, and as a result of simplification, it succeeded in recovering accurate parameter values ( van Ravenzwaaij et al., 2011 ). However, the two-parameter model also has a critical limitation; it is based on a strict assumption that participants do not learn during the BART. The assumption is unrealistic unless the researcher tells the participant the actual exploding probability of virtual balloons before starting the experiment. Consistently,  Pleskac (2008)  showed that the two-parameter model provided a better fit than the four-parameter model when the probability structure was explicitly informed, but a poorer fit than the four-parameter model when the probability structure was uninformed.
+
+Furthermore, because this issue is related to the task design, the two-parameter model may not fit the original task design. The original task design has the advantage that it similarly illustrates real-world situations, which means if we modify the task design to apply the two-parameter model, we lose the advantage. Thus, there is a need to build a new model, which shows good parameter recovery and fits the original task design.
+
+Here, we propose a novel BART model, which shows good parameter recovery, fits the original task design, and provides an intuitive interpretation of the learning process. First, we introduce the existing model (the four-parameter model). We also consider a non-learning version of the four-parameter model to test the assumption that participants do not learn during the BART is unrealistic. Then, we reparameterize the four-parameter model to improve its parameter recovery. By modifying equations from the reparametrized version of the four-parameter model, we develop candidate models. Finally, we select the best model based on the leave-one-out information criterion (LOOIC) and the parameter recovery. To examine the implication of the new model, we compared the parameters with similar psychological constructs of competing models and applied the new model to BART data from patients with past opiate and stimulant dependence.
+
+The initial sample included 593 individuals who had enrolled for a study of impulsivity in opiate and stimulant users in Sofia, Bulgaria. Then, only those who meet the following criteria were included: age between 18 and 50 years, more than 8 years of formal education, estimated IQ of 80 or above, no history of head injury or loss of consciousness for more than 30 min, no history of neurological illness or psychotic disorders, HIV-seronegative status, and not currently on opioid maintenance therapy. All participants had a negative breathalyzer test for alcohol and negative rapid urine toxicology screen for opiates, cannabis, amphetamines, methamphetamines, benzodiazepines, barbiturates, cocaine, MDMA, and methadone. We classified the included participants into three groups: healthy controls, heroin-dependent, and amphetamine-dependent groups. After that, group-specific criteria were applied to make each group include primarily mono-dependent (‘pure’) users. For the healthy control group, participants with any substance dependence or abuse symptom based on DSM-IV criteria were excluded (except for nicotine, caffeine, and past cannabis dependence). For the heroin and the amphetamine-dependent groups, mono-substance-dependent participants who met DSM-IV lifetime criteria for opiate or stimulant dependence with no dependence on any other substances were included. Finally, a total of 226 subjects (135 healthy controls, 47 heroin-dependent, and 44 amphetamine-dependent individuals) were included in the analysis. For more details about the recruitment and screening procedures, see  Ahn and Vassileva (2016) . This study was approved by the Institutional Review Boards of the Virginia Commonwealth University and the Medical University in Sofia. All participants provided informed consent. See supplementary material for demographic and clinical characteristics of the participants (Table S1).
+
+In the BART, a virtual balloon is presented to the participant on each trial. Participants need to decide whether to pump the balloon to accumulate some predefined amount of reward (i.e., pump), or transfer and receive the reward that has been accumulated so far (i.e., transfer). Each trial ends when the participant chooses to transfer the accumulated reward or the balloon explodes. If the balloon explodes, the participant loses all the accumulated reward on that trial. We randomly determined explosion points for each trial; thus, each participant performed the task with a different set of explosion points. Participants are not informed about the probability of the balloon exploding. Typically, the degree of risk-taking on the BART is measured by the adjusted BART score, which is the average number of pumps for unexploded balloons ( Lejuez et al., 2002 ). The adjusted BART score is preferable because it is not directly affected by the explosion probability. To examine group differences in the adjusted BART score between the three groups, we conducted the Bayesian t-test using the R package  BEST  ( Kruschke, 2013; Meredith & Kruschke, 2018 ).
+
+The four-parameter model ( Wallsten et al., 2005 ) is based on two assumptions. First, the participants update the belief about the probability of the balloon exploding after each trial. Second, the participants decide the optimal number of pumps before each trial.
+
+From a computational modeling perspective, the first assumption means that  
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     k 
+                                  
+                                  
+                                     b 
+                                     u 
+                                     r 
+                                     s 
+                                     t 
+                                  
+                               
+                            , the participant’s perceived probability that pumping the balloon on trial  
+                               k 
+                             will make the balloon explode, is constant during the trial  
+                               k 
+                            . The participant initially has a prior belief about the probability of the balloon exploding and updates the prior belief based on observation on each trial. The updating process is described as follows:  
+                               
+                                  (1) 
+                                  
+                                     
+                                        
+                                           
+                                              p 
+                                           
+                                           
+                                              k 
+                                           
+                                           
+                                              b 
+                                              u 
+                                              r 
+                                              s 
+                                              t 
+                                           
+                                        
+                                        = 
+                                        1 
+                                        − 
+                                        
+                                           
+                                              α 
+                                              + 
+                                              
+                                                 
+                                                    ∑ 
+                                                 
+                                                 
+                                                    i 
+                                                    = 
+                                                    0 
+                                                 
+                                                 
+                                                    k 
+                                                    − 
+                                                    1 
+                                                 
+                                              
+                                              
+                                                 
+                                                    n 
+                                                 
+                                                 
+                                                    i 
+                                                 
+                                                 
+                                                    s 
+                                                    u 
+                                                    c 
+                                                    c 
+                                                    e 
+                                                    s 
+                                                    s 
+                                                 
+                                              
+                                           
+                                           
+                                              μ 
+                                              + 
+                                              
+                                                 
+                                                    ∑ 
+                                                 
+                                                 
+                                                    i 
+                                                    = 
+                                                    0 
+                                                 
+                                                 
+                                                    k 
+                                                    − 
+                                                    1 
+                                                 
+                                              
+                                              
+                                                 
+                                                    n 
+                                                 
+                                                 
+                                                    i 
+                                                 
+                                                 
+                                                    p 
+                                                    u 
+                                                    m 
+                                                    p 
+                                                    s 
+                                                 
+                                              
+                                           
+                                        
+                                        w 
+                                        i 
+                                        t 
+                                        h 
+                                        
+                                        0 
+                                        < 
+                                        α 
+                                        < 
+                                        μ 
+                                        .
+
+In Eq.  (1) , the initial value of  
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     k 
+                                  
+                                  
+                                     b 
+                                     u 
+                                     r 
+                                     s 
+                                     t 
+                                  
+                               
+                             is  
+                               
+                                  1 
+                                  − 
+                                  α 
+                                  ∕ 
+                                  μ 
+                               
+                            , which reflects the participant’s initial belief that pumping will make the balloon explode. The magnitudes of  
+                               α 
+                             and  
+                               μ 
+                             indicate the degree of learning from observations; high values indicate that the prior belief is strong and the perceived probability is affected to just a small degree by the observed data.  
+                               
+                                  
+                                     
+                                        ∑ 
+                                     
+                                     
+                                        i 
+                                        = 
+                                        0 
+                                     
+                                     
+                                        k 
+                                        − 
+                                        1 
+                                     
+                                  
+                                  
+                                     
+                                        n 
+                                     
+                                     
+                                        i 
+                                     
+                                     
+                                        s 
+                                        u 
+                                        c 
+                                        c 
+                                        e 
+                                        s 
+                                        s 
+                                     
+                                  
+                               
+                             is the sum of the number of successful pumps up to trial  
+                               
+                                  k 
+                                  − 
+                                  1 
+                               
+                            , and  
+                               
+                                  
+                                     
+                                        ∑ 
+                                     
+                                     
+                                        i 
+                                        = 
+                                        0 
+                                     
+                                     
+                                        k 
+                                        − 
+                                        1 
+                                     
+                                  
+                                  
+                                     
+                                        n 
+                                     
+                                     
+                                        i 
+                                     
+                                     
+                                        p 
+                                        u 
+                                        m 
+                                        p 
+                                        s 
+                                     
+                                  
+                               
+                             is the sum of the total number of pumps up to trial  
+                               
+                                  k 
+                                  − 
+                                  1 
+                               
+                            .
+
+The second assumption that the participant evaluates the optimal number of pumps before each trial is reflected in the equations for calculating the probability that the participant will pump the balloon. Adopting the prospect theory ( Kahneman & Tversky, 2013 ), the expected utility after  
+                               l 
+                             pumps on trial  
+                               k 
+                            ,  
+                               
+                                  
+                                     U 
+                                  
+                                  
+                                     k 
+                                     l 
+                                  
+                               
+                            , is given by:  
+                               
+                                  (2) 
+                                  
+                                     
+                                        
+                                           
+                                              U 
+                                           
+                                           
+                                              k 
+                                              l 
+                                           
+                                        
+                                        = 
+                                        
+                                           
+                                              
+                                                 
+                                                    1 
+                                                    − 
+                                                    
+                                                       
+                                                          p 
+                                                       
+                                                       
+                                                          k 
+                                                       
+                                                       
+                                                          b 
+                                                          u 
+                                                          r 
+                                                          s 
+                                                          t 
+                                                       
+                                                    
+                                                 
+                                              
+                                           
+                                           
+                                              l 
+                                           
+                                        
+                                        
+                                           
+                                              
+                                                 
+                                                    l 
+                                                    r 
+                                                 
+                                              
+                                           
+                                           
+                                              γ 
+                                           
+                                        
+                                        .
+
+In Eq.  (2) ,  
+                               r 
+                             is the amount of reward per successful pump, and  
+                               γ 
+                             is risk-taking propensity. We can calculate the optimal number of pumps by setting the first derivative of Eq.  (2)  for  
+                               l 
+                             equals zero. Then, we can easily derive the optimal number of pumps on trial  
+                               k 
+                            ,  
+                               
+                                  
+                                     ν 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                            , as follows:  
+                               
+                                  (3) 
+                                  
+                                     
+                                        
+                                           
+                                              ν 
+                                           
+                                           
+                                              k 
+                                           
+                                        
+                                        = 
+                                        
+                                           
+                                              − 
+                                              γ 
+                                           
+                                           
+                                              ln 
+                                              
+                                                 ( 
+                                                 1 
+                                                 − 
+                                                 
+                                                    
+                                                       p 
+                                                    
+                                                    
+                                                       k 
+                                                    
+                                                    
+                                                       b 
+                                                       u 
+                                                       r 
+                                                       s 
+                                                       t 
+                                                    
+                                                 
+                                                 ) 
+                                              
+                                           
+                                        
+                                        w 
+                                        i 
+                                        t 
+                                        h 
+                                        
+                                        γ 
+                                        ≥ 
+                                        0 
+                                        .
+
+Based on  
+                               
+                                  
+                                     ν 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                            , we can calculate the probability that the participant will pump the balloon on trial  
+                               k 
+                             for pump  
+                               l 
+                            ,  
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     k 
+                                     l 
+                                  
+                                  
+                                     p 
+                                     u 
+                                     m 
+                                     p 
+                                  
+                               
+                            :  
+                               
+                                  (4) 
+                                  
+                                     
+                                        
+                                           
+                                              p 
+                                           
+                                           
+                                              k 
+                                              l 
+                                           
+                                           
+                                              p 
+                                              u 
+                                              m 
+                                              p 
+                                           
+                                        
+                                        = 
+                                        
+                                           
+                                              1 
+                                           
+                                           
+                                              1 
+                                              + 
+                                              
+                                                 
+                                                    e 
+                                                 
+                                                 
+                                                    τ 
+                                                    
+                                                       
+                                                          l 
+                                                          − 
+                                                          
+                                                             
+                                                                ν 
+                                                             
+                                                             
+                                                                k 
+                                                             
+                                                          
+                                                       
+                                                    
+                                                 
+                                              
+                                           
+                                        
+                                        w 
+                                        i 
+                                        t 
+                                        h 
+                                        
+                                        τ 
+                                        ≥ 
+                                        0 
+                                        .
+
+In this logistic equation,  
+                               τ 
+                             is the inverse temperature parameter. The inverse temperature of the choice rule determines how deterministic or random the choice is; The higher  
+                               τ 
+                            , the more deterministic. If  
+                               
+                                  l 
+                                  < 
+                                  
+                                     
+                                        ν 
+                                     
+                                     
+                                        k 
+                                     
+                                  
+                               
+                            ,  
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     k 
+                                     l 
+                                  
+                                  
+                                     p 
+                                     u 
+                                     m 
+                                     p 
+                                  
+                               
+                             becomes greater than 0.5. Similarly, if  
+                               
+                                  l 
+                                  > 
+                                  
+                                     
+                                        ν 
+                                     
+                                     
+                                        k 
+                                     
+                                  
+                               
+                            ,  
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     k 
+                                     l 
+                                  
+                                  
+                                     p 
+                                     u 
+                                     m 
+                                     p 
+                                  
+                               
+                             becomes less than 0.5. In sum, the four-parameter model has four parameters to be estimated:  
+                               
+                                  α 
+                                  , 
+                                  μ 
+                                  , 
+                                  γ 
+                               
+                            , and  
+                               τ 
+                            .
+
+We can calculate the likelihood of the data given the parameters by multiplying the probability that the participant will pump on trial  
+                               k 
+                             for pump  
+                               l 
+                            ,  
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     k 
+                                     l 
+                                  
+                                  
+                                     p 
+                                     u 
+                                     m 
+                                     p 
+                                  
+                               
+                            . The probability of the data given the parameters,  
+                               
+                                  p 
+                                  
+                                     ( 
+                                     D 
+                                     | 
+                                     α 
+                                     , 
+                                     μ 
+                                     , 
+                                     γ 
+                                     , 
+                                     τ 
+                                     ) 
+                                  
+                               
+                            , is given by:  
+                               
+                                  (5) 
+                                  
+                                     
+                                        p 
+                                        
+                                           
+                                              D 
+                                              | 
+                                              α 
+                                              , 
+                                              μ 
+                                              , 
+                                              γ 
+                                              , 
+                                              τ 
+                                           
+                                        
+                                        = 
+                                        
+                                           
+                                              ∏ 
+                                           
+                                           
+                                              k 
+                                              = 
+                                              1 
+                                           
+                                           
+                                              
+                                                 
+                                                    k 
+                                                 
+                                                 
+                                                    l 
+                                                    a 
+                                                    s 
+                                                    t 
+                                                 
+                                              
+                                           
+                                        
+                                        
+                                           
+                                              ∏ 
+                                           
+                                           
+                                              l 
+                                              = 
+                                              1 
+                                           
+                                           
+                                              
+                                                 
+                                                    l 
+                                                 
+                                                 
+                                                    k 
+                                                 
+                                                 
+                                                    l 
+                                                    a 
+                                                    s 
+                                                    t 
+                                                 
+                                              
+                                           
+                                        
+                                        
+                                           
+                                              p 
+                                           
+                                           
+                                              k 
+                                              l 
+                                           
+                                           
+                                              p 
+                                              u 
+                                              m 
+                                              p 
+                                           
+                                        
+                                        
+                                           
+                                              
+                                                 
+                                                    1 
+                                                    − 
+                                                    
+                                                       
+                                                          p 
+                                                       
+                                                       
+                                                          k 
+                                                          , 
+                                                          
+                                                             
+                                                                l 
+                                                             
+                                                             
+                                                                k 
+                                                             
+                                                             
+                                                                l 
+                                                                a 
+                                                                s 
+                                                                t 
+                                                             
+                                                          
+                                                          + 
+                                                          1 
+                                                       
+                                                       
+                                                          p 
+                                                          u 
+                                                          m 
+                                                          p 
+                                                       
+                                                    
+                                                 
+                                              
+                                           
+                                           
+                                              
+                                                 
+                                                    d 
+                                                 
+                                                 
+                                                    k 
+                                                 
+                                              
+                                           
+                                        
+                                        , 
+                                     
+                                  
+                               
+                            where  
+                               
+                                  
+                                     k 
+                                  
+                                  
+                                     l 
+                                     a 
+                                     s 
+                                     t 
+                                  
+                               
+                             is the last number of trials,  
+                               
+                                  
+                                     l 
+                                  
+                                  
+                                     k 
+                                  
+                                  
+                                     l 
+                                     a 
+                                     s 
+                                     t 
+                                  
+                               
+                             is the last number of pumping opportunities on trial  
+                               k 
+                            . if the participant transfers the accumulated reward on trial  
+                               k 
+                             to the virtual bank account,  
+                               
+                                  
+                                     
+                                        d 
+                                     
+                                     
+                                        k 
+                                     
+                                  
+                                  = 
+                                  1 
+                               
+                             and if the balloon explodes on trial  
+                               k 
+                            ,  
+                               
+                                  
+                                     
+                                        d 
+                                     
+                                     
+                                        k 
+                                     
+                                  
+                                  = 
+                                  0 
+                               
+                            .
+
+Although previous researchers have primarily used the four-parameter model, it has been known that  
+                               α 
+                             and  
+                               μ 
+                             of the four-parameter model are not well recovered. The two-parameter model was proposed to address this problem of the four-parameter model ( Pleskac, 2008; van Ravenzwaaij et al., 2011 ). However, the two-parameter model does not apply to the original BART paradigm because participants are not informed of the probability structure of the task. Therefore, instead of the two-parameter model, we considered a non-learning version of the four-parameter model, which is based on an assumption that participants do not learn during the BART.
+
+The non-learning version of the four-parameter model is based on the following assumption of the two-parameter model: participants do not learn during the BART. Since participants do not update their belief of the probability of the balloon exploding based on observations and they are not informed of the probability structure of the original BART paradigm, in this model, we assumed participant’s belief of the probability of the balloon exploding as a parameter,  
+                               θ 
+                            . Then, similar to Eq.  (3) , we can derive the optimal number of pumps,  
+                               ν 
+                            , as follows:  
+                               
+                                  (6) 
+                                  
+                                     
+                                        ν 
+                                        = 
+                                        
+                                           
+                                              − 
+                                              γ 
+                                           
+                                           
+                                              ln 
+                                              
+                                                 ( 
+                                                 1 
+                                                 − 
+                                                 θ 
+                                                 ) 
+                                              
+                                           
+                                        
+                                        w 
+                                        i 
+                                        t 
+                                        h 
+                                        
+                                        γ 
+                                        ≥ 
+                                        0 
+                                        .
+
+Based on the optimal number of pumps, similar to Eq.  (4) , we can calculate the probability that the participant will pump the balloon for pump  
+                               l 
+                            ,  
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     l 
+                                  
+                                  
+                                     p 
+                                     u 
+                                     m 
+                                     p 
+                                  
+                               
+                            :  
+                               
+                                  (7) 
+                                  
+                                     
+                                        
+                                           
+                                              p 
+                                           
+                                           
+                                              l 
+                                           
+                                           
+                                              p 
+                                              u 
+                                              m 
+                                              p 
+                                           
+                                        
+                                        = 
+                                        
+                                           
+                                              1 
+                                           
+                                           
+                                              1 
+                                              + 
+                                              
+                                                 
+                                                    e 
+                                                 
+                                                 
+                                                    τ 
+                                                    
+                                                       
+                                                          l 
+                                                          − 
+                                                          ν 
+                                                       
+                                                    
+                                                 
+                                              
+                                           
+                                        
+                                        w 
+                                        i 
+                                        t 
+                                        h 
+                                        
+                                        τ 
+                                        ≥ 
+                                        0 
+                                        .
+
+Notably, the optimal number of pumps,  
+                               ν 
+                            , and the probability that the participant will pump the balloon for pump  
+                               l 
+                            ,  
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     l 
+                                  
+                                  
+                                     p 
+                                     u 
+                                     m 
+                                     p 
+                                  
+                               
+                            , do not depend on the trial number because the participant’s belief of the probability of the balloon exploding is a parameter with a fixed value. In sum, the non-learning version of the four-parameter model includes three free parameters to be estimated:  
+                               θ 
+                            ,  
+                               γ 
+                            , and  
+                               τ 
+                            .
+
+We suspected that the strong association between  
+                               α 
+                             and  
+                               μ 
+                             (the ratio reflects the participant’s initial belief and the magnitudes indicate the degree of learning from observations) may be problematic and tested if reparametrizing  
+                               α 
+                             and  
+                               μ 
+                             would improve the parameter recovery performance of the model.
+
+The parameters  
+                               α 
+                             and  
+                               μ 
+                             are associated with two processes. The ratio of  
+                               α 
+                             to  
+                               μ 
+                            ,  
+                               
+                                  α 
+                                  ∕ 
+                                  μ 
+                               
+                            , refers to the participant’s initial belief that pumping will make the balloon explode, and the magnitudes of both  
+                               α 
+                             and  
+                               μ 
+                             determine the degree of learning from observations. Thus, we wanted to reparameterize them so that each parameter is uniquely associated with just one process. Also, we wanted to remove the constraint that  
+                               α 
+                             is less than  
+                               μ 
+                             because the constraint might lead to inefficient sampling for Bayesian parameter estimation (see Section  2.4 ).
+
+For the goal, we reparametrized  
+                               α 
+                             and  
+                               μ 
+                             into  
+                               ϕ 
+                             and  
+                               η 
+                            :  
+                               
+                                  ϕ 
+                                  = 
+                                  α 
+                                  ∕ 
+                                  μ 
+                               
+                             and  
+                               
+                                  η 
+                                  = 
+                                  1 
+                                  ∕ 
+                                  μ 
+                               
+                            . Substituting these parameters into Eq.  (1)  yields:  
+                               
+                                  (8) 
+                                  
+                                     
+                                        
+                                           
+                                              p 
+                                           
+                                           
+                                              k 
+                                           
+                                           
+                                              b 
+                                              u 
+                                              r 
+                                              s 
+                                              t 
+                                           
+                                        
+                                        = 
+                                        1 
+                                        − 
+                                        
+                                           
+                                              ϕ 
+                                              + 
+                                              η 
+                                              
+                                                 
+                                                    ∑ 
+                                                 
+                                                 
+                                                    i 
+                                                    = 
+                                                    0 
+                                                 
+                                                 
+                                                    k 
+                                                    − 
+                                                    1 
+                                                 
+                                              
+                                              
+                                                 
+                                                    n 
+                                                 
+                                                 
+                                                    i 
+                                                 
+                                                 
+                                                    s 
+                                                    u 
+                                                    c 
+                                                    c 
+                                                    e 
+                                                    s 
+                                                    s 
+                                                 
+                                              
+                                           
+                                           
+                                              1 
+                                              + 
+                                              η 
+                                              
+                                                 
+                                                    ∑ 
+                                                 
+                                                 
+                                                    i 
+                                                    = 
+                                                    0 
+                                                 
+                                                 
+                                                    k 
+                                                    − 
+                                                    1 
+                                                 
+                                              
+                                              
+                                                 
+                                                    n 
+                                                 
+                                                 
+                                                    i 
+                                                 
+                                                 
+                                                    p 
+                                                    u 
+                                                    m 
+                                                    p 
+                                                    s 
+                                                 
+                                              
+                                           
+                                        
+                                        w 
+                                        i 
+                                        t 
+                                        h 
+                                        
+                                        0 
+                                        < 
+                                        ϕ 
+                                        < 
+                                        1 
+                                        , 
+                                        η 
+                                        > 
+                                        0 
+                                        .
+
+After the reparameterization, the initial value of  
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     k 
+                                  
+                                  
+                                     b 
+                                     u 
+                                     r 
+                                     s 
+                                     t 
+                                  
+                               
+                             equals  
+                               
+                                  1 
+                                  − 
+                                  ϕ 
+                               
+                            . Thus,  
+                               ϕ 
+                             indicates the participant’s initial belief that pumping will not make the balloon explode. Also,  
+                               η 
+                             is an updating coefficient of the participant’s belief by the observed data. If  
+                               
+                                  η 
+                                  = 
+                                  0 
+                               
+                            ,  
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     k 
+                                  
+                                  
+                                     b 
+                                     u 
+                                     r 
+                                     s 
+                                     t 
+                                  
+                               
+                             is not affected by the observed data. If  
+                               η 
+                             is very large,  
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     k 
+                                  
+                                  
+                                     b 
+                                     u 
+                                     r 
+                                     s 
+                                     t 
+                                  
+                               
+                             rapidly comes close to the observed probability of burst. Eqs.  (3) and (4)  remain the same. Note that we included the reparametrized four-parameter version in the hBayesDM package as a function named  bart_par4  ( Ahn, Haines, & Zhang, 2017 ).
+
+The four-parameter model has two critical limitations, even after the reparameterization. First, although the model reflects that the participant updates  
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     k 
+                                  
+                                  
+                                     b 
+                                     u 
+                                     r 
+                                     s 
+                                     t 
+                                  
+                               
+                             from the prior belief with the observed data, Eq.  (8)  hardly provides an intuitive interpretation of the learning process. We modified the updating equation in an attempt to show the learning process more clearly. Second, the assumption that the participant determines the optimal number of pumps before each trial may be unjustified. This assumption might be contradictory with the primary goal of the BART, measuring the risk-taking tendency of individuals, because it does not reflect some critical features of risk-taking such as loss aversion and impulsive responses. Instead, the participant may decide whether to pump the balloon or not just before each pump.
+
+To address the first issue, we defined a parameter,  
+                               
+                                  ψ 
+                                  = 
+                                  1 
+                                  − 
+                                  ϕ 
+                               
+                            , which is the initial value of  
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     k 
+                                  
+                                  
+                                     b 
+                                     u 
+                                     r 
+                                     s 
+                                     t 
+                                  
+                               
+                            . Substituting this parameter into Eq.  (8)  yields:  
+                               
+                                  (9) 
+                                  
+                                     
+                                        
+                                           
+                                              p 
+                                           
+                                           
+                                              k 
+                                           
+                                           
+                                              b 
+                                              u 
+                                              r 
+                                              s 
+                                              t 
+                                           
+                                        
+                                        = 
+                                        
+                                           
+                                              ω 
+                                           
+                                           
+                                              k 
+                                              − 
+                                              1 
+                                           
+                                        
+                                        ψ 
+                                        + 
+                                        
+                                           ( 
+                                           1 
+                                           − 
+                                           
+                                              
+                                                 ω 
+                                              
+                                              
+                                                 k 
+                                                 − 
+                                                 1 
+                                              
+                                           
+                                           ) 
+                                        
+                                        
+                                           
+                                              P 
+                                           
+                                           
+                                              k 
+                                              − 
+                                              1 
+                                           
+                                        
+                                        w 
+                                        i 
+                                        t 
+                                        h 
+                                        
+                                        0 
+                                        < 
+                                        ψ 
+                                        < 
+                                        1 
+                                        , 
+                                        η 
+                                        > 
+                                        0 
+                                        , 
+                                     
+                                  
+                               
+                            where  
+                               
+                                  
+                                     
+                                        P 
+                                     
+                                     
+                                        k 
+                                        − 
+                                        1 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        
+                                           
+                                              ∑ 
+                                           
+                                           
+                                              i 
+                                              = 
+                                              0 
+                                           
+                                           
+                                              k 
+                                              − 
+                                              1 
+                                           
+                                        
+                                        
+                                           ( 
+                                           
+                                              
+                                                 n 
+                                              
+                                              
+                                                 i 
+                                              
+                                              
+                                                 p 
+                                                 u 
+                                                 m 
+                                                 p 
+                                                 s 
+                                              
+                                           
+                                           − 
+                                           
+                                              
+                                                 n 
+                                              
+                                              
+                                                 i 
+                                              
+                                              
+                                                 s 
+                                                 u 
+                                                 c 
+                                                 c 
+                                                 e 
+                                                 s 
+                                                 s 
+                                              
+                                           
+                                           ) 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              ∑ 
+                                           
+                                           
+                                              i 
+                                              = 
+                                              0 
+                                           
+                                           
+                                              k 
+                                              − 
+                                              1 
+                                           
+                                        
+                                        
+                                           
+                                              n 
+                                           
+                                           
+                                              i 
+                                           
+                                           
+                                              p 
+                                              u 
+                                              m 
+                                              p 
+                                              s 
+                                           
+                                        
+                                     
+                                  
+                               
+                            , which is the observed probability that pumping has made the balloon explode up to trial  
+                               
+                                  k 
+                                  − 
+                                  1 
+                               
+                            , and  
+                               
+                                  
+                                     
+                                        ω 
+                                     
+                                     
+                                        k 
+                                        − 
+                                        1 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        1 
+                                        + 
+                                        η 
+                                        
+                                           
+                                              ∑ 
+                                           
+                                           
+                                              i 
+                                              = 
+                                              0 
+                                           
+                                           
+                                              k 
+                                              − 
+                                              1 
+                                           
+                                        
+                                        
+                                           
+                                              n 
+                                           
+                                           
+                                              i 
+                                           
+                                           
+                                              p 
+                                              u 
+                                              m 
+                                              p 
+                                              s 
+                                           
+                                        
+                                     
+                                  
+                               
+                            , which is the weight indicating how much weight is given to the prior belief on trial  
+                               k 
+                             when estimating the probability of the balloon exploding. Each component of Eq.  (9)  has a clear role, which is interpretable as a part of weight updating learning. Specifically, the current value ( 
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     k 
+                                  
+                                  
+                                     b 
+                                     u 
+                                     r 
+                                     s 
+                                     t 
+                                  
+                               
+                            ) is estimated as a weighted average of the initial value ( 
+                               ψ 
+                            ) and the observed value ( 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     k 
+                                     − 
+                                     1 
+                                  
+                               
+                            ). As data accumulates, the participant updates the weight ( 
+                               
+                                  
+                                     ω 
+                                  
+                                  
+                                     k 
+                                     − 
+                                     1 
+                                  
+                               
+                            ) and the observed value ( 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     k 
+                                     − 
+                                     1 
+                                  
+                               
+                            ). The weight ( 
+                               
+                                  
+                                     ω 
+                                  
+                                  
+                                     k 
+                                     − 
+                                     1 
+                                  
+                               
+                            ) and the observed value ( 
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     k 
+                                     − 
+                                     1 
+                                  
+                               
+                            ) are determined by the total number of the data ( 
+                               
+                                  
+                                     
+                                        ∑ 
+                                     
+                                     
+                                        i 
+                                        = 
+                                        0 
+                                     
+                                     
+                                        k 
+                                        − 
+                                        1 
+                                     
+                                  
+                                  
+                                     
+                                        n 
+                                     
+                                     
+                                        i 
+                                     
+                                     
+                                        p 
+                                        u 
+                                        m 
+                                        p 
+                                        s 
+                                     
+                                  
+                               
+                            ) and the number of the data that meet a certain condition (explosion,  
+                               
+                                  
+                                     
+                                        ∑ 
+                                     
+                                     
+                                        i 
+                                        = 
+                                        0 
+                                     
+                                     
+                                        k 
+                                        − 
+                                        1 
+                                     
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           n 
+                                        
+                                        
+                                           i 
+                                        
+                                        
+                                           p 
+                                           u 
+                                           m 
+                                           p 
+                                           s 
+                                        
+                                     
+                                     − 
+                                     
+                                        
+                                           n 
+                                        
+                                        
+                                           i 
+                                        
+                                        
+                                           s 
+                                           u 
+                                           c 
+                                           c 
+                                           e 
+                                           s 
+                                           s 
+                                        
+                                     
+                                     ) 
+                                  
+                               
+                            ). In this framework,  
+                               η 
+                             indicates how rapidly the participant depends on experience. If  
+                               
+                                  η 
+                                  → 
+                                  ∞ 
+                               
+                            , learning entirely depends on the present outcome. If  
+                               
+                                  η 
+                                  = 
+                                  0 
+                               
+                            , no further learning occurs.
+
+To improve the model performance within this framework, we modified the functional form of the weight,  
+                               
+                                  
+                                     ω 
+                                  
+                                  
+                                     k 
+                                     − 
+                                     1 
+                                  
+                               
+                            . If we define  
+                               x 
+                             as  
+                               
+                                  η 
+                                  
+                                     
+                                        ∑ 
+                                     
+                                     
+                                        i 
+                                        = 
+                                        0 
+                                     
+                                     
+                                        k 
+                                        − 
+                                        1 
+                                     
+                                  
+                                  
+                                     
+                                        n 
+                                     
+                                     
+                                        i 
+                                     
+                                     
+                                        p 
+                                        u 
+                                        m 
+                                        p 
+                                        s 
+                                     
+                                  
+                               
+                            , in Eq.  (9) ,  
+                               
+                                  
+                                     
+                                        ω 
+                                     
+                                     
+                                        k 
+                                        − 
+                                        1 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        1 
+                                        + 
+                                        x 
+                                     
+                                  
+                               
+                            , which means the weight is hyperbolic. Other functional forms can be alternatives to the hyperbolic function if they meet two conditions: the participant’s learning starts with the prior belief (if  
+                               
+                                  x 
+                                  = 
+                                  0 
+                               
+                            ,  
+                               
+                                  
+                                     
+                                        ω 
+                                     
+                                     
+                                        k 
+                                        − 
+                                        1 
+                                     
+                                  
+                                  = 
+                                  1 
+                               
+                            ) and primarily depends on the observed value after observing enough data (if  
+                               
+                                  x 
+                                  → 
+                                  ∞ 
+                               
+                            ,  
+                               
+                                  
+                                     
+                                        ω 
+                                     
+                                     
+                                        k 
+                                        − 
+                                        1 
+                                     
+                                  
+                                  → 
+                                  0 
+                               
+                            ). The exponential decay,  
+                               
+                                  
+                                     e 
+                                  
+                                  
+                                     − 
+                                     x 
+                                  
+                               
+                            , is a reasonable alternative because it meets the two conditions and is commonly used to describe natural phenomena such as the voltage of the resistor–capacitor circuit, the number of remain radioactive atoms, and the concentration of the first-order chemical reaction. Replacing  
+                               
+                                  
+                                     ω 
+                                  
+                                  
+                                     k 
+                                     − 
+                                     1 
+                                  
+                               
+                             with  
+                               
+                                  
+                                     e 
+                                  
+                                  
+                                     − 
+                                     x 
+                                  
+                               
+                             in Eq.  (9)  yields:  
+                               
+                                  (10) 
+                                  
+                                     
+                                        
+                                           
+                                              
+                                                 p 
+                                              
+                                              
+                                                 k 
+                                              
+                                              
+                                                 b 
+                                                 u 
+                                                 r 
+                                                 s 
+                                                 t 
+                                              
+                                           
+                                           = 
+                                           
+                                              
+                                                 e 
+                                              
+                                              
+                                                 − 
+                                                 ξ 
+                                                 
+                                                    
+                                                       ∑ 
+                                                    
+                                                    
+                                                       i 
+                                                       = 
+                                                       0 
+                                                    
+                                                    
+                                                       k 
+                                                       − 
+                                                       1 
+                                                    
+                                                 
+                                                 
+                                                    
+                                                       n 
+                                                    
+                                                    
+                                                       i 
+                                                    
+                                                    
+                                                       p 
+                                                       u 
+                                                       m 
+                                                       p 
+                                                       s 
+                                                    
+                                                 
+                                              
+                                           
+                                           ψ 
+                                           + 
+                                           
+                                              ( 
+                                              1 
+                                              − 
+                                              
+                                                 
+                                                    e 
+                                                 
+                                                 
+                                                    − 
+                                                    ξ 
+                                                    
+                                                       
+                                                          ∑ 
+                                                       
+                                                       
+                                                          i 
+                                                          = 
+                                                          0 
+                                                       
+                                                       
+                                                          k 
+                                                          − 
+                                                          1 
+                                                       
+                                                    
+                                                    
+                                                       
+                                                          n 
+                                                       
+                                                       
+                                                          i 
+                                                       
+                                                       
+                                                          p 
+                                                          u 
+                                                          m 
+                                                          p 
+                                                          s 
+                                                       
+                                                    
+                                                 
+                                              
+                                              ) 
+                                           
+                                           
+                                              
+                                                 P 
+                                              
+                                              
+                                                 k 
+                                                 − 
+                                                 1 
+                                              
+                                           
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           
+                                           w 
+                                           i 
+                                           t 
+                                           h 
+                                           
+                                           0 
+                                           < 
+                                           ψ 
+                                           < 
+                                           1 
+                                           , 
+                                           ξ 
+                                           > 
+                                           0 
+                                           . 
+                                        
+                                     
+                                  
+                               
+                            To avoid confusion, we replaced  
+                               η 
+                             with  
+                               ξ 
+                             and named  
+                               ξ 
+                             an updating exponent.
+
+For the second issue (the assumption that the participant determines the optimal number of pumps before each trial), we tested a new model which assumed that the participant decides whether to pump the balloon or not before each pump instead of each trial. Using the prospect theory ( Kahneman & Tversky, 2013 ), we calculated the subjective utilities for pumping and not-pumping a balloon on trial  
+                               k 
+                             for pump  
+                               l 
+                             as follows:  
+                               
+                                  
+                                     (11) 
+                                     
+                                        
+                                           
+                                              
+                                                 U 
+                                              
+                                              
+                                                 k 
+                                                 l 
+                                              
+                                              
+                                                 p 
+                                                 u 
+                                                 m 
+                                                 p 
+                                              
+                                           
+                                           = 
+                                           
+                                              
+                                                 1 
+                                                 − 
+                                                 
+                                                    
+                                                       p 
+                                                    
+                                                    
+                                                       k 
+                                                    
+                                                    
+                                                       b 
+                                                       u 
+                                                       r 
+                                                       s 
+                                                       t 
+                                                    
+                                                 
+                                              
+                                           
+                                           
+                                              
+                                                 r 
+                                              
+                                              
+                                                 ρ 
+                                              
+                                           
+                                           − 
+                                           
+                                              
+                                                 p 
+                                              
+                                              
+                                                 k 
+                                              
+                                              
+                                                 b 
+                                                 u 
+                                                 r 
+                                                 s 
+                                                 t 
+                                              
+                                           
+                                           λ 
+                                           
+                                              
+                                                 
+                                                    
+                                                       
+                                                          
+                                                             l 
+                                                             − 
+                                                             1 
+                                                          
+                                                       
+                                                       r 
+                                                    
+                                                 
+                                              
+                                              
+                                                 ρ 
+                                              
+                                           
+                                           
+                                           w 
+                                           i 
+                                           t 
+                                           h 
+                                           
+                                           0 
+                                           < 
+                                           ρ 
+                                           < 
+                                           2 
+                                           , 
+                                           λ 
+                                           > 
+                                           0 
+                                           , 
+                                        
+                                     
+                                  
+                                  
+                                     (12) 
+                                     
+                                        
+                                           
+                                              
+                                                 U 
+                                              
+                                              
+                                                 k 
+                                                 l 
+                                              
+                                              
+                                                 t 
+                                                 r 
+                                                 a 
+                                                 n 
+                                                 s 
+                                                 f 
+                                                 e 
+                                                 r 
+                                              
+                                           
+                                           = 
+                                           0 
+                                           , 
+                                        
+                                     
+                                  
+                               
+                             where  
+                               r 
+                             is the amount of reward for each successful pump,  
+                               ρ 
+                             is risk preference, and  
+                               λ 
+                             is loss aversion. Then, we can calculate the probability that the participant will pump the balloon on trial  
+                               k 
+                             for pump  
+                               l 
+                            ,  
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     k 
+                                     l 
+                                  
+                                  
+                                     p 
+                                     u 
+                                     m 
+                                     p 
+                                  
+                               
+                            , by using these subjective utilities.  
+                               
+                                  (13) 
+                                  
+                                     
+                                        
+                                           
+                                              p 
+                                           
+                                           
+                                              k 
+                                              l 
+                                           
+                                           
+                                              p 
+                                              u 
+                                              m 
+                                              p 
+                                           
+                                        
+                                        = 
+                                        
+                                           
+                                              1 
+                                           
+                                           
+                                              1 
+                                              + 
+                                              
+                                                 
+                                                    e 
+                                                 
+                                                 
+                                                    τ 
+                                                    
+                                                       
+                                                          
+                                                             
+                                                                U 
+                                                             
+                                                             
+                                                                k 
+                                                                l 
+                                                             
+                                                             
+                                                                t 
+                                                                r 
+                                                                a 
+                                                                n 
+                                                                s 
+                                                                f 
+                                                                e 
+                                                                r 
+                                                             
+                                                          
+                                                          − 
+                                                          
+                                                             
+                                                                U 
+                                                             
+                                                             
+                                                                k 
+                                                                l 
+                                                             
+                                                             
+                                                                p 
+                                                                u 
+                                                                m 
+                                                                p 
+                                                             
+                                                          
+                                                       
+                                                    
+                                                 
+                                              
+                                           
+                                        
+                                        w 
+                                        i 
+                                        t 
+                                        h 
+                                        
+                                        τ 
+                                        ≥ 
+                                        0 
+                                        , 
+                                     
+                                  
+                               
+                            where  
+                               τ 
+                             is inverse temperature. We noticed that this model (Eqs.  (11) ,  (12) , and  (13) ) is similar to a model (Model1) reported in  Wallsten et al. (2005) . Although Model1 was not the best-fitting model, its model fit was close to that of the winning model (the four-parameter model). Considering that the EW model has a single parameter for risk preference instead of having separate risk preference parameters for gain and loss like Model1, we also included Model1 in the model comparison to examine its performance compared to other models. In summary, the EW model has five free parameters to be estimated:  
+                               ψ 
+                             (prior belief of burst),  
+                               ξ 
+                             (updating exponent),  
+                               ρ 
+                             (risk preference),  
+                               τ 
+                             (inverse temperature), and  
+                               λ 
+                             (loss aversion).
+
+In Model1 ( Wallsten et al., 2005 ), the equation calculating the probability of the balloon exploding is the same as the four-parameter model (Eq.  (1) ). Because of the inefficient sampling issue, we utilized the reparametrized version (Eq.  (4) ) instead of Eq.  (1) .
+
+Like the EW model, Model1 is based on an assumption that the participant decides whether to pump the balloon or not before each pump based on the subjective utilities for pumping and not-pumping. The only difference is that Model1 has separate risk preference parameters for gain and loss. The subjective utilities for pumping and not-pumping a balloon on trial  
+                               k 
+                             for pump  
+                               l 
+                             are calculated as follows:  
+                               
+                                  (14) 
+                                  
+                                     
+                                        
+                                           
+                                              
+                                                 U 
+                                              
+                                              
+                                                 k 
+                                                 l 
+                                              
+                                              
+                                                 p 
+                                                 u 
+                                                 m 
+                                                 p 
+                                              
+                                           
+                                           = 
+                                           
+                                              
+                                                 1 
+                                                 − 
+                                                 
+                                                    
+                                                       p 
+                                                    
+                                                    
+                                                       k 
+                                                    
+                                                    
+                                                       b 
+                                                       u 
+                                                       r 
+                                                       s 
+                                                       t 
+                                                    
+                                                 
+                                              
+                                           
+                                           
+                                              
+                                                 r 
+                                              
+                                              
+                                                 
+                                                    
+                                                       ρ 
+                                                    
+                                                    
+                                                       + 
+                                                    
+                                                 
+                                              
+                                           
+                                           − 
+                                           
+                                              
+                                                 p 
+                                              
+                                              
+                                                 k 
+                                              
+                                              
+                                                 b 
+                                                 u 
+                                                 r 
+                                                 s 
+                                                 t 
+                                              
+                                           
+                                           λ 
+                                           
+                                              
+                                                 
+                                                    
+                                                       
+                                                          
+                                                             l 
+                                                             − 
+                                                             1 
+                                                          
+                                                       
+                                                       r 
+                                                    
+                                                 
+                                              
+                                              
+                                                 
+                                                    
+                                                       ρ 
+                                                    
+                                                    
+                                                       − 
+                                                    
+                                                 
+                                              
+                                           
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           
+                                           w 
+                                           i 
+                                           t 
+                                           h 
+                                           
+                                           0 
+                                           < 
+                                           
+                                              
+                                                 ρ 
+                                              
+                                              
+                                                 + 
+                                              
+                                           
+                                           , 
+                                           
+                                              
+                                                 ρ 
+                                              
+                                              
+                                                 − 
+                                              
+                                           
+                                           < 
+                                           2 
+                                           , 
+                                           λ 
+                                           > 
+                                           0 
+                                           , 
+                                        
+                                     
+                                  
+                               
+                            
+                            
+                               
+                                  (15) 
+                                  
+                                     
+                                        
+                                           
+                                              U 
+                                           
+                                           
+                                              k 
+                                              l 
+                                           
+                                           
+                                              t 
+                                              r 
+                                              a 
+                                              n 
+                                              s 
+                                              f 
+                                              e 
+                                              r 
+                                           
+                                        
+                                        = 
+                                        0 
+                                        , 
+                                     
+                                  
+                               
+                            where  
+                               r 
+                             is the amount of reward for each successful pump,  
+                               
+                                  
+                                     ρ 
+                                  
+                                  
+                                     + 
+                                  
+                               
+                             is risk preference for gain,  
+                               
+                                  
+                                     ρ 
+                                  
+                                  
+                                     − 
+                                  
+                               
+                             is risk preference for loss, and  
+                               λ 
+                             is loss aversion. Then, we can calculate the probability that the participant will pump the balloon by using these subjective utilities (Eq.  (13) ). In summary, Model1 includes six free parameters to be estimated:  
+                               ϕ 
+                             (prior belief of success),  
+                               η 
+                             (updating coefficient),  
+                               
+                                  
+                                     ρ 
+                                  
+                                  
+                                     + 
+                                  
+                               
+                             (risk preference for gain),  
+                               
+                                  
+                                     ρ 
+                                  
+                                  
+                                     − 
+                                  
+                               
+                             (risk preference for loss),  
+                               τ 
+                             (inverse temperature), and  
+                               λ 
+                             (loss aversion).
+
+The existing models and EW model utilize the prospect theory ( Kahneman & Tversky, 2013 ) to calculate subjective utilities for pumping and not-pumping. Given that previous studies have suggested that the performances of the prospect theory and the mean–variance analysis ( Markowitz, 1952 ) are comparable ( Boorman & Sallet, 2009; Hens & Mayer, 2014; Levy & Levy, 2004 ), we tested a model by applying the mean–variance analysis to the EW model. According to the mean–variance analysis, the subjective utility of an option can be formulated by a linear combination of the expected value and the variance of potential outcomes. Applying the mean–variance analysis, we calculated the subjective utilities for pumping and not-pumping a balloon on trial  
+                               k 
+                             for pump  
+                               l 
+                             as follows:  
+                               
+                                  (16) 
+                                  
+                                     
+                                        
+                                           
+                                              
+                                                 U 
+                                              
+                                              
+                                                 k 
+                                                 l 
+                                              
+                                              
+                                                 p 
+                                                 u 
+                                                 m 
+                                                 p 
+                                              
+                                           
+                                           = 
+                                           
+                                              
+                                                 1 
+                                                 − 
+                                                 
+                                                    
+                                                       p 
+                                                    
+                                                    
+                                                       k 
+                                                    
+                                                    
+                                                       b 
+                                                       u 
+                                                       r 
+                                                       s 
+                                                       t 
+                                                    
+                                                 
+                                              
+                                           
+                                           r 
+                                           − 
+                                           
+                                              
+                                                 p 
+                                              
+                                              
+                                                 k 
+                                              
+                                              
+                                                 b 
+                                                 u 
+                                                 r 
+                                                 s 
+                                                 t 
+                                              
+                                           
+                                           λ 
+                                           
+                                              ( 
+                                              l 
+                                              − 
+                                              1 
+                                              ) 
+                                           
+                                           r 
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           
+                                           + 
+                                           
+                                           ρ 
+                                           
+                                              
+                                                 p 
+                                              
+                                              
+                                                 k 
+                                              
+                                              
+                                                 b 
+                                                 u 
+                                                 r 
+                                                 s 
+                                                 t 
+                                              
+                                           
+                                           
+                                              
+                                                 1 
+                                                 − 
+                                                 
+                                                    
+                                                       p 
+                                                    
+                                                    
+                                                       k 
+                                                    
+                                                    
+                                                       b 
+                                                       u 
+                                                       r 
+                                                       s 
+                                                       t 
+                                                    
+                                                 
+                                              
+                                           
+                                           
+                                              
+                                                 
+                                                    
+                                                       r 
+                                                       + 
+                                                       λ 
+                                                       
+                                                          ( 
+                                                          l 
+                                                          − 
+                                                          1 
+                                                          ) 
+                                                       
+                                                       r 
+                                                    
+                                                 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                           w 
+                                           i 
+                                           t 
+                                           h 
+                                           
+                                           λ 
+                                           > 
+                                           0 
+                                           , 
+                                        
+                                     
+                                  
+                               
+                            
+                            
+                               
+                                  (17) 
+                                  
+                                     
+                                        
+                                           
+                                              U 
+                                           
+                                           
+                                              k 
+                                              l 
+                                           
+                                           
+                                              t 
+                                              r 
+                                              a 
+                                              n 
+                                              s 
+                                              f 
+                                              e 
+                                              r 
+                                           
+                                        
+                                        = 
+                                        0 
+                                        , 
+                                     
+                                  
+                               
+                            where  
+                               r 
+                             is the amount of reward for each successful pump,  
+                               ρ 
+                             is risk preference, and  
+                               λ 
+                             is loss aversion. In Eq.  (16) , the first two terms indicate the expected value of a pump, and the last term indicates the impact of the variance of potential outcomes on the subjective utility. Notably, in the mean–variance framework, the risk preference is defined as a coefficient of the variance term, which is a proxy for risk. If  
+                               
+                                  ρ 
+                                  < 
+                                  0 
+                               
+                            , the participant prefers to choose an option with a large variance of potential outcomes. If  
+                               
+                                  ρ 
+                                  = 
+                                  0 
+                               
+                            , the expected value of an option determines the participant’s subjective utility. If  
+                               
+                                  ρ 
+                                  > 
+                                  0 
+                               
+                            , the participant prefers to choose an option with a small variance of potential outcomes. Like the EW model, we can calculate the probability of pumping the balloon by using these subjective utilities based on the mean–variance analysis (Eq.  (13) ). In summary, the EWMV model includes five free parameters:  
+                               ψ 
+                             (prior belief of burst),  
+                               ξ 
+                             (updating exponent),  
+                               ρ 
+                             (risk preference),  
+                               τ 
+                             (inverse temperature), and  
+                               λ 
+                             (loss aversion).
+
+We used hierarchical Bayesian Analysis (HBA) for parameter estimation ( Berger, 2013, 2013; Gelman, Carlin, Stern, & Rubin, 2004; Lee, 2011, 2011 ). HBA offers several benefits over conventional non-hierarchical approaches such as individual-level ordinary least squares and maximum likelihood estimation (MLE) methods. First, HBA estimates parameters as posterior distributions instead of point estimates. Posterior distributions provide us with more information about the parameters than point estimates because distributions show the uncertainty of the estimated values. Second, with HBA, we can systematically characterize similarities and differences across subjects within a Bayesian framework based on the amount of information from each individual. Previous studies suggest that HBA allows us to estimate model parameters more accurately than individual- or group-level MLE methods ( Ahn, Krawitz, Kim, Busemeyer, & Brown, 2011 ).
+
+We conducted HBA by using Stan (version 2.15.1), a probabilistic programming language for specifying statistical models ( Carpenter et al., 2017 ). Stan uses Hamiltonian Monte Carlo (HMC) for sampling from high-dimensional parameter space. Specifically, we implemented the models in the hBayesDM ( Ahn et al., 2017 ) environment, which uses Stan. For parameter estimation, we used flat or weakly informative priors ( Ahn et al., 2017; Haines et al., 2018 ) to minimize the influence of the priors and the Matt trick ( Papaspiliopoulos, Roberts, & Sköld, 2007 ) to facilitate the sampling process. We will make the Stan codes and precise prior settings publicly available through GitHub. We tested several other types of priors and confirmed that the priors hardly affected the results as long as the priors are approximately uninformative. We used a large enough sample size (4000 samples, including 2000 burn-in samples per chain) to assure that parameters converge to the target distributions, with four independent chains to check that the posterior distributions are not dependent on initial starting points. Note that  Vehtari, Gelman, Simpson, Carpenter, and Bürkner (2019)  recommended running at least four chains by default. The trace plots indicated that chains were well mixed and the  
+                            
+                               
+                                  R 
+                               
+                               
+                                  ˆ 
+                               
+                            
+                          values ( Gelman & Rubin, 1992 ) for all model parameters were lower than 1.1, which indicates that the estimated parameter values converged to their target posterior distributions. Thinning was not applied because thinning of chains is rarely useful for the precision of estimates ( Link & Eaton, 2012 ). See supplementary material for detailed information of HBA (Table S2, Figs. S3, and S4).
+
+LOOIC is an information criterion calculated from the Leave-one-out cross-validation. Leave-one-out cross-validation is a method to estimate out-of-sample prediction accuracy from a fitted Bayesian model based on the log-likelihood evaluated from the posterior distributions ( Vehtari, Gelman, & Gabry, 2017 ). It is well-known that LOOIC has various benefits over simpler estimates such as Akaike Information Criterion (AIC;  Akaike, 1998 ) and Bayesian Information Criterion (BIC;  Schwarz, 1978 ). We used the R package  loo  ( Vehtari et al., 2017 ) to estimate LOOIC for each model. Because LOOIC is calculated from the log-likelihood, the lower LOOIC is, the better its model fit is. For model selection, LOOIC weights are defined as Akaike weights ( Wagenmakers & Farrell, 2004 ) calculated based on LOOIC values, and the detailed information is provided in the supplementary material (see Model comparison section).
+
+We also used parameter recovery to evaluate how accurate a model estimates true parameter values from the simulation data generated from the true parameter values (e.g.,  Ahn et al., 2011, 2014; Haines et al., 2018; Wagenmakers et al., 2007 ). For the comparison, we did parameter recovery analysis for the reparametrized version of the four-parameter model, the EW model, and the EWMV model. For each parameter in each competing model, we randomly sampled true parameter values from the truncated normal distribution with a mean and a standard deviation estimated from data of healthy controls, heroin-dependent, and amphetamine-dependent groups to investigate a broader range of parameter values. For each group, we calculated individual posterior means as individual parameter values for participants and used the mean and standard deviation of the individual parameter values as the mean and standard deviation for the truncated normal distribution. Then, we generated simulation data of 30 trials per subject by using the true parameter values. Lastly, we estimated parameter values from the simulation data. Correlations between the true parameter values and the predicted parameter values and regression coefficients were used to evaluate the model performance.
+
+Table 1  shows the LOOIC for five competing models. In all three groups, the EWMV model was the best-fitting model followed by the EW, Model1, Par4, and Par3 in the order of model fits. The Par4 model outperformed the Par3 model, which is consistent with the result of the previous study, showing that the two-parameter model provided a poorer fit than the four-parameter model when the probability structure was uninformed ( Pleskac, 2008 ). LOOIC weights, the relative likelihoods of the models calculated based on LOOIC values, strongly favored the EWMV model as indicated by its LOOIC weights of 1. Considering that the Model1 includes one more parameter but shows poorer model fits than the EW model, we excluded the Model1 from subsequent analyses. Also, given that the LOOIC values for the Par3 model were much larger than those of the other models (i.e., the Par3 model provided much poorer model fits than the other models), we decided to exclude the Par3 model from further analyses.
+
+We evaluated the quality of parameter recovery as the correlation between the true and estimated values. Also, we considered the regression coefficients to characterize the degree of associations and biases. In the main text, we report the parameter recovery results from the healthy control group. The parameter recovery results from the heroin- and amphetamine-dependent groups are reported in the supplementary material (Figs. S5–S10) and are not qualitatively different from the those from the healthy control group.
+
+Fig. 1  shows the results of parameter recovery from the healthy control group for the Par4 model. As shown in  Fig. 1 , overall all parameters were relatively well recovered in the Par4 model including the prior belief of success ( 
+                               ϕ 
+                            ) and the updating coefficient ( 
+                               η 
+                            ), which were not well recovered and systematically overestimated in the previous studies ( Heathcote et al., 2015; van Ravenzwaaij et al., 2011 ). This suggests that our reparameterization may have improved the parameter recovery performance by separating the roles of the two parameters. To directly compare the parameter recovery of the four-parameter model and the Par4 model, we attempted to recover the parameters of the four-parameter model, but the parameters of the original four-parameter model failed to converge even after many (e.g., 4000) burn-in samples. We suggest two possible reasons underlying the failure. First, given that the magnitudes of  
+                               α 
+                             and  
+                               μ 
+                             commonly indicate the degree of learning from observations, the high correlation between the two parameters might make the sampling process fail to work well even with HMC. Second, the constraint that  
+                               μ 
+                             is always larger than  
+                               α 
+                             may cause issues in the sampling process.
+
+Fig. 2  shows the results of parameter recovery from the healthy control group for the EW model. The EW model showed poorer parameter recovery performance than the Par4 model in two aspects. First, the risk preference ( 
+                               ρ 
+                            , EW model) exhibited relatively weak recovery compared to the risk-taking propensity ( 
+                               γ 
+                            , Par4 model). Second, for the loss aversion ( 
+                               λ 
+                            , EW model), the estimated values were shrunk towards the mean value. This shrinkage effect indicates that the model parameter might not be accurately estimated from the information the data contain. Figs. S7 and S8 show that the loss-aversion ( 
+                               λ 
+                            , EW model) was also not recovered well from the heroin-dependent and amphetamine-dependent groups, which is consistent with the recovery results from the healthy control group.
+
+Fig. 3  shows the results of parameter recovery from the healthy control group for the EWMV model. Most parameters, except for the risk preference ( 
+                               ρ 
+                            , EWMV model), showed good parameter recovery, including the loss aversion parameter ( 
+                               λ 
+                            , EWMV model), which was not recovered well for the EW model. For the risk preference ( 
+                               ρ 
+                            , EWMV model), the regression line reveals that the estimated values were slightly shrunk towards the mean value. Although the risk preference ( 
+                               ρ 
+                            , EWMV model) was not recovered well, considering the EWMV model includes one more parameter than the Par4 model (i.e., the EWMV model is more complex than the Par4 model), we decided to scrutinize the parameter recovery more to accurately compare the parameter recovery performances of the EWMV and Par4 models.
+
+The parameter recovery results for the prior belief and updating rate provide support for the EWMV model. For the Par4 model, some parameter values of the prior belief of success ( 
+                               ϕ 
+                            ) and the updating coefficient ( 
+                               η 
+                            ) deviated from the diagonal in all three groups ( Figs. 1 , S5, and S6). Notably, the updating coefficient ( 
+                               η 
+                            ) showed poor parameter recovery when we used the mean and standard deviation estimated from the amphetamine-dependent group (Fig. S6). In contrast, for the EWMV model, most parameter values of the prior belief of burst ( 
+                               ψ 
+                            ) and the updating exponent ( 
+                               ξ 
+                            ) were well recovered ( Figs. 3 , S9, and S10). Considering the LOOIC and parameter recovery results, we selected the EWMV model as the winning model and compared it with the Par4 model in further analyses.
+
+We evaluated the posterior prediction performance of each model as a correlation between the observed and simulated adjusted BART scores. For the goal, we estimated parameters for each model from the observed data and generated simulation data by using the estimated parameters. Then, we calculated the adjusted BART score from the simulation data and compared the simulated score with the observed score for each participant.
+
+Fig. 4  shows the correlations between observed and simulated adjusted BART scores for the Par4, EW, and EWMV models. All models showed good predictive performance, and their predictive performances are comparable. The regression lines display that the simulated values were slightly shrunk towards the mean value.
+
+To examine whether the EWMV model includes advantageous features of the four-parameter model, we investigated correlations between seemingly corresponding model parameters of the Par4 model and the EWMV model: ( 
+                            γ 
+                         ,  
+                            ρ 
+                         ), ( 
+                            ϕ 
+                         ,  
+                            ψ 
+                         ), ( 
+                            η 
+                         ,  
+                            ξ 
+                         ), and ( 
+                            τ 
+                         ,  
+                            τ 
+                         ); the former one is the parameter of the Par4 model, and the latter one is the parameter of the EWMV model. The risk-taking propensity ( 
+                            γ 
+                         ) and the risk preference ( 
+                            ρ 
+                         ) are related to the risk-taking tendency. The prior belief of success ( 
+                            ϕ 
+                         ) and the prior belief of burst ( 
+                            ψ 
+                         ) correspond to the participant’s prior belief about the balloon. The updating coefficient ( 
+                            η 
+                         ) and the updating exponent ( 
+                            ξ 
+                         ) mean updating rate of observation. The two inverse temperatures ( 
+                            τ 
+                         ) reflect how much the participant is deterministic. In the main text, we report the correlations between corresponding model parameters from the healthy control group. The correlation analysis results from the heroin- and amphetamine-dependent groups are reported in the supplementary material (Figs. S11 and S12), which show similar patterns with the results from the healthy control group.
+
+Fig. 5  shows the correlations between the corresponding parameter pairs. All of the pairs had strong correlations. Although the correlation between the two inverse temperatures ( 
+                            τ 
+                         ) was relatively weak, it is acceptable as they are related to different quantities; one is related to the number of pumps, and the other is related to the subjective utility. The prior belief of success ( 
+                            ϕ 
+                         ) and the prior belief of burst ( 
+                            ψ 
+                         ) were negatively correlated because the sum of the two probabilities should be 1 in an ideal case. The updating coefficient ( 
+                            η 
+                         ) and the updating exponent ( 
+                            ξ 
+                         ) were positively correlated because both of them represent how rapidly the participant updates the belief based on past experiences. Notably, the risk-taking propensity ( 
+                            γ 
+                         ) and the risk preference ( 
+                            ρ 
+                         ) showed a strong positive correlation, which implicates that, like the risk-taking propensity, the risk preference may reflect risk-taking tendency and be correlated with the frequencies of the past real-world risky behaviors.
+
+As a way of evaluating the utility of the EWMV model, we applied the EWMV model to healthy and substance-dependent populations (patients with past heroin or amphetamine dependence). We analyzed the group differences of three groups (healthy control, heroin, and amphetamine-dependent groups; see below for the details) for their behavioral performance and the parameter estimates of the EWMV model (we also tested the Par4 model).
+
+The heroin-dependent group displayed a marginally lower adjusted BART score (95% HDI: [−9.73, 0.629], mean= −4.59; 95.9% of the posterior samples were smaller than 0) than the amphetamine-dependent group. The result suggests that heroin users might show lower risk-taking than amphetamine users during the BART. See supplementary material for detailed information on the behavioral performance and the group difference in behavioral performance (Figs. S1 and S2).
+
+We estimated parameters of the EWMV model and the Par4 model for each group separately to compare the parameter values between the groups.  Fig. 6  shows the posterior distributions of the group parameters for each group with the EWMV model. The heroin-dependent group displayed credibly lower risk preference ( 
+                               ρ 
+                            ) than the healthy control group (95% HDI of the group difference: [−0.0064, −0.0005], mean: −0.0033) and the amphetamine-dependent group (95% HDI of the group difference: [−0.0073, −0.0013], mean: −0.0042). The amphetamine-dependent group displayed credibly higher risk preference ( 
+                               ρ 
+                            ) than the healthy control group (95% HDI of the group difference: [0.0001, 0.0018], mean: 0.0009). Additionally, the amphetamine-dependent group displayed credibly lower updating exponent ( 
+                               ξ 
+                            ) than the healthy control group (95% HDI of the group difference: [−0.0046, −0.0001), mean: −0.0023).
+
+Fig. 7  shows the posterior distributions of the group parameters for each group with the Par4 model. The heroin-dependent group displayed credibly lower risk-taking propensity ( 
+                               γ 
+                            ) than the amphetamine-dependent group (95% HDI of the group difference: [−0.280, −0.012], mean: −0.151). Also, the heroin-dependent group displayed higher inverse temperature ( 
+                               τ 
+                            ) than the amphetamine-dependent group (95% HDI of the group difference: [0.019, 0.070], mean: 0.044). See supplementary material for detail information about the group differences of the model parameters (Figs. S13 and S14).
+
+The results of the behavioral performance and the model parameters are consistent. Among the three groups, the differences between the heroin-dependent and amphetamine-dependent groups were the most noticeable. The heroin-dependent group displayed a marginally lower adjusted BART score, lower risk preference ( 
+                               ρ 
+                            ), and lower risk-taking propensity ( 
+                               γ 
+                            ) compared to the amphetamine-dependent group. These results consistently show that heroin users show lower risk-taking than amphetamine users during the BART.
+
+The main focus of this study is on the development of a novel BART model that addresses the limitations of existing models. We proposed a non-learning version of the four-parameter model (Par3 model) and a reparametrized version of the four-parameter model (Par4 model). By modifying equations from the reparametrized version, we developed candidate models and selected the best model (EWMV model) based on the leave-one-out information criterion (LOOIC) and the parameter recovery. The model comparison results suggest that the EWMV model shows better prediction performance across all populations than the other models and good parameter recovery. To examine whether the EWMV model includes advantageous features of the four-parameter model, we calculated the correlations between corresponding parameter pairs for the Par4 and EWMV models. All of the corresponding parameter pairs had strong correlations, which implies that the EWMV model may include advantageous features of the four-parameter model. As a way of evaluating the utility of the EWMV model, we analyzed differences among substance-using populations in behavioral performance and model parameters of the Par4 and EWMV models. The group differences in behavioral performance and model parameters of the Par4 and EWMV models were consistent. The results of the group differences show that the EWMV model reveals group differences among the groups more clearly than the behavioral performance and the Par4 model, and provides a measure of an additional core psychological construct of risk-taking behavior. Overall, these results suggest that the EWMV model has distinct merits as a computational model for the original BART paradigm.
+
+An important finding of this study is that it suggests a way to improve parameter recovery. We showed that reparametrizing parameters associated with more than one role into parameters with unique roles might help the model recover accurate parameter values. Adequate parameter recovery is a fundamental assumption and necessary for analyzing parameters of a computational model, and it is noteworthy that we can improve parameter recovery by reparameterization alone. At the same time, it is notable that the information criteria such as AIC, BIC, and LOOIC for the reparametrized version and the original model are more or less the same. It suggests that the reparametrized version does not have additional explanatory power compared with the original model. The results demonstrate that parameter recovery and post hoc model fits measured with information criteria reflect different aspects of computational models, and we need to use both methods for comprehensive evaluation.
+
+Besides the superior prediction performance and good parameter recovery performance, the EWMV model also has an advantage that it provides a more interpretable learning process: an agent estimates the present value as a weighted average of the initial and observed value and updates the weight and observed value as data accumulates. In addition, all parameters included in the EWMV model have distinct and interpretable roles. Also, the EWMV model might be applicable to a wide range of cognitive tasks other than the BART. The weight updating learning of the EWMV model is analogous to the Kalman filter, an algorithm to track unknown state variables with uncertainty ( Welch & Bishop, 1995 ). Because the weight updating learning model might be applicable to all situations that include initial states and sequential observations, it might be an alternative to other well-established models to quantify learning situations such as the Rescorla–Wagner model ( Rescorla & Wagner, 1972 ).
+
+Utilizing the mean–variance analysis ( Markowitz, 1952 ) is another distinct feature of the EWMV model. Previous studies, which compared the mean–variance analysis and the prospect theory ( Kahneman & Tversky, 2013 ), have suggested that their performances are comparable ( Boorman & Sallet, 2009; Hens & Mayer, 2014; Levy & Levy, 2004 ). However, only a few models (e.g.,  d’Acremont, Lu, Li, Van der Linden, & Bechara, 2009 ) directly have utilized the mean–variance analysis to calculate subjective utilities.
+
+The group difference results show that the group differences in model parameters of the EWMV model were consistent with the group differences in other indices, including the behavioral performance and model parameters of the Par4 model. One seeming inconsistency is the results of the inverse temperature parameters in the EWMV and Par4 models. For the EWMV model, all groups displayed no credible group differences in the inverse temperature, whereas, for the Par4 model, the heroin-dependent group displayed higher inverse temperature than the amphetamine-dependent group. The reason for this discrepancy may be the two inverse temperatures are related to different quantities. One is related to the subjective utility, whereas the other is related to the number of pumps. Consequently, we did not consider this discrepancy as an inconsistency. The consistent group difference result may indicate that the EWMV model appropriately reflects the participants’ risk-taking tendencies in their behaviors. It is also consistent with the results of previous studies showing that opiates (heroin) and stimulants (amphetamine) addictions are behaviorally and neurobiologically distinct ( Badiani, Belin, Epstein, Calu, & Shaham, 2011 ), related to different dopamine modulation mechanisms ( Kreek et al., 2012 ), and characterized by different personality and neurocognitive profiles ( Ahn & Vassileva, 2016 ).
+
+Another key implication from the group difference results is that the model parameters of the EWMV model reveal the group differences more clearly than the adjusted BART score and the model parameters of the Par4 model. It is of note that the group difference results still remain valid after considering the bias in the parameter recovery result of the risk preference for the EWMV model because the similar biased patterns appear in all three groups. Namely, the EWMV model aligns better with the clinical function of the BART, whose original purpose is to identify individuals who are prone to take risks. This implies that the EWMV model may be potentially useful for classifying individuals into several clinical groups and establishing quantitative diagnostic criteria for risk-taking behavior.
+
+Providing a measure of loss aversion, which is a core psychological construct of risk-taking behavior, is also advantageous to the EWMV model. Previous studies analyzing risk-taking behavior have consistently shown that loss aversion plays a crucial role in risk-taking behavior, and many computational models of experimental paradigms to investigate risk-taking tendency include parameters of loss aversion ( Ahn et al., 2008, 2011; Sokol-Hessner et al., 2009; Worthy, Pang, & Byrne, 2013 ). This feature makes the EWMV model comparable with the other computational models that include loss aversion.
+
+In conclusion, we proposed a novel model for the BART, called the exponential-weight mean–variance (EWMV) model, using the weight updating learning and the mean–variance analysis, which addresses the limitations of existing models. The EWMV model outperformed other models in model fits and parameter recovery performance. Also, its distinct merits come with a more interpretable learning process, more salient group differences in model parameters between substance-dependent populations, and the existence of loss aversion parameter. Not limited to the BART, we hope that the weight updating learning model and the mean–variance analysis might apply to other cognitive tasks.
+
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+We thank the Seoul Science High School (SSHS) students for assistance in data analysis. Also, we would like to thank all volunteers for their participation in this study. We express our gratitude to Georgi Vasilev, Kiril Bozgunov, Elena Psederska, Dimitar Nedelchev, Rada Naslednikova, Ivaylo Raynov, Emiliya Peneva, and Victoria Dobrojalieva for assistance with recruitment and testing of study participants. The research reported in this publication was supported in part by the  National Institute on Drug Abuse and Fogarty International Center  under award number  R01DA021421  to J.V, and the Basic Science Research Program through the National Research Foundation (NRF) of Korea funded by the  Ministry of Science, ICT, & Future Planning  ( NRF-2018R1C1B3007313  and  NRF-2018R1A4A1025891 ) to W.-Y.A., the Institute for Information & Communications Technology Planning & Evaluation (IITP) grant funded by the  Korea government (MSIT)  (No.  2019-0-01367 , BabyMind), and the Creative-Pioneering Researchers Program through  Seoul National University  as well as  Research Settlement Fund for the New Faculty of SNU 
+ to W.-Y.A.
+
+Supplementary material related to this article can be found online at  https://doi.org/10.1016/j.jmp.2021.102532 .
+
+The following is the Supplementary material related to this article.  
+                         
+                            MMC S1 
+                            
+                               .

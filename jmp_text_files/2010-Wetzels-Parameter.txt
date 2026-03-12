@@ -1,0 +1,2325 @@
+10.1016/j.jmp.2008.12.001
+Every neuroscientist knows the tale of Phineas Gage, the railroad worker who suffered an unfortunate accident: in 1848, an explosion drove an iron rod straight through Gage’s frontal cortex. Although Gage miraculously survived the accident, the resultant brain trauma did cause a distinct change in his personality. Prior to the accident, Gage was capable and reliable, but after the accident he was described as impatient, stubborn, and impulsive. Gage was no longer able to plan ahead in order to achieve long–term goals. 
+                      1 
+                   
+                   
+                      1 
+                      For more information about Phineas Gage see for instance  http://www.deakin.edu.au/hmnbs/psychology/gagepage/ .
+
+The symptoms of Phineas Gage are characteristic for patients with damage to the ventromedial prefrontal cortex (vmPFC). These patients often take irresponsible decisions and do not seem to learn from their mistakes. The observed real–life decision making deficits are not caused by low intelligence, as vmPFC patients generally perform adequately on standard IQ tests.
+
+In order to study the decision making behavior of clinical populations such as vmPFC patients under controlled conditions, Bechara and Damasio developed the now–famous “Iowa gambling task” (IGT; ( Bechara, Damasio, Damasio, & Anderson, 1994; Bechara, Damasio, Tranel, & Damasio, 1997 )), described in more detail below. Successful performance on the IGT requires that participants learn to prefer cautious (i.e., low rewards, low losses) alternatives over risky (i.e., high rewards, high losses) alternatives. The IGT is one of the most often used clinical tools to study deficits in decision making, and it has been applied to older adults, chronic cocaine users, cannabis users, children, criminals, patients with Huntington disease, patients with Asperger’s syndrome, patients with obsessive–compulsive disorder, patients with Parkinson’s disease, etc. (see  Caroselli, Hiscock, Scheibel, and Ingram (2006) ,  Crone and van der Molen (2004) ,  Yechiam, Busemeyer, Stout, and Bechara (2005)  and  Yechiam et al. (2008)  and references therein).
+
+Although most clinical populations perform relatively poorly on the IGT, in the sense that their learning rate is lower than that of normal controls, it is as yet unclear whether or not the poor performance of these different clinical groups has the same origin. The IGT is a relatively complex task that requires the participant to correctly integrate information, remember this information, and converge upon a decision. Poor performance on the IGT could be due to any of these subcomponents that together determine choice behavior. In order to address this issue formally one needs a reinforcement learning model for task performance in the IGT. Such a model was developed and popularized by Jerry Busemeyer, Julie Stout, Eldad Yechiam, and co–workers ( Busemeyer & Stout, 2002; Stout, Busemeyer, Lin, Grant, & Bonson, 2004; Wood, Busemeyer, Koling, Cox, & Davis, 2005; Yechiam & Busemeyer, 2005; Yechiam et al., 2005, 2008; Yechiam, Stout, Busemeyer, Rock, & Finn, 2005 ), whose Expectancy Valence (EV) model can presently be considered the default model of performance in the IGT.
+
+When researchers use the EV model to draw conclusions about underlying processes, it is of course important that they can rely on estimation routines to accurately recover parameter values. Despite its importance, much is still unknown about the statistical characteristics of parameter estimation in the EV model. The primary goal of the present article is to analyze and improve on the estimation routines that are currently standard in the field.
+
+The outline of this article is as follows. Section  1  provides a detailed explanation of the IGT and the EV model. Section  2  discusses the statistical properties of the EV model when parameters are estimated using maximum likelihood. Section  3  outlines a Bayesian graphical model for the EV model, both for single participant analysis and for a hierarchical analysis. Section  4  applies the standard maximum likelihood estimation and the novel Bayesian estimation to data from an experiment that was designed to provide a test of specific influence.
+
+In the IGT, participants have to discover, through trial and error, the difference between risky and safe decisions. In the computerized version of the IGT, the participant starts with $2000 in play money. Next, the computer screen shows four decks of cards (A, B, C, and D), and the participant has to select a card from one of the decks. Each card is associated with a reward, but potentially also with a loss. The default payoff scheme is presented in  Table 1 
+                         .
+
+As can be seen from  Table 1 , decks A and B yield a reward of $100 every time a card from those decks is selected, compared to only $50 for decks C and D. However, the relatively large rewards associated with decks A and B are more than undone by large occasional losses; in five out of every ten selections from deck A, the reward is overshadowed by a loss that ranges from $150 to $350 for a total of $1250 for every ten selections. For deck B, only one out of every ten selections is accompanied by a loss, but this loss is a whopping $1250.
+
+The rewards associated with decks C and D may be relatively meager, but so are the losses; for deck C, five out of every ten selections yields a loss, ranging from $25 to $75 for a total of $250. For deck D, only one out of every ten selections yields a loss, and that loss is $250. This means that it is in the participants’ financial interest to avoid decks A and B (i.e., the bad decks with large rewards, but even larger losses) and prefer cards from decks C and D (i.e., the good decks with modest rewards, but relatively small losses). The fact that the A and B decks are bad, and the C and D decks are good is something that the participant has to discover through experience.
+
+At the start of the IGT, the participant is told to maximize net profit. During the task, the participant is presented with a running tally of the net profit. The task terminates after the participant has made a certain number of card selections. Depending on the experiment, this number varies from 100 or 150 to as much as 250.
+
+From a statistical perspective, the IGT is a so–called four–armed bandit problem ( Berry & Fristedt, 1985 ). Bandit problems are a special case of the more general reinforcement learning problems, in which an agent has to learn an environment by choosing actions and experiencing the consequences of those actions (e.g.,  Estes (1950) ,  Steyvers, Lee, and Wagenmakers (in press)  and  Sutton and Barto (1998) ). It is easy to formulate a reinforcement learning problem, but it is difficult to solve such a problem in an optimal fashion. Optimal performance depends on a delicate trade–off between “exploration” and “exploitation”; in order to discover the best option, the agent first has to try out or explore the various opportunities. However, if the agent only has a limited number of trials left, it is optimal to gradually stop exploring and instead exploit the option that has turned out to produce the highest profit in the past.
+
+Many reinforcement problems such as the IGT are practically impossible to solve optimally. However, the reinforcement literature contains several solutions that are sensible and produce relatively good results. Interestingly, the parameters of a reinforcement learning method can often be given a clear psychological interpretation (e.g.,  Daw, O’Doherty, Dayan, Seymour, and Dolan (2006) ). The EV model developed by  Busemeyer and Stout (2002)  is a case in point.
+
+The EV model proposes that choice behavior in the IGT comes about through the interaction of three latent psychological processes. Each of these three processes is vital to producing successful performance typified by an increase in preference for the good decks over the bad decks with increasing experience. First, the model assumes that the participant, after selecting a card from deck  
+                            k 
+                         ,  
+                            k 
+                            ∈ 
+                            
+                               { 
+                               1 
+                               , 
+                               2 
+                               , 
+                               3 
+                               , 
+                               4 
+                               } 
+                            
+                          on trial  
+                            t 
+                         , calculates the resulting net profit or valence. This valence  
+                            
+                               
+                                  v 
+                               
+                               
+                                  k 
+                               
+                            
+                          is a combination of the experienced reward  
+                            W 
+                            
+                               ( 
+                               t 
+                               ) 
+                            
+                          and the experienced loss  
+                            L 
+                            
+                               ( 
+                               t 
+                               ) 
+                            
+                         :  
+                            
+                               (1) 
+                               
+                                  
+                                     
+                                        v 
+                                     
+                                     
+                                        k 
+                                     
+                                  
+                                  
+                                     ( 
+                                     t 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     ( 
+                                     1 
+                                     − 
+                                     w 
+                                     ) 
+                                  
+                                  ⋅ 
+                                  W 
+                                  
+                                     ( 
+                                     t 
+                                     ) 
+                                  
+                                  + 
+                                  w 
+                                  ⋅ 
+                                  L 
+                                  
+                                     ( 
+                                     t 
+                                     ) 
+                                  
+                                  .
+
+Thus, the first parameter of the EV model is  
+                            w 
+                         , the  attention weight  of losses relative to rewards,  
+                            w 
+                            ∈ 
+                            
+                               [ 
+                               0 
+                               , 
+                               1 
+                               ] 
+                            
+                         . A rational decision maker would assign equal weight to losses and rewards and hence use  
+                            w 
+                            = 
+                            . 
+                            5 
+                         .  Stout et al. (2004)  found that the mean value of  
+                            w 
+                         was .25 for chronic cocaine users, in contrast to .63 for control participants. This result supports the idea that, compared to normal controls, cocaine users focus on rewards and deemphasize the possible negative consequences of their behavior.
+
+On the basis of the sequence of valences  
+                            
+                               
+                                  v 
+                               
+                               
+                                  k 
+                               
+                            
+                          experienced in the past, the participant forms an expectation  
+                            E 
+                            
+                               
+                                  v 
+                               
+                               
+                                  k 
+                               
+                            
+                          of the valence for deck  
+                            k 
+                         . In order to learn, new valences need to modify continually the expected valence  
+                            E 
+                            
+                               
+                                  v 
+                               
+                               
+                                  k 
+                               
+                            
+                         . If the experienced valence  
+                            
+                               
+                                  v 
+                               
+                               
+                                  k 
+                               
+                            
+                          is higher or lower than expected,  
+                            E 
+                            
+                               
+                                  v 
+                               
+                               
+                                  k 
+                               
+                            
+                          needs to be adjusted upward or downward, respectively. This intuition is captured by the equation  
+                            
+                               (2) 
+                               
+                                  E 
+                                  
+                                     
+                                        v 
+                                     
+                                     
+                                        k 
+                                     
+                                  
+                                  
+                                     ( 
+                                     t 
+                                     + 
+                                     1 
+                                     ) 
+                                  
+                                  = 
+                                  E 
+                                  
+                                     
+                                        v 
+                                     
+                                     
+                                        k 
+                                     
+                                  
+                                  
+                                     ( 
+                                     t 
+                                     ) 
+                                  
+                                  + 
+                                  a 
+                                  ⋅ 
+                                  
+                                     ( 
+                                     
+                                        
+                                           v 
+                                        
+                                        
+                                           k 
+                                        
+                                     
+                                     
+                                        ( 
+                                        t 
+                                        ) 
+                                     
+                                     − 
+                                     E 
+                                     
+                                        
+                                           v 
+                                        
+                                        
+                                           k 
+                                        
+                                     
+                                     
+                                        ( 
+                                        t 
+                                        ) 
+                                     
+                                     ) 
+                                  
+                                  , 
+                               
+                            
+                          in which the  updating rate  
+                         
+                            a 
+                            ∈ 
+                            
+                               [ 
+                               0 
+                               , 
+                               1 
+                               ] 
+                            
+                          determines the impact of recently experienced valences. A high value of  
+                            a 
+                          means that the participant quickly adjusts the expected valence as a result of recent experiences. As a consequence, such a participant pays little heed to past events and has limited memory.  Wood et al. (2005)  found that older adults have higher values of the updating rate parameter than younger adults. This means that older adults show relatively large recency effects and exhibit more rapid forgetting.
+
+Upon first consideration, it may seem rational to always prefer the deck with the highest expected valence. This “greedy” strategy, however, leaves very little room for exploration, and the danger is that the decision maker quickly gets stuck choosing an inferior option. What is needed is some procedure to ensure that participants initially explore the decks, and only after a certain number of trials decide to always prefer the deck with the highest expected valence. One of the standard reinforcement learning methods to achieve this is to use what is called softmax selection or Boltzmann exploration ( Kaelbling, Littman, & Moore, 1996; Luce, 1959 ):  
+                            
+                               (3) 
+                               
+                                  Pr 
+                                  
+                                     [ 
+                                     
+                                        
+                                           S 
+                                        
+                                        
+                                           k 
+                                        
+                                     
+                                     
+                                        ( 
+                                        t 
+                                        + 
+                                        1 
+                                        ) 
+                                     
+                                     ] 
+                                  
+                                  = 
+                                  
+                                     
+                                        exp 
+                                        
+                                           ( 
+                                           θ 
+                                           
+                                              ( 
+                                              t 
+                                              ) 
+                                           
+                                           E 
+                                           
+                                              
+                                                 v 
+                                              
+                                              
+                                                 k 
+                                              
+                                           
+                                           ) 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              ∑ 
+                                           
+                                           
+                                              j 
+                                              = 
+                                              1 
+                                           
+                                           
+                                              4 
+                                           
+                                        
+                                        exp 
+                                        
+                                           ( 
+                                           θ 
+                                           
+                                              ( 
+                                              t 
+                                              ) 
+                                           
+                                           E 
+                                           
+                                              
+                                                 v 
+                                              
+                                              
+                                                 j 
+                                              
+                                           
+                                           ) 
+                                        
+                                     
+                                  
+                                  .
+
+In this equation,  
+                            1 
+                            / 
+                            θ 
+                            
+                               ( 
+                               t 
+                               ) 
+                            
+                          is the “temperature” at trial  
+                            t 
+                          and  
+                            Pr 
+                            
+                               ( 
+                               
+                                  
+                                     S 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                               ) 
+                            
+                          is the probability of selecting a card from deck  
+                            k 
+                         . When the temperature is very high, deck preference is almost completely random, allowing for a lot of exploration. As the temperature decreases, deck preference is guided more and more by the expected valences. When the temperature is zero, participants always prefer the deck with the highest expected valence.
+
+In the EV model, the temperature is assumed to vary with the number of observations according to  
+                            
+                               (4) 
+                               
+                                  θ 
+                                  
+                                     ( 
+                                     t 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        
+                                           ( 
+                                           t 
+                                           / 
+                                           10 
+                                           ) 
+                                        
+                                     
+                                     
+                                        c 
+                                     
+                                  
+                                  , 
+                               
+                            
+                          where  
+                            c 
+                          is the  response consistency  or sensitivity parameter. In fits to data, this parameter is usually constrained to the interval  
+                            
+                               [ 
+                               − 
+                               5 
+                               , 
+                               5 
+                               ] 
+                            
+                         . When  
+                            c 
+                          is positive, response consistency  
+                            θ 
+                          increases with the number of observations (i.e., the temperature  
+                            1 
+                            / 
+                            θ 
+                          decreases). This means that choices will be more and more guided by the expected valences. When  
+                            c 
+                          is negative, choices will become more and more random as the number of card selections increases.  Busemeyer and Stout (2002)  found that patients with Huntington’s disease had negative values for the response consistency parameter, which indicates that these patients became tired or bored as the task progressed, and consequently started to select cards at random.
+
+In sum, the Expectancy Valence model decomposes choice behavior in the Iowa gambling task in three components or parameters:  
+                            
+                               1. 
+                               An attention weight parameter  
+                                     w 
+                                   that quantifies the weighting of losses versus rewards. 
+                            
+                            
+                               2. 
+                               An updating rate parameter  
+                                     a 
+                                   that quantifies the memory for rewards and losses. 
+                            
+                            
+                               3. 
+                               A response consistency parameter  
+                                     c 
+                                   that quantifies the amount of exploration.
+
+An attention weight parameter  
+                                     w 
+                                   that quantifies the weighting of losses versus rewards.
+
+An updating rate parameter  
+                                     a 
+                                   that quantifies the memory for rewards and losses.
+
+A response consistency parameter  
+                                     c 
+                                   that quantifies the amount of exploration.
+
+Although several suggestions have been made to change minor aspects of the EV model, the version of the model that is currently preferred is the version that was originally proposed by  Busemeyer and Stout (2002) . Current practice is to estimate the parameters of the EV model separately for each participant through the method of maximum likelihood.
+
+Researchers who work with the EV model generally estimate parameters by minimizing the sum of one–step–ahead prediction errors. That is, based on the feedback from the previous  
+                         t 
+                       card selections, the EV model uses Eq.  (3)  to assign probabilities to each of the four decks. These probabilities can be thought of probabilistic forecasts for card selection  
+                         t 
+                         + 
+                         1 
+                      . The parameter values that yield the best forecasts are the point estimates that are used for further statistical analysis.
+
+Specifically, let a sequence of  
+                         T 
+                       observations (e.g., all card selections and the associated feedback) be denoted by  
+                         
+                            
+                               y 
+                            
+                            
+                               
+                                  T 
+                               
+                            
+                         
+                         = 
+                         
+                            ( 
+                            
+                               
+                                  y 
+                               
+                               
+                                  1 
+                               
+                            
+                            , 
+                            … 
+                            , 
+                            
+                               
+                                  y 
+                               
+                               
+                                  T 
+                               
+                            
+                            ) 
+                         
+                      ; for example,  
+                         
+                            
+                               y 
+                            
+                            
+                               t 
+                               − 
+                               1 
+                            
+                         
+                       denotes the  
+                         
+                            ( 
+                            t 
+                            − 
+                            1 
+                            ) 
+                         
+                      th individual observation, whereas  
+                         
+                            
+                               y 
+                            
+                            
+                               t 
+                               − 
+                               1 
+                            
+                         
+                       denotes the entire sequence of observations ranging from  
+                         
+                            
+                               y 
+                            
+                            
+                               1 
+                            
+                         
+                       up to and including  
+                         
+                            
+                               y 
+                            
+                            
+                               t 
+                               − 
+                               1 
+                            
+                         
+                      . Here we quantify predictive performance for a single observation by the logarithmic loss function  
+                         − 
+                         ln 
+                         
+                            
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     ˆ 
+                                  
+                               
+                            
+                            
+                               t 
+                            
+                         
+                         
+                            ( 
+                            
+                               
+                                  y 
+                               
+                               
+                                  t 
+                               
+                            
+                            ) 
+                         
+                      , that is, the larger the probability that  
+                         
+                            
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     ˆ 
+                                  
+                               
+                            
+                            
+                               t 
+                            
+                         
+                       (determined based on the previous observations  
+                         
+                            
+                               y 
+                            
+                            
+                               t 
+                               − 
+                               1 
+                            
+                         
+                      ) assigns to the observed outcome  
+                         
+                            
+                               y 
+                            
+                            
+                               t 
+                            
+                         
+                      , the smaller the loss. Thus, in the current EV parameter estimation routines, participant–specific parameters  
+                         
+                            
+                               w 
+                            
+                            
+                               i 
+                            
+                         
+                      ,  
+                         
+                            
+                               a 
+                            
+                            
+                               i 
+                            
+                         
+                      , and  
+                         
+                            
+                               c 
+                            
+                            
+                               i 
+                            
+                         
+                       are adjusted in order to find the point estimates that minimize the sum of the one–step–ahead prediction errors:  
+                         
+                            
+                               ∑ 
+                            
+                            
+                               t 
+                               = 
+                               1 
+                            
+                            
+                               
+                                  T 
+                               
+                            
+                         
+                         − 
+                         ln 
+                         p 
+                         
+                            ( 
+                            
+                               
+                                  y 
+                               
+                               
+                                  t 
+                               
+                            
+                            | 
+                            
+                               
+                                  y 
+                               
+                               
+                                  t 
+                                  − 
+                                  1 
+                               
+                            
+                            , 
+                            
+                               
+                                  w 
+                               
+                               
+                                  i 
+                               
+                            
+                            , 
+                            
+                               
+                                  a 
+                               
+                               
+                                  i 
+                               
+                            
+                            , 
+                            
+                               
+                                  c 
+                               
+                               
+                                  i 
+                               
+                            
+                            ) 
+                         
+                      . The method of parameter estimation is applied to each individual participant  
+                         i 
+                       separately.
+
+The above procedure of finding parameter point estimates is in fact equivalent to that of maximum likelihood estimation (MLE; for a tutorial see  Myung (2003) ). To see this, recall that MLE seeks to determine those parameters under which the occurrence of the observed data is most likely, that is,  
+                         
+                            { 
+                            
+                               
+                                  
+                                     
+                                        w 
+                                     
+                                     
+                                        ˆ 
+                                     
+                                  
+                               
+                               
+                                  i 
+                               
+                            
+                            , 
+                            
+                               
+                                  
+                                     
+                                        a 
+                                     
+                                     
+                                        ˆ 
+                                     
+                                  
+                               
+                               
+                                  i 
+                               
+                            
+                            , 
+                            
+                               
+                                  
+                                     
+                                        c 
+                                     
+                                     
+                                        ˆ 
+                                     
+                                  
+                               
+                               
+                                  i 
+                               
+                            
+                            } 
+                         
+                         = 
+                         
+                            
+                               
+                                  argmax 
+                               
+                            
+                            
+                               
+                                  { 
+                                  
+                                     
+                                        w 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  , 
+                                  
+                                     
+                                        a 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  , 
+                                  
+                                     
+                                        c 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  } 
+                               
+                            
+                         
+                         p 
+                         
+                            ( 
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     T 
+                                  
+                               
+                            
+                            | 
+                            
+                               
+                                  w 
+                               
+                               
+                                  i 
+                               
+                            
+                            , 
+                            
+                               
+                                  a 
+                               
+                               
+                                  i 
+                               
+                            
+                            , 
+                            
+                               
+                                  c 
+                               
+                               
+                                  i 
+                               
+                            
+                            ) 
+                         
+                      . From the definition of conditional probability, i.e.,  
+                         p 
+                         
+                            ( 
+                            
+                               
+                                  y 
+                               
+                               
+                                  t 
+                               
+                            
+                            | 
+                            
+                               
+                                  y 
+                               
+                               
+                                  t 
+                                  − 
+                                  1 
+                               
+                            
+                            ) 
+                         
+                         = 
+                         p 
+                         
+                            ( 
+                            
+                               
+                                  y 
+                               
+                               
+                                  t 
+                               
+                            
+                            ) 
+                         
+                         / 
+                         p 
+                         
+                            ( 
+                            
+                               
+                                  y 
+                               
+                               
+                                  t 
+                                  − 
+                                  1 
+                               
+                            
+                            ) 
+                         
+                      , it follows that  
+                         p 
+                         
+                            ( 
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     T 
+                                  
+                               
+                            
+                            ) 
+                         
+                       may be decomposed as a series of sequential, “one–step–ahead” probabilistic predictions ( Dawid, 1984; Wagenmakers,Grünwald, & Steyvers, 2006 ):  
+                         
+                            (5) 
+                            
+                               p 
+                               
+                                  ( 
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        
+                                           T 
+                                        
+                                     
+                                  
+                                  | 
+                                  
+                                     
+                                        w 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  , 
+                                  
+                                     
+                                        a 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  , 
+                                  
+                                     
+                                        c 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  ) 
+                               
+                               = 
+                               p 
+                               
+                                  ( 
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        1 
+                                     
+                                  
+                                  , 
+                                  … 
+                                  , 
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        T 
+                                     
+                                  
+                                  | 
+                                  
+                                     
+                                        w 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  , 
+                                  
+                                     
+                                        a 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  , 
+                                  
+                                     
+                                        c 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  ) 
+                               
+                               = 
+                               p 
+                               
+                                  ( 
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        T 
+                                     
+                                  
+                                  | 
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        T 
+                                        − 
+                                        1 
+                                     
+                                  
+                                  , 
+                                  
+                                     
+                                        w 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  , 
+                                  
+                                     
+                                        a 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  , 
+                                  
+                                     
+                                        c 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  ) 
+                               
+                               p 
+                               
+                                  ( 
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        T 
+                                        − 
+                                        1 
+                                     
+                                  
+                                  | 
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        T 
+                                        − 
+                                        2 
+                                     
+                                  
+                                  , 
+                                  
+                                     
+                                        w 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  , 
+                                  
+                                     
+                                        a 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  , 
+                                  
+                                     
+                                        c 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  ) 
+                               
+                               ⋯ 
+                               p 
+                               
+                                  ( 
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                                  | 
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        1 
+                                     
+                                  
+                                  , 
+                                  
+                                     
+                                        w 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  , 
+                                  
+                                     
+                                        a 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  , 
+                                  
+                                     
+                                        c 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  ) 
+                               
+                               p 
+                               
+                                  ( 
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        1 
+                                     
+                                  
+                                  | 
+                                  
+                                     
+                                        w 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  , 
+                                  
+                                     
+                                        a 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  , 
+                                  
+                                     
+                                        c 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  ) 
+                               
+                               . 
+                            
+                         
+                       Thus, Eq.  (5)  shows that the MLE point estimates that maximize  
+                         p 
+                         
+                            ( 
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     T 
+                                  
+                               
+                            
+                            ) 
+                         
+                       are the same as those that minimize the sum of one–step–ahead prediction errors under log loss, as  
+                         − 
+                         ln 
+                         p 
+                         
+                            ( 
+                            
+                               
+                                  y 
+                               
+                               
+                                  
+                                     T 
+                                  
+                               
+                            
+                            | 
+                            
+                               
+                                  w 
+                               
+                               
+                                  i 
+                               
+                            
+                            , 
+                            
+                               
+                                  a 
+                               
+                               
+                                  i 
+                               
+                            
+                            , 
+                            
+                               
+                                  c 
+                               
+                               
+                                  i 
+                               
+                            
+                            ) 
+                         
+                         = 
+                         
+                            
+                               ∑ 
+                            
+                            
+                               t 
+                               = 
+                               1 
+                            
+                            
+                               
+                                  T 
+                               
+                            
+                         
+                         − 
+                         ln 
+                         p 
+                         
+                            ( 
+                            
+                               
+                                  y 
+                               
+                               
+                                  t 
+                               
+                            
+                            | 
+                            
+                               
+                                  y 
+                               
+                               
+                                  t 
+                                  − 
+                                  1 
+                               
+                            
+                            , 
+                            
+                               
+                                  w 
+                               
+                               
+                                  i 
+                               
+                            
+                            , 
+                            
+                               
+                                  a 
+                               
+                               
+                                  i 
+                               
+                            
+                            , 
+                            
+                               
+                                  c 
+                               
+                               
+                                  i 
+                               
+                            
+                            ) 
+                         
+                      .
+
+In the next three sections, we use simulations to examine performance of maximum likelihood parameter estimation for the EV model. 
+                         2 
+                      
+                      
+                         2 
+                         MLE routines were programmed in R, a free software environment for statistical computing and graphics ( R Development Core Team, 2004 ). 
+                       In particular, we address the following three interrelated questions:  
+                         
+                            1. 
+                            How well can the EV parameters be recovered for single simulated participants? 
+                         
+                         
+                            2. 
+                            What are the correlations between the EV parameters across many simulated participants? 
+                         
+                         
+                            3. 
+                            To what extent are the EV parameters identifiable?
+
+How well can the EV parameters be recovered for single simulated participants?
+
+What are the correlations between the EV parameters across many simulated participants?
+
+To what extent are the EV parameters identifiable?
+
+The clinical contribution of the EV model is to allow researchers to decompose choice performance into three latent psychological processes. These psychological processes are represented by model parameters, and hence it is vital to know the extent to which these parameters are estimated accurately and reliably.
+
+We addressed this issue by simulating 1000 synthetic participants in a 150–trial IGT, all with exactly the same EV model parameters:  
+                            w 
+                            = 
+                            0.5 
+                         ,  
+                            a 
+                            = 
+                            0.35 
+                         , and  
+                            c 
+                            = 
+                            0.35 
+                         . The values of these parameters were informed by previous research that suggests these values to be fairly typical of choice performance in the IGT. We then used the standard MLE procedure to determine parameter point estimates separately for each of the 1000 synthetic participants. Consistent with current practice, we constrained the  
+                            c 
+                          parameter such that  
+                            c 
+                            ∈ 
+                            
+                               [ 
+                               − 
+                               5 
+                               , 
+                               5 
+                               ] 
+                            
+                         . Parameters  
+                            w 
+                          and  
+                            a 
+                          are probabilities and hence  
+                            
+                               { 
+                               w 
+                               , 
+                               a 
+                               } 
+                            
+                            ∈ 
+                            
+                               [ 
+                               0 
+                               , 
+                               1 
+                               ] 
+                            
+                         .
+
+Fig. 1 
+                          shows the density estimates (i.e., smoothed normalized histograms consisting of 1000 estimates) for each parameter separately. It is clear that parameter estimation is relatively unbiased, that is, the true parameter value with which the data were generated is about equal to the mean of the 1000 estimated parameter values. Specifically, the mean estimated values for  
+                            w 
+                         ,  
+                            a 
+                         , and  
+                            c 
+                          are 0.54, 0.36, and 0.36, respectively.
+
+It is also clear that, for single participants, the variability in the estimates is considerable. In fact, this variability is so large that we believe it is hazardous to draw any kind of clinical conclusion based on the performance of an  individual  participant. For instance, an individual participant could have a perfectly normal updating rate of  
+                            a 
+                            = 
+                            . 
+                            35 
+                         , but still stand a considerable chance of being assigned a point estimate that is either much lower or much higher.
+
+Fig. 1  also reveals that the density of the parameter estimates for attention weight  
+                            w 
+                          is bimodal with a peak on the boundary of the parameter space. This is worrisome, as it indicates that, even when the true value of  
+                            w 
+                          is 0.5, a substantial proportion of participants will have a MLE of  
+                            
+                               
+                                  w 
+                               
+                               
+                                  ˆ 
+                               
+                            
+                            = 
+                            1 
+                         ; in the present simulation, this was the case for 50 out of 1000 participants. We will revisit this issue later.
+
+In sum, for single participants EV parameter recovery is virtually unbiased, but has relatively high variance. Of course, when the EV model is used in an experimental setting, high–variance individual parameter estimates are combined into a group average, and this group average has a much lower variability than the individual point estimates. However, the group averaging procedure ignores the commonalities that are shared by the participants within a particular group, a disadvantage that is remedied by the Bayesian hierarchical model proposed later.
+
+Ideally, parameter point estimates show little correlation across synthetic participants. The presence of such correlations could indicate that the effects of overestimating a certain parameter, say  
+                            w 
+                         , can be compensated by overestimating another parameter, say  
+                            a 
+                         . Such interactions between parameters lower the efficiency of parameter estimation and urge caution with respect to the ensuing statistical analysis ( Ratcliff & Tuerlinckx, 2002 , pp. 452–455).
+
+To investigate this issue, we studied the correlational patterns between the parameters for the synthetic data described in the previous section.  Fig. 2 
+                          plots the parameters against each other. The dotted lines indicate the true parameter values.  Fig. 2  shows that the correlation between attention weight  
+                            w 
+                          and updating rate  
+                            a 
+                          is positive but not very strong (i.e.,  
+                            r 
+                            = 
+                            . 
+                            20 
+                         ). However, there is a substantial negative correlation between attention weight  
+                            w 
+                          and response consistency  
+                            c 
+                          (i.e.,  
+                            r 
+                            = 
+                            − 
+                            . 
+                            53 
+                         ); in other words, synthetic participants who appear to pay relatively much attention to losses will also appear to have a relatively low choice consistency. The relationship between updating rate  
+                            a 
+                          and response consistency  
+                            c 
+                          is also negative (i.e.,  
+                            r 
+                            = 
+                            − 
+                            . 
+                            33 
+                         ), such that synthetic participants who appear to have a relatively high updating rate will also appear to have a relatively low choice consistency.
+
+Finally,  Fig. 2  also highlights the substantial variability in the parameter recovery for individual participants, and shows again the fact that several of the MLEs for  
+                            w 
+                          are on the boundary of the parameter space (i.e.,  
+                            w 
+                            = 
+                            1 
+                         ).
+
+The previous two sections have revealed high variability of parameter recovery, and substantial correlations between parameter values across synthetic participants. These results suggest that, at least on the level of an individual participant, maximum likelihood parameter estimation in the EV model may suffer from a problem of identifiability. That is, it may be difficult in the particular probabilistic environment of the IGT to determine uniquely the most likely values for the parameters.
+
+To examine the issue of identifiability more closely, we plotted  log likelihood contours  or log likelihood landscapes, that is, graphs that show how the logarithm of the likelihood changes across different parameter values for  
+                            w 
+                         ,  
+                            a 
+                         , and  
+                            c 
+                         . Ideally, a log likelihood landscape has a single, pronounced peak that falls off equally quickly in all directions.
+
+For the first log likelihood contour plot, we consider empirical data from a single human participant. This participant completed a 150–trial IGT for which the experimental details are described in Section  4  of this article. 
+                            3 
+                         
+                         
+                            3 
+                            The participant under consideration here completed the “reward condition” of the experiment described later. 
+                          The EV maximum likelihood of this participant was the highest among a total of 165 participants, and therefore this participant can be considered a relatively ideal specimen.
+
+Fig. 3 
+                          shows the log likelihood contours for our ideal participant. Each panel shows the log likelihood values as a function of two EV parameters–the third parameter is fixed at its maximum likelihood estimate. The three right–hand panels are a zoomed–in version of the three left–hand panels. The three left–hand panels show that the log likelihood landscape is somewhat irregular, particularly for the bottom panel  
+                            w 
+                          vs.  
+                            a 
+                          landscape. Nevertheless, the right–hand panels suggest that this irregularity is less of a problem in the neighborhood of the maximum. For our ideal participant, the top right and bottom right landscapes indicate that small changes in the attention weight parameter  
+                            w 
+                          are accompanied by relatively large changes in the response consistency parameter  
+                            c 
+                          and the update parameter  
+                            a 
+                         , respectively. This makes  
+                            c 
+                          and  
+                            a 
+                          relatively difficult to identify. Note that the log likelihood contours depend on the parameters used to generate the data. Our parameter values (e.g.,  
+                            w 
+                            = 
+                            0.5 
+                         ,  
+                            a 
+                            = 
+                            0.35 
+                         , and  
+                            c 
+                            = 
+                            0.35 
+                         ) were informed by previous research and are fairly typical; nevertheless, it should be kept in mind that different parameter values may lead to different log likelihood contours.
+
+For the second log likelihood contour plot, we conducted a simulation with a synthetic participant who completed a 10,000 trial IGT. The parameter values in this simulation were the same as those used previously, that is,  
+                            w 
+                            = 
+                            0.5 
+                         ,  
+                            a 
+                            = 
+                            0.35 
+                         , and  
+                            c 
+                            = 
+                            0.35 
+                         . One would expect that with 10,000 trials, the log likelihood contours would be much better behaved.
+
+Contrary to intuition,  Fig. 4 
+                          shows that the shape of the log likelihood landscape again gives cause for concern, even when estimation is based on 10,000 trials from a simulated participant. Specifically, the elongated landscapes for  
+                            w 
+                          and  
+                            a 
+                          when plotted against  
+                            c 
+                          suggest that small changes in  
+                            c 
+                          can compensate for large changes in  
+                            w 
+                          and  
+                            a 
+                         . When  
+                            c 
+                          is fixed at its true value, the log likelihood landscape looks much better. Despite these concerns about the log likelihood contours, it should be acknowledged that in the case of 10,000 trials, the parameters are recovered relatively accurately.
+
+The foregoing analyses have revealed that the EV parameter estimation routine is not immune to problems. In particular, the large variability that characterizes the parameter estimation for individual participants means that (1) it is valuable to have access to and use the uncertainty that accompanies parameter estimation for individual participants; and (2) it is necessary to combine information across different participants. One of the most principled ways to accomplish these goals is to turn to Bayesian inference.
+
+In Bayesian estimation (e.g.,  Bernardo and Smith (1994)  and  Lindley (2000) ), all uncertainty about parameters is quantified by probability distributions. Prior parameter distributions are updated by incoming data to yield posterior distributions. These posterior distributions quantify our uncertainty about the parameters after having seen the data (for introductions to Bayesian inference for psychologists see for instance  Edwards, Lindman, and Savage (1963); Lee and Wagenmakers (2005) , and  Rouder and Lu (2005) ).
+
+The Bayesian approach holds many advantages over the orthodox maximum likelihood approach (for a review see  Wagenmakers, Lee, Lodewyckx, and Iverson (2008) ). One of the more general advantages is that the axiomatic foundations of the Bayesian approach guarantee that it is  coherent ; in the statistical sense of the word, this means that information from different sources is combined in a principled manner such that inferential statements cannot be internally inconsistent.
+
+Other prime advantages of the Bayesian approach include flexibility, generality, and practicality. For instance, Bayesian nonlinear models are easily equipped with hierarchical extensions. Indeed, some researchers profess to adopt the Bayesian approach for its practical advantages alone (e.g.,  Rouder and Lu (2005, p. 599) ).
+
+In the context of the EV model, a concrete advantage of the Bayesian procedure is that it yields posterior distributions for  
+                         w 
+                      ,  
+                         a 
+                      , and  
+                         c 
+                      . These posterior distributions directly convey the uncertainty associated with individual parameter estimates. Below, we first introduce the Bayesian EV model for inference on the level of a single participant, and then add a hierarchical structure that allows information from different participants to be combined in coherent fashion.
+
+It is often insightful to represent Bayesian models graphically, as this notation highlights the model structure, the dependence between the model parameters, and the way in which the likelihood can be factorized to reduce computational effort (for introductions to graphical models, see for instance  Gilks, Thomas, and Spiegelhalter (1994) ,  Griffiths, Kemp, and Tenenbaum (in press) ,  Lauritzen (1996) ,  Lee (2008)  and  Spiegelhalter (1998) ).
+
+The Bayesian graphical EV model for a single participant analysis is shown in  Fig. 5 
+                         . In this notation, nodes represent variables of interest, and the graph structure is used to indicate dependencies between the variables, with children depending on their parents. The double borders indicate that the variables under consideration are deterministic (i.e., they are calculated without noise from other variables) rather than stochastic. Continuous variables are represented with circular nodes and discrete variables are represented with square nodes; observed variables are shaded and unobserved variables are not shaded. In  Fig. 5 , for instance, the observed variable  
+                            
+                               
+                                  W 
+                               
+                               
+                                  t 
+                                  − 
+                                  1 
+                               
+                            
+                          indicates the rewards obtained by the participant on trial  
+                            t 
+                            − 
+                            1 
+                         . We also use plate notation, enclosing with square boundaries subsets of the graph that have independent replications in the model. The plate of  Fig. 5  reads  
+                            t 
+                            = 
+                            1 
+                            , 
+                            … 
+                            , 
+                            150 
+                          and this corresponds to the 150 choices in the IGT.
+
+Fig. 5  shows that the psychological processes associated with parameters  
+                            w 
+                         ,  
+                            a 
+                         , and  
+                            c 
+                          are unobserved (i.e., the nodes are unshaded) and continuous (i.e., the nodes are circular). The quantities  
+                            
+                               
+                                  v 
+                               
+                               
+                                  t 
+                                  − 
+                                  1 
+                               
+                            
+                         ,  
+                            E 
+                            
+                               
+                                  v 
+                               
+                               
+                                  t 
+                               
+                            
+                         ,  
+                            
+                               
+                                  θ 
+                               
+                               
+                                  t 
+                                  − 
+                                  1 
+                               
+                            
+                         , and  
+                            Pr 
+                            
+                               [ 
+                               
+                                  
+                                     S 
+                                  
+                                  
+                                     t 
+                                  
+                               
+                               ] 
+                            
+                          are deterministic (i.e., the nodes have double borders), as these quantities are calculated without noise from Eqs.  (1)–(4) . To avoid crowding the figure, we have suppressed the notation that indexes the deck number  
+                            k 
+                         .
+
+In order to get off the ground, the Bayesian inference machine needs prior distributions for its parameters. For the EV model, we choose noninformative priors, that is, priors that are uniform across their range. For ease for application, we initially programmed this model in the WinBUGS environment ( Spiegelhalter, Thomas, Best, & Lunn, 2003 ) that has been developed to approximate distributions by sampling values from them using Markov chain Monte Carlo techniques. The acronym BUGS stands for Bayesian inference Using Gibbs Sampling ( Casella & George, 1992 ), and it greatly facilitates Bayesian modeling and communication (for a review see  Cowles (2004) ). 
+                            4 
+                         
+                         
+                            4 
+                            At the time of writing, WinBUGS is freely available at  http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml .
+
+The direct implementation of the EV model in WinBUGS is relatively straightforward, but the program takes about five minutes to obtain a reliable estimation of the parameters for a single participant, and occasionally crashes. When the EV model is hand–coded as a WinBUGS function with the help of the WinBUGS Development Interface (WBDev, ( Lunn, 2003 )), the program no longer crashes and runtime decreases to about 8 seconds for a single participant.
+
+We illustrate the Bayesian Markov chain Monte Carlo (MCMC) parameter estimation routine for the EV model by applying the method to data from a synthetic participant in a 150–trial IGT. As in our previous simulations, the true parameter values were  
+                            w 
+                            = 
+                            0.5 
+                         ,  
+                            a 
+                            = 
+                            0.35 
+                         , and  
+                            c 
+                            = 
+                            0.35 
+                         .  Fig. 6 
+                          shows the result.
+
+The top panels of  Fig. 6  show that the medians of the posterior distributions are relatively close to the true generating values for the parameters. More importantly, the posterior distributions directly indicate the uncertainty about the parameters. For instance, one only needs to glance at the top panels to learn that the attention weight parameter  
+                            w 
+                          is likely to lie somewhere in between 0.25 and 0.75, that the updating rate parameter  
+                            a 
+                          lies somewhere in between 0.20 and 0.75, and that the response consistency parameter  
+                            c 
+                          lies somewhere in between  
+                            − 
+                            0.5 
+                          and  
+                            0.5 
+                         .
+
+The bottom panels of  Fig. 6  show the MCMC chains that form the basis for the posterior distributions in the top panels. Visual inspection suggests that these chains are relatively well–behaved, in the sense that appear to be draws from the stationary distribution.
+
+In addition to plotting the posterior distributions for the three parameters separately, the MCMC samples can also be used to plot joint posterior distributions. The joint distributions provide useful information with respect to how the parameters for a single participant relate to each other.  Fig. 7 
+                          plots the MCMC values from joint distributions for three parameter pairs. The results show that there is a substantial negative correlation between the  
+                            c 
+                          parameter and the  
+                            w 
+                          and  
+                            a 
+                          parameters. This correlational pattern echoes the earlier result based on the MLEs for 1000 synthetic participants (see  Fig. 2 ).
+
+Here we illustrate the Bayesian parameter estimation routine by application to the data from the same human participant whose data were also analyzed by maximum likelihood (cf.  Fig. 3 ). The top panels of  Fig. 8 
+                          show that the medians of the posterior distributions are very close to the MLE estimates. These panels also show that uncertainty about  
+                            w 
+                          is relatively small, whereas uncertainty about  
+                            a 
+                          and  
+                            c 
+                          remains substantial. Visual inspection of the chains, plotted in the bottom three panels, strongly suggests convergence to the stationary distribution.
+
+Fig. 9 
+                          shows MCMC samples from the joint posterior distributions for our ideal human participant. The left–hand and middle panels show that small changes in the attention weight parameter  
+                            w 
+                          are associated with relatively large changes in the update parameter  
+                            a 
+                          and the response consistency parameter  
+                            c 
+                         , respectively. This echoes the results from the earlier analysis of the log likelihood landscapes in  Fig. 3 .
+
+Historically, the field of experimental psychology has mostly ignored individual differences, pretending instead that each new participant is a replicate of the previous one ( Batchelder, 2007 ). As Bill Estes and others have shown, however, individual differences that are ignored can lead to averaging artifacts in which the data that are averaged over participants are no longer representative for any of the participants ( Estes, 1956, 2002; Heathcote, Brown, & Mewhort, 2000 ). One way to address this issue, popular in psychophysics, is to measure each individual participant extensively, and deal with the data on a participant–by–participant basis.
+
+In between the two extremes of assuming that participants are completely the same and that they are completely different lies the compromise of hierarchical modeling (see also  Lee and Webb (2005) ). The theoretical advantages and practical relevance of a Bayesian hierarchical analysis for common experimental designs have been repeatedly demonstrated by Jeff Rouder and others ( Morey, Pratte, & Rouder, 2008; Morey, Rouder, & Speckman, 2008; Navarro, Griffiths, Steyvers, & Lee, 2006; Rouder & Lu, 2005; Rouder, Lu, Morey, Sun, & Speckman, 2008; Rouder, Lu, Speckman, Sun, & Jiang, 2005; Rouder et al., 2007 ). Although hierarchical analyses can be carried out using orthodox methodology (i.e.,  Hoffman and Rovine (2007) ), there are convincing philosophical and practical reasons to prefer the Bayesian methodology (e.g.,  Lindley (2000)  and  Gelman and Hill (2007) , respectively).
+
+In Bayesian hierarchical models, parameters for individual people are assumed to be drawn from a group–level distribution. Such multi–level structures naturally incorporate both the differences and the commonalities between people, and therefore provide experimental psychology with the means to settle the age–old problem of how to deal with  individual differences .
+
+The flexibility of the Bayesian paradigm makes it straightforward to extend the single participant model from  Fig. 5  in a hierarchical fashion. As  Fig. 10 
+                          shows, the hierarchical model differs from the individual model in that it adds a plate to indicate independent replications for  
+                            i 
+                            = 
+                            1 
+                            , 
+                            … 
+                            , 
+                            N 
+                          participants. In addition, the hierarchical model transforms  
+                            c 
+                          to lie between 0 and 1 (instead of between  
+                            − 
+                            5 
+                          and  
+                            + 
+                            5 
+                         ), so that all EV parameters are now on a rate scale (this transformation is not shown in the figure).
+
+In the graphical model notation of  Fig. 10 , all three parameters  
+                            
+                               
+                                  w 
+                               
+                               
+                                  i 
+                               
+                            
+                         ,  
+                            
+                               
+                                  a 
+                               
+                               
+                                  i 
+                               
+                            
+                         , and  
+                            
+                               
+                                  c 
+                               
+                               
+                                  i 
+                               
+                            
+                          are deterministic; this is because instead of modeling  
+                            
+                               
+                                  w 
+                               
+                               
+                                  i 
+                               
+                            
+                         ,  
+                            
+                               
+                                  a 
+                               
+                               
+                                  i 
+                               
+                            
+                         , and  
+                            
+                               
+                                  c 
+                               
+                               
+                                  i 
+                               
+                            
+                          directly, we instead model their respective probit transformations  
+                            
+                               
+                                  ν 
+                               
+                               
+                                  i 
+                               
+                            
+                         ,  
+                            
+                               
+                                  α 
+                               
+                               
+                                  i 
+                               
+                            
+                         , and  
+                            
+                               
+                                  γ 
+                               
+                               
+                                  i 
+                               
+                            
+                         . The probit transform is the inverse cumulative distribution function of the normal distribution, so that, for instance, a rate of  
+                            
+                               
+                                  α 
+                               
+                               
+                                  i 
+                               
+                            
+                            = 
+                            0.5 
+                          maps onto a probit value of  
+                            
+                               
+                                  ν 
+                               
+                               
+                                  i 
+                               
+                            
+                            = 
+                            0 
+                         . The probit scale covers the entire real line, and a standard normal distribution on the probit scale corresponds to a uniform distribution on the rate scale ( Rouder & Lu, 2005 , p. 588). We assume that for a group of participants, the individual probit rates  
+                            
+                               
+                                  ν 
+                               
+                               
+                                  i 
+                               
+                            
+                         ,  
+                            
+                               
+                                  α 
+                               
+                               
+                                  i 
+                               
+                            
+                         , and  
+                            
+                               
+                                  γ 
+                               
+                               
+                                  i 
+                               
+                            
+                          are drawn from group–level normal distributions with respective normal means  
+                            
+                               
+                                  μ 
+                               
+                               
+                                  ν 
+                               
+                            
+                         ,  
+                            
+                               
+                                  μ 
+                               
+                               
+                                  α 
+                               
+                            
+                         , and  
+                            
+                               
+                                  μ 
+                               
+                               
+                                  γ 
+                               
+                            
+                          and respective normal standard deviations  
+                            
+                               
+                                  σ 
+                               
+                               
+                                  ν 
+                               
+                            
+                         ,  
+                            
+                               
+                                  σ 
+                               
+                               
+                                  α 
+                               
+                            
+                         , and  
+                            
+                               
+                                  σ 
+                               
+                               
+                                  γ 
+                               
+                            
+                         .
+
+The specification of the model requires prior distributions for the normal means and standard deviations of the group–level distributions. We used standard normal priors on  
+                            
+                               
+                                  μ 
+                               
+                               
+                                  
+                                     ( 
+                                     ⋅ 
+                                     ) 
+                                  
+                               
+                            
+                         , that is,  
+                            
+                               
+                                  μ 
+                               
+                               
+                                  
+                                     ( 
+                                     ⋅ 
+                                     ) 
+                                  
+                               
+                            
+                            ∼ 
+                            N 
+                            
+                               ( 
+                               0 
+                               , 
+                               1 
+                               ) 
+                            
+                          and a uniform prior from 0 to 1.5 on the standard deviations  
+                            
+                               
+                                  σ 
+                               
+                               
+                                  
+                                     ( 
+                                     ⋅ 
+                                     ) 
+                                  
+                               
+                            
+                         , that is,  
+                            
+                               
+                                  σ 
+                               
+                               
+                                  
+                                     ( 
+                                     ⋅ 
+                                     ) 
+                                  
+                               
+                            
+                            ∼ 
+                            U 
+                            
+                               ( 
+                               0 
+                               , 
+                               1.5 
+                               ) 
+                            
+                         . The upper limit of 1.5 was determined by the following line of reasoning (see also  Lodewyckx, Lee, and Wagenmakers (2008) ). When, say,  
+                            
+                               
+                                  μ 
+                               
+                               
+                                  α 
+                               
+                            
+                            = 
+                            0 
+                          and  
+                            
+                               
+                                  σ 
+                               
+                               
+                                  α 
+                               
+                            
+                            = 
+                            1 
+                         , then  
+                            
+                               
+                                  α 
+                               
+                               
+                                  i 
+                               
+                            
+                          comes from a standard normal distribution on the probit scale and  
+                            
+                               
+                                  a 
+                               
+                               
+                                  i 
+                               
+                            
+                          comes from a uniform distribution on the rate scale. Increasing the value of  
+                            
+                               
+                                  σ 
+                               
+                               
+                                  α 
+                               
+                            
+                          results in a bimodal distribution for  
+                            
+                               
+                                  a 
+                               
+                               
+                                  i 
+                               
+                            
+                         , which we deem unrealistic. As  
+                            
+                               
+                                  μ 
+                               
+                               
+                                  α 
+                               
+                            
+                          increases, so does the maximum value of  
+                            
+                               
+                                  σ 
+                               
+                               
+                                  α 
+                               
+                            
+                          that results in a just–unimodal distribution for  
+                            
+                               
+                                  a 
+                               
+                               
+                                  i 
+                               
+                            
+                         . When we assign  
+                            
+                               
+                                  μ 
+                               
+                               
+                                  α 
+                               
+                            
+                          an extreme value of  
+                            2.3 
+                          (i.e., this translates to an average  
+                            a 
+                          value of .99) a value of  
+                            
+                               
+                                  σ 
+                               
+                               
+                                  α 
+                               
+                            
+                            ≈ 
+                            1.5 
+                          is the maximum value that still guarantees a unimodal distribution on the rate scale.
+
+In this section we apply the Bayesian hierarchical model as shown in  Fig. 10  to a validation experiment with 165 participants. The primary goal of the experiment was to carry out a  test of specific influence  for the EV model. This means that, next to the standard condition, we included three experimental conditions, each of which designed to affect selectively one of the EV parameters  
+                         w 
+                      ,  
+                         a 
+                      , or  
+                         c 
+                      . If the parameters of the EV model indeed correspond to the psychological processes that they are assumed to be associated with, then an experimental manipulation of “attention weight” should affect only the estimate of  
+                         w 
+                      , an experimental manipulation of “updating rate” should affect only the estimate of  
+                         a 
+                      , and an experimental manipulation of “response consistency” should affect only the estimate of  
+                         c 
+                      .
+
+A total of 165 students from the University of Amsterdam participated for course credit.
+
+The experiment featured four conditions. In the first “standard” condition, 41 participants completed a 150–trial IGT under the usual instructions. In the second “rewards” condition, 42 participants completed a 150–trial IGT under the instruction to pay particular attention to the rewards and think of the losses as being less important. This instruction was strengthened by displaying the rewards more prominently on the screen than the losses. We expected this manipulation to decrease  
+                               w 
+                             and leave  
+                               a 
+                             and  
+                               c 
+                             unaffected.
+
+In the third “updating” condition, 41 participants completed a 150–trial IGT under the usual instruction. However, in the updating condition each card selection was followed by the on–screen presentation of a sequence of five numbers; participants were required to remember this sequence, as after the next card selection they were asked about the relative position of one of the numbers ( Hinson, Jameson, & Whitney, 2002 ). For example, presentation of the number sequence  
+                               
+                                  { 
+                                  1 
+                                  , 
+                                  5 
+                                  , 
+                                  3 
+                                  , 
+                                  4 
+                                  , 
+                                  2 
+                                  } 
+                               
+                             (i.e., all numbers are integers ranging from 1 to 5, drawn randomly without replacement) could be followed one card selection later by the request to “enter the number that was in the third place”. We expected this manipulation to increase  
+                               a 
+                             and leave  
+                               w 
+                             and  
+                               c 
+                             unaffected.
+
+In the fourth “consistency” condition, 41 participants completed a 150–trial IGT under the usual instruction. However, in the consistency condition participants were told after every 10 trials that the payoff schemes for the decks could have changed (i.e., “Beware, the rewards for each deck may have changed”). We expected this manipulation to decrease  
+                               c 
+                             and leave  
+                               w 
+                             and  
+                               a 
+                             unaffected.
+
+In all four conditions, we used a computerized version of the IGT where the four cards were displayed on the screen and the participants indicated their card selection by a mouse click. In all conditions of the experiment, we used the standard IGT payoff scheme shown in  Table 1 . After each card selection, the associated rewards and losses were displayed on the screen for 2 seconds. Before the start of the next selection opportunity, the mouse was re–positioned at the center of the screen.
+
+Participants were randomly assigned to one of the four conditions. Task instructions were presented on the screen prior to the start of the experiment. Participants were allowed to start the IGT after verbally confirming that they had understood the instructions. The experiment took less than 30 minutes to complete.
+
+Fig. 11 
+                             shows the proportion of selected decks as a function of trial number in each of the four conditions. It is clear that our experimental manipulations affected participant’s choice performance. In particular, only in the standard condition did participants learn to prefer the good deck C over the bad deck B.
+
+Although the extent of learning in the standard condition may seem relatively modest, the IGT is a surprisingly difficult task to grasp, as is evident from a study by  Caroselli et al. (2006)  who found that university students often tend to prefer the bad decks.
+
+In the reward condition, participants have a strong preference for the bad deck B, a deck with relatively high rewards and an occasional large loss. The behavior is in line with the instruction to pay more attention to rewards than to losses.
+
+In the updating condition and the consistency conditions, the participants consistently express a preference for the bad deck B, although this preference is less pronounced than in the rewards condition. In conclusion, our experimental manipulations were effective on the level of choice performance.
+
+In the usual group analysis for the EV model, individual maximum likelihood estimates are averaged to produce a group estimate. Inference is then based on the group mean and its variance. For comparison purposes, we follow the same procedure here. The result of our analysis is shown in  Fig. 12 
+                            , which plots the mean MLEs for the three EV parameters in each of the four different experimental conditions.
+
+The left panel of  Fig. 12  shows that, as expected, the  
+                               w 
+                             parameter is lower in the rewards condition than in the other three conditions, and that the  
+                               w 
+                             parameter does not differ between the standard condition, the updating condition, and the consistency condition. This result suggests that the  
+                               w 
+                             parameter is indeed uniquely associated to the attention for losses versus rewards, just as the EV model proposes.
+
+Unfortunately, the results of the other conditions are much less clear. The middle panel and the right panel of  Fig. 12  indicate that there is no reliable experimental effect on the EV parameters  
+                               a 
+                             and  
+                               c 
+                            , respectively. It may of course be argued that our experimental manipulations for  
+                               a 
+                             and  
+                               c 
+                             were too weak to produce an effect; however, the distinct patterns of choice performance for the standard condition versus the updating and consistency conditions suggests otherwise (cf.  Fig. 11 ). This issue is presently unresolved, and more research is needed to address it.
+
+We applied the Bayesian hierarchical EV model separately to each of the four experimental conditions. The focus of interest is on the means of the group distributions: in  Fig. 10 , these are indicated as  
+                               
+                                  
+                                     μ 
+                                  
+                                  
+                                     ν 
+                                  
+                               
+                            ,  
+                               
+                                  
+                                     μ 
+                                  
+                                  
+                                     α 
+                                  
+                               
+                            , and  
+                               
+                                  
+                                     μ 
+                                  
+                                  
+                                     γ 
+                                  
+                               
+                            . In order to facilitate comparison with the mean MLE method, the posterior distributions for these parameters were transformed back from the probit scale to the rate scale.
+
+Note that in the present work, we concentrate on parameter estimation rather than on model selection or hypothesis testing; this means that here we do not consider equality constraints on the model parameters across experimental conditions, such that one could formally test whether, say,  
+                               
+                                  
+                                     μ 
+                                  
+                                  
+                                     ν 
+                                  
+                               
+                             is the same or different in the four experimental conditions. The extension to model selection in Bayesian hierarchical models can be accomplished by transdimensional MCMC (e.g.,  Carlin and Chib (1995) ,  Green (1995) ,  Sinharay and Stern (2005)  and  Sisson (2005) ); applications in the field of psychology are discussed in  Lodewyckx et al. (2008) .
+
+Considering again the problem of parameter estimation,  Fig. 13 
+                             shows that the Bayesian hierarchical estimation method and the mean MLE method yield different results. In particular, the middle panel shows that the Bayesian estimates for  
+                               a 
+                             are systematically lower then the mean MLEs, and the right panel shows that the Bayesian estimates for  
+                               c 
+                             are systematically higher than the mean MLEs.
+
+The discrepancy between the Bayesian hierarchical estimates and those provided by the mean MLE method motivates a closer inspection of the data. This inspection revealed two potential sources of contamination. The first source is that for several participants, the MLE of at least one of the parameters was estimated on the boundary of the parameter space. The situation is summarized in the first two columns of  Table 2 
+                            .
+
+When parameter point estimates are located on the boundary of the parameter space, this often signals a problem with the estimation procedure, the data, or the interaction between the data and the model. Note that the same phenomenon was observed for the parameter recovery simulations reported in  Figs. 1 and 2 . We removed the first source of contamination by eliminating from the analyses all data sets for which one or more of the maximum likelihood point estimates were located on the boundary of the parameter space. The analyses for the filtered data are shown in  Fig. 14 
+                            , from which it is evident that results from the MLE method and the Bayesian hierarchical method are now more similar than they were for the contaminated data. In particular, the mean MLEs for  
+                               a 
+                             have shifted downward, and the mean MLEs for  
+                               c 
+                             have shifted upward. The results from the Bayesian hierarchical analysis appear to be more robust to the removal of the extreme estimates than are those from the mean MLE method.
+
+The second source of potential contamination in the data is that a subset of participants may, for lack of effort or lack of insight, not have understood the dynamics of the IGT. In order to identify that subset, we followed  Busemeyer and Stout (2002)  and compared performance of the EV model to that of a  baseline model . The baseline model is a statistical model that assumes that choices are independently and identically distributed over trials–it incorporates the frequencies with which the decks are selected, but does not incorporate any effects of learning. For example, when a participant has selected a card from deck B in 30% of the cases, the baseline model assumes that the probabilistic forecast of the baseline model for deck B is a constant 0.3 throughout the task.
+
+The final columns of  Table 2  shows the numbers of participants that remain once we remove participants for whom the baseline model provided a better fit than the EV model.  Table 2  shows that the two sources of contamination (i.e., parameters on the boundary and relatively poor fits of the EV model) each account for approximately 25% of participants.  Fig. 15 
+                             shows that when we apply the two estimation procedures to the remaining 50% of the participants, the result of the Bayesian hierarchical estimation are again somewhat more robust than those of the mean MLE method.
+
+It should be acknowledged that both estimation procedures lead to the same inference with respect to the effect of the experimental manipulations: a successful specific influence on the attention weight  
+                               w 
+                            , but no noticeable effect on updating rate  
+                               a 
+                             and response consistency  
+                               c 
+                            . Nevertheless, in other cases the inference from the Bayesian hierarchical model may differ from that of the mean MLE method. In such situations, we feel the former method is superior: it coherently combines information from different participants, summarizes uncertainty through probability distributions, and appears to be relatively robust to contamination of the data.
+
+In an attempt to bridge the separate disciplines of clinical psychology and mathematical psychology, the EV model uses maximum likelihood estimation to decompose choice performance in the Iowa Gambling Task into three underlying psychological processes: the attention to losses versus rewards, the rate with which new information updates old expectancies, and the extend to which people make decisions that are consistent with their internal evaluations. The EV model has a proven track record and can be presently considered the default quantitative model for the Iowa Gambling Task.
+
+In this article, we focused on the method of parameter estimation for the EV model. In particular, we showed that for single participants it is generally not possible to estimate the EV parameters precisely. Therefore, one should be wary of applying the EV model to the clinical diagnosis of decision making deficits on the level of single patients.
+
+When the EV model is applied on the group level, such as when researchers compare model parameters for a group of cocaine addicts versus those for a group of normal controls, we recommend the use of the Bayesian hierarchical model. The Bayesian approach is not only more principled than the standard mean maximum likelihood approach, but the Bayesian procedure is also more robust in the face of contamination. Regardless of the estimation procedure that is used, we recommend that parameters that are on the boundary of parameter space be removed prior to the analysis.
+
+The Bayesian hierarchical model proposed here can be applied not just to the EV model for the IGT, but much more broadly to a whole range of reinforcement learning tasks (e.g.,  Sutton and Barto (1998) ). It is likely that tasks other than the IGT can provide a more efficient means of estimating the psychological processes of interest. For instance, it is possible that parameters are estimated more precisely when the IGT is altered to reveal foregone payoffs, that is, when the participant sees not only the result of the actual choice, but also sees the foregone payoffs from unchosen decks. The Bayesian model developed here could be used to explore a range of different task formats in order to select a format that allows researchers to extract a relatively large amount of information from a participant’s choice performance.
+
+The Expectancy Valence model for the Iowa Gambling Task has greatly facilitated the communication between the separate disciplines of clinical psychology and mathematical psychology. We hope that by taking individual differences and similarities into account in a coherent fashion, by quantifying uncertainty of parameter estimation in terms of probability distributions, and by providing the opportunity to discover new tasks with high information gain, the Bayesian hierarchical paradigm can increase this level of communication even further.

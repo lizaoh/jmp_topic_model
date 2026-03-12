@@ -1,0 +1,787 @@
+10.1016/j.jmp.2021.102540
+In this paper, we present a cognitive modeling approach to help clarify the underlying mechanisms of how mental fatigue affects task performance. While mental fatigue is a common phenomenon, its mechanisms are not yet fully understood.
+
+Mental fatigue typically occurs when doing  a highly demanding task for a long time ( Boksem, Meijman, & Lorist, 2006; Herlambang, Cnossen, & Taatgen, 2021; Hockey, 2011; van der Linden, Frese, & Meijman, 2003 ). In most cases, performing such a task increases the subjective feeling of tiredness over time ( Krupp, Larocca, Muir Nash, & Steinberg, 1989; Müller, & Apps, 2019 ), while performance levels typically decline ( Craig, & Klein, 2019; Qi et al., 2019; Warm, Parasuraman, & Matthews, 2008; Wessely, Hotopf, & Sharpe, 1998 ). For instance, a student’s attention level may drop after reading a book for 60 min, or a driver may lose focus after driving a car for many hours. However, not all prolonged tasks cause mental fatigue. For example, a worker can maintain his/her performance in the evening to get overtime payments.
+
+Many factors determine the effects of mental fatigue, and one of those is motivation  ( Kurzban, Duckworth, Kable, & Myers, 2013 ). Motivation drives individuals to stay engaged with a particular activity ( Wigfield, Eccles, Schiefele, Roeser, & Davis-Kean, 2006 ), so that when motivated to do a particular task, individuals will maintain their performance levels, but when no longer motivated, performance levels may drop ( Boksem, & Tops, 2008; Earle, Hockey, Earle, & Clough, 2015 ). It has been suggested that as fatigue or task duration increases, people are less willing to stay engaged with the task (i.e., less motivated to continue performing the task), possibly because the perceived future benefits of the current actions decrease ( Hockey, 2011, 2013 ), which in turn impairs performance ( Boksem & Tops, 2008; Kurzban et al., 2013; Müller & Apps, 2019 ).
+
+Direct experimental evidence for the role of motivation in mental fatigue comes from different sources. For example,  Herlambang, Taatgen, and Cnossen (2019)  performed a study where participants performed a working memory task for 2.5 h. Two types of conditions were alternated: reward and nonreward, and their results showed that task performance levels remained stable in the reward conditions but declined in the nonreward conditions over time. In a study by  Hopstaken, van der Linden, Bakker, and Kompier (2015) , participants performed a 2-h working memory experiment and were offered a shortening of the experiment duration in case of good performance in the last block. After a decline in performance over the course of the experiment, the performance level in the last block returned to the initial level. Similarly, a study in which participants were offered monetary rewards in the last block showed the same pattern ( Boksem et al., 2006 ).
+
+Although fatigue and motivation are  related ( Herlambang et al., 2019; Hockey, 2011; Kurzban et al., 2013 ), it is not clear what the mechanism is by which motivation affects performance while fatigued. Motivation is often described as the subjective assessment of cost and benefits, where tasks (or actions within tasks) that offer more benefits at lower costs will be prioritized over others that offer less benefits and/or are more costly ( Chong et al., 2017; Kurzban et al., 2013 ).
+
+Benefits of tasks may come in the form of rewards, i.e., a form of extrinsic motivation (e.g., monetary rewards;  Boksem et al., 2006; Herlambang et al., 2019; Hopstaken et al., 2015; van der Linden, 2011 ), or from the joy of performing the task itself, i.e., intrinsic motivation ( Di Domenico, & Ryan, 2017; Herlambang et al., 2021; Ryan, & Deci, 2000 ). The costs of maintaining performance over time and stay engaged with the task is perceived as effort ( Hockey, 2011 ).
+
+Hockey (2011, 2013)  suggests that when performing a task, there is a constant cost/benefit analysis of alternative actions, and as a task progresses, the willingness to continue doing unrewarding activities may drop, especially in tasks that are not enjoyed, also because the perceived probability of future success may decrease over time. This may lead to a search for more rewarding activities and even quitting the task altogether. In his motivational control theory,  Hockey (2011)  claims that each competing goal has an activation value and is controlled by an “effort monitor”. He suggests that the active goal needs to be maintained by investing more effort into that goal and suppressing other goals. Otherwise, if the initial goal has lost its activation, another goal will replace it and become the new active goal.
+
+A study identifying the neural mechanism of mental fatigue by  Müller and Apps (2019)  in which they incorporated both neurophysiological and neuroimaging research suggests that the subjective value of performing a task, which resembles Hockey’s activation value, is influenced by the amount of a reward, the expected effort needed to obtain the reward, and the feeling of fatigue. They proposed a notion that the higher the reward, the higher the subjective value of the task; however, when the expected effort to obtain the reward becomes higher, which also increases when the feeling of fatigue develops, the subjective value of the task becomes lower. Moreover, the study suggests that the process of evaluating the costs–benefits of a task mainly occurs in the dorsal anterior cingulate cortex (dACC), anterior insula (AI), and dorsolateral prefrontal cortex (DLPFC).
+
+In an effort to clarify the underlying mechanisms of the effects of fatigue and motivation on task performance, we took a modeling approach. We built cognitive models to simulate the results of three different mental fatigue studies; each of these studies explored the impact of reward and mental fatigue on performance. In our models, we incorporated Hockey’s approach and the notion of Müller & Apps that as the feeling of fatigue increases, the subjective value of a task gradually decreases. Hence, individuals become less motivated to invest more effort into the task. More specifically, we quantified task motivation as the level of activation of the goal of the main task, which represents the subjective value of the task—motivation is described as the result of cost–benefits​ evaluation of performing the task ( Chong et al., 2017; Kurzban et al., 2013; Müller & Apps, 2019 ). Therefore, as the feeling of fatigue develops and decreases task motivation, other tasks may have a higher goal activation than the current task, so that over time, other tasks may be given preference.
+
+Before describing our modeling attempts, we will first give an overview of the PRIMs architecture in which our modeling was done and describe the further assumptions behind our modeling mental fatigue as a competition between goals.
+
+PRIMs is a cognitive architecture ( Taatgen, 2013 ) based on ACT-R ( Anderson et al., 2004 ) and works similarly. It consists of several modules: a visual module, declarative memory, working memory, manual modules, and, most importantly for our purposes, the task control module, which holds the current goals. The modules communicate with each other in a workspace to which information from the modules is transferred by so-called operators (see  Fig. 1 ). Each of the modules has a section within the workspace called a buffer. A module can place information in a buffer, for example, the visual module can place the currently attended visual stimulus in the buffer, or an operator can post an action in a buffer, for example, a partial pattern that the declarative memory module has to complete, or an action that the motor system has to carry out.
+
+An operator in PRIMs consists of an if-else statement, that is, the condition (the left-hand side) and the action (the right-hand side), which is similar to a production in ACT-R. In this way, operators determine how information in the workspace is used by copying information from one module to the next. Different from ACT-R, operators in PRIMs have an activation value. This activation value is influenced by information that is already in the buffers (i.e., in the workspace in  Fig. 1 ). The buffer contents spread activation to operators, and the operator with the highest activation is selected, determining the next action. Typically, task goals, which are represented in the task control buffer, have the strongest impact on this selection process, but a very salient perceptual input (or other buffer contents that are strongly associated with certain operators) can trigger operators that are unrelated to the current goal.
+
+As with ACT-R, PRIMs has a declarative memory that represents facts to support a task. However, the declarative memory in PRIMs also represents procedural knowledge in the form of operators, which means that both declarative and procedural knowledge are handled in the same way.
+
+Each item in the declarative memory, namely a chunk, has an activation value, which is a summation of base-level activation and spreading activation. Base-level activation represents the history of a chunk, whereas spreading activation represents the context of the current task. Together, these two activations control how chunks are selected and determine the time it takes to process (i.e., to retrieve) the chunks. The chunk with the highest activation value will be selected. When the activation value is below a retrieval threshold, the chunk cannot be retrieved.
+
+The formula to calculate the activation value of a particular chunk is  
+                               
+                                  (1) 
+                                  
+                                     
+                                        
+                                           
+                                              A 
+                                           
+                                           
+                                              i 
+                                           
+                                        
+                                        = 
+                                        
+                                           
+                                              B 
+                                           
+                                           
+                                              i 
+                                           
+                                        
+                                        + 
+                                        
+                                           
+                                              ∑ 
+                                           
+                                           
+                                              k 
+                                           
+                                           
+                                              buffers 
+                                           
+                                        
+                                        
+                                           
+                                              ∑ 
+                                           
+                                           
+                                              j 
+                                           
+                                           
+                                              slots 
+                                           
+                                        
+                                        
+                                           
+                                              S 
+                                           
+                                           
+                                              j 
+                                              i 
+                                           
+                                        
+                                        
+                                           
+                                              W 
+                                           
+                                           
+                                              k 
+                                           
+                                        
+                                        + 
+                                        
+                                           
+                                              ∑ 
+                                           
+                                           
+                                              k 
+                                           
+                                           
+                                              goals 
+                                           
+                                        
+                                        
+                                           
+                                              S 
+                                           
+                                           
+                                              k 
+                                              i 
+                                           
+                                        
+                                        
+                                           
+                                              A 
+                                           
+                                           
+                                              k 
+                                           
+                                        
+                                        + 
+                                        noise 
+                                     
+                                  
+                               
+                            where  Ai  denotes the activation value of a chunk  i ,  
+                               
+                                  
+                                     B 
+                                  
+                                  
+                                     i 
+                                  
+                               
+                             is its base-level activation,  
+                               
+                                  
+                                     S 
+                                  
+                                  
+                                     j 
+                                     i 
+                                  
+                               
+                             represents the strength association from source  j  to chunk  i , and  
+                               
+                                  
+                                     W 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                             represents the amount of activation from each buffer. There are two components of spreading activation in the formula. The double summation (i.e., the first spreading activation) sums the activation from  k  number of buffers in the workspace and  j  number of chunks in the buffer  k .
+
+The second summation in Eq.  (1)  is novel.  
+                               
+                                  
+                                     S 
+                                  
+                                  
+                                     k 
+                                     i 
+                                  
+                               
+                             represents the spreading activation from  k  number of active goals in the model. Normally, the amount of spreading from buffers only depends on the strength of the association, but in this paper, we assume that activation of task goals ( 
+                               
+                                  
+                                     A 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                            ) also plays a role in the amount of activation spreading to the chunks.
+
+Among those chunks’ values that are above the retrievalthreshold, the probability of retrieving chunk  i  over others is  
+                               
+                                  (2) 
+                                  
+                                     
+                                        P 
+                                        
+                                           ( 
+                                           
+                                              
+                                                 A 
+                                              
+                                              
+                                                 i 
+                                              
+                                           
+                                           ) 
+                                        
+                                        = 
+                                        
+                                           
+                                              
+                                                 
+                                                    e 
+                                                 
+                                                 
+                                                    
+                                                       
+                                                          A 
+                                                       
+                                                       
+                                                          i 
+                                                       
+                                                    
+                                                    ∕ 
+                                                    t 
+                                                 
+                                              
+                                           
+                                           
+                                              
+                                                 
+                                                    ∑ 
+                                                 
+                                                 
+                                                    j 
+                                                 
+                                              
+                                              
+                                                 
+                                                    e 
+                                                 
+                                                 
+                                                    
+                                                       
+                                                          A 
+                                                       
+                                                       
+                                                          j 
+                                                       
+                                                    
+                                                    ∕ 
+                                                    t 
+                                                 
+                                              
+                                           
+                                        
+                                     
+                                  
+                               
+                            where  t  is equal to  
+                               
+                                  
+                                     2 
+                                     s 
+                                  
+                               
+                             in which the coefficient  s  represents the variance of the noise component in Eq.  (1) .
+
+The assumption in this paper is that the decrease in task performance in mental fatigue is the result of a reduction in task motivation. In our model, this is reflected in a reduction in activation of the task goal over time. We also assume that at any moment in time, there may be other activities that seem more beneficial, so that a decrease in the task goal activation also increases the probability that an operator for a different task is selected.
+
+As an example of the kind of competition, let us look at the situation in which a task goal to perform a working memory task has to compete with watching a cat video playing on the same computer screen. Suppose the task goal has an activation of 1.0 ( 
+                               
+                                  
+                                     
+                                        A 
+                                     
+                                     
+                                        g 
+                                        o 
+                                        a 
+                                        l 
+                                     
+                                  
+                                  = 
+                                  1 
+                               
+                            .0) and is associated with an operator  X  that carries out the next step with an association strength of 1.5 ( 
+                               
+                                  
+                                     
+                                        S 
+                                     
+                                     
+                                        g 
+                                        o 
+                                        a 
+                                        l 
+                                        , 
+                                        X 
+                                     
+                                  
+                                  = 
+                                  1 
+                               
+                            .5). Assuming a base-level activation ( 
+                               
+                                  
+                                     B 
+                                  
+                                  
+                                     i 
+                                  
+                               
+                            ) of zero, and no further associations, this means that operator X, according to Eq.  (1) , has an activation of 1.5. Now let us assume that the video is in the visual field (e.g.,  
+                               
+                                  
+                                     
+                                        W 
+                                     
+                                     
+                                        v 
+                                        i 
+                                        s 
+                                        i 
+                                        o 
+                                        n 
+                                     
+                                  
+                                  = 
+                                  1 
+                               
+                            .0), and spreads activation to an operator Y that wants to watch the video ( 
+                               
+                                  
+                                     
+                                        S 
+                                     
+                                     
+                                        v 
+                                        i 
+                                        d 
+                                        e 
+                                        o 
+                                        , 
+                                        Y 
+                                     
+                                  
+                                  = 
+                                  1 
+                               
+                            .0). According to  (1) , the activation of operator Y is 1.0. Using Eq.  (2) , we can calculate the probability of watching the video, for example, if we assume a noise parameter of  
+                               
+                                  t 
+                                  = 
+                                  0 
+                                  . 
+                                  1 
+                               
+                            , we can calculate that  P(Y)  
+                            
+                               = 
+                             0.007, which means that the probability is very small. However, if  
+                               
+                                  
+                                     A 
+                                  
+                                  
+                                     g 
+                                     o 
+                                     a 
+                                     l 
+                                  
+                               
+                             starts to decrease, which we associate with a drop in motivation, for example  
+                               
+                                  
+                                     
+                                        A 
+                                     
+                                     
+                                        g 
+                                        o 
+                                        a 
+                                        l 
+                                     
+                                  
+                                  = 
+                                  0 
+                                  . 
+                                  8 
+                               
+                            , the probability of watching the video increases, in this example to 0.135, so that over time the video starts to win the competition with the working memory task and the person will start watching the video rather than doing the main task.
+
+As time progresses, individuals may experience an increase in the feeling of fatigue that reduces the subjective value of the main task, i.e., task motivation ( Müller & Apps, 2019 ) or goal activation ( 
+                               
+                                  
+                                     A 
+                                  
+                                  
+                                     g 
+                                     o 
+                                     a 
+                                     l 
+                                  
+                               
+                            ) in our models. Consequently, goal activation is discounted by the feeling of fatigue. The perceived reward from doing the task (extrinsically or intrinsically) maintains the goal activation from declining. Therefore, the relationship between the perceived reward ( P ), the feeling of fatigue ( F) , and goal activation ( 
+                               
+                                  
+                                     A 
+                                  
+                                  
+                                     g 
+                                     o 
+                                     a 
+                                     l 
+                                  
+                               
+                            ) at any given time ( t)  is  
+                               
+                                  (3) 
+                                  
+                                     
+                                        
+                                           
+                                              A 
+                                           
+                                           
+                                              g 
+                                              o 
+                                              a 
+                                              l 
+                                              
+                                                 ( 
+                                                 t 
+                                                 ) 
+                                              
+                                           
+                                        
+                                        = 
+                                        min 
+                                        
+                                           ( 
+                                           1 
+                                           ∨ 
+                                           
+                                              ( 
+                                              
+                                                 
+                                                    P 
+                                                 
+                                                 
+                                                    
+                                                       
+                                                          t 
+                                                       
+                                                    
+                                                 
+                                              
+                                              − 
+                                              
+                                                 
+                                                    F 
+                                                 
+                                                 
+                                                    
+                                                       
+                                                          t 
+                                                       
+                                                    
+                                                 
+                                              
+                                              ) 
+                                           
+                                           ) 
+                                        
+                                        , 
+                                     
+                                  
+                               
+                            where the maximum value of goal activation is 1, and the value of  
+                               
+                                  
+                                     
+                                        P 
+                                     
+                                     
+                                        
+                                           
+                                              t 
+                                           
+                                        
+                                     
+                                  
+                                  − 
+                                  
+                                     
+                                        F 
+                                     
+                                     
+                                        
+                                           
+                                              t 
+                                           
+                                        
+                                     
+                                  
+                               
+                             cannot be lower than zero. The goal activation value of one means that the model mainly focuses its attention on the main goal.
+
+Goal activation at time  t  is determined by the minimum value between the value of one and the subtraction result at time  t  between  P  and  F . Essentially, goal activation is the net value between the perceived reward and the perceived fatigue.
+
+The value  P  is influenced by previous perceived rewards. For example, when the previous incentive at  t  
+                            
+                               − 
+                             1 is perceived as more valuable than the recent one at  t , then the value  
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     t 
+                                  
+                               
+                             is smaller than  
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     t 
+                                     − 
+                                     1 
+                                  
+                               
+                            . In contrast, the value of  
+                               
+                                  
+                                     P 
+                                  
+                                  
+                                     t 
+                                  
+                               
+                             is higher if the reward at  t  is perceived as more valuable than the previous one at  t  
+                            
+                               − 
+                             1.
+
+The value  F  increases as time progresses with no rest breaks. However, when an individual takes an opportunity to take a total break, the F value may decrease, slowing down the decrease of the  
+                               
+                                  
+                                     A 
+                                  
+                                  
+                                     g 
+                                     o 
+                                     a 
+                                     l 
+                                  
+                               
+                             (see  Helton, & Russell, 2017 ).
+
+While we use the activation of the task goals to simulate the level of motivation, it is useful to realize that goals and motivation, even though they are closely related, are not the same. Goals can be identified as the onset of all behaviors ( Powers, 1973 ) and represent the expected behavior and the desired end-state ( Hockey, 2013 ), whereas motivation is what energizes individuals to pursue a particular goal ( Wigfield et al., 2006 ). A goal gives direction, while motivation drives human behaviors towards that goal. For example, the goal is to obtain a certain position at work, while the motivation is to earn a higher salary for that position. Another example of a goal is a university student who wants to be successful in life financially while being motivated because of poverty.
+
+Although the term goal can be broad, e.g., goals in life, financial goals, and any other goals, in this paper, we narrow down the context of goals to be task specific. The purpose of a goal is to serve as an active mental representation that maintains focus on the task, activating knowledge that can help perform the task, and guarding it from distraction.
+
+It is evident that motivation affects the ability to stay focused on a task and not be distracted by internal or external distractions ( Herlambang et al., 2019 ). In the case of external distractions, task-unrelated stimuli may shift attention away from the main task, while internal distractions may manifest itself in the form of mind-wandering ( Huijser, van Vugt, & Taatgen, 2018 ).
+
+For our modeling efforts, however, such distractions needed additional assumptions. In PRIMs, operators are defined in the context of a task goal, but clearly, not all behaviors related to distraction can be directly linked to a goal: Watching a cat video playing on the screen is not necessarily a goal, but more an external distraction (stimulus) that attracts attention. It is similarly difficult to imagine mind wandering (e.g., thinking about what to have for lunch) as a task goal. However, for the purpose of the modeling, we did decide to model such distractions as if they had a task goal but not as an active goal, so that fatigue, or rather, the decline in motivation over time, represents an increasing competition between (future) goals: the active goal of doing the main task and of attending distracting external or internal information, where the distracting goal can replace the active one (see  Hockey, 2011 ).
+
+In this paper, we test the notion of goal competition by building cognitive models to reproduce the results of three mental fatigue studies that directly manipulated the level of motivation: a vowel task ( Herlambang et al., 2019 ), a monitoring task ( Boksem et al., 2006 ), and an N-back task ( Hopstaken et al., 2015 ), with each experiment having its own experimental conditions and characteristics. Therefore, if each of our models is able to simulate the behavioral data in each of these studies, we gain confidence that the notion of goal competition may reveal the underlying mechanism of how motivation can counteract the effects of mental fatigue.
+
+In a PRIMs model, several components are specified: the name of a task, the operators to do the task, the facts in declarative memory needed in the task, and a script that runs the model (simulates both the environment and the task). When defining a task, the modeler can initialize a number of parameters affecting the time certain operations take: a threshold that determines when information is forgotten, the amount of noise in selecting items from memory, and parameters that specify how fast chunks in memory decay. Some parameters have default values, but others have to be fitted in each particular task model. In our modeling efforts, we took care to minimize the amount of parameter fitting.
+
+To build a model, first, we determined which task-specific operators were required to do the task, and then fitted the model parameters to match nonfatigued behavior. Second, for each experimental block, we estimated the goal activation value for the main task to match the performance level of the model using parameters in Eq.  (3) .
+
+In all models built, there was only one goal active at a time ( Hockey, 2013 ): the goal for the main task. Distractions, both external and internal, were not active goals in our models and were designed to compete with the main goal over time.
+
+To verify our models, 
+                         1 
+                      
+                      
+                         1 
+                         The code of each model can be found in the supplementary materials. 
+                       we compared the results of our models with empirical data in each experiment. A model fits empirical data if it follows the data, meaning that the model is able to simulate the behavior of human participants. To quantify how well our models fit empirical data, we performed Pearson’s correlation analysis and calculated the root mean square error (RMSE) in each measure ( Gunzelmann, Moore, Gluck, Van Dongen, & Dinges, 2011 ) in R (version 4.0.2).
+
+The vowel task was adapted from the mental fatigue study of  Herlambang et al. (2019) . In this task, participants were asked to count, memorize, and calculate a number of vowels continuously for 2.5 h. The task consisted of 14 blocks alternating between nonreward conditions (odd blocks) and reward conditions (even blocks). In the reward conditions, participants received monetary rewards for good performance.
+
+A sequence of distracting videos was displayed continuously in the top right of the screen as a distractor for participants. In addition, participants’ focus of attention (eye movements) and heart rate variability were measured continuously. The mid-frequency band of heart rate variability was calculated to estimate participants’ mental effort during the experiment in each block ( Aasman, Mulder, & Mulder, 1987 ).
+
+Their results showed that although participants reported feeling more fatigued over time, their performance and attention levels remained stable in the reward conditions but not in the nonreward conditions: Participants were less distracted and showed better performance levels in reward blocks by investing more mental effort in these blocks.
+
+Our model consisted of two main groups of operators: task-specific for performing the main task and attention-shifting for visual distractions. Inside an operator, there are some conditions and action statements known as production rules.
+
+We modeled several measures from the study: response time (RT), accuracy, visual distraction frequency (VDF), and the power in the mid-frequency (MF) band of heart rate variability (HRV). To see how well our models fit the experimental data, we performed Pearson’s correlation analysis in each of these measures in R (version 4.0.2).
+
+In the study, participants were more susceptible to distractions over time in the nonreward conditions. We modeled distractions by creating three operators. The first and second operators took the action of shifting attention to the distracting video. The third operator returned the attention of the model back to the main task.
+
+More specifically, the first operator compared two particular slots in the visual field: the one slot representing the main task, and one slot representing the video distraction. If the main task slot was not empty, and the distraction slot filled, the operator would trigger a shift in attention to the video distraction, mirroring a situation in which the main task required visual perception at that moment. The second operator would trigger a shift of attention to the video on a retrieval failure, mirroring a situation in which the main task encountered a problem. The third operator would return its attention to the main task if the model shifted its attention to the video distraction. Note that these operators always had to compete with task-specific operators; therefore, they were never guaranteed to be used, even if their conditions were satisfied.
+
+We tuned the spreading activation of the visual input to the first distraction operator to be .8 in all blocks. The maximum value of the activation of the main task goal was 1.0, which decreased over time in nonreward conditions due to participants’ increase in the feeling of fatigue over time. Therefore, the model was prone to a higher number of distractions in the nonreward conditions when the activation values of being distracted were higher than the activation values of doing the main task, and the number of distractions increased over time.
+
+The mid-frequency (MF) power of heart rate variability (HRV) reflects cognitive effort ( Aasman et al., 1987 ). A higher value in the MF power means that participants invested less cognitive effort and vice versa. In the model, there is no direct analog of mental effort. Therefore, we created a mapping between the MF power in the task by taking the total number of production rules run by the model as a measure of mental effort.
+
+In the model, the number of task-specific operators exceeds the number of attention-shifting operators, and so did the number of production rules, meaning that performing the task requires more operations and was more demanding than being distracted. During simulation, the task-specific operators were used more frequently in the reward conditions; therefore, the total number of production rules operated in the reward conditions was higher than in the nonreward conditions.
+
+To create a mapping, we calculated the total number of production rules (both task-specific and attention-shifting operators) operated in each block and named it the operator firing frequency (OFF). In the model, a higher number of the OFF represents a lower value of MF power, i.e., higher effort in participants. Since the MF power in the study was normalized, we also normalized the OFF as a division between the frequency of that block with the total frequency of all blocks.
+
+To run the model, we used a separate script in each line in PRIMs. First, we ran the model in the practice session so that the model could learn how to do the task. We then ran the model once for all blocks, where the odd blocks were the nonreward conditions, and even blocks were the reward conditions. Overall, we ran the model 100 times to simulate a total of 100 participants in the experiment.
+
+The model shows response times with a pattern that is similar to the empirical data (see  Fig. 2 ). In the first four blocks, the model learns the task and is not yet affected by a decrease in motivation in the nonreward conditions (although participants already are). Later, it begins to differ in the two conditions with reaction times being faster in reward blocks than in nonreward blocks. In the model, the slower response times are due to an increasing in distraction frequency.
+
+For accuracy, the model mirrors the experimental data really well (see  Fig. 3 ). In the first three blocks, the model learns how to do the task properly, just like the human participants. Starting from block four, the model maintains its performance in the reward blocks, but decreases linearly in the nonreward blocks. In the model, performance decreases because rehearsal operators increasingly lose the competition from the distraction operators.
+
+In the model, the visual distraction frequency (VDF) was the number of eye movements to the video distractor per block. The model mirrors the VDF from the experiment (see  Fig. 4 ). In reward blocks, the model maintains its focus doing the main task, whereas in nonreward blocks it was increasingly distracted by the video.
+
+The operator firing frequency (OFF) reflects how many times operators in the model perform (i.e., fire) the main task, which was meant to simulate mental effort to perform a particular task. Higher values of MF power indicate lower effort, whereas lower values indicate the opposite. For the OFF, higher values indicate more operations, whereas lower values are the other way around.
+
+The OFF mirrors the MF power (see  Fig. 5 ). Starting from block four, the firing frequency remains stable in the reward blocks, indicating that the model kept constantly firing in these blocks. On the other hand, in the nonreward blocks, firing becomes less frequent, indicating that all required operators to run the main task in the model were used less frequently, and the pace of the model to run the task slowed down, which is similar to an increase in the MF power indicating less effort.
+
+Table 1  shows the results of the correlation analysis between the experimental data and the model. All measures show significant results, suggesting that the comparison between the data and the model in each measure shows a good fit. The correlation score between the mid-frequency power of data and the firing frequency of the model shows a negative correlation, suggesting that the firing frequency reflects the mid-frequency power in a different direction.
+
+Performance levels decreased in nonreward blocks but remained stable in reward blocks. The decrease in performance was caused by the competition between task-specific and attention-shifting operators that decelerated the overall process, mainly in the nonreward blocks. Since the model became slow and had a limited time to respond, the model did not manage to perform the task in time, thus making more incorrect responses in nonreward blocks. Furthermore, every time the model committed a retrieval error due to its slow performance, it would decide to shift its attention to the distracting video. When it occurred within a trial, the model was guaranteed to fail in that trial because it required full attention to perform the task successfully. As a result, the model watched the distracting video more often in the nonreward blocks. It was possible that the model wrongly retrieved a chunk from the declarative memory due to noise, which occurred relatively rare.
+
+When the goal activation of the main task decreased over time, our model would produce more errors performing the main task. The decrease of goal activation was due to an increase in the participants’ feeling of fatigue, which was reported by Herlambang and colleagues in their study. However, in the study, participants’ performance levels dropped mainly in nonreward blocks but not in reward blocks. As with the empirical data, the performance levels of our model did not drop in reward blocks. This was due to participants perception of reward in nonreward blocks that was lower than in reward blocks, which caused the goal activation to drop faster in nonreward blocks (see Eq.  (3) ). In reward blocks, the goal activation increased because of the reward stimulus, which improved performance levels in these blocks.
+
+Boksem et al. (2006)  performed a mental fatigue experiment that offered monetary rewards to participants for good performance in the last block. In this task, they asked participants to memorize and monitor two pairs of stimuli for 2 h and 20 min. These pairs were the same throughout the experiment. The first pair was a left arrow with the letter H, and the second was a right arrow with the letter S. Participants were asked to press a button with a left-hand finger if the letter appeared was an H, and a right-hand finger if it was an S. While the letter was being presented, there was a fixation point in the center of the screen. The appearance and the location of the letters (in the left side or right side of the screen) were randomized.
+
+A trial started with an arrow cue appearing in the screen for 150 ms with a probability of .8. If a right arrow appeared, then the letter S would appear in the screen, and if the left arrow appeared, the letter H would appear. Next, the main screen would remain blank for 1 s.
+
+The experiment was divided into seven blocks: six blocks of no reward and one last block with reward. Each block lasted for 20 min. In this experiment, there was no explicit distractor (i.e., like the video in the vowel task). Their results showed that performance levels dropped from the first to the sixth block but increased again in the last block.
+
+To model goal competition, we decreased the goal activation value of the main task from the first to the sixth block and returned the value back to the initial value in the last block. We assumed that participants were distracted by their own thoughts in the form of mind-wandering. This means that operators for the main task competed with operators for the mind-wandering action during simulation. As a result, when the goal activation value of the main task becomes lower over time, the probability of any operators for the main task to be operated also becomes lower, resulting in lower performance levels in the course of the first six blocks.
+
+To model mind-wandering, we used a set of operators that are similar to visual distraction but were now targeted at memory. These operators are identical to a set of operators used to model mind wandering by  Huijser et al. (2018) . The first operator checked whether the declarative memory buffer was empty, meaning that nothing was retrieved from declarative memory. If it was empty, the operator would retrieve an episodic chunk from the declarative memory that was not related to the task.
+
+After successfully carrying out the first operator, it could trigger a second operator that would elaborate on the retrieved episode by performing further retrievals. A condition for that operator is that the working memory buffer is empty. Therefore, mind wandering is very short if working memory is already in use by the main task, but relatively long if working memory is not occupied. The eight episodic chunks that were used by this operator were:  wandering, breakfast, cycling, lecture, coffee, lunch, exam , and  nothing , representing a few activities in real life. The model would quit mind-wandering if another operator from the main task with a higher activation value won the competition.
+
+We ran the model 100 times to simulate an experiment with 100 participants. We first ran the model once to train the model, and then ran the task seven times, simulating six blocks of nonreward and one block of reward condition.
+
+The model mirrors the experimental data (see  Fig. 6 ). From the first to the sixth block, RTs slightly become slower but then become faster in the last block.
+
+Fig. 7  shows that the error rates in the model mirror the data. From the first to the sixth block, error rates increase but then drop in the last block.
+
+Table 2  shows that the correlation of the response time measure between the experimental data and the model was significant. Even though the error measure of the model and the data show a positive correlation, the correlation was not significant.
+
+The model produced more errors when goal activation decreased. This occurred due to an increase in the feeling of fatigue over time, especially in the first six blocks—although Boksem and colleagues did not report the subjective fatigue in their study, we assumed it to increase linearly over time. As a result, performance levels decreased from the first to the sixth block but increased in the last block due to the reward stimulus in this block; the perceived reward increased the goal activation of the main task.
+
+As goal activation decreases while the feeling of fatigue increases, the decrease in performance was mainly caused by the competition between task-specific and mind-wandering operators, causing interference with the retrieval process. That is, the model had difficulties retrieving chunks from the declarative memory, resulting in incorrect responses in the first six blocks over time. On the other hand, the model had a high chance of retrieving chunks successfully in the last block, which was influenced by the reward stimulus, resulting in a higher goal activation value and therefore improved performance.
+
+Hopstaken et al. (2015)  performed a mental fatigue study in which participants performed the 2-back task for two hours. They divided the experiment into seven blocks consisting of six blocks of nonreward and one last block with reward: They offered participants a shorter duration depending on their performance in the last block; while in reality, the actual duration of the last block was the same as the previous six blocks.
+
+As in the monitoring task, we assumed that the decline in performance that occurred in the first six blocks were due to mind wandering increasing over time. In the model, we let goal activation of doing the task decrease over time.
+
+In this task, we modeled the two measures the authors reported: hit rate and false alarm. A hit is a condition where there is a target, and participants press a button; whereas a miss is when there is a target, and participants do not press the button. A hit rate is the ratio between the number of hits with the number of hits plus the number of misses. A false alarm is a condition where there is no target, and participants press a button nonetheless; whereas a correct rejection is when there is no target, and participants do not press a button. A false alarm rate is the ratio between the number of false alarms with the number of false alarms plus correct rejections.
+
+We used the same mechanism to model mind-wandering as in the monitoring task. In addition, we used the same chunks in the declarative memory for mind-wandering.
+
+We ran the model 100 times to simulate 100 participants in the real experiment. We started with one time of the practice session in each simulation for the model to learn the task. Afterward, we ran the task six times for the nonreward blocks, and once for the reward block.
+
+The model moderately mirrors the experimental data (see  Fig. 8 ). In the second block, the hit rates slightly increase, but drop in the third and the fourth block. In the reward block, the hit rate reaches its peak level.
+
+The model mirrors the experimental data (see  Fig. 9 ). In the first six blocks, false alarms increase moderately, but decrease in the last block (i.e., the reward condition).
+
+Table 3  shows that the correlation of the false-alarm measure between the empirical data and the model was significant. Although the visual comparison of the hit-rate measure between the empirical data and the model seems to be a good fit, the correlation of the hit-rate measure was not significant.
+
+As with the monitoring task, the decrease in performance in the N-back task from the first to the sixth block was affected by a decrease in goal activation. The decrease of goal activation was influenced by an increase in the feeling of fatigue, which was reported by Hosptaken and colleagues in their study.
+
+As goal activation decreases over time in the first six blocks, the task-specific operators started losing competition with the mind-wandering operators, causing interference with rehearsal. Since the model rehearsed less information from working memory over time, the model produced incorrect responses in these blocks. In contrast, the model managed to rehearse the necessary information to perform the task successfully in the last block, which was influenced by the reward stimulus. Since the goal activation increased in the last block, it helped improve the performance of the model.
+
+Fig. 10  shows goal activation values of nonreward blocks in all tasks. The vowel task had seven nonreward blocks, whereas the monitoring and N-back tasks had six.
+
+In Eq.  (3) , the goal activation of the main task ( 
+                            
+                               
+                                  A 
+                               
+                               
+                                  g 
+                                  o 
+                                  a 
+                                  l 
+                               
+                            
+                         ) is determined by the perceived reward from doing the task ( P ) and the perceived feeling of fatigue ( F ). Since participants did not receive any reward in nonreward blocks, the values of  
+                            
+                               
+                                  A 
+                               
+                               
+                                  g 
+                                  o 
+                                  a 
+                                  l 
+                               
+                            
+                          in these blocks were smaller than in reward blocks. However, the decrease of the  
+                            
+                               
+                                  A 
+                               
+                               
+                                  g 
+                                  o 
+                                  a 
+                                  l 
+                               
+                            
+                          did not occur similarly in all tasks.
+
+The perceived reward at any given time is influenced by the previous perceived reward. Therefore, the slope of the  
+                            
+                               
+                                  A 
+                               
+                               
+                                  g 
+                                  o 
+                                  a 
+                                  l 
+                               
+                            
+                          in the vowel task was not as steep as the remaining two tasks because the blocks in the vowel task were alternated: nonreward conditions in odd blocks and reward conditions in even blocks. On the other hand, the slopes of the  
+                            
+                               
+                                  A 
+                               
+                               
+                                  g 
+                                  o 
+                                  a 
+                                  l 
+                               
+                            
+                          in the monitoring and the N-back tasks were steep because the perceived reward from doing the tasks degraded over time; as time progresses, performing the tasks became less interesting. Furthermore, the perceived fatigue increased over time, which reduced the  
+                            
+                               
+                                  A 
+                               
+                               
+                                  g 
+                                  o 
+                                  a 
+                                  l 
+                               
+                            
+                          much further.
+
+We were able to fit the data from all experiments with a linear decline in goal activation values. For all experiments, goal activation values of reward blocks were kept constant (i.e., an activation value of one).
+
+We hypothesize that goal competition is one of the key factors to understand the underlying mechanism of motivation in mental fatigue. A key aspect of this hypothesis is that the decrease in performance is not due to a decrease in the capacity of the cognitive system (e.g., lower working memory capacity, slower motor system, less reliable long-term memory) but by a decrease in the ratio of cognitive “cycles” spent on the task as opposed to distractions. We have modeled this by a decrease in the activation of the goal, which represents the level of motivation, which indirectly affects performance ( Hockey, 2011 ).
+
+To test our hypothesis, we built three models of mental fatigue experiments: the vowel task ( Herlambang et al., 2019 ), the monitoring task ( Boksem et al., 2006 ), and the N-back task ( Hopstaken et al., 2015 ). All tasks consisted of two types of conditions: nonreward and reward. In these tasks, human performance levels decreased in the nonreward conditions but increased or remained stable in the reward conditions. All models were built in PRIMs ( Taatgen, 2013 ), where we manipulated the activation values of the task goal to simulate goal competition, resulting in performance level changes.
+
+Comparing our models with the empirical data showed that our models were able to capture human performance: The decrease in goal activation value over time resulted in a decrease in performance levels. In the same fashion, an increase in goal activation value in reward conditions caused performance levels to increase.
+
+With regards to modeling, a modeler can tune some parameters to obtain a good fit. However, overdoing such parameter tuning may lead to overfitting, which makes the models difficult to generalize and does not represent the empirical data. In this study, therefore, we avoid overdoing the parameter tuning. A number of key findings will be discussed below.
+
+To lower performance in the nonreward conditions in all tasks, we decreased task goal activation values over time. The goal activation values in our models represent the subjective value of performing the tasks, with a high subjective value corresponds to a high level of motivation. The reduction of goal activation was due to an increase in the feeling of fatigue (see  Müller & Apps, 2019 ) and a continuous decrease in the perceived reward from doing the tasks. In reward conditions, we increased goal activation values because of the reward stimulus in these blocks. A higher goal activation value of a task means that the information of that task is more available; hence, the task has more priority to be executed, which will result in better task performance (see  Kurzban et al., 2013 ), for example, in faster response times. However, reducing goal activation values solely was not adequate to lower performance levels. The models required another competing goal to implement goal competition. As a result, we were able to fit our models with empirical data.
+
+What our modeling efforts suggest is that over time, while the activation value of the main active goal is decreasing, which is due to an increase in the feeling of fatigue and a decrease in the perceived reward (see Eq.  (3) ), another future goal of an activity/stimulus, for example, a distraction, may start winning the competition with the main task, when the activation value of the distraction exceeds that of the main goal (i.e., it strongly attracts the individual), in which case the individual may start paying attention to the distraction. The distraction can become the new active goal, and the individual may forget the main goal, or choose to pay attention to both, but this will sacrifice performance.
+
+In the end, when the individual is exhausted, weary, and does not perceive any future benefits from performing the task or from any competing activities, the individual can stop doing the task completely; the goal activation of the main task goes near zero. In this situation, the feeling of fatigue serves as a signal, (i.e., an adaptive function) for the individual to reappraise the calculation of future costs and benefits, i.e., the subjective value of the task, looking for a more sensible activity with short-term benefits, such as resting (see  Hockey, 2013 ).
+
+Our models correspond to the motivational control theory of fatigue proposed by  Hockey (2013) . In the theory, there is a module called  effort monitor  that gives a signal to allocate effort that later improves/maintains performance. Afterward, the signal will be forwarded to a module named  goal regulation  that will decide whether to maintain a particular task or to choose another activity. As an empirical support, the study of  Müller and Apps (2019)  suggested that the reappraisal of the costs and benefits of a task that later helps individuals allocate effort occurs in the dorsal anterior cingulate cortex (dACC), anterior insula (AI), and dorsolateral prefrontal cortex (DLPFC).
+
+In our models, when a goal is chosen, the operators of that goal will fire. More specifically, the more active a goal is, the higher the number of operator firings associated with that goal will be. This number is similar to effort: Individuals also have to invest more effort to maintain performance.
+
+In the vowel task, we demonstrated that the number of firings (i.e., the operator firing frequency [OFF]) corresponds to the MF power of HRV, which has been used as an indicator of effort ( Aasman et al., 1987 ). A lower value of MF power reflects higher effort, which in our model was associated with a higher number of firings. Moreover, a higher value of MF power was followed by a lower number of operator firings. Therefore, with regards to modeling, the number of firings has the potential to be used as an indicator of mental effort to do a particular task.
+
+By using goal competition as a mechanism, we were able to simulate human behaviors in three different mental fatigue studies. Our models primarily support the motivation account of mental fatigue, that performance can be maintained over time when motivated but decreases when demotivated ( Kurzban et al., 2013; van der Linden, 2011 ). Nevertheless, our models can also be consistent with the resource theory of mental fatigue but with a caveat.
+
+The resource theory suggests that a decline in performance is caused by a mechanism called resource depletion and the difficulty to allocate resources ( Warm et al., 2008 ). In addition, rest can help to improve performance by recovering those resources ( Helton & Russell, 2017 ). With regard to our models, the decrease in goal activation may reflect resource depletion. While the resource is depleting, performance will deteriorate.
+
+However, adopting the resource theory to explain our models requires a critical assumption and a restriction. The recovery of resources must be a fast process and can be done even while still doing the task at a lower level of effort regardless of the duration of the experiments. In addition, in our cognitive architecture used, i.e., PRIMs, the working memory module is designed not to be depletable, because if the working memory module were changed to be depletable, the whole behavior of the model would be unstable and might not give the same results. Therefore, depletable resources as an important aspect in the resource theory is not applicable in the cognitive architecture that we used.
+
+Therefore, in this paper, we preferred to model mental fatigue as a result of a decrease in motivation over time, mainly because it does not require such further assumptions. In motivation account, the main control is centered in a mechanism called effort monitor that decides which goal to be focused on  Hockey (2013) .
+
+There are two other studies trying to explain the effects of mental fatigue using computational models. First,  Jongman (1998)  explored mental fatigue as a problem of cognitive control. To lower performance levels, Jongman manipulated a global parameter in ACT-R named source activation. A lower value of source activation implies that the chance of retrieving relevant information to perform a task is low, which represents a low level of cognitive control. Furthermore, the study assumed that function of cognitive control is depletable. As with the present study, Jongman also incorporated motivation to explain the effects of mental fatigue by manipulating the value of goal activation. The study proposed that ones who are motivated will choose a strategy that maximizes the chance of success over others. However, Jongman did not implement the manipulation of goal activation in the study.
+
+Second,  Gunzelmann et al. (2011)  modeled mental fatigue as a sleep deprivation phenomenon. To lower performance levels and simulate a sleep-deprived condition, they manipulated the global parameter  G , which represents the goal value, in ACT-R. They proposed that the reduction in the  G  value represents the changes in the wakefulness level, which caused a delay in the production cycles of their model. In addition, similar to what we perform in this study, they compared their model with an empirical study of  Doran, Van Dongen, and Dinges (2001) . Even though their comparison showed a good fit, they did not incorporate motivation such as extrinsic rewards in the study.
+
+We were aware that Gunzelmann and colleagues were able to demonstrate a good fit between their model and the empirical data. Nevertheless, a situation in which an individual is sleep deprived for an approximated duration of 88 h, which how their model was based on, is not an ordinary situation in the workplace. Their model may support the account of sleep deprivation as a factor in mental fatigue ( Åkerstedt et al., 2004 ) but may not be sufficient to explain the effects of motivation on mental fatigue.
+
+Both studies suggest that computational model can help explain the mechanism of mental fatigue. However, we argue that mental fatigue is not a problem of resource depletion but more of a motivation phenomenon, which we illustrated it in our models.
+
+In summary, we have demonstrated that a lower performance level when an individual is mentally fatigued is mainly due to motivation, and goal competition is a possible mechanism to explain the phenomenon. Goal competition is a continuous process that compares several future goals, and when the main task goal is perceived to be less valuable, another competing goal may start winning the competition, causing the individual to invest less mental effort in the main task and start investing in the competing goal.
+
+In this paper, we show that the goal activation helps us understand how motivation affects performance in mental fatigue. However, solely adjusting goal activation levels may not be enough to model changes in performance. There are many parameters in PRIMs that can affect performance. Therefore, it is challenging if we want to build a model of another task using the same parameters.
+
+Our models are still limited to these tasks. Although adjusting goal activation values as a way to model mental fatigue showed good results for the experiments we modeled, it is possible that this does not directly generalize to other studies.
+
+To build a robust and comprehensive theory of mental fatigue, for future research, more studies need to investigate relationships between goal activation, cost–benefit calculations, and performance. In addition, future research needs to investigate what the mechanism is behind the decrease in goal activation values. Moreover, it is beneficial to test the predictions of our models in new experiments, for example, to see whether our models’ predictions also hold in studies with no rewards.
+
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+This study was supported by  Lembaga Pengelola Dana Pendidikan (LPDP) 
+ from the Indonesia government awarded to Mega B. Herlambang.
+
+The code of each model can be found at  https://bit.ly/2Bh7k6x .

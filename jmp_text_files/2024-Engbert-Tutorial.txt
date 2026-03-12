@@ -1,0 +1,4171 @@
+10.1016/j.jmp.2024.102843
+All computer code described in this manuscript is made available via the OpenScience Framework (OSF) at  https://osf.io/8wrf6/ .
+
+During text reading, we generate 3 to 4 fast eye movements (saccades) per second to move words into the center of the visual field for high-acuity processing. Almost all word processing happens during fixations, where average durations range from about 150 to 300 ms ( Kliegl, Grabner, Rolfs, & Engbert, 2004; Rayner, 1998 ). The number of fixations in a typical text is comparable to the number of words, however, some words do not receive a fixation (word skipping), while others are targeted several times. A secondary fixation of the same word as the currently fixated word is denoted as a refixation. The eye’s scanpath is even more complicated, because some saccades shift the gaze against the reading direction to previously fixated words or regions of text. Such regressions represent about 5% to 10% of the saccades for a typical text. Observed sequences of fixations during reading are characterized by sequential dependencies. Experimentally, these sequential dependencies are investigated via complicated designs such as the boundary paradigm ( Risse & Seelig, 2019; Starr & Rayner, 2001 ). In mathematical modeling, eye-movement control can be explained by dynamical theories that make specific assumptions on the observed sequential dependencies ( Engbert, Longtin, & Kliegl, 2002; Reichle, Pollatsek, Fisher, & Rayner, 1998 ).
+
+In this tutorial article, we provide an introduction to dynamical modeling of eye movements in reading as an example for the dynamical systems approach to cognition ( Beer, 2000; Engbert, 2021 ). Potential readers might have varying degrees of interest in dynamical models, eye-movement control, or in one of following topics: Reading models, likelihood computation, Bayesian inference, Markov Chain Monte-Carlo techniques, or individual differences. What is specific to dynamical models is that they can predict a future data point from a current data point (the currently observed state) via simulation. This property of dynamical models can be exploited for their statistical inference, when time-ordered data are available and the likelihood function can be computed sequentially.
+
+The dynamical model to be investigated in detail in this article is the SWIFT model ( Engbert et al., 2002; Engbert, Nuthmann, Richter, & Kliegl, 2005 ) of eye-movement control in reading. This model has been developed with the aim to provide a theoretically coherent framework for all types of eye movements during reading. Since the model is based on temporally evolving word activations, it is conceptually similar to the dynamic field theory of movement preparation ( Amari, 1977; Erlhagen & Schöner, 2002 ). The SWIFT 
+                         1 
+                      
+                      
+                         1 
+                         
+                            S accade target selection  W ith  I nhibition by  F oveal  T argets ( Engbert et al., 2002 ). 
+                       model was published in 2002 in its first version, where a discrete space of words was assumed and a realistic physical layout with respect to word length was neglected as a first approximation. A major modification of the model was published in 2005, where we included, among other aspects, the full complexity of word-length effects and saccadic errors ( Engbert et al., 2005 ). It is important to note that a number of other models have been developed in parallel over the last 20 years (e.g.,  Reichle et al., 1998; Reilly & Radach, 2006; Snell, van Leipsig, Grainger, & Meeter, 2018 ), which are all good candidates for implementing Bayesian parameter inference as proposed in this tutorial.
+
+The next major step in the further development of the SWIFT model was related to statistical inference. First, in  2020 , we proposed an approximate likelihood function for the model ( Seelig et al., 2020 ). The application of a likelihood-based Bayesian framework to a challenging data set was achieved in 2021, where we demonstrated that likelihood-based inference of the model provides the possibility to estimate model parameters for individual readers ( Rabe et al., 2021 ). Thus, for the first time in eye-movement research in reading, we were able to study interindividual differences in an advanced computational model. This result has been discussed recently in the broader context of dynamical cognitive modeling ( Engbert et al., 2022 ).
+
+Because of the remarkable advances in the field of eye-movement modeling over the last 25 years, current models are elaborated and, therefore, are difficult to teach, in particular with respect to statistical inference ( Schütt et al., 2017 ). Therefore, for teaching and training purposes in dynamical modeling, it seems useful to start with a simplified version of the SWIFT model to introduce researchers to the key concepts of both dynamical models and their statistical inferences.
+
+This tutorial article is organized as follows. In Section  2 , we derive and explain the simplified version of the SWIFT model, where the key concepts are temporally-evolving word activations by a set of ordinary differential equations and stochastic target selection for saccade preparation. In Section  3 , examples for simulated eye trajectories are discussed. We refer the reader to an  R -based computer implementation for running their own numerical experiments. The likelihood function of the simplified model is discussed in Section  4 . The likelihood function can be decomposed into temporal and spatial components. We report numerical simulations to explore profile likelihoods as a parameter identifiability analysis. In Section  5 , we introduce Bayesian inference and carry out Monte-Carlo simulations to estimate posterior densities over the model parameter space. With individual parameter estimates for a larger text corpus, we run posterior predictive checks to reproduce interindividual differences in reading behavior in Section  6 . We close with a short summary and discussion section. All computations are available (see Data Availability Statement below) in an implemented version in the  R -Language for Statistical Computing ( R Core Team, 2018 ).
+
+The motivation to work with a simplified version of the SWIFT model is twofold. First, our aim was to provide a mathematical model that can be studied numerically on a desktop or notebook computer. Second, the focus in this tutorial is on the key principles of the model, neglecting more subtle effects of spatially-distributed processing ( Snell & Grainger, 2019 ). The major limitations of the simplified SWIFT model arise from the fact that space is approximated by discrete word positions, so word length effects ( Kliegl et al., 2004 ) and the complicated processes of random and systematic saccadic errors are neglected ( Engbert & Krügel, 2010; Krügel & Engbert, 2014; McConkie, Kerr, Reddix, & Zola, 1988 ). As a result, the version to be developed and discussed here is closely related to the first version of the SWIFT model ( Engbert et al., 2002 ), so  
+                         N 
+                       words of a given sentence are assumed to be located at discrete positions  
+                         
+                            1 
+                            , 
+                            2 
+                            , 
+                            3 
+                            , 
+                            … 
+                            , 
+                            N 
+                         
+                      .
+
+For each word  
+                            w 
+                         , we define an activation variable  
+                            
+                               
+                                  
+                                     a 
+                                  
+                                  
+                                     w 
+                                  
+                               
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                            
+                         , which represents the word’s processing state at time  
+                            t 
+                         . The activation (or processing state) of word  
+                            w 
+                          is a number between 0 and  
+                            
+                               
+                                  a 
+                               
+                               
+                                  w 
+                               
+                               
+                                  max 
+                               
+                            
+                         , the maximum activation value of word  
+                            w 
+                          which depends on word difficulty with  
+                            
+                               0 
+                               < 
+                               
+                                  
+                                     a 
+                                  
+                                  
+                                     w 
+                                  
+                                  
+                                     max 
+                                  
+                               
+                               ≤ 
+                               1 
+                            
+                          (see Section  2.2 ). The activation is initialized with a value of 0, i.e.,  
+                            
+                               
+                                  
+                                     a 
+                                  
+                                  
+                                     w 
+                                  
+                               
+                               
+                                  ( 
+                                  0 
+                                  ) 
+                               
+                               = 
+                               0 
+                            
+                         . When the word is fully processed at the end of lexical access after time  
+                            
+                               
+                                  t 
+                               
+                               
+                                  ˆ 
+                               
+                            
+                         , the activation is at the word-specific maximum value, i.e.,  
+                            
+                               
+                                  
+                                     a 
+                                  
+                                  
+                                     w 
+                                  
+                               
+                               
+                                  ( 
+                                  
+                                     
+                                        t 
+                                     
+                                     
+                                        ˆ 
+                                     
+                                  
+                                  ) 
+                               
+                               = 
+                               
+                                  
+                                     a 
+                                  
+                                  
+                                     w 
+                                  
+                                  
+                                     max 
+                                  
+                               
+                            
+                         . It is important to note that  
+                            
+                               
+                                  t 
+                               
+                               
+                                  ˆ 
+                               
+                            
+                          is a variable that depends on the eye’s scanpath in a rather complicated way, which will become clear below.
+
+A core assumption is that the processing rate  
+                            λ 
+                         , which changes the activation over time, depends on the distance (or eccentricity) of the word to the center of gaze. Assuming a gaze position on word  
+                            
+                               k 
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                            
+                          at time  
+                            t 
+                         , the processing rate for word  
+                            w 
+                          is given by  
+                            
+                               (1) 
+                               
+                                  
+                                     
+                                        
+                                           λ 
+                                        
+                                        
+                                           w 
+                                        
+                                     
+                                     
+                                        ( 
+                                        t 
+                                        ) 
+                                     
+                                     = 
+                                     
+                                        
+                                           
+                                              
+                                                 
+                                                    0 
+                                                 
+                                                 
+                                                    , if 
+                                                 
+                                                 
+                                                    w 
+                                                    ≤ 
+                                                    k 
+                                                    
+                                                       ( 
+                                                       t 
+                                                       ) 
+                                                    
+                                                    − 
+                                                    2 
+                                                 
+                                              
+                                              
+                                                 
+                                                    
+                                                       
+                                                          λ 
+                                                       
+                                                       
+                                                          − 
+                                                          1 
+                                                       
+                                                    
+                                                    = 
+                                                    σ 
+                                                    ν 
+                                                 
+                                                 
+                                                    , if 
+                                                 
+                                                 
+                                                    w 
+                                                    = 
+                                                    k 
+                                                    
+                                                       ( 
+                                                       t 
+                                                       ) 
+                                                    
+                                                    − 
+                                                    1 
+                                                 
+                                              
+                                              
+                                                 
+                                                    
+                                                       
+                                                          λ 
+                                                       
+                                                       
+                                                          0 
+                                                       
+                                                    
+                                                    = 
+                                                    σ 
+                                                 
+                                                 
+                                                    , if 
+                                                 
+                                                 
+                                                    w 
+                                                    = 
+                                                    k 
+                                                    
+                                                       ( 
+                                                       t 
+                                                       ) 
+                                                    
+                                                 
+                                                 
+                                                    (gaze position) 
+                                                 
+                                              
+                                              
+                                                 
+                                                    
+                                                       
+                                                          λ 
+                                                       
+                                                       
+                                                          1 
+                                                       
+                                                    
+                                                    = 
+                                                    σ 
+                                                    ν 
+                                                 
+                                                 
+                                                    , if 
+                                                 
+                                                 
+                                                    w 
+                                                    = 
+                                                    k 
+                                                    
+                                                       ( 
+                                                       t 
+                                                       ) 
+                                                    
+                                                    + 
+                                                    1 
+                                                 
+                                              
+                                              
+                                                 
+                                                    
+                                                       
+                                                          λ 
+                                                       
+                                                       
+                                                          2 
+                                                       
+                                                    
+                                                    = 
+                                                    σ 
+                                                    
+                                                       
+                                                          ν 
+                                                       
+                                                       
+                                                          2 
+                                                       
+                                                    
+                                                 
+                                                 
+                                                    , if 
+                                                 
+                                                 
+                                                    w 
+                                                    = 
+                                                    k 
+                                                    
+                                                       ( 
+                                                       t 
+                                                       ) 
+                                                    
+                                                    + 
+                                                    2 
+                                                 
+                                              
+                                              
+                                                 
+                                                    0 
+                                                 
+                                                 
+                                                    , if 
+                                                 
+                                                 
+                                                    w 
+                                                    ≥ 
+                                                    k 
+                                                    
+                                                       ( 
+                                                       t 
+                                                       ) 
+                                                    
+                                                    + 
+                                                    3 
+                                                 
+                                              
+                                           
+                                        
+                                     
+                                     , 
+                                  
+                               
+                            
+                         which is illustrated in  Fig. 1 . Thus, we assume that the fixated word  
+                            k 
+                          at the center of gaze as well as the words close to the fixation position receive non-zero processing rate. However, because of the known asymmetry of the perceptual span, we assume that word  
+                            
+                               k 
+                               + 
+                               2 
+                            
+                          is processed with rate  
+                            
+                               
+                                  
+                                     λ 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               ≠ 
+                               0 
+                            
+                         , while  
+                            
+                               
+                                  
+                                     λ 
+                                  
+                                  
+                                     − 
+                                     2 
+                                  
+                               
+                               = 
+                               0 
+                            
+                         .
+
+To keep the parametrization of the processing span parsimonious with respect to the number of parameters, we define the eccentricity-dependent decrease in processing rate by  
+                            
+                               ν 
+                               ∈ 
+                               
+                                  [ 
+                                  0 
+                                  ; 
+                                  1 
+                                  ] 
+                               
+                            
+                         . Since the shape of the processing span with values  
+                            
+                               { 
+                               
+                                  
+                                     λ 
+                                  
+                                  
+                                     − 
+                                     1 
+                                  
+                               
+                               , 
+                               
+                                  
+                                     λ 
+                                  
+                                  
+                                     0 
+                                  
+                               
+                               , 
+                               
+                                  
+                                     λ 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                               , 
+                               
+                                  
+                                     λ 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               } 
+                            
+                          should be independent of the overall processing rate, we introduce the normalization factor  
+                            σ 
+                          in Eq.  (1)  by  
+                            
+                               (2) 
+                               
+                                  
+                                     σ 
+                                     = 
+                                     
+                                        
+                                           1 
+                                        
+                                        
+                                           1 
+                                           + 
+                                           2 
+                                           ν 
+                                           + 
+                                           
+                                              
+                                                 ν 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                        
+                                     
+                                     
+                                     , 
+                                  
+                               
+                            
+                         such that  
+                            
+                               σ 
+                               ⋅ 
+                               
+                                  
+                                     ∑ 
+                                  
+                                  
+                                     i 
+                                     = 
+                                     − 
+                                     1 
+                                  
+                                  
+                                     + 
+                                     2 
+                                  
+                               
+                               
+                                  
+                                     λ 
+                                  
+                                  
+                                     i 
+                                  
+                               
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                               = 
+                               1 
+                            
+                          for all  
+                            
+                               t 
+                               > 
+                               0 
+                            
+                         . Thus, the shape of the processing span is modulated by the numerical value of parameter  
+                            ν 
+                         . In  Fig. 2 , this dependence is illustrated for four different values of  
+                            ν 
+                         ; as an example, the value of  
+                            
+                               ν 
+                               = 
+                               0 
+                               . 
+                               6 
+                            
+                          gives a broad processing span in comparison to the smaller value of  
+                            
+                               ν 
+                               = 
+                               0 
+                               . 
+                               1 
+                            
+                         , where more than 80% of the processing rate is allocated to the fixated word.
+
+In the last section, we discussed a possible mathematical form to capture effects of eccentricity on word processing. Here we introduce an additional overall processing rate  
+                            r 
+                          that might vary between readers. Taken together, word  
+                            w 
+                          is processed with rate  
+                            
+                               r 
+                               
+                                  
+                                     λ 
+                                  
+                                  
+                                     w 
+                                  
+                               
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                            
+                          at time  
+                            t 
+                         , where  
+                            r 
+                          is the overall processing rate and  
+                            
+                               
+                                  
+                                     λ 
+                                  
+                                  
+                                     w 
+                                  
+                               
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                            
+                          accounts for the eccentricity of word  
+                            w 
+                         . Given the processing rate, the temporal evolution of the activation  
+                            
+                               
+                                  
+                                     a 
+                                  
+                                  
+                                     w 
+                                  
+                               
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                            
+                          can be formulated by a differential equation of the form  
+                            
+                               (3) 
+                               
+                                  
+                                     
+                                        
+                                           d 
+                                           
+                                              
+                                                 a 
+                                              
+                                              
+                                                 w 
+                                              
+                                           
+                                        
+                                        
+                                           d 
+                                           t 
+                                        
+                                     
+                                     = 
+                                     
+                                        
+                                           
+                                              
+                                                 a 
+                                              
+                                              
+                                                 ̇ 
+                                              
+                                           
+                                        
+                                        
+                                           w 
+                                        
+                                     
+                                     = 
+                                     r 
+                                     
+                                        
+                                           λ 
+                                        
+                                        
+                                           w 
+                                        
+                                     
+                                     
+                                        ( 
+                                        t 
+                                        ) 
+                                     
+                                     
+                                     for 
+                                     
+                                     0 
+                                     ≤ 
+                                     
+                                        
+                                           a 
+                                        
+                                        
+                                           w 
+                                        
+                                     
+                                     
+                                        ( 
+                                        t 
+                                        ) 
+                                     
+                                     ≤ 
+                                     1 
+                                     
+                                  
+                               
+                            
+                         with initial condition  
+                            
+                               
+                                  
+                                     a 
+                                  
+                                  
+                                     w 
+                                  
+                               
+                               
+                                  ( 
+                                  0 
+                                  ) 
+                               
+                               = 
+                               0 
+                            
+                         . Therefore, the activation starts to increase as soon as the word is moved into the processing span. When the maximum value  
+                            
+                               
+                                  
+                                     a 
+                                  
+                                  
+                                     w 
+                                  
+                               
+                               
+                                  ( 
+                                  
+                                     
+                                        t 
+                                     
+                                     
+                                        ˆ 
+                                     
+                                  
+                                  ) 
+                               
+                               = 
+                               
+                                  
+                                     a 
+                                  
+                                  
+                                     w 
+                                  
+                                  
+                                     max 
+                                  
+                               
+                            
+                          is reached after some time  
+                            
+                               
+                                  t 
+                               
+                               
+                                  ˆ 
+                               
+                            
+                         , the activation stops to change over time, so that word processing is completed. One possible approach to include effects of word frequency in the model’s behavior is to relate the maximum value  
+                            
+                               
+                                  a 
+                               
+                               
+                                  w 
+                               
+                               
+                                  max 
+                               
+                            
+                          to printed word frequency.
+
+Experimental data show ( Kliegl et al., 2004 ) that the processing time must be shorter for high-frequency words compared to low-frequency words. We introduce the normalized log-frequency of word  
+                            w 
+                          by  
+                            
+                               (4) 
+                               
+                                  
+                                     
+                                        
+                                           q 
+                                        
+                                        
+                                           w 
+                                        
+                                     
+                                     = 
+                                     
+                                        
+                                           
+                                              
+                                                 log 
+                                              
+                                              
+                                                 10 
+                                              
+                                           
+                                           
+                                              ( 
+                                              
+                                                 
+                                                    F 
+                                                 
+                                                 
+                                                    w 
+                                                 
+                                              
+                                              ) 
+                                           
+                                        
+                                        
+                                           
+                                              
+                                                 max 
+                                              
+                                              
+                                                 i 
+                                              
+                                           
+                                           
+                                              { 
+                                              
+                                                 
+                                                    log 
+                                                 
+                                                 
+                                                    10 
+                                                 
+                                              
+                                              
+                                                 ( 
+                                                 
+                                                    
+                                                       F 
+                                                    
+                                                    
+                                                       i 
+                                                    
+                                                 
+                                                 ) 
+                                              
+                                              } 
+                                           
+                                        
+                                     
+                                     
+                                     , 
+                                  
+                               
+                            
+                         where  
+                            
+                               
+                                  F 
+                               
+                               
+                                  w 
+                               
+                            
+                          is the printed word frequency of word  
+                            w 
+                          estimated from a large text corpus, and define the maximum word activation of word  
+                            w 
+                          by  
+                            
+                               (5) 
+                               
+                                  
+                                     
+                                        
+                                           a 
+                                        
+                                        
+                                           w 
+                                        
+                                        
+                                           max 
+                                        
+                                     
+                                     = 
+                                     1 
+                                     − 
+                                     β 
+                                     
+                                        
+                                           q 
+                                        
+                                        
+                                           w 
+                                        
+                                     
+                                     
+                                     , 
+                                  
+                               
+                            
+                         with word frequency parameter  
+                            
+                               0 
+                               < 
+                               β 
+                               < 
+                               1 
+                            
+                         . This construction guarantees that the maximum word activation is bound to the interval  
+                            
+                               ( 
+                               0 
+                               ; 
+                               1 
+                               ] 
+                            
+                         . As explained above, for a given word, this maximum is reached after time  
+                            
+                               
+                                  t 
+                               
+                               
+                                  ˆ 
+                               
+                            
+                         , i.e.,  
+                            
+                               
+                                  
+                                     a 
+                                  
+                                  
+                                     w 
+                                  
+                               
+                               
+                                  ( 
+                                  
+                                     
+                                        t 
+                                     
+                                     
+                                        ˆ 
+                                     
+                                  
+                                  ) 
+                               
+                               = 
+                               
+                                  
+                                     a 
+                                  
+                                  
+                                     w 
+                                  
+                                  
+                                     max 
+                                  
+                               
+                            
+                         . The time  
+                            
+                               
+                                  t 
+                               
+                               
+                                  ˆ 
+                               
+                            
+                          is variable, since the processing rate the word receives changes with the eye’s fixation locations across a scanpath.
+
+Numerical computation of the temporally evolving activation is implemented as follows. First, we can iteratively determine the change of  
+                            
+                               
+                                  
+                                     a 
+                                  
+                                  
+                                     w 
+                                  
+                               
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                            
+                          in a small time interval  
+                            
+                               Δ 
+                               t 
+                            
+                          via Euler’s method, i.e.,  
+                            
+                               (6) 
+                               
+                                  
+                                     
+                                        
+                                           a 
+                                        
+                                        
+                                           w 
+                                        
+                                     
+                                     
+                                        ( 
+                                        t 
+                                        + 
+                                        Δ 
+                                        t 
+                                        ) 
+                                     
+                                     = 
+                                     
+                                        
+                                           a 
+                                        
+                                        
+                                           w 
+                                        
+                                     
+                                     
+                                        ( 
+                                        t 
+                                        ) 
+                                     
+                                     + 
+                                     r 
+                                     
+                                        
+                                           λ 
+                                        
+                                        
+                                           w 
+                                        
+                                     
+                                     
+                                        ( 
+                                        t 
+                                        ) 
+                                     
+                                     ⋅ 
+                                     Δ 
+                                     t 
+                                     
+                                     , 
+                                  
+                               
+                            
+                         where a useful selection of the time step is  
+                            
+                               Δ 
+                               t 
+                               = 
+                               1 
+                               
+                               ms 
+                            
+                         . As explained below, the baseline model assumes that the duration  
+                            
+                               
+                                  T 
+                               
+                               
+                                  i 
+                               
+                            
+                          of the  
+                            i 
+                         th fixation is determined by a stochastic process. Therefore, the evolution equation, Eq.  (6) , can be integrated over the  
+                            i 
+                         th fixation, i.e.,  
+                            
+                               (7) 
+                               
+                                  
+                                     
+                                        
+                                           a 
+                                        
+                                        
+                                           w 
+                                        
+                                     
+                                     
+                                        ( 
+                                        t 
+                                        + 
+                                        
+                                           
+                                              T 
+                                           
+                                           
+                                              i 
+                                           
+                                        
+                                        ) 
+                                     
+                                     = 
+                                     
+                                        
+                                           a 
+                                        
+                                        
+                                           w 
+                                        
+                                     
+                                     
+                                        ( 
+                                        t 
+                                        ) 
+                                     
+                                     + 
+                                     r 
+                                     
+                                        
+                                           λ 
+                                        
+                                        
+                                           w 
+                                        
+                                     
+                                     
+                                        ( 
+                                        t 
+                                        ) 
+                                     
+                                     ⋅ 
+                                     
+                                        
+                                           T 
+                                        
+                                        
+                                           i 
+                                        
+                                     
+                                     
+                                     , 
+                                  
+                               
+                            
+                         since the processing rate  
+                            
+                               
+                                  
+                                     λ 
+                                  
+                                  
+                                     w 
+                                  
+                               
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                            
+                          does not change during fixations.
+
+Based on the set of word activations  
+                            
+                               
+                                  
+                                     { 
+                                     
+                                        
+                                           a 
+                                        
+                                        
+                                           w 
+                                        
+                                     
+                                     
+                                        ( 
+                                        t 
+                                        ) 
+                                     
+                                     } 
+                                  
+                               
+                               
+                                  w 
+                                  = 
+                                  1 
+                                  , 
+                                  … 
+                                  , 
+                                  N 
+                               
+                            
+                         , a target word for the next saccade is determined probabilistically. Here we assume that the probability to select a word as a saccade target is a function of its activation. Since a word that is either not processed at all or close to be completely processed might not represent an attractive target for fixation, we assume a unimodal function of the activation that reaches its maximum at  
+                            
+                               
+                                  
+                                     a 
+                                  
+                                  
+                                     w 
+                                  
+                               
+                               = 
+                               1 
+                               / 
+                               2 
+                            
+                          ( Fig. 3 ). Therefore, we transform each word’s activation into another variable denoted as saliency  
+                            
+                               
+                                  
+                                     s 
+                                  
+                                  
+                                     w 
+                                  
+                               
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                            
+                         , defined as  
+                            
+                               (8) 
+                               
+                                  
+                                     
+                                        
+                                           s 
+                                        
+                                        
+                                           w 
+                                        
+                                     
+                                     
+                                        ( 
+                                        t 
+                                        ) 
+                                     
+                                     = 
+                                     
+                                        
+                                           a 
+                                        
+                                        
+                                           w 
+                                        
+                                        
+                                           max 
+                                        
+                                     
+                                     sin 
+                                     
+                                        
+                                           π 
+                                           
+                                              
+                                                 
+                                                    
+                                                       a 
+                                                    
+                                                    
+                                                       w 
+                                                    
+                                                 
+                                                 
+                                                    ( 
+                                                    t 
+                                                    ) 
+                                                 
+                                              
+                                              
+                                                 
+                                                    
+                                                       a 
+                                                    
+                                                    
+                                                       w 
+                                                    
+                                                    
+                                                       max 
+                                                    
+                                                 
+                                              
+                                           
+                                        
+                                     
+                                     + 
+                                     η 
+                                     
+                                     . 
+                                  
+                               
+                            
+                         Note that we add a small baseline value  
+                            η 
+                          to all saliencies to enforce non-zero probability for saccade target selection.
+
+Finally, the probability to select word  
+                            w 
+                          as the next saccade target is given by  
+                            
+                               (9) 
+                               
+                                  
+                                     
+                                        
+                                           p 
+                                        
+                                        
+                                           w 
+                                        
+                                     
+                                     
+                                        ( 
+                                        t 
+                                        ) 
+                                     
+                                     = 
+                                     
+                                        
+                                           
+                                              
+                                                 s 
+                                              
+                                              
+                                                 w 
+                                              
+                                           
+                                           
+                                              ( 
+                                              t 
+                                              ) 
+                                           
+                                        
+                                        
+                                           
+                                              
+                                                 ∑ 
+                                              
+                                              
+                                                 v 
+                                                 = 
+                                                 1 
+                                              
+                                              
+                                                 N 
+                                              
+                                           
+                                           
+                                              
+                                                 s 
+                                              
+                                              
+                                                 v 
+                                              
+                                           
+                                           
+                                              ( 
+                                              t 
+                                              ) 
+                                           
+                                        
+                                     
+                                     
+                                     , 
+                                  
+                               
+                            
+                         so that saccade target can be selected upon request at any time. The addition of the baseline value  
+                            η 
+                          in Eq.  (8)  precludes the possibility that the denominator in Eq.  (9)  vanishes.
+
+In reading, there is a surprisingly small effect of word difficulty on first-fixation duration. However, this does not mean that fixation duration is largely independent of word difficulty. The dominant mechanism for providing additional processing for a difficult word is refixation.
+
+From these considerations, a simple model of eye guidance in reading should start with the assumption of random timing (independent of word difficulty), but the model should be able to produce refixations to add processing time to regions of the sentence where needed. Here we propose a random timer, where fixation durations are realizations of a gamma-distributed random variable,  
+                            
+                               (10) 
+                               
+                                  
+                                     P 
+                                     
+                                        ( 
+                                        T 
+                                        ) 
+                                     
+                                     = 
+                                     
+                                        
+                                           
+                                              
+                                                 ρ 
+                                              
+                                              
+                                                 α 
+                                              
+                                           
+                                        
+                                        
+                                           Γ 
+                                           
+                                              ( 
+                                              α 
+                                              ) 
+                                           
+                                        
+                                     
+                                     
+                                        
+                                           T 
+                                        
+                                        
+                                           α 
+                                           − 
+                                           1 
+                                        
+                                     
+                                     
+                                        
+                                           e 
+                                        
+                                        
+                                           − 
+                                           ρ 
+                                           T 
+                                        
+                                     
+                                  
+                               
+                            
+                         with  
+                            
+                               T 
+                               ≥ 
+                               0 
+                            
+                         , rate parameter  
+                            
+                               ρ 
+                               > 
+                               0 
+                            
+                          and shape parameter  
+                            α 
+                         . Practically, we sample fixation durations from the corresponding  R  function with two free parameters that modulate mean and standard deviation, i.e.,  
+                            
+                               (11) 
+                               
+                                  
+                                     
+                                        
+                                           T 
+                                        
+                                        
+                                           i 
+                                        
+                                     
+                                     ∼ 
+                                     rgamma(shape,rate) 
+                                     
+                                     for fixation 
+                                     
+                                     i 
+                                     
+                                     , 
+                                  
+                               
+                            
+                         where we fixed the shape parameter,  
+                            
+                               α 
+                               = 
+                               9 
+                            
+                         , and varied the rate parameter with  
+                            
+                               ρ 
+                               = 
+                               α 
+                               / 
+                               
+                                  
+                                     μ 
+                                  
+                                  
+                                     T 
+                                  
+                               
+                            
+                          and  
+                            
+                               
+                                  μ 
+                               
+                               
+                                  T 
+                               
+                            
+                          as the average saccade timer interval. As a consequence, the expectation value of the saccade timer is given by  
+                            
+                               (12) 
+                               
+                                  
+                                     E 
+                                     
+                                        ( 
+                                        
+                                           
+                                              T 
+                                           
+                                           
+                                              i 
+                                           
+                                        
+                                        ) 
+                                     
+                                     = 
+                                     α 
+                                     / 
+                                     ρ 
+                                     = 
+                                     
+                                        
+                                           μ 
+                                        
+                                        
+                                           T 
+                                        
+                                     
+                                  
+                               
+                            
+                         and the standard deviation is  
+                            
+                               σ 
+                               
+                                  ( 
+                                  
+                                     
+                                        T 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  ) 
+                               
+                               = 
+                               
+                                  
+                                     α 
+                                     / 
+                                     
+                                        
+                                           ρ 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                  
+                               
+                               = 
+                               
+                                  
+                                     μ 
+                                  
+                                  
+                                     T 
+                                  
+                               
+                               / 
+                               
+                                  
+                                     α 
+                                  
+                               
+                               = 
+                               
+                                  
+                                     μ 
+                                  
+                                  
+                                     T 
+                                  
+                               
+                               / 
+                               3 
+                            
+                         , so that the coefficient of variation  
+                            
+                               
+                                  
+                                     C 
+                                  
+                                  
+                                     V 
+                                  
+                               
+                               = 
+                               σ 
+                               
+                                  ( 
+                                  
+                                     
+                                        T 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  ) 
+                               
+                               / 
+                               
+                                  
+                                     μ 
+                                  
+                                  
+                                     T 
+                                  
+                               
+                               = 
+                               1 
+                               / 
+                               3 
+                            
+                         . It has been discussed before ( Reichle et al., 1998 ) that, as a first approximation, distributions of fixation durations can be modeled by gamma distribution with a coefficient of variation of about 1/3. For the following discussion, it is important to mention that the assumption of a gamma distribution can be replaced by a different one without affecting the methods of inference discussed below.
+
+In this section, we present and discuss two examples from numerical simulations of the model. For simplicity, we neglect word frequency effects, so that the maximum word activation has a value of one and is the same for all words. Under this constraint, the most important model parameters discussed above are
+
+• 
+                            the shape parameter  
+                                  ν 
+                                of the processing span, 
+                                  2 
+                               
+                               
+                                  2 
+                                  The parameter  
+                                        ν 
+                                      characterizes the decrease in processing rate with eccentricity  
+                                        
+                                           + 
+                                           1 
+                                        
+                                      or  
+                                        
+                                           − 
+                                           1 
+                                        
+                                      (word units). 
+                                Eq.  (1) , with  
+                                  
+                                     0 
+                                     < 
+                                     ν 
+                                     ≤ 
+                                     1 
+                                  
+                               , 
+                         
+                         
+                            • 
+                            the overall processing rate  
+                                  r 
+                               , Eq.  (6) , with  
+                                  
+                                     r 
+                                     > 
+                                     0 
+                                  
+                               , and 
+                         
+                         
+                            • 
+                            the mean saccade timer interval  
+                                  
+                                     
+                                        μ 
+                                     
+                                     
+                                        T 
+                                     
+                                  
+                               , Eq.  (12) , with  
+                                  
+                                     
+                                        
+                                           μ 
+                                        
+                                        
+                                           T 
+                                        
+                                     
+                                     > 
+                                     0 
+                                  
+                               .
+
+the shape parameter  
+                                  ν 
+                                of the processing span, 
+                                  2 
+                               
+                               
+                                  2 
+                                  The parameter  
+                                        ν 
+                                      characterizes the decrease in processing rate with eccentricity  
+                                        
+                                           + 
+                                           1 
+                                        
+                                      or  
+                                        
+                                           − 
+                                           1 
+                                        
+                                      (word units). 
+                                Eq.  (1) , with  
+                                  
+                                     0 
+                                     < 
+                                     ν 
+                                     ≤ 
+                                     1 
+                                  
+                               ,
+
+the overall processing rate  
+                                  r 
+                               , Eq.  (6) , with  
+                                  
+                                     r 
+                                     > 
+                                     0 
+                                  
+                               , and
+
+the mean saccade timer interval  
+                                  
+                                     
+                                        μ 
+                                     
+                                     
+                                        T 
+                                     
+                                  
+                               , Eq.  (12) , with  
+                                  
+                                     
+                                        
+                                           μ 
+                                        
+                                        
+                                           T 
+                                        
+                                     
+                                     > 
+                                     0 
+                                  
+                               .
+
+Additionally, the baseline saliency  
+                         η 
+                      , Eq.  (8) , with  
+                         
+                            η 
+                            > 
+                            0 
+                         
+                      , has an impact on the stochasticity of the target selection process. Here we fix the value at  
+                         
+                            η 
+                            = 
+                            1 
+                            
+                               
+                                  0 
+                               
+                               
+                                  − 
+                                  3 
+                               
+                            
+                         
+                      . For the computation of the likelihood, this parameter will be important to guarantee a positive probability for arbitrary gaze trajectories and all possible combinations of model parameters.
+
+For the two sample trajectories shown in  Fig. 4 , we used parameter values  
+                         
+                            ν 
+                            = 
+                            0 
+                            . 
+                            3 
+                         
+                      ,  
+                         
+                            r 
+                            = 
+                            10 
+                         
+                      , and  
+                         
+                            
+                               
+                                  μ 
+                               
+                               
+                                  T 
+                               
+                            
+                            = 
+                            200 
+                            
+                            ms 
+                         
+                      . In the example visualized in  Fig. 4 (a), the gaze trajectory is moved sequentially across the sentence, with an exception for word 9, which is skipped, i.e., the saccade moves the gaze from word 8 to word 10. In  Fig. 4 (b), the example is representative for more complicated movements with first-pass skippings of words 4, 6, and 9; additionally, because of non-zero activations to the left of fixations, regressions occur to words 4 and 6. In our numerical algorithm we stop simulations as soon as the last word of the sentence is fixated, which is also a frequently applied criterion for termination of the fixation sequence in experimental research (e.g.,  Kliegl, Nuthmann, & Engbert, 2006 ).
+
+As pointed out above, the simplified SWIFT model shares all the critical dynamical principles with the full model, however, one limitation is that within-word fixation positions cannot be accounted for in the simplified model, since words are located at discrete positions but have no spatial extension by assumption. When working with the model on your own data, there are two different directions where the simplified SWIFT model could be helpful. First, the model can be used to obtain results on the overall reading statistics without investing much computing time. Second, if the interest is not specifically related to spatial processing, where within-word fixation positions are important, then the simplified SWIFT model could be a platform for implementing other aspects of reading research (e.g., learning studies, effects of syntax or semantics).
+
+For statistical inference of model parameters, the likelihood function is a key theoretical concept ( Myung, 2003 ). The likelihood  
+                         
+                            
+                               
+                                  L 
+                               
+                               
+                                  M 
+                               
+                            
+                            
+                               ( 
+                               θ 
+                               | 
+                               data 
+                               ) 
+                            
+                         
+                       of a model  
+                         M 
+                       with parameters  
+                         θ 
+                       and a set of experimental data is defined as the conditional probability  
+                         
+                            
+                               P 
+                            
+                            
+                               M 
+                            
+                         
+                       for the observation of the data, i.e.,  
+                         
+                            (13) 
+                            
+                               
+                                  
+                                     
+                                        L 
+                                     
+                                     
+                                        M 
+                                     
+                                  
+                                  
+                                     ( 
+                                     θ 
+                                     | 
+                                     data 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        P 
+                                     
+                                     
+                                        M 
+                                     
+                                  
+                                  
+                                     ( 
+                                     data 
+                                     | 
+                                     θ 
+                                     ) 
+                                  
+                                  
+                                  . 
+                               
+                            
+                         
+                      It is important to note that we are interested in the dependence of the likelihood on the model parameters. In maximum-likelihood estimation (MLE), we determine the set of model parameters  
+                         θ 
+                      , which maximizes the likelihood, i.e.,  
+                         
+                            (14) 
+                            
+                               
+                                  
+                                     
+                                        
+                                           
+                                              θ 
+                                           
+                                           
+                                              ˆ 
+                                           
+                                        
+                                     
+                                     
+                                        MLE 
+                                     
+                                  
+                                  = 
+                                  arg 
+                                  
+                                     
+                                        max 
+                                     
+                                     
+                                        θ 
+                                        ∈ 
+                                        Θ 
+                                     
+                                  
+                                  
+                                     
+                                        L 
+                                     
+                                     
+                                        M 
+                                     
+                                  
+                                  
+                                     ( 
+                                     θ 
+                                     | 
+                                     data 
+                                     ) 
+                                  
+                                  
+                                  .
+
+In our case, the data are given as sequences of fixations of the form  
+                         
+                            
+                               
+                                  F 
+                               
+                               
+                                  S 
+                               
+                            
+                            = 
+                            
+                               { 
+                               
+                                  
+                                     f 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                               , 
+                               
+                                  
+                                     f 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               , 
+                               
+                                  
+                                     f 
+                                  
+                                  
+                                     3 
+                                  
+                               
+                               , 
+                               … 
+                               , 
+                               
+                                  
+                                     f 
+                                  
+                                  
+                                     S 
+                                  
+                               
+                               } 
+                            
+                         
+                      . To exploit the full potential of the sequential correlations in this sequence, the dynamical model must be evaluated against the sequence of data ( Schütt et al., 2017 ). If the statistical inference of a dynamical model is based on time-ordered data, the process is called data assimilation ( Asch, Bocquet, & Nodet, 2016; Reich & Cotter, 2015 ).
+
+For a sequence of fixations, the likelihood can be computed sequentially, i.e.,  
+                         
+                            (15) 
+                            
+                               
+                                  
+                                     
+                                        L 
+                                     
+                                     
+                                        M 
+                                     
+                                  
+                                  
+                                     ( 
+                                     θ 
+                                     | 
+                                     data 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        L 
+                                     
+                                     
+                                        M 
+                                     
+                                  
+                                  
+                                     ( 
+                                     θ 
+                                     | 
+                                     
+                                        
+                                           f 
+                                        
+                                        
+                                           1 
+                                        
+                                     
+                                     , 
+                                     
+                                     
+                                        
+                                           f 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     , 
+                                     
+                                     … 
+                                     , 
+                                     
+                                     
+                                        
+                                           f 
+                                        
+                                        
+                                           n 
+                                        
+                                     
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        P 
+                                     
+                                     
+                                        M 
+                                     
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           f 
+                                        
+                                        
+                                           1 
+                                        
+                                     
+                                     ) 
+                                  
+                                  ⋅ 
+                                  
+                                     
+                                        ∏ 
+                                     
+                                     
+                                        i 
+                                        = 
+                                        2 
+                                     
+                                     
+                                        n 
+                                     
+                                  
+                                  
+                                     
+                                        P 
+                                     
+                                     
+                                        M 
+                                     
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           f 
+                                        
+                                        
+                                           i 
+                                        
+                                     
+                                     | 
+                                     
+                                        
+                                           f 
+                                        
+                                        
+                                           1 
+                                        
+                                     
+                                     , 
+                                     
+                                     … 
+                                     , 
+                                     
+                                     
+                                        
+                                           f 
+                                        
+                                        
+                                           i 
+                                           − 
+                                           1 
+                                        
+                                     
+                                     ; 
+                                     θ 
+                                     ) 
+                                  
+                                  
+                                  , 
+                               
+                            
+                         
+                       where  
+                         
+                            
+                               
+                                  P 
+                               
+                               
+                                  M 
+                               
+                            
+                            
+                               ( 
+                               
+                                  
+                                     f 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                               ) 
+                            
+                         
+                       is the probability of the initial fixation starting at time  
+                         
+                            t 
+                            = 
+                            0 
+                         
+                      . The conditional probabilities  
+                         
+                            
+                               
+                                  P 
+                               
+                               
+                                  M 
+                               
+                            
+                            
+                               ( 
+                               
+                                  
+                                     f 
+                                  
+                                  
+                                     i 
+                                  
+                               
+                               | 
+                               
+                                  
+                                     f 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                               … 
+                               
+                                  
+                                     f 
+                                  
+                                  
+                                     i 
+                                     − 
+                                     1 
+                                  
+                               
+                               , 
+                               θ 
+                               ) 
+                            
+                         
+                       can be computed by enforcing the model to generate the sequence of fixations  
+                         
+                            
+                               
+                                  F 
+                               
+                               
+                                  i 
+                                  − 
+                                  1 
+                               
+                            
+                            = 
+                            
+                               { 
+                               
+                                  
+                                     f 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                               , 
+                               
+                               … 
+                               , 
+                               
+                               
+                                  
+                                     f 
+                                  
+                                  
+                                     i 
+                                     − 
+                                     1 
+                                  
+                               
+                               } 
+                            
+                         
+                       to obtain the probability for the  
+                         i 
+                      th fixation  
+                         
+                            
+                               f 
+                            
+                            
+                               i 
+                            
+                         
+                      .
+
+It is important to note that the sequential computation of the likelihood function, Eq.  (15) , is one of the central building blocks for dynamical models ( Engbert et al., 2022; Schütt et al., 2017 ). Since it is one of the strengths of dynamical models to reproduce time-ordered data and their sequential dependencies, statistical inference can be made particularly powerful, if the likelihood function is computed sequentially: The conditional probability of the second observation  
+                         
+                            
+                               f 
+                            
+                            
+                               2 
+                            
+                         
+                       is computed by the model from knowledge of the first observation  
+                         
+                            
+                               f 
+                            
+                            
+                               1 
+                            
+                         
+                       and the model parameters  
+                         θ 
+                      . The conditional probability of the third observation  
+                         
+                            
+                               f 
+                            
+                            
+                               3 
+                            
+                         
+                       is computed from the second  
+                         
+                            
+                               f 
+                            
+                            
+                               2 
+                            
+                         
+                       and so on. This scheme for computing the likelihood of a time-ordered data set provides a very strong test of the model. As we will see below, since stronger tests need less data, an advantage of the sequential likelihood computation is that model parameters can be estimated for individual readers.
+
+To continue with the specific structure of eye-movement data, each fixation  
+                         
+                            
+                               f 
+                            
+                            
+                               i 
+                            
+                         
+                       is a combination of a fixation duration  
+                         
+                            
+                               y 
+                            
+                            
+                               i 
+                            
+                         
+                       and a fixated word  
+                         
+                            
+                               x 
+                            
+                            
+                               i 
+                            
+                         
+                      , so  
+                         
+                            
+                               
+                                  f 
+                               
+                               
+                                  i 
+                               
+                            
+                            = 
+                            
+                               ( 
+                               
+                                  
+                                     x 
+                                  
+                                  
+                                     i 
+                                  
+                               
+                               , 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     i 
+                                  
+                               
+                               ) 
+                            
+                         
+                      . By construction of the model, target selection of  
+                         
+                            
+                               x 
+                            
+                            
+                               i 
+                            
+                         
+                       is independent of the fixation duration on  
+                         
+                            
+                               x 
+                            
+                            
+                               i 
+                            
+                         
+                      . As a consequence, the likelihood function can be further decomposed into temporal and spatial components ( Seelig et al., 2020 ),  
+                         
+                            (16) 
+                            
+                               
+                                  
+                                     
+                                        P 
+                                     
+                                     
+                                        M 
+                                     
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           f 
+                                        
+                                        
+                                           i 
+                                        
+                                     
+                                     | 
+                                     
+                                        
+                                           F 
+                                        
+                                        
+                                           i 
+                                           − 
+                                           1 
+                                        
+                                     
+                                     ; 
+                                     θ 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        P 
+                                     
+                                     
+                                        M 
+                                     
+                                     
+                                        temp 
+                                     
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           i 
+                                        
+                                     
+                                     | 
+                                     
+                                        
+                                           F 
+                                        
+                                        
+                                           i 
+                                           − 
+                                           1 
+                                        
+                                     
+                                     , 
+                                     
+                                        
+                                           x 
+                                        
+                                        
+                                           i 
+                                        
+                                     
+                                     ; 
+                                     θ 
+                                     ) 
+                                  
+                                  ⋅ 
+                                  
+                                     
+                                        P 
+                                     
+                                     
+                                        M 
+                                     
+                                     
+                                        spat 
+                                     
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           x 
+                                        
+                                        
+                                           i 
+                                        
+                                     
+                                     | 
+                                     
+                                        
+                                           F 
+                                        
+                                        
+                                           i 
+                                           − 
+                                           1 
+                                        
+                                     
+                                     ; 
+                                     θ 
+                                     ) 
+                                  
+                                  
+                                  . 
+                               
+                            
+                         
+                      An important technical comment is that there is an advantage to work with log-likelihood,  
+                         
+                            
+                               
+                                  l 
+                               
+                               
+                                  M 
+                               
+                            
+                            = 
+                            log 
+                            
+                               ( 
+                               
+                                  
+                                     L 
+                                  
+                                  
+                                     M 
+                                  
+                               
+                               ) 
+                            
+                         
+                      , to avoid very small positive numerical values (which can easily become smaller than the smallest positive floating-point number on your computer) by transforming these values via the logarithm. Under the log-transform (natural logarithm), the product of the two contributions in Eq.  (16)  is converted into a sum, so we can write  
+                         
+                            (17) 
+                            
+                               
+                                  
+                                     
+                                        l 
+                                     
+                                     
+                                        M 
+                                     
+                                  
+                                  
+                                     ( 
+                                     θ 
+                                     | 
+                                     
+                                        
+                                           F 
+                                        
+                                        
+                                           S 
+                                        
+                                     
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        l 
+                                     
+                                     
+                                        M 
+                                     
+                                     
+                                        temp 
+                                     
+                                  
+                                  
+                                     ( 
+                                     θ 
+                                     | 
+                                     
+                                        
+                                           F 
+                                        
+                                        
+                                           S 
+                                        
+                                     
+                                     ) 
+                                  
+                                  + 
+                                  
+                                     
+                                        l 
+                                     
+                                     
+                                        M 
+                                     
+                                     
+                                        spat 
+                                     
+                                  
+                                  
+                                     ( 
+                                     θ 
+                                     | 
+                                     
+                                        
+                                           F 
+                                        
+                                        
+                                           S 
+                                        
+                                     
+                                     ) 
+                                  
+                                  
+                                  .
+
+The temporal component of the likelihood function is obtained by computing the probability that a fixation duration  
+                         
+                            
+                               y 
+                            
+                            
+                               i 
+                            
+                         
+                       is realized under the assumption that the fixation duration has been generated by the model  
+                         M 
+                      , which means that  
+                         
+                            
+                               y 
+                            
+                            
+                               i 
+                            
+                         
+                       has been sampled from the gamma distribution in Eq.  (10) . Therefore, we can obtain the temporal [log-]likelihood by running the  R  code  
+                         
+                            (18) 
+                            
+                               
+                                  
+                                     
+                                        l 
+                                     
+                                     
+                                        M 
+                                     
+                                     
+                                        temp 
+                                     
+                                  
+                                  
+                                     ( 
+                                     θ 
+                                     | 
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           i 
+                                        
+                                     
+                                     ) 
+                                  
+                                  = 
+                                  dgamma( 
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  ,shape,rate,log = TRUE) 
+                                  
+                                  for fixation 
+                                  
+                                  i 
+                                  
+                                  , 
+                               
+                            
+                         
+                      which is independent of the previous fixation sequence  
+                         
+                            
+                               F 
+                            
+                            
+                               i 
+                               − 
+                               1 
+                            
+                         
+                      .
+
+The spatial component  
+                         
+                            
+                               
+                                  l 
+                               
+                               
+                                  M 
+                               
+                               
+                                  spat 
+                               
+                            
+                            
+                               ( 
+                               θ 
+                               | 
+                               
+                                  
+                                     F 
+                                  
+                                  
+                                     i 
+                                     − 
+                                     1 
+                                  
+                               
+                               ) 
+                            
+                         
+                       is numerically more costly to compute, since we need to take into account the full sequence of previous fixations to determine the target selection probability for fixation of word  
+                         
+                            
+                               x 
+                            
+                            
+                               i 
+                            
+                         
+                      , i.e.,  
+                         
+                            (19) 
+                            
+                               
+                                  
+                                     
+                                        l 
+                                     
+                                     
+                                        M 
+                                     
+                                     
+                                        spat 
+                                     
+                                  
+                                  
+                                     ( 
+                                     θ 
+                                     | 
+                                     
+                                        
+                                           F 
+                                        
+                                        
+                                           i 
+                                           − 
+                                           1 
+                                        
+                                     
+                                     ) 
+                                  
+                                  = 
+                                  log 
+                                  
+                                     
+                                        P 
+                                     
+                                     
+                                        M 
+                                     
+                                     
+                                        spat 
+                                     
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           x 
+                                        
+                                        
+                                           i 
+                                        
+                                     
+                                     | 
+                                     
+                                        
+                                           f 
+                                        
+                                        
+                                           1 
+                                        
+                                     
+                                     , 
+                                     
+                                        
+                                           f 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     , 
+                                     
+                                        
+                                           f 
+                                        
+                                        
+                                           3 
+                                        
+                                     
+                                     , 
+                                     … 
+                                     , 
+                                     
+                                        
+                                           f 
+                                        
+                                        
+                                           i 
+                                           − 
+                                           1 
+                                        
+                                     
+                                     ) 
+                                  
+                                  = 
+                                  log 
+                                  
+                                     
+                                        p 
+                                     
+                                     
+                                        
+                                           
+                                              x 
+                                           
+                                           
+                                              i 
+                                           
+                                        
+                                     
+                                  
+                                  
+                                     ( 
+                                     t 
+                                     ) 
+                                  
+                                  
+                                  , 
+                               
+                            
+                         
+                      where the target selection probability is defined in Eq.  (9) . Thus, for each fixation  
+                         
+                            i 
+                            = 
+                            1 
+                            , 
+                            2 
+                            , 
+                            … 
+                            , 
+                            i 
+                            − 
+                            1 
+                         
+                       we must compute the changes of activations. Given the activation field  
+                         
+                            { 
+                            
+                               
+                                  a 
+                               
+                               
+                                  1 
+                               
+                            
+                            
+                               ( 
+                               t 
+                               ) 
+                            
+                            , 
+                            
+                               
+                                  a 
+                               
+                               
+                                  2 
+                               
+                            
+                            
+                               ( 
+                               t 
+                               ) 
+                            
+                            , 
+                            … 
+                            , 
+                            
+                               
+                                  a 
+                               
+                               
+                                  N 
+                               
+                            
+                            
+                               ( 
+                               t 
+                               ) 
+                            
+                            } 
+                         
+                       at time  
+                         
+                            t 
+                            = 
+                            
+                               
+                                  ∑ 
+                               
+                               
+                                  j 
+                                  = 
+                                  1 
+                               
+                               
+                                  i 
+                                  − 
+                                  2 
+                               
+                            
+                            
+                               
+                                  y 
+                               
+                               
+                                  j 
+                               
+                            
+                         
+                      , fixation position  
+                         
+                            k 
+                            
+                               ( 
+                               t 
+                               ) 
+                            
+                         
+                      , and a fixation duration  
+                         
+                            
+                               y 
+                            
+                            
+                               i 
+                               − 
+                               1 
+                            
+                         
+                      , the activation are updated for target selection at time  
+                         
+                            
+                               
+                                  t 
+                               
+                               
+                                  ′ 
+                               
+                            
+                            = 
+                            t 
+                            + 
+                            
+                               
+                                  y 
+                               
+                               
+                                  i 
+                                  − 
+                                  1 
+                               
+                            
+                         
+                       by  
+                         
+                            (20) 
+                            
+                               
+                                  
+                                     
+                                        a 
+                                     
+                                     
+                                        w 
+                                     
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           t 
+                                        
+                                        
+                                           ′ 
+                                        
+                                     
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        a 
+                                     
+                                     
+                                        w 
+                                     
+                                  
+                                  
+                                     ( 
+                                     t 
+                                     ) 
+                                  
+                                  + 
+                                  
+                                     
+                                        λ 
+                                     
+                                     
+                                        w 
+                                     
+                                  
+                                  
+                                     ( 
+                                     t 
+                                     ) 
+                                  
+                                  ⋅ 
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        i 
+                                        − 
+                                        1 
+                                     
+                                  
+                                  
+                                  for 
+                                  
+                                  i 
+                                  = 
+                                  1 
+                                  , 
+                                  … 
+                                  , 
+                                  N 
+                                  
+                                  . 
+                               
+                            
+                         
+                      Based on these updated activations, the log-likelihood added by fixation position  
+                         
+                            
+                               x 
+                            
+                            
+                               i 
+                            
+                         
+                      , selected at time  
+                         
+                            
+                               t 
+                            
+                            
+                               ′ 
+                            
+                         
+                       is given by  
+                         
+                            (21) 
+                            
+                               
+                                  
+                                     
+                                        P 
+                                     
+                                     
+                                        M 
+                                     
+                                     
+                                        spat 
+                                     
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           x 
+                                        
+                                        
+                                           i 
+                                        
+                                     
+                                     | 
+                                     
+                                        
+                                           F 
+                                        
+                                        
+                                           i 
+                                           − 
+                                           1 
+                                        
+                                     
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        p 
+                                     
+                                     
+                                        
+                                           
+                                              x 
+                                           
+                                           
+                                              i 
+                                           
+                                        
+                                        
+                                           ( 
+                                           
+                                              
+                                                 t 
+                                              
+                                              
+                                                 ′ 
+                                              
+                                           
+                                           ) 
+                                        
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        
+                                           
+                                              s 
+                                           
+                                           
+                                              w 
+                                           
+                                        
+                                        
+                                           ( 
+                                           t 
+                                           ) 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              ∑ 
+                                           
+                                           
+                                              v 
+                                              = 
+                                              1 
+                                           
+                                           
+                                              N 
+                                           
+                                        
+                                        
+                                           
+                                              s 
+                                           
+                                           
+                                              v 
+                                           
+                                        
+                                        
+                                           ( 
+                                           t 
+                                           ) 
+                                        
+                                     
+                                  
+                                  
+                                  .
+
+Based on the likelihood function, it is straightforward to estimate single parameters using the maximum criterion, Eq.  (14) . During model development and implementation of the likelihood computations, it turns out to be helpful to investigate the profile likelihood under single-parameter variation around the true value. For this purpose, we simulate  
+                         
+                            R 
+                            = 
+                            30 
+                         
+                       runs of the model with known parameter values (see Section  3 ). Next we plot the likelihood, Eq.  (17) , as well as the temporal and spatial components as functions of one of the model parameters. The resulting profile likelihoods should indicate clear maxima at the true parameter values, which is a practical test of parameter identifiability ( Raue et al., 2009 ).
+
+In  Fig. 5  we plot the profile likelihood (solid lines) as a function of three of the important model parameters, the shape parameter  
+                            ν 
+                          of the processing span (left column, (a)), the overall processing rate  
+                            r 
+                          (central column, (b)), and the mean saccade timer interval  
+                            
+                               
+                                  μ 
+                               
+                               
+                                  T 
+                               
+                            
+                          (right column, (c)). True parameter values, i.e., the parameter values used in the generative model, are given as  
+                            
+                               
+                                  
+                                     ν 
+                                  
+                                  
+                                     ̃ 
+                                  
+                               
+                               = 
+                               0 
+                               . 
+                               3 
+                            
+                         ,  
+                            
+                               
+                                  
+                                     r 
+                                  
+                                  
+                                     ̃ 
+                                  
+                               
+                               = 
+                               10 
+                            
+                         , and  
+                            
+                               
+                                  
+                                     
+                                        
+                                           μ 
+                                        
+                                        
+                                           ̃ 
+                                        
+                                     
+                                  
+                                  
+                                     T 
+                                  
+                               
+                               = 
+                               200 
+                               
+                               ms 
+                            
+                         . The top row reports the plots of the temporal log-likelihood  
+                            
+                               
+                                  l 
+                               
+                               
+                                  M 
+                               
+                               
+                                  temp 
+                               
+                            
+                         , the middle row contains the plots of the spatial log-likelihood  
+                            
+                               
+                                  l 
+                               
+                               
+                                  M 
+                               
+                               
+                                  spat 
+                               
+                            
+                         , and the bottom row shows the plot of the total log-likelihood  
+                            
+                               
+                                  
+                                     l 
+                                  
+                                  
+                                     M 
+                                  
+                               
+                               = 
+                               
+                                  
+                                     l 
+                                  
+                                  
+                                     M 
+                                  
+                                  
+                                     temp 
+                                  
+                               
+                               + 
+                               
+                                  
+                                     l 
+                                  
+                                  
+                                     M 
+                                  
+                                  
+                                     spat 
+                                  
+                               
+                            
+                         . Note that the dashed lines refer to an advanced model version discussed below.
+
+The different panels of  Fig. 5  indicate that the total likelihoods (bottom row, blue curves) peak at the true parameter values. The picture is more specific, when we analyze the temporal and spatial likelihood components. The temporal likelihood (top row, red curves) produces a clear maximum at the true value of the mean saccade timer value  
+                            
+                               
+                                  
+                                     
+                                        
+                                           μ 
+                                        
+                                        
+                                           ̃ 
+                                        
+                                     
+                                  
+                                  
+                                     T 
+                                  
+                               
+                               = 
+                               200 
+                               
+                               ms 
+                            
+                         , but does not show a dependence on the other two parameters. The absence of such dependencies indicates that there is no influence of parameters related to the processing rate on timing of saccades. By construction of the baseline model, it is clear that timing of saccades cannot be modulated by the processing-related parameters  
+                            ν 
+                          and  
+                            r 
+                         . Therefore, the flat profiles of the temporal likelihoods reflect the architecture of the model.
+
+For the two parameters  
+                            ν 
+                          and  
+                            r 
+                         , there is a clear peak of the spatial likelihood component at the true parameter values  
+                            
+                               
+                                  
+                                     ν 
+                                  
+                                  
+                                     ̃ 
+                                  
+                               
+                               = 
+                               0 
+                               . 
+                               3 
+                            
+                          and  
+                            
+                               
+                                  
+                                     r 
+                                  
+                                  
+                                     ̃ 
+                                  
+                               
+                               = 
+                               10 
+                            
+                          (middle row, green curves). However, there is no impact of the variation of the saccade timing  
+                            
+                               
+                                  μ 
+                               
+                               
+                                  T 
+                               
+                            
+                          on the spatial log-likelihood component (rightmost panel). This does not imply that the saccade timing cannot influence the spatial selection of saccade targets. Clearly, by construction of the model, the fixation duration has a strong impact on the set of word activations and, therefore, on the probability of selecting target words for upcoming saccades.
+
+However, for the computation of the spatial likelihood in Eq.  (19)  realized fixation durations from the experimental data are plugged into the equation without determining their probabilities; it is only the temporal likelihood that evaluates the probability of the realized fixation durations given the model and its parameter values. Therefore, the parameter  
+                            
+                               
+                                  μ 
+                               
+                               
+                                  T 
+                               
+                            
+                          does not modulate the spatial likelihood ( Fig. 5 , middle row, rightmost panel).
+
+In the current model, there is complete decoupling of the temporal and spatial likelihoods. On the one hand, the temporal likelihood is independent of the two spatial parameters  
+                            ν 
+                          and  
+                            r 
+                         , on the other hand, the spatial likelihood is independent of the temporal parameter  
+                            
+                               
+                                  μ 
+                               
+                               
+                                  T 
+                               
+                            
+                         . All three parameters can be estimated by maximization of the total log-likelihood  
+                            
+                               
+                                  l 
+                               
+                               
+                                  M 
+                               
+                            
+                         , which is the sum of the temporal and spatial log-likelihoods (bottom row, blue curves), and indicates clear peaks close to all three true parameter values. Thus, the one-parameter dependencies in the profile likelihoods suggest that all three parameters can be recovered from simulated data using the likelihood function ( Raue et al., 2009 ).
+
+In this section, we discuss an advanced version of the simplified SWIFT model, where temporal and spatial dynamical processes are coupled. Such a coupling seems psychologically more realistic when studying experimental eye-movement data from reading experiments, since timing of saccades that determines fixation durations should depend on ongoing processing reflected by the word activations.
+
+Mathematically, in Eq.  (10) , we proposed a gamma-distribution as a model for the timer of the saccade generator. For simplicity, we assumed that there is no relation to the ongoing processing of words. As a consequence, we observed that it is only the temporal likelihood which is influenced by the saccade timer.
+
+In the advanced model, we assume that the mean saccade timer interval also depends on the current state of lexical processing of the newly fixated word. When a new fixation starts after a saccade at the current fixation position  
+                            
+                               k 
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                            
+                         , the activation is given by  
+                            
+                               
+                                  
+                                     a 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                            
+                         . Now the mean fixation duration of the ongoing fixation is modulated by the activation. Since the time needed for lexical processing of the word is shorter for larger values of  
+                            
+                               
+                                  
+                                     a 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                            
+                         , we need a reduced saccade timer duration for increasing activation. Here, we introduce the coupling parameter  
+                            ι 
+                          between saccade timing and word activation and replace the rate parameter in Eq.  (11)  by  
+                            
+                               (22) 
+                               
+                                  
+                                     
+                                        
+                                           rate 
+                                        
+                                        
+                                           ′ 
+                                        
+                                     
+                                     = 
+                                     rate 
+                                     ⋅ 
+                                     
+                                        ( 
+                                        1 
+                                        + 
+                                        ι 
+                                        
+                                        
+                                           
+                                              a 
+                                           
+                                           
+                                              k 
+                                           
+                                        
+                                        
+                                           ( 
+                                           t 
+                                           ) 
+                                        
+                                        ) 
+                                     
+                                     
+                                     , 
+                                  
+                               
+                            
+                         which leads to a maximum reduction of the mean saccade timer interval by a factor  
+                            
+                               ≈ 
+                               1 
+                               / 
+                               
+                                  ( 
+                                  1 
+                                  + 
+                                  ι 
+                                  ) 
+                               
+                            
+                          for  
+                            
+                               
+                                  
+                                     a 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                               → 
+                               1 
+                            
+                         .
+
+This modification introduced in the model can be expected to induce a stronger coupling between saccade timing and saccade target selection. Variation of the parameters that control the processing rate, clearly has an impact on word activations. Because of the coupling between word activation of the fixated word and the saccade timer, we predict an influence of the parameters  
+                            ν 
+                          and  
+                            r 
+                          on the temporal log-likelihood, which was absent in the baseline model. The saccade timer, however, still will not influence the spatial likelihood, since fixation durations are taken from experimental data in the computation of the spatial likelihood.
+
+These theoretical expectations are met by the numerical simulations. In  Fig. 5 , we plotted simulation results for the advanced model (dashed lines) in addition to the baseline model (solid lines). It can be seen that there is a clear maximum in all of the three temporal likelihoods (first row). Since both  
+                            ν 
+                          and  
+                            r 
+                          influence word activations, and word activations modulate fixation durations, the advanced model is an example for spatial processing parameters to couple to the temporal likelihood. The spatial profiles in the figure are very similar between baseline and advanced models, in particular, there is no modulation of the spatial likelihood component by the mean saccade timer interval given the construction of the likelihood function.
+
+The profile likelihoods under single-parameter variation are highly informative for the modeler during both model development and implementation of the computation of the likelihood function. First, it can happen that the mathematical form of how a certain model parameter is specified does not have a strong impact on the model’s behavior. Consequently, a flat profile likelihood will indicate that the parameter is not identifiable ( Raue et al., 2009 ), which suggest to rethink and either omit the parameter or reformulate its mathematical form or scaling. Second, finding a maximum at the wrong position in the profile likelihood indicates errors in the likelihood computation. Therefore, the likelihood function provides an important consistency check before continuing with parameter estimation using Monte Carlo methods, which we discuss in the next section.
+
+In a general formulation, we are interested in the parameter values  
+                         
+                            θ 
+                            ∈ 
+                            Ω 
+                         
+                       that will lead to the best explanation of the experimental data under model  
+                         M 
+                      . In this inverse inference problem we are also interested in the uncertainty of the parameter estimates. While likelihood-based inference will give us best estimates for the model parameters, it is Bayesian inference that can deliver a probability density (i.e., the posterior) which can be exploited to quantify the uncertainty of the estimates at the same time ( Gelman et al., 2013; Reich & Cotter, 2015; Schad, Betancourt, & Vasishth, 2021 ).
+
+According to Bayes’ rule, the posterior distribution can be calculated from a normalized product of likelihood  
+                         
+                            
+                               
+                                  L 
+                               
+                               
+                                  M 
+                               
+                            
+                            
+                               ( 
+                               θ 
+                               | 
+                               data 
+                               ) 
+                            
+                         
+                       and prior probability  
+                         
+                            Q 
+                            
+                               ( 
+                               θ 
+                               ) 
+                            
+                         
+                      , i.e.,  
+                         
+                            (23) 
+                            
+                               
+                                  P 
+                                  
+                                     ( 
+                                     θ 
+                                     | 
+                                     data 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        
+                                           
+                                              L 
+                                           
+                                           
+                                              M 
+                                           
+                                        
+                                        
+                                           ( 
+                                           θ 
+                                           | 
+                                           data 
+                                           ) 
+                                        
+                                        Q 
+                                        
+                                           ( 
+                                           θ 
+                                           ) 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              ∫ 
+                                           
+                                           
+                                              Ω 
+                                           
+                                        
+                                        Q 
+                                        
+                                           ( 
+                                           θ 
+                                           ) 
+                                        
+                                        
+                                           
+                                              L 
+                                           
+                                           
+                                              M 
+                                           
+                                        
+                                        
+                                           ( 
+                                           θ 
+                                           | 
+                                           data 
+                                           ) 
+                                        
+                                        d 
+                                        θ 
+                                     
+                                  
+                                  ∝ 
+                                  
+                                     
+                                        L 
+                                     
+                                     
+                                        M 
+                                     
+                                  
+                                  
+                                     ( 
+                                     θ 
+                                     | 
+                                     data 
+                                     ) 
+                                  
+                                  Q 
+                                  
+                                     ( 
+                                     θ 
+                                     ) 
+                                  
+                                  
+                                  . 
+                               
+                            
+                         
+                      This problem is typically solved via stochastic simulation methods, where we compute the posterior density numerically ( Gilks, Richardson, & Spiegelhalter, 1995; Robert & Casella, 2010 ).
+
+In general, Monte-Carlo techniques evaluate a distribution, in our case the posterior on the left-hand side of Eq.  (23) , by drawing samples  
+                         
+                            
+                               
+                                  X 
+                               
+                               
+                                  1 
+                               
+                            
+                            , 
+                            
+                               
+                                  X 
+                               
+                               
+                                  2 
+                               
+                            
+                            , 
+                            
+                               
+                                  X 
+                               
+                               
+                                  3 
+                               
+                            
+                            , 
+                            … 
+                            , 
+                            
+                               
+                                  X 
+                               
+                               
+                                  n 
+                               
+                            
+                         
+                      . Based on these samples, we can estimate the distribution and compute expectations via the approximation  
+                         
+                            E 
+                            
+                               [ 
+                               f 
+                               
+                                  ( 
+                                  X 
+                                  ) 
+                               
+                               ] 
+                            
+                            ≈ 
+                            
+                               
+                                  1 
+                               
+                               
+                                  n 
+                               
+                            
+                            
+                               
+                                  ∑ 
+                               
+                               
+                                  t 
+                                  = 
+                                  1 
+                               
+                               
+                                  n 
+                               
+                            
+                            f 
+                            
+                               ( 
+                               
+                                  
+                                     X 
+                                  
+                                  
+                                     t 
+                                  
+                               
+                               ) 
+                            
+                         
+                      , provided that the samples can be considered to be independently sampled. It is possible to implement stochastic processes that sample from the distribution and construct a series of samples with transition probability  
+                         
+                            P 
+                            
+                               ( 
+                               
+                                  
+                                     X 
+                                  
+                                  
+                                     t 
+                                     + 
+                                     1 
+                                  
+                               
+                               | 
+                               
+                                  
+                                     X 
+                                  
+                                  
+                                     t 
+                                  
+                               
+                               ) 
+                            
+                         
+                      ; this approach is called Markov Chain Monte-Carlo (MCMC). Fortunately, with these numerical techniques, we do not explicitly need to compute the normalization in the denominator of Eq.  (23) . Effectively, we use the proportionality on the right-hand side of the equation, when MCMC techniques are applied.
+
+An introduction on different types of sampling algorithms and the practical implementation of MCMC has been published by  van Ravenzwaaij, Cassey, and Brown (2018) , where the authors also discuss the class of differential evolution algorithms. For our numerical computations of the posterior  
+                         
+                            P 
+                            
+                               ( 
+                               θ 
+                               | 
+                               data 
+                               ) 
+                            
+                         
+                       we applied the powerful DREAM 
+                         
+                            
+                            
+                               Z 
+                               S 
+                            
+                         
+                       Algorithm 
+                         3 
+                      
+                      
+                         3 
+                         
+                            D iffe R ential  E volution  A daptive  M arkov Chain ( ter Braak, 2006; ter Braak & Vrugt, 2008 ). 
+                       ( Laloy & Vrugt, 2012 ) which is made available in the R package Bayesian Tools ( Hartig, Minunno, Paul, Cameron, & Ott, 2019 ). In each estimation run, five chains of 30,000 iterations were simulated ( Fig. 6 ). These five chains are considered as independent after an initial burn-in phase ( Laloy & Vrugt, 2012 ).
+
+In the first application of the MCMC framework, we check the reliability of our implementations of model simulations and likelihood computations via a parameter recovery analysis. Based on simulated data with known parameter values, we try to recover the model parameter values. Parameter values were set to  
+                         
+                            
+                               
+                                  ν 
+                               
+                               
+                                  ̃ 
+                               
+                            
+                            = 
+                            0 
+                            . 
+                            25 
+                         
+                      ,  
+                         
+                            
+                               
+                                  r 
+                               
+                               
+                                  ̃ 
+                               
+                            
+                            = 
+                            5 
+                            . 
+                            0 
+                         
+                      ,  
+                         
+                            
+                               
+                                  
+                                     
+                                        μ 
+                                     
+                                     
+                                        ̃ 
+                                     
+                                  
+                               
+                               
+                                  T 
+                               
+                            
+                            = 
+                            220 
+                         
+                      ,  
+                         
+                            
+                               
+                                  ι 
+                               
+                               
+                                  ̃ 
+                               
+                            
+                            = 
+                            0 
+                            . 
+                            5 
+                         
+                      , and  
+                         
+                            
+                               
+                                  β 
+                               
+                               
+                                  ̃ 
+                               
+                            
+                            = 
+                            0 
+                            . 
+                            6 
+                         
+                      . These true parameter values are indicated by red vertical lines in  Fig. 7 . For simplicity, we specified uniform priors with  
+                         
+                            ν 
+                            ∈ 
+                            
+                               ( 
+                               0 
+                               ; 
+                               1 
+                               ) 
+                            
+                         
+                      ,  
+                         
+                            r 
+                            ∈ 
+                            
+                               ( 
+                               0 
+                               ; 
+                               12 
+                               ) 
+                            
+                         
+                      ,  
+                         
+                            
+                               
+                                  μ 
+                               
+                               
+                                  T 
+                               
+                            
+                            ∈ 
+                            
+                               ( 
+                               100 
+                               ; 
+                               400 
+                               ) 
+                            
+                         
+                      ,  
+                         
+                            ι 
+                            ∈ 
+                            
+                               ( 
+                               − 
+                               0 
+                               . 
+                               5 
+                               ; 
+                               2 
+                               ) 
+                            
+                         
+                      , and  
+                         
+                            β 
+                            ∈ 
+                            
+                               ( 
+                               0 
+                               ; 
+                               1 
+                               ) 
+                            
+                         
+                      .
+
+Examples of the resulting Markov chains are shown in  Fig. 6  for the 5 parameters, after removing a burn-in of 20,000 iterations chain 1 of the 5 chains obtained from DREAM 
+                         
+                            
+                            
+                               Z 
+                               S 
+                            
+                         
+                      . Before we interpret the posterior density, convergence of the chain must be checked. Here we applied the Gelman–Rubin diagnostics ( Brooks & Gelman, 1998; Gelman & Rubin, 1992 ), which gives an  
+                         
+                            
+                               R 
+                            
+                            
+                               ˆ 
+                            
+                         
+                      -statistic of 1.01 that indicates convergence. The marginal posterior densities for these 5 parameters are shown in  Fig. 8  by the gray lines (5 chains in the DREAM 
+                         
+                            
+                            
+                               Z 
+                               S 
+                            
+                         
+                       algorithm) and a mean marginal posterior represented by the blue line. The posterior densities are approximated by taking the last 10,000 iterations of the DREAM 
+                         
+                            
+                            
+                               Z 
+                               S 
+                            
+                         
+                       algorithm; the so-called burn-in of the first 20,000 iterations is discarded.
+
+Before we continue with applying the Bayesian inference scheme of the simplified SWIFT model to experimental data, we should note that the careful analyses of the profile likelihoods and the parameter recovery simulations are not exercises for merely didactic purpose in this tutorial, but are essential for any model inference. A more comprehensive framework of how to implement a principled Bayesian workflow for cognitive modeling has been proposed by  Schad et al. (2021) , where the reader will find additional considerations for proper computational modeling.
+
+After passing all of the test of the inference framework carried out above, we apply the same numerical procedures to the experimental data, which were taken from a previously published study ( Risse & Seelig, 2019 ). In a reading experiment, 34 participants were required to read 114 sentences that consisted of 6 to 12 words (see  Appendix ). The purpose of the study by  Risse and Seelig (2019)  was to investigate preview effects in a version of the boundary paradigm ( Starr & Rayner, 2001 ). The computational modeling in this tutorial, however, aimed at normal reading behavior. Therefore, experimental data used here were taken from the control condition (normal reading). The investigation of preview effects is beyond the scope of this article (see  Seelig, Risse, & Engbert, 2021  for details).
+
+The amount of data of the control condition of the study by  Risse and Seelig (2019)  is representative for a typical eye-tracking experiment in reading. After preprocessing, a total of 30,639 fixations were used in the simulations. Data obtained for the first half of the sentences (14,926 fixations) were used for parameter estimation, while the second half of the sentences were used for model evaluation (15,713 fixations) in Section  6 . We estimated posterior densities independently for each participant.  Fig. 8  visualizes the marginal posteriors for 5 model parameters and for all participants (gray lines) with the mean marginal posterior (blue line).
+
+In this section, we explore the adequacy of the fits via interindivdual differences observed in the experimental data. Here we compare simulated data from the SWIFT model with experimental data. Model simulation was carried out for the second half of the sentences in the corpus with model parameters sampled from the posterior obtained during inference based on the first half of the corpus. Resulting simulated data were compared to the experimental data for the second half of the corpus.
+
+The posterior densities in  Fig. 8  indicate considerable interindividual differences. The critical question is, however, whether the differences in model parameter can explain the individual differences in behavioral measures. In the following posterior predictive checks, we sample model parameter combinations from the posterior (last 5000 iterations of the chains) and simulate data using the generative SWIFT model. The resulting simulated data set matches the experimental data set, and we can compute characteristic measure of reading performance that are typically used in experimental eye-movement research in reading ( Kliegl et al., 2004; Rayner, 1998 ).  Fig. 9  illustrates the results via scatter plots with simulated measures on the vertical axes and experimental measure on the horizontal axes. We discuss the temporal measures, i.e., fixation durations, separately from the spatial measures, i.e., fixation probabilities.
+
+For fixation durations and saccade timing, we selected 3 different measures. The single-fixation duration (SFD) represents the mean duration of all fixations on words that were fixated once, i.e., after an incoming saccade on a given word, there is exactly one fixation, which is followed by an outgoing saccade. The correlation coefficient between simulated and experimental mean SFD across subjects yields  
+                         
+                            r 
+                            = 
+                            0 
+                            . 
+                            96 
+                         
+                       ( 
+                         
+                            P 
+                            < 
+                            0 
+                            . 
+                            001 
+                         
+                       for this and all of the reported correlation coefficients below), which indicates that interindividual differences are well captured by the model ( Fig. 9 a). Gaze duration (GD) are sums of all fixation durations on a given word in direct sequence. Here we find a correlation coefficient  
+                         
+                            r 
+                            = 
+                            0 
+                            . 
+                            92 
+                         
+                       ( Fig. 9 c). The total fixation time is the sum of all fixations on a given word, regardless of the fixation sequence. The corresponding correlation yields a value of  
+                         
+                            r 
+                            = 
+                            0 
+                            . 
+                            53 
+                         
+                       ( Fig. 9 e).
+
+For fixation probabilities of spatial selection, we analyzed 3 different measures. The skipping probability is defined as the probability to skip a word in first-pass, which counts skipping events during initial gazing of a region of text. The correlation between simulated and experimental skipping probabilities ( Fig. 9 b) is  
+                         
+                            r 
+                            = 
+                            0 
+                            . 
+                            69 
+                         
+                      . The probability for refixation, i.e., a direct secondary fixation of the same word, gives a correlation of  
+                         
+                            r 
+                            = 
+                            0 
+                            . 
+                            75 
+                         
+                       between simulated and experimental probabilities ( Fig. 9 d). Finally, for regression probabilities, i.e., the observation of an interword saccade to the left, we observe a correlation coefficient of  
+                         
+                            r 
+                            = 
+                            0 
+                            . 
+                            80 
+                         
+                       ( Fig. 9 f).
+
+In summary, the posterior predictive check indicate that the SWIFT model can explain some of the interindividual variations that we observe in reading experiments. The explanatory power is similar between temporal and spatial measures when compared based on the correlation coefficient between simulated and experimental values. Thus, the MCMC approach can be applied to estimate model parameters from individual behavioral data.
+
+Computational modeling has become a critical tool in cognitive science, which supports or even replaces verbal-conceptual representations of cognitive theories ( Busemeyer & Diederich, 2010; Engbert, 2021; Lewandowsky & Farrell, 2010 ). The advances in cognitive modeling have resulted in an impressive increase in the complexity of cognitive models. As a consequence, the field now needs more teaching and training in model development, analysis, and statistical inference within an open science framework ( Barton et al., 2022 ). The aim of the current tutorial was to provide an introductory example that discusses all of these aspects in a succinct and practical way to motivate researchers to enter the field of cognitive modeling.
+
+We believe that the simplified SWIFT model represents an instructive example for dynamical models ( Beer, 2000; Engbert, 2021 ), which aim at process-oriented modeling frameworks. Dynamical models generate time-ordered simulation data with sequential dependencies, which need to be compared to time-dependent experimental data to exploit the full potential of the models’ internal behavior. Statistical inference of dynamical models against time-ordered data defines the field of data assimilation ( Asch et al., 2016; Reich & Cotter, 2015 ). We recently discussed the benefits of data assimilation for dynamical cognitive models in a recent article ( Engbert et al., 2022 ), in which we suggested that Bayesian dynamical models might be able to integrate process assumptions (the strength of dynamical modeling) with interindividual differences (the strength of statistical modeling).
+
+In the current work, we introduced a simplified version of the SWIFT model ( Engbert et al., 2002, 2005 ) of eye guidance in reading, which is based on some of the critical concepts of the currently most advanced version ( Rabe et al., 2021 ). Next, we developed the likelihood function of the simplified model which can be decomposed into temporal and spatial components ( Seelig et al., 2020 ). In the simplified model version, temporal and spatial processes are completely decoupled. Numerical analyses demonstrated that the temporal likelihood can only be influenced by the variation of the mean saccade timer interval, while the spatial likelihood only depends on the parameters that control the rate of processing.
+
+Finally, we introduced a coupling between temporal and spatial control processes, which yields a dependence of the temporal likelihood on the parameter controlling the processing rate. Thus, the numerical analysis of the likelihood function and, in particular, the temporal and spatial likelihood components provide insights into the model’s structure, which can be compared to experimental data.
+
+The importance of the likelihood function for dynamical models can hardly be overestimated as a tool for efficient and robust statistical inference. Recent examples of Bayesian inference of dynamical models of eye-movement control ( Rabe et al., 2021; Schwetlick, Rothkegel, Trukenbrod, & Engbert, 2020 ) might support this view. We presented MCMC simulations to explore the posterior density over the model parameter space. We demonstrate that model parameters can be recovered from simulated data with known parameters.
+
+Next, we estimated model parameters for individual readers, which indicates a remarkable reduction of the required amount of data ( Rabe et al., 2021 ) for reading models that typically need data sets averaging over tens of participants. Using posterior predictive checks, we show that the simplified SWIFT model can reproduce interindividual differences in reading behavior via model parameter variation.
+
+The simplified version of the SWIFT is built on all the critical dynamical principles of the full model. The major advantage of the simplified SWIFT is that all of the computations necessary for statistical inference can be done in on a desktop or notebook computer. Beyond this tutorial, there might be an additional value of the simplified SWIFT model as a research tool. First, since the model can be fitted to data sets with moderate effort, results on estimated model parameters give a first impression of the potential effects in your experimental data. To give a concrete example, the interpretation of experiments on the development of reading skill is supported by parameter estimation of the processing span (parameter  
+                         ν 
+                      ): For increasing reading skill level, we expect an increasing processing span (which is numerically indicated by a decreasing value of  
+                         ν 
+                      ). After such an application of the simplified SWIFT model, one might be in a better position to decide about possible option to build models for more specific effects. Second, an important limitation of the simplified model is that words have no spatial extension by assumption. If the reader is interested in spatial processing, then within-word fixation positions are critical, but the simplified SWIFT model could be a platform for implementing such effects or one might want to work with alternative models, e.g., the latest versions of SWIFT ( Rabe et al., 2021 ), E-Z Reader ( Reich & Cotter, 2015 ), or OB-1 Reader ( Snell et al., 2018 ), all of which can handle within-word fixation positions.
+
+We hope that the example of the SWIFT model discussed here will serve as a useful starting point for eye-movement modeling. Furthermore, we believe that some of the problems in this tutorial will also be informative on the general approach of dynamical cognitive modeling and Bayesian statistical inference.
+
+Ralf Engbert:  Writing – review & editing, Writing – original draft, Visualization, Software, Resources, Methodology, Investigation, Funding acquisition, Data curation, Conceptualization.  Maximilian M. Rabe:  Writing – review & editing, Visualization, Software, Resources, Methodology, Data curation, Conceptualization.
+
+We thank Joseph Houpt and two anonymous reviewers for comments that contributed to a substantial improvement of the manuscript. We also thank Sebastian Reich and Shravan Vasishth for valuable discussions. The authors acknowledge support from  Deutsche Forschungsgemeinschaft via grants CRC 1294 Data Assimilation  (Project No. 318763901) and  CRC 1287 Limits of Variability in Language  (Project No. 317633480). Sections  1  to  4  of this work were presented first at the Sixth Summer School on Statistical Methods for Linguistics and Psychology (SMLP), September 12–16, 2022, Potsdam, Germany.
+
+Experimental data used in this study were published previously ( Risse & Seelig, 2019 ), where an eye-tracking experiment was carried out to investigate effects of parafoveal word difficulty on fixation durations. In the experiment, 34 participants, most of them students of psychology, University of Potsdam, were required to read 114 single sentences shown on a computer screen. The German sentences consisted of 6 to 12 words. Every sentence contained a gaze contingent invisible boundary before a specific target word. Data used in this study were limited to the control condition, so that no display change occurred in our experimental conditions. Word frequencies were taken from the dlexDB database ( Heister et al., 2011 ).
+
+The experimental data were collected using an Eyelink 1000 Tower-Mount System (SR Research, Osgoode, Ontario, Canada) with a temporal resolution of 1000 Hz. Spatial resolution was preprocessed to letter accuracy, however, in the current study spatial information was restricted to the fixated word. Fixation durations smaller than 25 ms or larger than 1000 ms were discarded. Trials consisting of fewer than three fixations were also removed from the data-set. Additionally, re-readings signaled by regressions starting from the second last or last word of the sentence and all subsequent fixations were discarded. After preprocessing, 30,639 fixations from 3422 trials were included in the data-set for our numerical simulations.

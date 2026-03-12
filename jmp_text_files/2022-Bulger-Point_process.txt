@@ -1,0 +1,3754 @@
+10.1016/j.jmp.2022.102724
+This study uses a non-homogeneous, conditional point process with feedback to model human learning of unusual rhythms. It offers multiple points of difference to most other tapping studies: the complexity of the rhythms, the point-process analysis, and the fine temporal resolution of our models.
+
+Many previous studies have used tapping experiments to shed light on perception of metre and rhythm. In  spontaneous tapping  experiments ( Essens & Povel, 1985; Fraisse, 1946, 1956 ), participants are asked to tap after an imprecise verbal description of a rhythm.  Continuation tapping  experiments require participants to continue tapping a pulse or rhythm after the cue has ceased.
+
+Synchronisation tapping  refers to experiments in which participants try to tap along with an audible “cue”. In many of these  Aschersleben (2002), Herff, Herff, Milne, Johnson, Shih, and Krusienski (2020), Nozaradan, Peretz, and Mouraux (2012)  the cue sequence (that is, the target rhythm) is isochronous. A number of other synchronisation tapping experiments focus on participants’ adaptation to gradually changing rhythms, or perception and performance of the ratio between a long and short interonset time ( Goldberg, 2015; Polak, Jacoby, Fischinger, Goldberg, Holzapfel, & London, 2018; Repp, London, & Keller, 2005, 2011, 2012, 2013; Snyder, Hannon, Large, & Christiansen, 2006 ). Only a few, such as  Povel and Essens (1985), Repp et al. (2005)  and  Snyder et al. (2006) , to our knowledge, address challenging rhythms.
+
+A variety of statistical methods have been applied to tapping data in the previous literature. Time-series analyses of tapping data are offered in  Launay, Dean, and Bailes (2013)  and  Pressing (1987) , with one observation per pulse, typically using a window around each pulse or cue to determine which taps to consider as simultaneous events. One focus has been the distribution (mainly mean and variance) of tap asynchrony ( Repp, 2005; Repp & Su, 2013 )—each tap sufficiently close to a cue is attributed to that cue, and the timing difference (asynchrony) is taken as an observed variable of interest. Asynchrony is difficult to define in a natural way for taps midway between pulses, or when multiple taps occur near one cue. Furthermore, for complex non-isochronous rhythms, some taps are not meaningfully associated with any actual cue because they result from an incorrect prediction of a cue’s presence. Another focus has been accuracy and bias in participants’ reproductions of the ratio between a long and short beat ( Repp et al., 2005, 2012, 2013 ). In each case, statistical estimates or models describe not the raw observations themselves, but higher-level, aggregated variables.
+
+The synchronisation tapping experiment producing the data analysed here was also reported in  Dean, Bulger, and Milne (2021)  and  Milne, Dean, and Bulger (2021) . Informed consent was obtained from all participants, and the experiment was approved by the Western Sydney University Ethics Committee (H9869). It required participants to tap along to an audible cue sequence that was  not  isochronous, but a periodically repeating subset of an isochronous sequence of  pulses , which were also sounded, with a different tone. The experimental design was chosen to be challenging (most of the rhythms were difficult, and participants did not have long to learn them) to ensure that many errors would be made, since it is only in participants’ errors that we can gain insight into the learning process. Further detail appears in Section  2 . In  Milne et al. (2021) , Bayesian regression was used to model tapping accuracy as predicted by several measures of rhythmic shape, many of which were novel, in order to characterise the rhythmic qualities influencing tapping accuracy at the rhythm level and the pulse level. In  Dean et al. (2021) , a mixed-effects time series model focussed more specifically on participants’ improving performance of each rhythm over the time during which it was heard. The present study takes a finer-grained approach, agnostic to the underlying isochronous pulse; for instance, any tendency of the participants to tap in time with the pulse but not between pulses is revealed by the experimental data, rather than assumed  a priori .
+
+Here we model participants’ tapped responses as a non-homogeneous, conditional point process ( Daley & Vere-Jones, 2003; Kass, Eden, & Brown, 2014 ). That is, we model a participant’s instantaneous probability of tapping as depending on recently heard cues (within the last rhythmic cycle) and the participant’s own recent taps. Conditional point processes have been used to model communication among songbirds ( Stowell, Gill, & Clayton, 2016 ), seismic activity ( Ogata, 1988 ), wildfires ( Peng, Schoenberg, & Woods, 2003 ) and neural spiking activity ( Truccolo, Eden, Fellows, Donoghue, & Brown, 2005 ), the similarity being events that occur at random, but with a varying propensity that is affected by exogenous variables  and  the time or location of other similar events. For example, when a neuron spikes, it cannot spike again until a short refractory period has passed, and its propensity to spike at any moment thus depends both on its incoming stimuli and its own recent spike history ( Kandel, Schwartz, Jessell, Siegelbaum, Hudspeth, & Mack, 2012 ). A similar circumstance prevails here since, after tapping when a cue is expected, a participant is unlikely to tap again at least until the next pulse.
+
+Our key objectives were to determine the temporal changes in propensity to tap in relation to position in the rhythmic cycle, and to demonstrate learning capacities for different rhythms, simple and complex. We also wished to model a fine grained temporal dependence of the refractory tendency, taking account of all taps. In the process we could then define the distribution of taps within the pulse period around a cue. These objectives were framed in terms of the two dominant theories of sensorimotor synchronisation. The clock theory ( Povel, 1981; Povel & Essens, 1985 ) suggests that the listener to a repeating rhythm creates a hierarchical internal mental clock, aligned with which the position of cues can be expected. Because our rhythms included some that are complex, we provided a continuous isochronous pulse which we envisaged could replace or drive such a clock, reducing cognitive demand. The dynamic attending theory ( Jones & Boltz, 1989 ), in a related way, suggests that certain regularly (equally and unequally) spaced pulses form attentional foci ( beats ) that are expected to bear significant rhythmic events, aiding synchronisation with them. When learned expectations are strong and correct, dynamic attention can be “future oriented”, predicting the next event; in this situation, the theory is akin to predictive processing (see discussion). When expectations are weaker and less often correct, “analytic” heuristics may take over (for example, so as to tap every second or every third pulse). We demonstrate aspects of both kinds of dynamic attention in what follows. The theoretical background is discussed in more detail in  Dean et al. (2021) .
+
+Ideally, the statistician’s role is merely to help the data set to tell its own story. Every assumption we make in pre-processing the data or analysing it goes untested in the analysis. A conditional point process is an attractive model for the data from this experiment; the model and its estimation are somewhat sophisticated, but make few presuppositions, and the data pre-processing is minimal. For instance, while  Dean et al. (2021)  and  Milne et al. (2021)  allocate each tap to the closest pulse (even if it is nearly as close to another pulse) and discard any additional taps within the window around each pulse, the point process analysis handles the timing of all taps in a more natural and continuous way. We shall find that this model does fit the observed data rather well (as assessed by the deviance ratio  
+                         
+                            
+                               R 
+                            
+                            
+                               2 
+                            
+                         
+                      ), and matches our expectations: that participants are in general able to improve their accuracy over the course of each performance, and that this improvement is faster for more familiar time signatures.
+
+Section  2  introduces the experimental data set. Section  3  presents the modelling methodology, whose results are reported in Section  4 .
+
+Our experiment ( Dean et al., 2021; Milne et al., 2021 ) was notable in requiring participants to tap along to unusually challenging rhythms. We included 91 repeating rhythms in the study, ranging in length from  
+                         
+                            N 
+                            = 
+                            3 
+                         
+                       to 13 pulses in its irreducible period, comprising every non-degenerate well-formed rhythm (that is, every rhythm that is maximally even given a fixed number of “short” and “long” interonsets of two given, unequal lengths  Carey & Clampitt, 1989; Milne, Carlé, Sethares, Noll, & Holland, 2011 ) with between 2 and 11 cues and interonset intervals no longer than 5 pulses (1.17 s). (Note that this definition of well-formedness is compliant with that established in musical scale theory by  Carey & Clampitt, 1989 , not with London’s  London, 2004  later definition.) We denote by  
+                         N 
+                       a rhythm’s irreducible length in pulses. For example, a repeating pattern of  
+                         
+                      
+ has  
+                         
+                            N 
+                            = 
+                            4 
+                         
+                      , whereas a repeating pattern of  
+                         
+                      
+ can be viewed as a shorter repeating pattern of  
+                         
+                      
+ and thus has  
+                         
+                            N 
+                            = 
+                            2 
+                         
+                      . Here we use ‘box notation,’ where each pulse is represented by  ×  if cued and  ·  if uncued. (All 91 rhythms are shown in box notation in  Appendix C .)
+
+The experimental participants were 111 first-year psychology students, of whom 110 provided the following personal information: the mean age was 22.4 (sd 6.2), 89 were female, 21 were male, and participants on average had had 0.8 years of musical practice, with just six having had more than five years’ regular practice.
+
+Each rhythm was presented to each participant as an isochronous  pulse  (represented by a synthesised cymbal every 234 
+                         
+                            
+                            
+                            ms 
+                         
+                      ) with a  cue  (a synthesised  
+                         
+                            
+                               C 
+                            
+                            
+                               4 
+                            
+                         
+                       piano note) simultaneously sounding at a regularly repeating well-formed subset of the pulses, for a duration of 30 seconds. Neither the pulse tone nor the cue tone varied in loudness. Participants were asked to tap at the same time as the cues, using any fingerpad on a Roland Handsonic HPD10 starting as soon as possible and as accurately as possible. Each tap produced an additional piano tone, at  
+                         
+                            
+                               F 
+                            
+                            
+                               4 
+                            
+                         
+                      . Participants faced each rhythm twice, according to a randomised block design (though in 104 out of 2348 cases randomly distributed across the rhythms, due to procedural errors, a rhythm was presented once or three times rather than twice as intended).
+
+We call each 30-second instance of a participant’s attempt to tap along to a rhythm a  performance . For each performance, the cue sequence was started at a random point in the cycle, and we recorded the timings of the cues and the participant’s taps to a resolution of 5.2 ms. Tap velocities were also recorded, but are not addressed in this study. A more detailed description of the experiment appears in  Dean et al. (2021)  and  Milne et al. (2021) .
+
+We consider a point process model of participants’ tapping response as a fine-grained predictive behavioural model. We model a participant’s instantaneous probability of tapping as a function of the recent history of both cues and taps. We allow for the participant’s familiarity with the rhythmic pattern, and thus tendency to tap the rhythm correctly, to grow as each performance progresses. Following  Kass et al. (2014) , we conceptualise the process as a continuous-time, non-homogeneous, non-Markov point process ( Daley & Vere-Jones, 2003 ), but in practice model it in discrete time. For clarity, we expand here on the technical concepts and modelling decisions.
+
+We aim for a probabilistic model of tapping behaviour, but since this is a continuous-time model, we cannot simply model the probability of tapping at any instant, since an instant is of infinitesimal duration, and that probability would be zero. Instead, we model an instantaneous  density  of probability, known as the  rate  or  intensity , and denoted by  
+                            
+                               λ 
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                            
+                         . At any time  
+                            t 
+                         , the intensity  
+                            
+                               λ 
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                            
+                          is the limiting ratio, as  
+                            
+                               δ 
+                               t 
+                               ↓ 
+                               0 
+                            
+                         , of the probability of a tap between times  
+                            t 
+                          and  
+                            
+                               t 
+                               + 
+                               δ 
+                               t 
+                            
+                          divided by the duration  
+                            
+                               δ 
+                               t 
+                            
+                         . Thus over a short enough duration, the tapping probability will be approximately  
+                            λ 
+                          times the interval duration. The probability intensity will be modelled as depending on various predictor variables, as described below.
+
+The model’s aim is to describe the influences that determine the intensity  
+                            
+                               λ 
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                            
+                         , but, as in any statistical model, we will make some simplifying assumptions about the model’s structure. In principle, a participant’s instantaneous intensity of tapping probability could depend, in any way, on a wide variety of variables, including the sequence of pulses and cues heard so far during the performance, the participant’s previous taps during the performance, the events during the participant’s previous performances, and the participant’s demographic variables. This study focuses on the influence of the current performance’s events only.
+
+Specifically, we model the intensity (via a logarithmic link function) as a sum of influences from previous cues and taps. The influence from previous cues is more complicated, and we discuss that first.
+
+Suppose the current time is  
+                               t 
+                            , measured in seconds from the moment when the programmed rhythm began to play. Consider a cue that has sounded prior to time  
+                               t 
+                            , specifically at time  
+                               
+                                  t 
+                                  − 
+                                  ℓ 
+                               
+                            . We model the influence of that cue via some function  
+                               
+                                  B 
+                                  
+                                     ( 
+                                     t 
+                                     , 
+                                     ℓ 
+                                     ) 
+                                  
+                               
+                            .
+
+Note the distinction between the two variables  
+                               t 
+                             and  
+                               ℓ 
+                            . They both measure time, and of course during any one performance, they are very far from independent. However, in the model, they are treated as independent. The  learning time   
+                               t 
+                             is the amount of exposure the participant has had to the rhythm. The  lag time   
+                               ℓ 
+                             represents the cue’s position in the cyclic rhythm, relative to the current moment. Recall that, on each performance, the rhythm was started at a random phase, so these two variables do contain separate information.
+
+In principle, we allow any previous cue to affect the intensity  
+                               
+                                  λ 
+                                  
+                                     ( 
+                                     t 
+                                     ) 
+                                  
+                               
+                            . However, we will fit a separate model for each of the eleven distinct rhythmic periods  
+                               T 
+                             appearing in the experiment (corresponding to the different numbers of pulses, from 3 to 13), and since  
+                               T 
+                             is known, any cue at a lag time of  
+                               ℓ 
+                             implies previous cues at earlier times  
+                               
+                                  ℓ 
+                                  − 
+                                  T 
+                               
+                            ,  
+                               
+                                  ℓ 
+                                  − 
+                                  2 
+                                  T 
+                               
+                            , back as far as the beginning of the performance at  
+                               
+                                  t 
+                                  = 
+                                  0 
+                               
+                            . Therefore it would be redundant to include these earlier cues in the model formulation; all information about the cue history is contained within the window  
+                               
+                                  ( 
+                                  0 
+                                  , 
+                                  T 
+                                  ] 
+                               
+                             of lag times.
+
+We allow the dependence of  
+                               B 
+                             on the periodic lag argument  
+                               ℓ 
+                             to take an arbitrary form (though we use smoothing, that is, regularisation, to avoid overfitting, as discussed later), but we assume the dependence on the learning time  
+                               t 
+                             is polynomial. Preliminary modelling led us to adopt a linear polynomial. That allows us to rewrite  
+                               B 
+                             in the form  
+                               
+                                  
+                                     
+                                        β 
+                                     
+                                     
+                                        0 
+                                     
+                                  
+                                  
+                                     ( 
+                                     ℓ 
+                                     ) 
+                                  
+                                  + 
+                                  t 
+                                  
+                                     
+                                        β 
+                                     
+                                     
+                                        1 
+                                     
+                                  
+                                  
+                                     ( 
+                                     ℓ 
+                                     ) 
+                                  
+                               
+                            .
+
+Finally, note that the sum over  
+                               ℓ 
+                             of the terms  
+                               
+                                  
+                                     
+                                        β 
+                                     
+                                     
+                                        0 
+                                     
+                                  
+                                  
+                                     ( 
+                                     ℓ 
+                                     ) 
+                                  
+                               
+                             represents the rhythm’s effect on tapping probability at time  
+                               
+                                  t 
+                                  = 
+                                  0 
+                               
+                            , when the participant has not yet heard the rhythm. Thus this sum must be constant (that is, it must not depend on  
+                               ℓ 
+                             after all). We rename this constant  
+                               α 
+                            , and for simplicity drop the subscript 1 in  
+                               
+                                  
+                                     β 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                            , so that the effect of all previous cues is now assumed to take the form  
+                               
+                                  α 
+                                  + 
+                                  
+                                     
+                                        ∑ 
+                                     
+                                     
+                                        ℓ 
+                                     
+                                  
+                                  t 
+                                  β 
+                                  
+                                     ( 
+                                     ℓ 
+                                     ) 
+                                  
+                                  , 
+                               
+                             where the sum is over all lag times  
+                               ℓ 
+                             since cues within the immediately previous  
+                               T 
+                             seconds. Note that the model parameter  
+                               α 
+                             can be seen as originating from the polynomials’ constant terms, or simply as an overall intercept term for the model, representing a baseline tap probability intensity.
+
+This effect indicates a refractory period. It encapsulates a reasonable modelling assumption: that, immediately after tapping, the participant might be less likely to tap again. Mainly, this refractory effect is intended to model the fact that a participant who decides that a tap should occur at a given pulse, and then taps accordingly, is very much less likely to tap again on the same pulse. Without this feedback effect, that is, with only the effect of previous cues, we would have a non-homogeneous Poisson process, that is, a point process whose intensity can vary (due to the  
+                               β 
+                             effect) but only deterministically, since the intensity would depend only on the deterministic part of the history, that is, on the record of cue times. A Poisson process does not have the required flexibility. In a Poisson process, the number of events (taps) occurring in any interval follows the Poisson distribution, implying equality between the mean and the variance of the number of taps in the interval. But our model should allow the possibility for a participant to learn a rhythmic pattern well, in which case, in a small window around a cue, we would expect to see a mean number of taps very close to 1, with a much smaller variance than 1 (as we see in  Fig. 1 ). The model, therefore, can account for participants’ demonstrating some ability to synchronise with the provided cues, in accord with dynamic attending theory, which suggests a decline in attention (and hence in likelihood of tapping) as time progresses past a cue (and to a lesser extent, past a non-cue isochronic pulse).
+
+The refractory effect contributes a term  
+                               
+                                  γ 
+                                  
+                                     ( 
+                                     s 
+                                     ) 
+                                  
+                               
+                             at a time  
+                               s 
+                             seconds after a previous tap. We expect the function  
+                               γ 
+                             to take negative values, and to decay to zero quickly (within a time less than or equal to one pulse).
+
+We now present the formal continuous-time model. Let  
+                            T 
+                          denote the period of the rhythm (assumed constant for each model),  
+                            U 
+                          denote a shorter duration (a single pulse in our final models) used to model a refractory effect,  
+                            
+                               ( 
+                               
+                                  
+                                     X 
+                                  
+                                  
+                                     j 
+                                  
+                               
+                               ) 
+                            
+                          denote the sequence of cue times and  
+                            
+                               ( 
+                               
+                                  
+                                     Y 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                               ) 
+                            
+                          denote the sequence of tap times. Also let  
+                            
+                               λ 
+                               
+                                  ( 
+                                  t 
+                                  ) 
+                               
+                            
+                          denote the  conditional intensity  at time  
+                            t 
+                         , that is, the limiting ratio, as  
+                            
+                               δ 
+                               t 
+                               ↓ 
+                               0 
+                            
+                         , of the probability of a tap between times  
+                            t 
+                          and  
+                            
+                               t 
+                               + 
+                               δ 
+                               t 
+                            
+                          divided by the duration  
+                            
+                               δ 
+                               t 
+                            
+                         , conditional on (parts of) the history of the sequences  
+                            
+                               ( 
+                               
+                                  
+                                     X 
+                                  
+                                  
+                                     j 
+                                  
+                               
+                               ) 
+                            
+                          and  
+                            
+                               ( 
+                               
+                                  
+                                     Y 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                               ) 
+                            
+                          prior to time  
+                            t 
+                         . We model the conditional intensity  
+                            λ 
+                          via a log link function, using a linear predictor, with
+
+• 
+                               a constant intercept intensity  
+                                     α 
+                                   (to be estimated), 
+                            
+                            
+                               • 
+                               a “cue response” effect, described by a function  
+                                     β 
+                                   (to be estimated), due to a cue at any time within the previous period, 
+                            
+                            
+                               • 
+                               a refractory effect, described by a function  
+                                     γ 
+                                   (to be estimated), due to a tap at any time up to one pulse ago.
+
+a constant intercept intensity  
+                                     α 
+                                   (to be estimated),
+
+a “cue response” effect, described by a function  
+                                     β 
+                                   (to be estimated), due to a cue at any time within the previous period,
+
+a refractory effect, described by a function  
+                                     γ 
+                                   (to be estimated), due to a tap at any time up to one pulse ago.
+
+Thus the conditional log-intensity function is as follows:  
+                            
+                               (1) 
+                               
+                                  
+                                     ln 
+                                     λ 
+                                     
+                                        ( 
+                                        t 
+                                        ) 
+                                     
+                                     = 
+                                     α 
+                                     + 
+                                     
+                                        
+                                           ∑ 
+                                        
+                                        
+                                           
+                                              
+                                                 X 
+                                              
+                                              
+                                                 j 
+                                              
+                                           
+                                           ∈ 
+                                           
+                                              [ 
+                                              t 
+                                              − 
+                                              T 
+                                              , 
+                                              t 
+                                              ) 
+                                           
+                                        
+                                     
+                                     t 
+                                     β 
+                                     
+                                        ( 
+                                        t 
+                                        − 
+                                        
+                                           
+                                              X 
+                                           
+                                           
+                                              j 
+                                           
+                                        
+                                        ) 
+                                     
+                                     + 
+                                     
+                                        
+                                           ∑ 
+                                        
+                                        
+                                           
+                                              
+                                                 Y 
+                                              
+                                              
+                                                 k 
+                                              
+                                           
+                                           ∈ 
+                                           
+                                              [ 
+                                              t 
+                                              − 
+                                              U 
+                                              , 
+                                              t 
+                                              ) 
+                                           
+                                        
+                                     
+                                     γ 
+                                     
+                                        ( 
+                                        t 
+                                        − 
+                                        
+                                           
+                                              Y 
+                                           
+                                           
+                                              k 
+                                           
+                                        
+                                        ) 
+                                     
+                                     . 
+                                  
+                               
+                            
+                         We now elaborate the meaning of the effect parameters, and some corresponding assumptions.
+
+In  (1) ,  
+                            α 
+                          is simply the constant term in the linear predictor, and represents the logarithm of the tap probability per unit time independent of the cue and tap histories, for instance, at time  
+                            
+                               t 
+                               = 
+                               0 
+                            
+                         . (Ideally, the tap probability at  
+                            
+                               t 
+                               = 
+                               0 
+                            
+                          would be 0, implying  
+                            
+                               α 
+                               = 
+                               − 
+                               ∞ 
+                            
+                         . Our model of course fits a finite value of  
+                            α 
+                         , but in any case, the rhythm is always audible almost immediately from the start of the experiment.)
+
+We assume that the refractory effect fully subsides within time  
+                            U 
+                         , in a regular way; specifically, that  
+                            γ 
+                          and its derivative equal 0 at  
+                            U 
+                         . We call this effect “refractory” because the main phenomenon revealed is a decreased likelihood of tapping soon after another tap; however, more generally, it models all feedback from the tapping sequence to itself. (Our choice of  
+                            U 
+                          as the time between consecutive pulses can be seen as  not  fully agnostic to the pulse. This essentially assumes that participants will rapidly perceive the pulse rate, and thus how soon after one correct tap another tap might be required. However, preliminary work showed little difference in using a longer refractory window. For instance, with  
+                            U 
+                          equal to  twice  the pulse spacing, the estimated refractory effect decayed to near zero within one pulse anyway.)
+
+The effect of primary interest is  
+                            β 
+                         , describing the influence of the cue sequence on the participant’s tapping sequence, and it is worth saying a little here about what we expect to see. To make things tangible, suppose the participant has been listening to the tresillo rhythm in  
+                            
+                               N 
+                               = 
+                               8 
+                            
+                         , with cues at pulses 0, 3 and 6, for long enough to master it, and is now tapping along accurately. The situation is depicted in  Fig. 2 . The intensity of the tapping process shown in (a) indicates very accurate performance of the rhythm shown in (b) against the regular pulse in (c). At every instant, the vertical cross-section in (d) indicates the lag values within the previous  
+                            T 
+                          seconds. For instance, the dotted line at time  
+                            t 
+                          intersects the diagonal lines at heights  
+                            
+                               2 
+                               T 
+                               / 
+                               8 
+                            
+                         ,  
+                            
+                               5 
+                               T 
+                               / 
+                               8 
+                            
+                          and  
+                            T 
+                         , indicating that at that moment, cues had been heard  
+                            
+                               2 
+                               T 
+                               / 
+                               8 
+                            
+                         ,  
+                            
+                               5 
+                               T 
+                               / 
+                               8 
+                            
+                          and  
+                            T 
+                          seconds ago.
+
+In order to yield the tap rates shown in (a), the sum  
+                            
+                               ∑ 
+                               β 
+                               
+                                  ( 
+                                  ℓ 
+                                  ) 
+                               
+                            
+                          over the lag times shown in (d) must be high at the cues and low everywhere else. In other words,  
+                            
+                               ∑ 
+                               β 
+                               
+                                  ( 
+                                  ℓ 
+                                  ) 
+                               
+                            
+                          must be high when one of the lags is  
+                            T 
+                         , and low otherwise—the values of  
+                            
+                               ∑ 
+                               β 
+                               
+                                  ( 
+                                  ℓ 
+                                  ) 
+                               
+                            
+                          should depend only on whether one of the lags is at  
+                            T 
+                         , and not on any other lag values. The model that describes this most efficiently has a high value of  
+                            β 
+                          at  
+                            T 
+                          (and thus also at  
+                            0 
+                         , since  
+                            β 
+                          is periodic) but a low value elsewhere, as shown in  Fig. 3 (a).
+
+In contrast, suppose that, by the end of the performance, another participant has  not  successfully learned the rhythm, but has only learned that most cues are three pulses apart, and is therefore simply tapping three pulses after every heard cue, according to the  
+                            β 
+                          function shown in  Fig. 3 (b). In this case, at time  
+                            
+                               t 
+                               + 
+                               3 
+                               T 
+                               / 
+                               8 
+                            
+                         , the right vertical line in  Fig. 2 (d)  does  show a lag at height  
+                            
+                               3 
+                               T 
+                               / 
+                               8 
+                            
+                         , and thus the participant will, correctly, tap with a high probability near that time. However, at time  
+                            t 
+                         , the left vertical line  does not  show a lag at height  
+                            
+                               3 
+                               T 
+                               / 
+                               8 
+                            
+                         , and thus the participant is very unlikely to correctly tap at that time.
+
+Similarly, any mixture of the  
+                            β 
+                          functions shown in  Fig. 3  would lead to some on-cue taps and some off-cue taps. Therefore, when participants demonstrate a tendency toward correctly learning the rhythm as performance time passes, we should see estimates for  
+                            β 
+                          that are high near  
+                            T 
+                          and  
+                            0 
+                         , but low elsewhere. The relative difference between high and low values represents how quickly patterns are learned, and the sharpness of the peak near  
+                            T 
+                          and  
+                            0 
+                          represents the timing accuracy of the correct taps. Furthermore, the presence of a peak at a lag of  
+                            n 
+                          pulses indicates the participant’s use of a “tap  
+                            n 
+                          pulses after the last cue” heuristic; a peak at some non-pulse lag of  
+                            t 
+                          indicates the participant is following a “tap  
+                            n 
+                          seconds later than the last cue” heuristic; broad or multiple peaks indicate the presence of some other heuristic that is resulting in poor synchronisation with the cues. As detailed in Section  4.2  and  Fig. 10 , for some of the more complex rhythms, we do indeed see substantial peaks at non- 
+                            
+                               0 
+                               / 
+                               T 
+                            
+                          locations.
+
+It is also possible to include interactions between the lags of two cues. Such a model would indicate how pairs of previous cues influence tapping behaviour. Indeed, such a model was tested for these data, but no significant interaction effect was detected.
+
+In practice, we can only estimate finitely many parameters, so we will discretise time. We divide the time axis evenly into  
+                            
+                               C 
+                               = 
+                               39 
+                            
+                          or  
+                            
+                               18 
+                            
+                          chunks per pulse, so that the rhythm has a period of  
+                            
+                               J 
+                               = 
+                               N 
+                               C 
+                            
+                          chunks, with corresponding chunk lengths of  
+                            
+                               6 
+                               
+                               
+                               ms 
+                            
+                          and  
+                            
+                               13 
+                               
+                               
+                               ms 
+                            
+                         . (In most of our models,  
+                            
+                               C 
+                               = 
+                               39 
+                            
+                          with time discretised into  
+                            
+                               6 
+                               
+                               
+                               ms 
+                            
+                          chunks, but for a few models that was computationally prohibitive and we used  
+                            
+                               
+                                  ( 
+                                  C 
+                                  , 
+                                  N 
+                                  ) 
+                               
+                               = 
+                               
+                                  ( 
+                                  18 
+                                  , 
+                                  13 
+                                  ) 
+                               
+                            
+                          instead.) We discretise the cue and tapping data, yielding the binary sequences  
+                            
+                               ( 
+                               
+                                  
+                                     x 
+                                  
+                                  
+                                     j 
+                                  
+                               
+                               ) 
+                            
+                          and  
+                            
+                               ( 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                               ) 
+                            
+                         :  
+                            
+                               
+                                  
+                                     x 
+                                  
+                                  
+                                     j 
+                                  
+                               
+                               = 
+                               1 
+                            
+                          if the  
+                            j 
+                         th chunk contains a cue but 0 otherwise, and similarly  
+                            
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                               = 
+                               1 
+                            
+                          means that the  
+                            k 
+                         th chunk contains a tap. (These sequences are binary, so if the  
+                            k 
+                         th chunk contained more than one tap, then  
+                            
+                               
+                                  y 
+                               
+                               
+                                  k 
+                               
+                            
+                          would still be just 1. In our data, no chunk contains more than one tap, so no count information was lost in this discretisation; this contrasts with other analysis methods, which generally count each pulse as either tapped or untapped, ignoring any repetitions.)
+
+In the discrete-time model below, the symbol  
+                            K 
+                          denotes the number of chunks in the refractory window of length  
+                            U 
+                         ; we have opted to set  
+                            U 
+                          to equal the time between adjacent pulses, so that  
+                            
+                               K 
+                               = 
+                               C 
+                               ∈ 
+                               
+                                  { 
+                                  39 
+                                  , 
+                                  18 
+                                  } 
+                               
+                            
+                         . The model  (1)  now takes the form of a logistic regression:( Hilbe, 2009 )  
+                            
+                               (2) 
+                               
+                                  
+                                     ln 
+                                     
+                                        
+                                           
+                                              
+                                                 λ 
+                                              
+                                              
+                                                 t 
+                                              
+                                           
+                                        
+                                        
+                                           1 
+                                           − 
+                                           
+                                              
+                                                 λ 
+                                              
+                                              
+                                                 t 
+                                              
+                                           
+                                        
+                                     
+                                     = 
+                                     α 
+                                     + 
+                                     
+                                        
+                                           ∑ 
+                                        
+                                        
+                                           j 
+                                           = 
+                                           1 
+                                        
+                                        
+                                           J 
+                                        
+                                     
+                                     
+                                        
+                                           β 
+                                        
+                                        
+                                           j 
+                                        
+                                     
+                                     t 
+                                     
+                                        
+                                           x 
+                                        
+                                        
+                                           t 
+                                           − 
+                                           j 
+                                        
+                                     
+                                     + 
+                                     
+                                        
+                                           ∑ 
+                                        
+                                        
+                                           k 
+                                           = 
+                                           1 
+                                        
+                                        
+                                           K 
+                                        
+                                     
+                                     
+                                        
+                                           γ 
+                                        
+                                        
+                                           k 
+                                        
+                                     
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           t 
+                                           − 
+                                           k 
+                                        
+                                     
+                                     . 
+                                  
+                               
+                            
+                         The logit formula  
+                            
+                               ln 
+                               
+                                  ( 
+                                  
+                                     
+                                        λ 
+                                     
+                                     
+                                        t 
+                                     
+                                  
+                                  / 
+                                  
+                                     ( 
+                                     1 
+                                     − 
+                                     
+                                        
+                                           λ 
+                                        
+                                        
+                                           t 
+                                        
+                                     
+                                     ) 
+                                  
+                                  ) 
+                               
+                            
+                         , or “log-odds”, is the natural discrete-time replacement of the log of intensity in  (1) , and ensures that the range of possible values of the linear predictor on the right (the whole real line) maps bijectively to the tap probability range  
+                            
+                               0 
+                               < 
+                               
+                                  
+                                     λ 
+                                  
+                                  
+                                     t 
+                                  
+                               
+                               < 
+                               1 
+                            
+                         . Here,  
+                            
+                               
+                                  λ 
+                               
+                               
+                                  t 
+                               
+                            
+                          denotes the probability of a tap in the  
+                            t 
+                         th time chunk.
+
+Since the model assumes that the period  
+                            T 
+                          is constant, whereas the experimental data involves periods ranging from  
+                            
+                               3 
+                               × 
+                               234 
+                               = 
+                               702 
+                               
+                               
+                               ms 
+                            
+                          to  
+                            
+                               13 
+                               × 
+                               234 
+                               
+                               ms 
+                               = 
+                               3 
+                               . 
+                               042 
+                            
+                         
+                         s, we cannot fit a single model describing all participants’ performances of all rhythms. In this work, we fit models at two levels of data aggregation: a separate rhythm-specific model for each of the 91 rhythms (combining data from all performances of that rhythm), and a period-specific model for each separate period length from  
+                            
+                               N 
+                               = 
+                               3 
+                            
+                          to  
+                            
+                               N 
+                               = 
+                               13 
+                            
+                          pulses.
+
+Our primary focus is the period-specific models, for essentially the same reason that a clinical trial requires a control group in addition to a treatment group, or a linear regression requires multiple values of the independent variable. Learning is responsive, and we seek to model how participants respond to the stimulus. A model built using only one rhythm may inadvertently fit the stimulus rather than the learning behaviour, whereas a model aggregating multiple rhythms probes participants’ response to the stimulus. Despite that, viewing the rhythm-specific fits helps to illustrate the method, and is of some interest.
+
+The model parameter  
+                            α 
+                          and parameter vectors  
+                            β 
+                          and  
+                            γ 
+                          are fitted by penalised maximum likelihood estimation, with a regularisation penalty favouring smoothness. We base the smoothing penalty on the sum of squares of second-order finite-differences of the vectors  
+                            β 
+                          and  
+                            γ 
+                         . Specifically, the smoothing penalty is  
+                            
+                               (3) 
+                               
+                                  
+                                     
+                                        
+                                           c 
+                                        
+                                        
+                                           β 
+                                        
+                                     
+                                     
+                                        
+                                           ∑ 
+                                        
+                                        
+                                           j 
+                                           = 
+                                           1 
+                                        
+                                        
+                                           J 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              ( 
+                                              − 
+                                              
+                                                 
+                                                    β 
+                                                 
+                                                 
+                                                    j 
+                                                    − 
+                                                    1 
+                                                 
+                                              
+                                              + 
+                                              2 
+                                              
+                                                 
+                                                    β 
+                                                 
+                                                 
+                                                    j 
+                                                 
+                                              
+                                              − 
+                                              
+                                                 
+                                                    β 
+                                                 
+                                                 
+                                                    j 
+                                                    + 
+                                                    1 
+                                                 
+                                              
+                                              ) 
+                                           
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     + 
+                                     
+                                        
+                                           c 
+                                        
+                                        
+                                           γ 
+                                        
+                                     
+                                     
+                                        
+                                           ∑ 
+                                        
+                                        
+                                           k 
+                                           = 
+                                           2 
+                                        
+                                        
+                                           K 
+                                           + 
+                                           1 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              ( 
+                                              − 
+                                              
+                                                 
+                                                    γ 
+                                                 
+                                                 
+                                                    k 
+                                                    − 
+                                                    1 
+                                                 
+                                              
+                                              + 
+                                              2 
+                                              
+                                                 
+                                                    γ 
+                                                 
+                                                 
+                                                    k 
+                                                 
+                                              
+                                              − 
+                                              
+                                                 
+                                                    γ 
+                                                 
+                                                 
+                                                    k 
+                                                    + 
+                                                    1 
+                                                 
+                                              
+                                              ) 
+                                           
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     
+                                     , 
+                                  
+                               
+                            
+                         where
+
+• 
+                               
+                                  
+                                     j 
+                                   is interpreted modulo  
+                                     J 
+                                  , so that, e.g., when  
+                                     
+                                        j 
+                                        = 
+                                        1 
+                                     
+                                  ,  
+                                     
+                                        
+                                           
+                                              β 
+                                           
+                                           
+                                              j 
+                                              − 
+                                              1 
+                                           
+                                        
+                                        = 
+                                        
+                                           
+                                              β 
+                                           
+                                           
+                                              0 
+                                           
+                                        
+                                        = 
+                                        
+                                           
+                                              β 
+                                           
+                                           
+                                              J 
+                                           
+                                        
+                                     
+                                  , 
+                            
+                            
+                               • 
+                               
+                                  
+                                     k 
+                                   is  not  interpreted cyclically, but  
+                                     
+                                        
+                                           γ 
+                                        
+                                        
+                                           K 
+                                           + 
+                                           1 
+                                        
+                                     
+                                   and  
+                                     
+                                        
+                                           γ 
+                                        
+                                        
+                                           K 
+                                           + 
+                                           2 
+                                        
+                                     
+                                   both denote 0, to represent the boundary conditions that  
+                                     
+                                        γ 
+                                        
+                                           ( 
+                                           U 
+                                           ) 
+                                        
+                                        = 
+                                        
+                                           
+                                              γ 
+                                           
+                                           
+                                              ′ 
+                                           
+                                        
+                                        
+                                           ( 
+                                           U 
+                                           ) 
+                                        
+                                        = 
+                                        0 
+                                     
+                                  , 
+                            
+                            
+                               • 
+                               the positive regularisation hyper-parameters  
+                                     
+                                        
+                                           c 
+                                        
+                                        
+                                           β 
+                                        
+                                     
+                                   and  
+                                     
+                                        
+                                           c 
+                                        
+                                        
+                                           γ 
+                                        
+                                     
+                                   are chosen by hand, so as to yield reasonably smooth and interpretable curves.
+
+j 
+                                   is interpreted modulo  
+                                     J 
+                                  , so that, e.g., when  
+                                     
+                                        j 
+                                        = 
+                                        1 
+                                     
+                                  ,  
+                                     
+                                        
+                                           
+                                              β 
+                                           
+                                           
+                                              j 
+                                              − 
+                                              1 
+                                           
+                                        
+                                        = 
+                                        
+                                           
+                                              β 
+                                           
+                                           
+                                              0 
+                                           
+                                        
+                                        = 
+                                        
+                                           
+                                              β 
+                                           
+                                           
+                                              J 
+                                           
+                                        
+                                     
+                                  ,
+
+k 
+                                   is  not  interpreted cyclically, but  
+                                     
+                                        
+                                           γ 
+                                        
+                                        
+                                           K 
+                                           + 
+                                           1 
+                                        
+                                     
+                                   and  
+                                     
+                                        
+                                           γ 
+                                        
+                                        
+                                           K 
+                                           + 
+                                           2 
+                                        
+                                     
+                                   both denote 0, to represent the boundary conditions that  
+                                     
+                                        γ 
+                                        
+                                           ( 
+                                           U 
+                                           ) 
+                                        
+                                        = 
+                                        
+                                           
+                                              γ 
+                                           
+                                           
+                                              ′ 
+                                           
+                                        
+                                        
+                                           ( 
+                                           U 
+                                           ) 
+                                        
+                                        = 
+                                        0 
+                                     
+                                  ,
+
+the positive regularisation hyper-parameters  
+                                     
+                                        
+                                           c 
+                                        
+                                        
+                                           β 
+                                        
+                                     
+                                   and  
+                                     
+                                        
+                                           c 
+                                        
+                                        
+                                           γ 
+                                        
+                                     
+                                   are chosen by hand, so as to yield reasonably smooth and interpretable curves.
+
+Note that, according to  (2) and (3) , we are maximising a logit-transformed linear function of the model parameter vectors (in the log-likelihood) minus a quadratic function of the model parameter vectors (in the penalty). This can therefore be formulated as Tikhonov regularisation, and implemented via any standard ridge regression tools, such as Hastie’s  
+                            glmnet 
+                          package for  
+                            R 
+                         . Technical details appear in  Appendix A , and  
+                            R 
+                          code in  Appendix B .
+
+To justify the inclusion of both predictors, the cue effect  
+                            β 
+                          and the refractory effect  
+                            γ 
+                         , in the model  (2) , we compare it with submodels with the  
+                            β 
+                          or  
+                            γ 
+                          effect removed, using the Akaike information criterion (AIC). We calculate the AIC based on the effective degrees of freedom as defined in  Fan and Li (2001)  as  
+                            
+                               tr 
+                               
+                                  
+                                     H 
+                                     
+                                        
+                                           
+                                              ( 
+                                              H 
+                                              + 
+                                              Q 
+                                              ) 
+                                           
+                                        
+                                        
+                                           − 
+                                           1 
+                                        
+                                     
+                                  
+                               
+                            
+                         , where  
+                            H 
+                          and  
+                            Q 
+                          are the Hessians of the negative-log-likelihood function and penalty function at optimum. (This is the natural generalisation of degrees of freedom, and thus of AIC, to a penalised model. Indeed, if  
+                            
+                               Q 
+                               = 
+                               0 
+                            
+                         , the trace simplifies to  
+                            
+                               tr 
+                               H 
+                               
+                                  
+                                     H 
+                                  
+                                  
+                                     − 
+                                     1 
+                                  
+                               
+                               = 
+                               tr 
+                               I 
+                            
+                         , which is the dimension of the model space, i.e., the degrees of freedom.)
+
+We can also gauge fit quality via Q–Q plots of rescaled interarrival times. (“Interarrival times” and “intertap intervals” are synonymous; we use the former term for agreement with the point process literature.) Rescaling is a mathematical trick that converts an observed instance of a point process model into a Poisson process with constant intensity 1, by transforming the time axis. For a point process model, the  rescaled interarrival time  between two consecutive events is the integral of the intensity function (that is, the expected number of events) in the interval spanned between the two events. If the model  (1)  is a correct description of the observed process, then the rescaled interarrival times should form an independent sequence of exponentially distributed random variables with mean 1. A visual diagnostic of the distribution is given by a so-called Q–Q plot, plotting the empirical cumulative distribution versus the theoretical cumulative distribution. For this purpose, we further transform the rescaled interarrival times via the standard exponential CDF, to yield an ideally uniform distribution on the interval  
+                            
+                               [ 
+                               0 
+                               , 
+                               1 
+                               ) 
+                            
+                         . Thus a good fit will yield a nearly straight Q–Q plot. We also provide pointwise 95% confidence bands. For more details, see  Kass et al. (2014)  and  Brown, Barbieri, Ventura, Kass, and Frank (2001) .
+
+Lastly, we will verify performance of the selected models by fitting simulated data. According to Box’s adage that “all models are wrong” ( Box, 1979 ), we of course do not expect this point process model to perfectly describe human behaviour; rather, we hope that it fairly depicts some important effects. However, we must ensure that it is self-consistent, and in particular, that if the truth  were  as simple as this model, that our methodology would accurately fit it, and recover the model’s parameters. Therefore, to verify the model-fitting process, we simulate 300 performances of 30 seconds each according to the model  (2) , using again the tresillo rhythm shown in  Fig. 2 . We use the same 6 ms discretisation as with most of the real data, and the same regularisation hyper-parameters.
+
+For each period-specific model with  
+                         N 
+                       from 3 to 13, the lowest AIC is obtained by the full model. A typical example, the  
+                         
+                            N 
+                            = 
+                            7 
+                         
+                       case, is shown in  Fig. 4 . We observe a much closer fit in the full model than in its submodels, though a slight underdispersion remains visible; that is, the times between taps display slightly less spread than accounted for in even the full model.
+
+The underdispersion indicates slightly fewer short and long interarrival times than the model predicts. To avoid the need for rescaling, suppose the target rhythm were metronomic, with pulses one second apart. We would expect the interarrival (inter-tap) times to mostly be close to 1. To describe that, we require a peak of intensity near each pulse. With no refractory effect, the number of taps at each pulse would be Poisson distributed, yielding a  mean  of 1, but the model would expect too many lower and higher tap counts at each pulse, implying too few low and high interarrival times. The resulting Q–Q plot would look somewhat like (a).
+
+Since the participants have tapped along with regular, deterministic rhythms, we expect the observed tap sequence to reflect that regularity. This model tries to modify a Poisson process enough to accommodate that regularity, and the near straightness of (c) shows that it mostly succeeds.
+
+Note also that the Q–Q plots depict 95% confidence bands above and below the Q–Q line, but these are too thin to be easily visible, due to the large amount of data. (The confidence bands are easiest to see in the  
+                         
+                            N 
+                            = 
+                            3 
+                         
+                       plot, in  Fig. 5 .) Thus essentially every visible deviation from a perfectly straight Q–Q plot is statistically significant. Of course, these plots should be interpreted as a relative diagnostic of goodness-of-fit; whether our model is a  perfect  model of the data is not a research question.
+
+Therefore, the full model  (2)  is used throughout, resulting in the parameter estimates shown in  Figs. 5 to 8 .
+
+We have also fitted rhythm-specific models for all 91 patterns. For brevity, the Q–Q plots and refractory effect estimates are shown together in  Fig. 9 . A representative sample of five rhythm-specific models is depicted in more detail in  Fig. 10 .
+
+Firstly we consider the quality of these fits. The primary diagnostic we use is the Q–Q plot. For the period-specific models, the Q–Q plots shown in  Figs. 5 to 8  are all nearly straight. There is a mild tendency toward underdispersion of the rescaled interarrival times; they tend to be closer to 1 than the model predicts. Compare these to the Q–Q plot in  Fig. 4 a resulting from the model with no refractory effect. That model is memoryless: a non-homogeneous Poisson process, with intensity described by the  
+                            β 
+                          effect. We knew  a priori  that a Poisson process could not accurately describe participants’ tapping behaviour, since a Poisson process would force the number of taps during any time interval to follow a Poisson distribution, whereas once a participant learns a rhythm, the number of taps in a brief window around a cue ought to equal 1 with a high probability. (A Poisson-distributed variable’s probability of equalling 1 takes its maximum value of only  
+                            
+                               
+                                  
+                                     e 
+                                  
+                                  
+                                     − 
+                                     1 
+                                  
+                               
+                               = 
+                               0 
+                               . 
+                               368 
+                            
+                          when the mean parameter equals 1.) Memory is incorporated into the model via the refractory effect  
+                            γ 
+                         , which allows, for instance, a tap to be very likely in the milliseconds around a cue  unless  the participant has already tapped along to that cue, i.e., already tapped within the last few dozen milliseconds. Since the full-model Q–Q plots correct most of the curvature seen in  Fig. 4 a, we can say that the refractory effect mostly suffices as a memory mechanism; that is, that a non-homogeneous Poisson process, modified to avoid tight clusters of multiple taps, explains participants’ behaviour well.
+
+Another diagnostic we might consider is the deviance ratio  
+                            
+                               
+                                  R 
+                               
+                               
+                                  2 
+                               
+                            
+                         . This statistic takes values between 0, indicating no predictive power whatsoever, and 1, indicating perfect predictions. The  
+                            
+                               
+                                  R 
+                               
+                               
+                                  2 
+                               
+                            
+                          values reported in  Figs. 5 to 8  range from 0.178 to 0.296, which may seem low, but these values are difficult to interpret directly. The point process models in this study are not exactly logistic regression (since the refractory effect provides a feedback loop, so that the responses are not independent), but they are similar, and for simplicity we can consider how the deviance ratio behaves for logistic regression. Therefore, suppose a logistic regression model predicts event probabilities  
+                            
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                               , 
+                               … 
+                               , 
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     M 
+                                  
+                               
+                            
+                         , and that these predictions are correct, so that the probability of the  
+                            m 
+                         th event really is exactly  
+                            
+                               
+                                  p 
+                               
+                               
+                                  m 
+                               
+                            
+                         . Then the deviance ratio is simply  
+                            
+                               (4) 
+                               
+                                  
+                                     
+                                        
+                                           R 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     = 
+                                     1 
+                                     − 
+                                     
+                                        
+                                           
+                                              
+                                                 e 
+                                                 
+                                                    ( 
+                                                    
+                                                       
+                                                          p 
+                                                       
+                                                       
+                                                          m 
+                                                       
+                                                    
+                                                    ) 
+                                                 
+                                              
+                                              ¯ 
+                                           
+                                        
+                                        
+                                           e 
+                                           
+                                              
+                                                 
+                                                    
+                                                       
+                                                          
+                                                             p 
+                                                          
+                                                          
+                                                             m 
+                                                          
+                                                       
+                                                    
+                                                    ¯ 
+                                                 
+                                              
+                                           
+                                        
+                                     
+                                     , 
+                                  
+                               
+                            
+                         where the overline denotes the mean over  
+                            m 
+                         , and  
+                            
+                               
+                                  
+                                     e 
+                                     
+                                        ( 
+                                        p 
+                                        ) 
+                                     
+                                     = 
+                                     − 
+                                     p 
+                                     ln 
+                                     p 
+                                     − 
+                                     
+                                        ( 
+                                        1 
+                                        − 
+                                        p 
+                                        ) 
+                                     
+                                     ln 
+                                     
+                                        ( 
+                                        1 
+                                        − 
+                                        p 
+                                        ) 
+                                     
+                                  
+                               
+                            
+                         denotes the entropy of a Bernoulli variable with probability  
+                            p 
+                         . Thus  
+                            
+                               
+                                  R 
+                               
+                               
+                                  2 
+                               
+                            
+                          will only be close to 1 if there is little uncertainty in the probabilities  
+                            
+                               
+                                  p 
+                               
+                               
+                                  m 
+                               
+                            
+                         , i.e., if they are close to 0 or 1. Because our models discretise time more finely than participants’ timing accuracy, we expect regions of moderate event probabilities around the cues; that is, a correct model must retain high entropy. Given any sequence of estimated tapping probabilities, we can calculate  (4)  as an estimate of the deviance ratio we should expect if the model were true. For the period-specific  
+                            
+                               N 
+                               = 
+                               12 
+                            
+                          model, this gives 0.224, as compared to the model fit’s actual deviance ratio of 0.232. This is typical; for all of the fits, we can attribute essentially all of the model’s deviance to the entropy in the tap predictions.
+
+Finally, note that in the simulation experiment, the fitted model recovers the shapes of the “true” cue and refractory effect curves with reasonable accuracy, as seen in  Fig. 11 .
+
+The main focus of this study is on the period-specific models. We also estimated models for single patterns, but the use of a single pattern of cue predictors in the pattern-specific fits can lead to singularity issues. Therefore this modelling framework is much more robust at the period level, where the data set contains a variety of cue patterns. The singularity issue is considered in this section.
+
+Firstly, to help clarify the relationship between the data and the models,  Fig. 12  depicts two randomly selected individual performances, with the tap and cue sequences and the modelled tap probability intensity. The modelled “learning time” effect is visible in both plots as a general left-to-right increase in intensity spike height. The refractory effect is also clear in both models, as an immediate temporary dip in intensity following each (correct or incorrect) tap.
+
+Now consider the sample of single-pattern fits shown in  Fig. 10 . They show a range of learning outcomes: for the 5-pulse pattern, the cue response effect shows a clean peak at 0 with no response elsewhere, indicating successful learning (compare  Fig. 3 (a)), while for the 11-pulse pattern, the fitted cue response function is rough, with a high peak at about 3 and no notable peak at all at 0, indicating poor learning of this difficult rhythm over the thirty second experiment. (These fits will be revisited in Section  5 .) Generally, these models suggest that the rhythms with lower and more familiar pulse counts are better performed. There is a striking exception, though, and it is enlightening to consider it in detail.
+
+The exception is the 6-pulse rhythm, which has a very high peak between 2 and 3, suggesting poor learning. It looks unchallenging, and indeed most participants were able to tap along with this rhythm very well. Two or three of the participants had a notable tendency, though, to miss the middle tap in the run of three cues. To see the effect of this on the model-fitting process, we consider a very simplified version of the problem: we ignore the model intercept, “learning time”, the refractory effect and the link function, we discretise time to one sample per pulse, and we suppose that the first and third cues are always tapped, while the second cue is tapped with probability  
+                            
+                               1 
+                               / 
+                               2 
+                            
+                         . (These drastic changes result in a very different model, but focus attention on the structural issue preventing a good fit.) Under these assumptions, a good fit should satisfy the equation  
+                            
+                               (5) 
+                               
+                                  
+                                     
+                                        
+                                           
+                                              
+                                                 
+                                                    0 
+                                                 
+                                                 
+                                                    0 
+                                                 
+                                                 
+                                                    0 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                              
+                                              
+                                                 
+                                                    1 
+                                                 
+                                                 
+                                                    0 
+                                                 
+                                                 
+                                                    0 
+                                                 
+                                                 
+                                                    0 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                              
+                                              
+                                                 
+                                                    1 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                                 
+                                                    0 
+                                                 
+                                                 
+                                                    0 
+                                                 
+                                                 
+                                                    0 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                              
+                                              
+                                                 
+                                                    1 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                                 
+                                                    0 
+                                                 
+                                                 
+                                                    0 
+                                                 
+                                                 
+                                                    0 
+                                                 
+                                              
+                                              
+                                                 
+                                                    0 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                                 
+                                                    0 
+                                                 
+                                                 
+                                                    0 
+                                                 
+                                              
+                                              
+                                                 
+                                                    0 
+                                                 
+                                                 
+                                                    0 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                                 
+                                                    1 
+                                                 
+                                                 
+                                                    0 
+                                                 
+                                              
+                                           
+                                        
+                                     
+                                     β 
+                                     = 
+                                     
+                                        
+                                           
+                                              
+                                                 
+                                                    1 
+                                                 
+                                              
+                                              
+                                                 
+                                                    1 
+                                                    / 
+                                                    2 
+                                                 
+                                              
+                                              
+                                                 
+                                                    1 
+                                                 
+                                              
+                                              
+                                                 
+                                                    0 
+                                                 
+                                              
+                                              
+                                                 
+                                                    0 
+                                                 
+                                              
+                                              
+                                                 
+                                                    0 
+                                                 
+                                              
+                                           
+                                        
+                                     
+                                     . 
+                                  
+                               
+                            
+                         This equation has no solution; the matrix is singular, and the vector on the right is far from its column space. Therefore, no fitted value of  
+                            β 
+                          will accurately describe participants’ behaviour. The model  (2)  is of course more complicated, due to timing variations and the feedback effect, but affected by essentially the same issue for this rhythm and some of the other single rhythms; the resulting design matrices are not singular, but are too close to singular (they are  ill-conditioned , that is, their largest eigenvalues are very much larger than their smallest). Upon investigation, we found 17 of the 91 rhythms to be “singular” in this sense, that is, to result in a singular matrix under the same simplified model as in  (5) . Thus the pattern-specific fits for these 17 rhythms should not be considered valid—our model can certainly describe  perfect  learning of these rhythms, but is less flexible in describing certain kinds of participant error.
+
+The period-specific models avoid this, with better conditioned design matrices involving a broader range of recent cue histories. (Actually, the  
+                            
+                               N 
+                               = 
+                               3 
+                            
+                          model  is  based on a single rhythm, but the 3-pulse rhythm used in this study is  not  singular.) Since also the period-specific models are each based on more data than the rhythm-specific ones, the period-specific fits are a good deal more robust.
+
+Perfect participant performance at learning time  
+                            t 
+                          would be fully described by a strong, very narrow peak at lag 0, and zero values elsewhere, in the  
+                            β 
+                          estimate’s cross-section at  
+                            t 
+                         . On the other hand, significant peaks at other lags could indicate that participants were misled by unexpected sub-rhythmic patterns, or partly relying on heuristics as opposed to rote memorisation of the entire rhythm to try to predict when to tap.
+
+For example, suppose that participants noticed a tendency for cues to occur 2 or 3 pulses apart, and relied on a “cognitive shortcut” to learn the rhythm, by tapping with higher probability two or three pulses after a cue. This would appear as peaks at lags of 2 and 3 in the  
+                            β 
+                          estimate. A combined strategy, in which the participant mostly focused on trying to learn the rhythm verbatim, but also partly relied on a tendency to tap two or three pulses after each cue, would yield a  
+                            β 
+                          estimate with a high peak at 0 and lower peaks at 2 and 3.
+
+In each of the period-specific models in  Figs. 5 to 8 , a peak at 0 (visible at both ends of the plot, since  
+                            β 
+                          is constrained to be periodic) is much more prominent than any other structure. (Note, the peaks rise toward the back of the plot, representing learning over the course of each performance.) This indicates that participants are concentrating on learning the rhythm as a whole, rather than relying on any sub-periodic quasi-regular structures at the period-specific level. Due to both imperfect participant performance (see  Fig. 13 ) and parameter function smoothing, the peaks are not very narrow. A coarse measure of the overall speed with which participants mastered rhythms for each period is given by the height of the peak, suggesting the ranking (from easiest to most difficult)  
+                            
+                               N 
+                               = 
+                               4 
+                            
+                         , 3, 8, 6, 7, 5, 9, 10, 13, 11, 12. This is also visible in  Table 1 . Mostly this is what we would expect to see: strong learning for more familiar values of  
+                            N 
+                         .
+
+The  
+                            γ 
+                          effect is the only feedback mechanism in the model, and is intended to help model underdispersed tap counts, as described in Section  3.1.2 . As expected, we see a strong negative effect in the first  
+                            
+                               150 
+                               
+                               
+                               ms 
+                            
+                          after a tap in each of the models, reflecting the rarity of “double-taps”.
+
+Less expected were the twin peaks appearing at around  
+                            
+                               15 
+                               
+                               
+                               ms 
+                            
+                          and  
+                            
+                               60 
+                            
+                         
+                         ms (that is, around 0.06 and 0.26 pulses) in most of the  
+                            γ 
+                          fits. These peaks are still negative, and thus indicate only a reduction in double-tap suppression; that is, soon after a participant taps, a second tap is unlikely (as can be seen in  Fig. 1 ), but if it does occur, it seems most likely to follow the first tap by around  
+                            
+                               15 
+                               
+                               
+                               ms 
+                            
+                          or  
+                            
+                               60 
+                               
+                               
+                               ms 
+                            
+                         . These appear to be genuine phenomena, appearing in most of the rhythm-specific fits ( Fig. 9 , left) and in all but two of the period-specific plots (refractory effect column in  Figs. 5 to 8 ), despite the two different time discretisation resolutions used. We can only speculate as to their causes. If participants tap with two fingers rather than one, it might occasionally register as two taps. Moreover, the Roland drum pad used in the experiment is somewhat elastic; a participant’s finger could bounce slightly on the pad.
+
+The non-homogeneous, conditional point process described in  (2)  provides a faithful description of participants’ tapping in this experiment, as seen most easily in the Q–Q plots in  Figs. 5–8 . In many ways, and in spite of participants’ overall comparatively poor performance ( Dean et al., 2021 ), the results confirm our hypotheses, and are consistent with dynamic attending ( Jones & Boltz, 1989 ): thus we observe a general tendency for accuracy to improve over the course of each performance, faster learning of rhythms with lower and more conventional pulse counts (3, 4, 6 and 8), and a significant refractory (feedback inhibition) effect that decays within the duration of one pulse. On the other hand, the numerous examples of poor performance observed ( Dean et al., 2021; Milne et al., 2021 ) such as displayed in  Figs. 10 and 12 , are indications of failures of dynamic attending, or other forms of prediction. In these cases, simpler performance heuristics may explain such regularities of behaviour as are found.
+
+For example, in the  
+                         
+                            N 
+                            = 
+                            8 
+                         
+                      ,  
+                         
+                            ( 
+                            3 
+                            , 
+                            3 
+                            , 
+                            2 
+                            ) 
+                         
+                       rhythm ( Fig. 10 ), the  
+                         β 
+                       peak around  
+                         0 
+                      / 
+                         T 
+                       is substantially larger than any other peak, which indicates effective learning of this rhythm. The larger of the non- 
+                         0 
+                      / 
+                         T 
+                       values occur at lags of 1, 2, 3, and 7 pulses, which suggests typical errors of tapping 2 pulses after a cue instead of after 3 pulses (hence  
+                         β 
+                       peaks at 2 and 7), or tapping 3 pulses after a cue instead of after two pulses (hence peaks at  
+                         β 
+                       peaks at 1 and 2). The smaller peak at a lag of about 4.3 pulses can only occur when a participant has tapped incorrectly (there are no 4-pulse IOIs), so its off-pulse timing likely results from the tap having been only weakly motivated by prediction. In this rhythm, therefore, we see clear evidence of predictive strategies being employed, even if they occasionally fail, in which case the tap’s timing is less related to the underlying pulse.
+
+More challenging examples are those of the  
+                         
+                            N 
+                            = 
+                            11 
+                         
+                      ,  
+                         
+                            ( 
+                            3 
+                            , 
+                            3 
+                            , 
+                            3 
+                            , 
+                            2 
+                            ) 
+                         
+                       and  
+                         
+                            N 
+                            = 
+                            13 
+                         
+                      ,  
+                         
+                            ( 
+                            5 
+                            , 
+                            5 
+                            , 
+                            3 
+                            ) 
+                         
+                       rhythms (also in  Fig. 10 ). In the first of these, every ‘peak’ is rather broad, and the peak around  
+                         0 
+                      / 
+                         T 
+                       is no longer the highest: both indicate less accurate tapping than in the previously discussed rhythm. The non- 
+                         0 
+                      / 
+                         T 
+                       pulses provide some useful indications of underlying tapping strategies: there is a substantial peak around a lag of 3 pulses, which results from participants tapping the single 2-pulse IOI as a 3-pulse IOI, while the dips at the lags of 1 and 4 pulses indicate that this late tapping was rare elsewhere in the rhythm. The next highest peak is centred around an 8-pulse lag (equivalently, 3 pulses early), which would arise from tapping the last cue in the sequence of 3-pulse IOIs one pulse early (i.e., given cues at 0, 3, 6, 9, 11, tapping at 8). These results suggest an awareness of groups of 2s and 3s but uncertainty as to exactly when they occur (i.e., incomplete learning of the periodic sequence  
+                         
+                            ( 
+                            3 
+                            , 
+                            3 
+                            , 
+                            3 
+                            , 
+                            2 
+                            ) 
+                         
+                       or uncertainty about where one is in that sequence).
+
+In the  
+                         
+                            N 
+                            = 
+                            13 
+                         
+                       rhythm, there are a number of peaks of similar height. Many of these peaks are off-pulse (they are sharply peaked at a lag that is not a whole number of pulses). Let us first consider the two peaks that are centred around a pulse, which are at lags of 3 and 5. These indicate taps 5 pulses after a cue instead of 3 pulses after, or vice versa. So, as with the  
+                         
+                            N 
+                            = 
+                            11 
+                         
+                       rhythm, this indicates an awareness of the groups and their lengths but predictive errors as to when either group occurs. The off-pulse taps are interesting. The most notable of these is the peak at a lag of about 0.8 pulses (about 185 
+                         
+                            
+                            
+                            ms 
+                         
+                      ), which is indicative of  reactive  tapping. It is worth noting that this rhythm is sparse and some participants who have not learned the rhythm seem to have switched from predictive to reactive behaviour where their taps are triggered by each cue and so their taps are delayed by their reaction time (185 
+                         
+                            
+                            
+                            ms 
+                         
+                       is a relatively fast auditory reaction time but feasible given attentional focus on the pulses). It is only due to the fine temporal resolution of the point process models used here that we can identify these off-pulse effects and avoid incorrectly assigning them to their closest pulse, which would lead to quite different and possibly inappropriate inferences. For instance,  Fig. 14  rounds every tap to the nearest pulse, and obscures the finer details: it reveals no information about which taps are reactive, and makes weaker distinctions between the rhythm’s 13 pulses.
+
+The period-specific models show better tapping accuracy (higher peaks at  
+                         0 
+                      / 
+                         T 
+                      ) for periods with lower and familiar numbers of pulses (3, 4, 6, and 8) ( Table 1 ). The lack of distinct non- 
+                         0 
+                      / 
+                         T 
+                       peaks in the period-specific plots suggest that the just discussed tapping heuristics observed for specific rhythms do not generalise between them. In two companion papers, we use alternative modelling strategies to explore the influence of structural features of these rhythms—such as their interonset interval entropy and evenness—on tapping accuracy ( Dean et al., 2021; Milne et al., 2021 ). The fine temporal resolution of the period-specific models here (compared with the single pulse resolution of our other work on these data, and of most other published models) allows some unusual observations and conclusions. Notably, we provide indications of a double-peak transient reduction in the feedback inhibition of tapping after a previous tap. These peaks occur around 15 and 60 
+                         
+                            
+                            
+                            ms 
+                         
+                       after the previous pulse, and presumably arise from some combination of cognitive, motor, and mechanistic factors, that deserve further attention in the future.
+
+The finely grained descriptive statistics presented in this paper ( Figs. 12 and 13 ) also provide some interesting information. Taps preferentially occur within 63 
+                         
+                            
+                            
+                            ms 
+                         
+                       of a pulse, with very few multiple taps in this time window: bear in mind the pulse inter-onset interval of 234 
+                         
+                            
+                            
+                            ms 
+                         
+                       in the study ( Fig. 1 ). Finally, as shown in  Fig. 13 , there is a quite symmetrical distribution of taps within the interval of a pulse, with the maximum frequency on the pulse, and the minimum still being approximately 1/3 of its frequency. Correspondingly, the mean asynchrony we observe is very close to zero, while in simpler tapping conditions it is usually  
+                         
+                            − 
+                            30 
+                         
+                       to  
+                         
+                            − 
+                            50 
+                            
+                            
+                            ms 
+                         
+                      , the so called negative mean asynchrony, as discussed in  Dean et al. (2021) .
+
+Both the complex feedback mechanism, and the distribution of taps around a pulse suggest considerable variability between individual events and between people in their tapping and tapping mechanisms, as we also describe in the companion papers ( Dean et al., 2021; Milne et al., 2021 ) and earlier work ( Launay et al., 2013 ). It is interesting to contrast these results with iterated-tapping studies ( Jacoby & McDermott, 2017 ) in which participants can adjust three-component rhythmic patterns until they reach a preferred position. These may be interpreted as indicating concentration of inter-arrival times around integer ratio values; while the emphasis of the present results might more naturally imply symmetrical concentration around any focal point for tapping. The two studies are addressing different objectives and do not directly speak to each other: however their contrasting implications are suggestive for further work.
+
+The single-rhythm models are each based on a smaller sample than the period-specific models, and thus more variable in their quality even when not ill-conditioned. Most of the Q–Q curves in  Fig. 9  are close to straight, but several show a marked distortion, indicating a poorer model fit. While, overall, allowing a longer refractory effect yielded inferior fits according to the AIC, it may have provided the required modelling flexibility in some specific cases, such as the 6-pulse rhythm considered in Section  4.2 , by letting a participant’s tap probability at one pulse depend on whether previous pulses had been tapped.
+
+In this study we have applied a novel technique to model participants’ learning of difficult rhythms. We tried to make as few assumptions as necessary, and be led by the data. An agnostic approach to model selection removed predictors that played no useful role for our rhythmic data but, if retained, could conceivably reveal other effects in different data. Two examples are multiple-cue effects and cue-tap interactions.
+
+Multiple-cue effects were considered: in preliminary work we tried a two-cue interaction effect, allowing the positions of  pairs  of previous cues relative to the current instant to affect the participant’s modelled tapping probability. That is, we considered a variant of  (1)  of the form  
+                            
+                               
+                                  
+                                     ln 
+                                     λ 
+                                     
+                                        ( 
+                                        t 
+                                        ) 
+                                     
+                                     = 
+                                     α 
+                                     + 
+                                     
+                                        
+                                           ∑ 
+                                        
+                                        
+                                           
+                                              
+                                                 X 
+                                              
+                                              
+                                                 j 
+                                              
+                                           
+                                           ∈ 
+                                           
+                                              [ 
+                                              t 
+                                              − 
+                                              T 
+                                              , 
+                                              t 
+                                              ) 
+                                           
+                                        
+                                     
+                                     t 
+                                     β 
+                                     
+                                        ( 
+                                        t 
+                                        − 
+                                        
+                                           
+                                              X 
+                                           
+                                           
+                                              j 
+                                           
+                                        
+                                        ) 
+                                     
+                                     + 
+                                     
+                                        
+                                           ∑ 
+                                        
+                                        
+                                           
+                                              
+                                                 Y 
+                                              
+                                              
+                                                 k 
+                                              
+                                           
+                                           ∈ 
+                                           
+                                              [ 
+                                              t 
+                                              − 
+                                              U 
+                                              , 
+                                              t 
+                                              ) 
+                                           
+                                        
+                                     
+                                     γ 
+                                     
+                                        ( 
+                                        t 
+                                        − 
+                                        
+                                           
+                                              Y 
+                                           
+                                           
+                                              k 
+                                           
+                                        
+                                        ) 
+                                     
+                                     + 
+                                     
+                                        
+                                           ∑ 
+                                        
+                                        
+                                           j 
+                                           ≠ 
+                                           k 
+                                           , 
+                                           
+                                              { 
+                                              
+                                                 
+                                                    X 
+                                                 
+                                                 
+                                                    j 
+                                                 
+                                              
+                                              , 
+                                              
+                                                 
+                                                    X 
+                                                 
+                                                 
+                                                    k 
+                                                 
+                                              
+                                              } 
+                                           
+                                           ⊂ 
+                                           
+                                              [ 
+                                              t 
+                                              − 
+                                              T 
+                                              , 
+                                              t 
+                                              ) 
+                                           
+                                        
+                                     
+                                     δ 
+                                     
+                                        ( 
+                                        t 
+                                        − 
+                                        
+                                           
+                                              X 
+                                           
+                                           
+                                              j 
+                                           
+                                        
+                                        , 
+                                        t 
+                                        − 
+                                        
+                                           
+                                              X 
+                                           
+                                           
+                                              k 
+                                           
+                                        
+                                        ) 
+                                     
+                                  
+                               
+                            
+                         (where of course  
+                            
+                               δ 
+                               
+                                  ( 
+                                  
+                                     
+                                        t 
+                                     
+                                     
+                                        1 
+                                     
+                                  
+                                  , 
+                                  
+                                     
+                                        t 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                                  ) 
+                               
+                            
+                          need only be defined where  
+                            
+                               
+                                  t 
+                               
+                               
+                                  1 
+                               
+                            
+                          and  
+                            
+                               
+                                  t 
+                               
+                               
+                                  2 
+                               
+                            
+                          are separated by an integral number of pulses). In this study, that led to a great increase in the model’s dimension, with no appreciable improvement in log-likelihood.
+
+Additionally, as mentioned in Section  3.2 , parsimonious consideration of model size and likelihood led us to use a refractory effect window of just one pulse. With a longer pulse, and especially with an interaction effect between recent cues and taps, we might have been able to model phase-correction techniques, that is, participants’ efforts to correct their sense of when the pulse occurs, in reaction to recently having tapped slightly early or late, though it is not clear that a point process model is best suited to that. Many previous studies have targeted phase-correction specifically, in both isochronic ( Aschersleben, 2002; Herff et al., 2020; Nozaradan et al., 2012 ) and nonisochronic settings ( Goldberg, 2015; Polak et al., 2018; Repp et al., 2005, 2011, 2012, 2013; Snyder et al., 2006 ), and their methods are better suited to studying such behaviour.
+
+Each period-specific model in this study assumed a fixed duration for the rhythmic cycle, but did not directly assume the phase or frequency of the pulse train. It would be interesting to analyse similar data in which a fixed cycle duration was divided isochronously into various numbers of pulses, since then a single model could encompass all of the data. On the other hand, this sort of model could be applied to cycles of variable length by measuring time in fixed fractions of the cycle, rather than absolute units; this would also allow analysis of differing pulse rates. Since the submission of our paper, an interesting Bayesian point-process model of rhythmic entrainment has been published ( Cannon, 2021 ). This concerns generally successful performance or perception in relation to a repetitive rhythmic cycle, with clearcut beats (attentional foci), and regular or slightly irregular temporal subdivisions thereof. This model, like ours, relies on performer uncertainty, but it particularly focuses on probabilistic variation of continuously updating assessments of phase. The paper does not model empirical data, but evaluates a range of simulations. Its possible utility on data such as ours remains to be investigated, and our more complex rhythms with two interonset intervals arranged so as to obviate the induction of a regular beat might require multiple or hierarchical phases to be calculated. Our rhythms thus seem to present some additional problems. This modelling development will be of interest.
+
+Another possible future direction would be the analysis of imperfectly cyclic cue sequences, to model participants’ ability to follow gradually changing rhythms. Lastly, an interesting extension of this work would be to include tap velocity data via a  marked  point process model.
+
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+Dr Andrew Milne is the recipient of an Australian Research Council Discovery Early Career Researcher Award (project number  DE170100353 ) funded by the  Australian Government 
+ .
+
+By default, ridge regression as generally understood and as implemented by  
+                         glmnet 
+                       uses an isotropic penalty, i.e., a penalty matrix  
+                         Q 
+                       that is a multiple of the identity matrix. The  
+                         glmnet 
+                       package allows users to override this default and provide any diagonal matrix (as a vector of the diagonal elements) to be used instead. Our quadratic penalty  (3)  is neither isotropic nor diagonal, but it is symmetric, so it can be diagonalised. Additionally,  
+                         glmnet 
+                       requires a further linear transformation to standardise the columns of the design matrix, so that the predictor variables each have mean 0 and variance 1. Thus we need to perform two transformations of the problem—a rotation to diagonalise the penalty, followed by an anisotropic scaling to standardise the design matrix—and then reverse these transformations to recover and interpret the estimated parameter vectors.
+
+Therefore suppose we have an  
+                            
+                               M 
+                               × 
+                               D 
+                            
+                          design matrix  
+                            X 
+                          with  
+                            t 
+                         th row  
+                            
+                               
+                                  x 
+                               
+                               
+                                  t 
+                               
+                            
+                         , a length- 
+                            M 
+                          vector binary response  
+                            y 
+                          with  
+                            
+                               
+                                  
+                                     P 
+                                     
+                                        
+                                           
+                                              
+                                                 Y 
+                                              
+                                              
+                                                 t 
+                                              
+                                           
+                                           = 
+                                           1 
+                                        
+                                     
+                                     = 
+                                     
+                                        
+                                           1 
+                                        
+                                        
+                                           1 
+                                           + 
+                                           
+                                              
+                                                 e 
+                                              
+                                              
+                                                 − 
+                                                 α 
+                                                 − 
+                                                 
+                                                    
+                                                       x 
+                                                    
+                                                    
+                                                       t 
+                                                    
+                                                 
+                                                 θ 
+                                              
+                                           
+                                        
+                                     
+                                  
+                               
+                            
+                         and a penalty on  
+                            
+                               θ 
+                               = 
+                               
+                                  ( 
+                                  β 
+                                  
+                                     
+                                     
+                                        ⊤ 
+                                     
+                                  
+                                  , 
+                                  γ 
+                                  
+                                     
+                                     
+                                        ⊤ 
+                                     
+                                  
+                                  ) 
+                               
+                               
+                                  
+                                  
+                                     ⊤ 
+                                  
+                               
+                            
+                          given by  
+                            
+                               − 
+                               
+                                  
+                                     1 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               θ 
+                               
+                                  
+                                  
+                                     ⊤ 
+                                  
+                               
+                               Q 
+                               θ 
+                            
+                         . Then the penalised log-likelihood to be maximised is  
+                            
+                               (A.1) 
+                               
+                                  
+                                     
+                                        
+                                           Λ 
+                                        
+                                        
+                                           P 
+                                        
+                                     
+                                     = 
+                                     
+                                        
+                                           1 
+                                        
+                                        
+                                           M 
+                                        
+                                     
+                                     
+                                        
+                                           ∑ 
+                                        
+                                        
+                                           t 
+                                           = 
+                                           1 
+                                        
+                                        
+                                           M 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              
+                                                 y 
+                                              
+                                              
+                                                 t 
+                                              
+                                           
+                                           
+                                              ( 
+                                              α 
+                                              + 
+                                              
+                                                 
+                                                    x 
+                                                 
+                                                 
+                                                    t 
+                                                 
+                                              
+                                              θ 
+                                              ) 
+                                           
+                                           − 
+                                           ln 
+                                           
+                                              
+                                                 1 
+                                                 + 
+                                                 
+                                                    
+                                                       e 
+                                                    
+                                                    
+                                                       α 
+                                                       + 
+                                                       
+                                                          
+                                                             x 
+                                                          
+                                                          
+                                                             t 
+                                                          
+                                                       
+                                                       θ 
+                                                    
+                                                 
+                                              
+                                           
+                                        
+                                     
+                                     − 
+                                     
+                                        
+                                           1 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     θ 
+                                     
+                                        
+                                        
+                                           ⊤ 
+                                        
+                                     
+                                     Q 
+                                     θ 
+                                     . 
+                                  
+                               
+                            
+                         (We use the mean, rather than sum, of the observations’ log-likelihoods to align with  
+                            glmnet 
+                         .)
+
+Now decompose  
+                            Q 
+                         , so that  
+                            
+                               Q 
+                               = 
+                               V 
+                               
+                                  
+                                     Q 
+                                  
+                                  
+                                     ′ 
+                                  
+                               
+                               V 
+                               
+                                  
+                                  
+                                     ⊤ 
+                                  
+                               
+                            
+                          with  
+                            
+                               
+                                  Q 
+                               
+                               
+                                  ′ 
+                               
+                            
+                          diagonal and  
+                            V 
+                          orthogonal. Then  
+                            
+                               
+                                  
+                                     θ 
+                                     
+                                        
+                                        
+                                           ⊤ 
+                                        
+                                     
+                                     Q 
+                                     θ 
+                                     = 
+                                     θ 
+                                     
+                                        
+                                        
+                                           ⊤ 
+                                        
+                                     
+                                     V 
+                                     
+                                        
+                                           Q 
+                                        
+                                        
+                                           ′ 
+                                        
+                                     
+                                     V 
+                                     
+                                        
+                                        
+                                           ⊤ 
+                                        
+                                     
+                                     θ 
+                                     = 
+                                     
+                                        
+                                           θ 
+                                        
+                                        
+                                           ′ 
+                                        
+                                     
+                                     
+                                        
+                                        
+                                           ⊤ 
+                                        
+                                     
+                                     
+                                        
+                                           Q 
+                                        
+                                        
+                                           ′ 
+                                        
+                                     
+                                     
+                                        
+                                           θ 
+                                        
+                                        
+                                           ′ 
+                                        
+                                     
+                                     , 
+                                  
+                               
+                            
+                         where  
+                            
+                               
+                                  
+                                     θ 
+                                  
+                                  
+                                     ′ 
+                                  
+                               
+                               = 
+                               V 
+                               
+                                  
+                                  
+                                     ⊤ 
+                                  
+                               
+                               θ 
+                            
+                         . Since  
+                            
+                               
+                                  
+                                     x 
+                                  
+                                  
+                                     t 
+                                  
+                               
+                               θ 
+                               = 
+                               
+                                  
+                                     x 
+                                  
+                                  
+                                     t 
+                                  
+                               
+                               V 
+                               
+                                  
+                                     θ 
+                                  
+                                  
+                                     ′ 
+                                  
+                               
+                            
+                         , letting  
+                            
+                               
+                                  
+                                     x 
+                                  
+                                  
+                                     t 
+                                  
+                                  
+                                     ′ 
+                                  
+                               
+                               = 
+                               
+                                  
+                                     x 
+                                  
+                                  
+                                     t 
+                                  
+                               
+                               V 
+                            
+                          gives a design matrix  
+                            
+                               
+                                  X 
+                               
+                               
+                                  ′ 
+                               
+                            
+                          for the rotated system; we have  
+                            
+                               
+                                  
+                                     
+                                        
+                                           Λ 
+                                        
+                                        
+                                           P 
+                                        
+                                     
+                                     = 
+                                     
+                                        
+                                           1 
+                                        
+                                        
+                                           M 
+                                        
+                                     
+                                     
+                                        
+                                           ∑ 
+                                        
+                                        
+                                           t 
+                                           = 
+                                           1 
+                                        
+                                        
+                                           M 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              
+                                                 y 
+                                              
+                                              
+                                                 t 
+                                              
+                                           
+                                           
+                                              ( 
+                                              α 
+                                              + 
+                                              
+                                                 
+                                                    x 
+                                                 
+                                                 
+                                                    t 
+                                                 
+                                                 
+                                                    ′ 
+                                                 
+                                              
+                                              
+                                                 
+                                                    θ 
+                                                 
+                                                 
+                                                    ′ 
+                                                 
+                                              
+                                              ) 
+                                           
+                                           − 
+                                           ln 
+                                           
+                                              
+                                                 1 
+                                                 + 
+                                                 
+                                                    
+                                                       e 
+                                                    
+                                                    
+                                                       α 
+                                                       + 
+                                                       
+                                                          
+                                                             x 
+                                                          
+                                                          
+                                                             t 
+                                                          
+                                                          
+                                                             ′ 
+                                                          
+                                                       
+                                                       
+                                                          
+                                                             θ 
+                                                          
+                                                          
+                                                             ′ 
+                                                          
+                                                       
+                                                    
+                                                 
+                                              
+                                           
+                                        
+                                     
+                                     − 
+                                     
+                                        
+                                           1 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     
+                                        
+                                           θ 
+                                        
+                                        
+                                           ′ 
+                                        
+                                     
+                                     
+                                        
+                                        
+                                           ⊤ 
+                                        
+                                     
+                                     
+                                        
+                                           Q 
+                                        
+                                        
+                                           ′ 
+                                        
+                                     
+                                     
+                                        
+                                           θ 
+                                        
+                                        
+                                           ′ 
+                                        
+                                     
+                                     .
+
+Finally, to standardise the columns of the design matrix, let  
+                            μ 
+                          and  
+                            σ 
+                          be row vectors of the means and standard deviations of the columns of  
+                            
+                               
+                                  
+                                     X 
+                                  
+                                  
+                                     ′ 
+                                  
+                               
+                               
+                            
+                         , let  
+                            
+                               S 
+                               = 
+                               diag 
+                               
+                                  ( 
+                                  σ 
+                                  ) 
+                               
+                            
+                         , and define  
+                            
+                               
+                                  
+                                     x 
+                                  
+                                  
+                                     t 
+                                  
+                                  
+                                     ′ 
+                                     ′ 
+                                  
+                               
+                               = 
+                               
+                                  ( 
+                                  
+                                     
+                                        x 
+                                     
+                                     
+                                        t 
+                                     
+                                     
+                                        ′ 
+                                     
+                                  
+                                  − 
+                                  μ 
+                                  ) 
+                               
+                               
+                                  
+                                     S 
+                                  
+                                  
+                                     − 
+                                     1 
+                                  
+                               
+                            
+                          for each observation index  
+                            t 
+                         . (Note, this requires that  
+                            S 
+                          be invertible, i.e., that no column of  
+                            
+                               
+                                  X 
+                               
+                               
+                                  ′ 
+                               
+                            
+                          be constant, and numerically this step could prove difficult if  
+                            
+                               
+                                  X 
+                               
+                               
+                                  ′ 
+                               
+                            
+                          were ill-conditioned. In practice this difficulty did not arise.) Now  
+                            
+                               
+                                  
+                                     x 
+                                  
+                                  
+                                     t 
+                                  
+                                  
+                                     ′ 
+                                  
+                               
+                               = 
+                               
+                                  
+                                     x 
+                                  
+                                  
+                                     t 
+                                  
+                                  
+                                     ′ 
+                                     ′ 
+                                  
+                               
+                               S 
+                               + 
+                               μ 
+                            
+                         , so that  
+                            
+                               α 
+                               + 
+                               
+                                  
+                                     x 
+                                  
+                                  
+                                     t 
+                                  
+                                  
+                                     ′ 
+                                  
+                               
+                               
+                                  
+                                     θ 
+                                  
+                                  
+                                     ′ 
+                                  
+                               
+                               = 
+                               
+                                  ( 
+                                  α 
+                                  + 
+                                  μ 
+                                  
+                                     
+                                        θ 
+                                     
+                                     
+                                        ′ 
+                                     
+                                  
+                                  ) 
+                               
+                               + 
+                               
+                                  
+                                     x 
+                                  
+                                  
+                                     t 
+                                  
+                                  
+                                     ′ 
+                                     ′ 
+                                  
+                               
+                               S 
+                               
+                                  
+                                     θ 
+                                  
+                                  
+                                     ′ 
+                                  
+                               
+                            
+                         . Thus letting  
+                            
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     ′ 
+                                     ′ 
+                                  
+                               
+                               = 
+                               α 
+                               + 
+                               μ 
+                               
+                                  
+                                     θ 
+                                  
+                                  
+                                     ′ 
+                                  
+                               
+                            
+                          and  
+                            
+                               
+                                  
+                                     θ 
+                                  
+                                  
+                                     ′ 
+                                     ′ 
+                                  
+                               
+                               = 
+                               S 
+                               
+                                  
+                                     θ 
+                                  
+                                  
+                                     ′ 
+                                  
+                               
+                            
+                         , we obtain a standardised ridge regression problem with penalised log-likelihood  
+                            
+                               
+                                  
+                                     
+                                        
+                                           Λ 
+                                        
+                                        
+                                           P 
+                                        
+                                     
+                                     = 
+                                     
+                                        
+                                           1 
+                                        
+                                        
+                                           M 
+                                        
+                                     
+                                     
+                                        
+                                           ∑ 
+                                        
+                                        
+                                           t 
+                                           = 
+                                           1 
+                                        
+                                        
+                                           M 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              
+                                                 y 
+                                              
+                                              
+                                                 t 
+                                              
+                                           
+                                           
+                                              ( 
+                                              
+                                                 
+                                                    α 
+                                                 
+                                                 
+                                                    ′ 
+                                                    ′ 
+                                                 
+                                              
+                                              + 
+                                              
+                                                 
+                                                    x 
+                                                 
+                                                 
+                                                    t 
+                                                 
+                                                 
+                                                    ′ 
+                                                    ′ 
+                                                 
+                                              
+                                              
+                                                 
+                                                    θ 
+                                                 
+                                                 
+                                                    ′ 
+                                                    ′ 
+                                                 
+                                              
+                                              ) 
+                                           
+                                           − 
+                                           ln 
+                                           
+                                              
+                                                 1 
+                                                 + 
+                                                 
+                                                    
+                                                       e 
+                                                    
+                                                    
+                                                       
+                                                          
+                                                             α 
+                                                          
+                                                          
+                                                             ′ 
+                                                             ′ 
+                                                          
+                                                       
+                                                       + 
+                                                       
+                                                          
+                                                             x 
+                                                          
+                                                          
+                                                             t 
+                                                          
+                                                          
+                                                             ′ 
+                                                             ′ 
+                                                          
+                                                       
+                                                       
+                                                          
+                                                             θ 
+                                                          
+                                                          
+                                                             ′ 
+                                                             ′ 
+                                                          
+                                                       
+                                                    
+                                                 
+                                              
+                                           
+                                        
+                                     
+                                     − 
+                                     
+                                        
+                                           1 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     
+                                        
+                                           θ 
+                                        
+                                        
+                                           ′ 
+                                           ′ 
+                                        
+                                     
+                                     
+                                        
+                                        
+                                           ⊤ 
+                                        
+                                     
+                                     
+                                        
+                                           Q 
+                                        
+                                        
+                                           ′ 
+                                           ′ 
+                                        
+                                     
+                                     
+                                        
+                                           θ 
+                                        
+                                        
+                                           ′ 
+                                           ′ 
+                                        
+                                     
+                                     , 
+                                  
+                               
+                            
+                         design matrix  
+                            
+                               
+                                  X 
+                               
+                               
+                                  ′ 
+                                  ′ 
+                               
+                            
+                          with columns  
+                            
+                               
+                                  x 
+                               
+                               
+                                  t 
+                               
+                               
+                                  ′ 
+                                  ′ 
+                               
+                            
+                         , and diagonal penalty matrix  
+                            
+                               
+                                  
+                                     Q 
+                                  
+                                  
+                                     ′ 
+                                     ′ 
+                                  
+                               
+                               = 
+                               
+                                  
+                                     S 
+                                  
+                                  
+                                     − 
+                                     1 
+                                  
+                               
+                               
+                                  
+                                     Q 
+                                  
+                                  
+                                     ′ 
+                                  
+                               
+                               
+                                  
+                                     S 
+                                  
+                                  
+                                     − 
+                                     1 
+                                  
+                               
+                               = 
+                               
+                                  
+                                     S 
+                                  
+                                  
+                                     − 
+                                     1 
+                                  
+                               
+                               V 
+                               
+                                  
+                                  
+                                     ⊤ 
+                                  
+                               
+                               Q 
+                               V 
+                               
+                                  
+                                     S 
+                                  
+                                  
+                                     − 
+                                     1 
+                                  
+                               
+                            
+                         .
+
+The transformed model can be estimated by  
+                            glmnet 
+                         , producing the estimates  
+                            
+                               
+                                  
+                                     
+                                        α 
+                                     
+                                     
+                                        ˆ 
+                                     
+                                  
+                               
+                               
+                                  ′ 
+                                  ′ 
+                               
+                            
+                          and  
+                            
+                               
+                                  
+                                     
+                                        θ 
+                                     
+                                     
+                                        ˆ 
+                                     
+                                  
+                               
+                               
+                                  ′ 
+                                  ′ 
+                               
+                            
+                         . We then compute the estimates in the original basis as  
+                            
+                               
+                                  
+                                     θ 
+                                  
+                                  
+                                     ˆ 
+                                  
+                               
+                               = 
+                               V 
+                               
+                                  
+                                     S 
+                                  
+                                  
+                                     − 
+                                     1 
+                                  
+                               
+                               
+                                  
+                                     
+                                        
+                                           θ 
+                                        
+                                        
+                                           ˆ 
+                                        
+                                     
+                                  
+                                  
+                                     ′ 
+                                     ′ 
+                                  
+                               
+                            
+                          and  
+                            
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     ˆ 
+                                  
+                               
+                               = 
+                               
+                                  
+                                     
+                                        
+                                           α 
+                                        
+                                        
+                                           ˆ 
+                                        
+                                     
+                                  
+                                  
+                                     ′ 
+                                     ′ 
+                                  
+                               
+                               − 
+                               μ 
+                               V 
+                               
+                                  
+                                  
+                                     ⊤ 
+                                  
+                               
+                               
+                                  
+                                     θ 
+                                  
+                                  
+                                     ˆ 
+                                  
+                               
+                            
+                         .
+
+In the following  
+                         R 
+                       code,  
+                         y 
+                       is the binary response (tapping) sequence, and  
+                         X 
+                       is the design matrix. In our case, the columns of  
+                         X 
+                       contained  
+                         N*cpp 
+                       lagged values from the cue sequence multiplied by time, followed by  
+                         N 
+                       lagged values from the tapping sequence—that is, in a row corresponding to the  
+                         t 
+                      th observation in a performance,  
+                         
+                            
+                               y 
+                            
+                            
+                               t 
+                            
+                         
+                      , we would have  
+                         
+                            ( 
+                            t 
+                            
+                               
+                                  x 
+                               
+                               
+                                  t 
+                                  − 
+                                  1 
+                               
+                            
+                            , 
+                            … 
+                            , 
+                            t 
+                            
+                               
+                                  x 
+                               
+                               
+                                  t 
+                                  − 
+                                  N 
+                                  × 
+                                  c 
+                                  p 
+                                  p 
+                               
+                            
+                            , 
+                            
+                               
+                                  y 
+                               
+                               
+                                  t 
+                                  − 
+                                  1 
+                               
+                            
+                            , 
+                            … 
+                            , 
+                            
+                               
+                                  y 
+                               
+                               
+                                  t 
+                                  − 
+                                  N 
+                               
+                            
+                            ) 
+                         
+                      —and the penalty matrix  
+                         Q 
+                       was constructed according to Section  3.4 .
+
+The experimental data used 91 rhythmic patterns. These were tabulated in  Dean et al. (2021)  and  Milne et al. (2021)  in a more specialised notation, but we provide them here in box notation, and grouped by period.

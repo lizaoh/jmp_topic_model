@@ -1,0 +1,2882 @@
+10.1016/j.jmp.2016.06.009
+A fundamental question in neuroscience is how the human brain makes sense of its environment. How does the brain manage to learn about, represent and recognize statistical invariances in the environment that guide its actions, ultimately ensuring our survival in a world that is in a continuous state of flux? The representation of invariant features of the environment is the subject matter of sensory neuroscience. In recent years, advances in computational modeling have changed the way sensory cortical responses to external stimuli are investigated. The objective of the present work is to provide an overview of these advances and to point out new directions in this exciting field of research. In the following, a number of concepts are introduced that are at the root of computational modeling in sensory neuroscience.
+
+The scientific study of sensation and perception was initiated by  Wundt (1862) . However, it was not until the introduction of the notion of the  receptive field  (RF), defined as that portion of (concrete or abstract) sensory space which elicits a neuronal response when stimulated ( Sherrington, 1906 ), that sensory neuroscience was put on a more quantitative footing. Let  
+                            
+                               x 
+                            
+                            = 
+                            
+                               
+                                  
+                                     ( 
+                                     
+                                        
+                                           x 
+                                        
+                                        
+                                           1 
+                                        
+                                     
+                                     , 
+                                     … 
+                                     , 
+                                     
+                                        
+                                           x 
+                                        
+                                        
+                                           N 
+                                        
+                                     
+                                     ) 
+                                  
+                               
+                               
+                                  
+                                     T 
+                                  
+                               
+                            
+                          be the sensory input. The receptive field of a neuron is a filter  
+                            
+                               w 
+                            
+                            = 
+                            
+                               
+                                  
+                                     ( 
+                                     
+                                        
+                                           w 
+                                        
+                                        
+                                           1 
+                                        
+                                     
+                                     , 
+                                     … 
+                                     , 
+                                     
+                                        
+                                           w 
+                                        
+                                        
+                                           N 
+                                        
+                                     
+                                     ) 
+                                  
+                               
+                               
+                                  
+                                     T 
+                                  
+                               
+                            
+                          such that  
+                            
+                               (1) 
+                               
+                                  r 
+                                  = 
+                                  g 
+                                  
+                                     ( 
+                                     
+                                        
+                                           
+                                              w 
+                                           
+                                        
+                                        
+                                           
+                                              T 
+                                           
+                                        
+                                     
+                                     
+                                        x 
+                                     
+                                     ) 
+                                  
+                               
+                            
+                          gives the (expected) instantaneous firing rate of that neuron ( Gerstner, Kistler, Naud, & Paninski, 2014 ). Here,  
+                            g 
+                            
+                               ( 
+                               ⋅ 
+                               ) 
+                            
+                          is a nonlinear function that maps its input to a firing rate.  Fig. 1 
+                          gives an example where the stimulus  
+                            
+                               x 
+                            
+                          is given by a visual image and the receptive field  
+                            
+                               w 
+                            
+                          is given by a Gaussian kernel. Note that each image pixel  
+                            
+                               
+                                  x 
+                               
+                               
+                                  i 
+                               
+                            
+                          is associated with a unique receptive field element  
+                            
+                               
+                                  w 
+                               
+                               
+                                  i 
+                               
+                            
+                         .
+
+In visual neuroscience, the receptive field has become a key concept for understanding the response properties of neurons along the visual pathway ( Barlow, 1953; Hartline, 1940; Hubel & Wiesel, 1959; Kuffler, 1953 ). While the characterization of receptive field properties has predominantly focused on the visual modality ( Ringach, 2004 ), similar successes have been booked in the characterization of auditory, olfactory and somatosensory receptive fields ( Hsiao, 2008; Knudsen & Konishi, 1978; Wilson, 2001 ).
+
+The use of receptive fields as a theoretical construct has been extraordinarily successful in sensory neuroscience. At the same time, accurate characterization of the receptive fields of individual neurons remains extremely difficult for a number of reasons. First, RF structure can be hard to characterize ( Carandini et al., 2005 ), particularly in downstream areas ( Gallant, Braun, & Van Essen, 1993; Okazawa, Tajima, & Komatsu, 2015 ). Second, RF properties are modulated by non-classical receptive field effects such as surround suppression ( Fitzpatrick, 2000; Joo, Boynton, & Murray, 2012; Smith & Muckli, 2010; Zipser, Lamme, & Schiller, 1996 ). Third, they are modulated by top-down processes such as task demand ( Emadi & Esteky, 2014; McKee, Riesenhuber, Miller, & Freedman, 2014 ) and attention ( Çukur, Nishimoto, Huth, & Gallant, 2013; David, Hayden, Mazer, & Gallant, 2008 ). These confounding factors make testing of RF properties in controlled experimental settings difficult.
+
+A receptive field characterizes what stimulus properties a single neuron responds to. However, if we consider non-invasive measurement techniques used to probe human brain function then we can only measure the aggregate activity of a pool of neurons. For example, functional magnetic resonance imaging (fMRI) measures the blood oxygenation-level dependent (BOLD) response across thousands of volume elements (voxels) in the brain. Each voxel captures the hemodynamic response induced by a neuronal population consisting of about 5.5 million neurons ( Logothetis, 2008 ). As another example, electroencephalography (EEG) and magnetoencephalography (MEG) measure the electrical and magnetic fields, respectively, that are generated by the (weighted) responses of multiple populations of neurons dispersed across the brain volume.
+
+For a population of neurons, the term  population receptive field  (pRF) was introduced to refer to those stimulus properties that drive their pooled response ( Victor, Purpura, Katz, & Mao, 1994 ). In case of fMRI, which will be the main focus of this review, the pRF is defined at the level of single voxels and also referred to as the voxel receptive field ( Kriegeskorte & Kreiman, 2011 ). Analogous to the receptive field of an individual neuron, a population receptive field is a filter  
+                            
+                               w 
+                            
+                          such that the (expected) population activity is given by  
+                            
+                               (2) 
+                               
+                                  a 
+                                  = 
+                                  g 
+                                  
+                                     ( 
+                                     
+                                        
+                                           
+                                              w 
+                                           
+                                        
+                                        
+                                           
+                                              T 
+                                           
+                                        
+                                     
+                                     
+                                        x 
+                                     
+                                     ) 
+                                  
+                                  . 
+                               
+                            
+                          We refer to Eq.  (2)  as a population receptive field model, mapping a sensory stimulus to a population response (cf.  Fig. 1 ).
+
+One might question why one embarks on population receptive field modeling in the first place given that, in contrast to analyzing single-neuron responses, it does not lead to a direct understanding of neural coding. An important motivation is that understanding how population responses are organized at a macroscopic level may provide insight into the functional organization of neural representations in the human brain. This, in turn, may guide hypothesis formation on the computational principles by which such representations emerge. Research suggests that population responses reflect computational principles operating at a lower scale ( Kamitani & Tong, 2005 ). However, whether or not this can be explained by large-scale biases that exist at a macroscopic level has been vigorously debated (e.g.  Carlson, 2014 ;  Cichy & Pantazis, 2015 ;  Freeman, Brouwer, Heeger, & Merriam, 2011 ;  Kriegeskorte, Cusack, & Bandettini, 2010 ;  Op de Beeck, 2010 ;  Swisher et al., 2010 ).
+
+In general, one may consider multiple neuronal populations. The activity in each of these populations may influence how signals are measured by sensors using a variety of recording techniques. An  encoding model  seeks to explain (1) how a stimulus modulates the activity of  
+                            p 
+                          neuronal populations and (2) how population activity affects data recorded from  
+                            q 
+                          sensors ( Kriegeskorte & Kreiman, 2011; Naselaris, Kay, Nishimoto, & Gallant, 2011 ). 
+                            1 
+                         
+                         
+                            1 
+                            Here, sensors are taken to stand for either voxel-specific BOLD measures in case of fMRI, extracranially measured electric or magnetic fields in case of EEG and MEG, or intracranially measured multi-unit activity.
+
+Consider a collection of  
+                            p 
+                          neuronal populations. Each of these populations can be sensitive to different stimulus features. That is, we assume that the population responses to a stimulus presented at time  
+                            t 
+                          are given by  
+                            
+                               (3) 
+                               
+                                  
+                                     
+                                        
+                                           a 
+                                        
+                                     
+                                     
+                                        t 
+                                     
+                                  
+                                  = 
+                                  
+                                     g 
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           
+                                              x 
+                                           
+                                        
+                                        
+                                           t 
+                                        
+                                     
+                                     , 
+                                     
+                                        
+                                           
+                                              a 
+                                           
+                                        
+                                        
+                                           t 
+                                           − 
+                                           1 
+                                        
+                                     
+                                     ) 
+                                  
+                                  . 
+                               
+                            
+                          where  
+                            
+                               g 
+                            
+                            = 
+                            
+                               
+                                  
+                                     ( 
+                                     
+                                        
+                                           g 
+                                        
+                                        
+                                           1 
+                                        
+                                     
+                                     , 
+                                     … 
+                                     , 
+                                     
+                                        
+                                           g 
+                                        
+                                        
+                                           p 
+                                        
+                                     
+                                     ) 
+                                  
+                               
+                               
+                                  
+                                     T 
+                                  
+                               
+                            
+                          stands for the nonlinear transformations that are specific to each neuronal population. This equation makes explicit that the population activity at some time  
+                            t 
+                          depends nonlinearly on the stimulus presented at time  
+                            t 
+                          as well as on the population activity at the previous point in time. 
+                            2 
+                         
+                         
+                            2 
+                            One should realize that this formulation assumes uniform conduction delays between populations and the absence of response variability within populations. Often, the time dependence is omitted as well.
+
+Note that Eq.  (3)  is a more general formulation than Eq.  (2) . Eq.  (2)  assumes that the population activity is given by a linear–nonlinear model, which is known to yield poor predictions in case of complex naturalistic stimuli ( Frégnac & Bathellier, 2015 ), whereas Eq.  (3)  is given by an arbitrary nonlinear function of the (potentially complete) stimulus history through the dependence on the past population activity. It follows that pRF models are subsumed by encoding models.
+
+An encoding model also makes explicit how population activity is measured at the sensor level. These measurements may depend on the history of population activity, e.g. due to the lag in the hemodynamic response when collecting fMRI BOLD data. To accommodate for this, let  
+                            
+                               (4) 
+                               
+                                  
+                                     
+                                        
+                                           ϕ 
+                                        
+                                     
+                                     
+                                        t 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        
+                                           ( 
+                                           
+                                              
+                                                 
+                                                    a 
+                                                 
+                                              
+                                              
+                                                 t 
+                                                 − 
+                                                 k 
+                                              
+                                           
+                                           , 
+                                           
+                                              
+                                                 
+                                                    a 
+                                                 
+                                              
+                                              
+                                                 t 
+                                                 − 
+                                                 k 
+                                                 + 
+                                                 1 
+                                              
+                                           
+                                           , 
+                                           … 
+                                           , 
+                                           
+                                              
+                                                 
+                                                    a 
+                                                 
+                                              
+                                              
+                                                 t 
+                                              
+                                           
+                                           ) 
+                                        
+                                     
+                                     
+                                        
+                                           T 
+                                        
+                                     
+                                  
+                               
+                            
+                          denote a history of neural population activity. We also refer to  
+                            
+                               ϕ 
+                            
+                          as a  feature space  since it represents a collection of stimulus features (nonlinear transformations of the stimulus). We now define the expected measurement vector as  
+                            
+                               (5) 
+                               
+                                  
+                                     
+                                        
+                                           μ 
+                                        
+                                     
+                                     
+                                        t 
+                                     
+                                  
+                                  = 
+                                  
+                                     f 
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           
+                                              ϕ 
+                                           
+                                        
+                                        
+                                           t 
+                                        
+                                     
+                                     ) 
+                                  
+                               
+                            
+                          where  
+                            
+                               f 
+                            
+                            = 
+                            
+                               ( 
+                               
+                                  
+                                     f 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                               , 
+                               … 
+                               , 
+                               
+                                  
+                                     f 
+                                  
+                                  
+                                     q 
+                                  
+                               
+                               ) 
+                            
+                          is a vector-valued function such that  
+                            
+                               
+                                  f 
+                               
+                               
+                                  j 
+                               
+                            
+                          the  forward model  which maps the (lagged) responses of  
+                            p 
+                          distinct pools of neurons to the  
+                            j 
+                         th observed response.
+
+Summarizing, encoding models can be thought of as providing a common framework that allows investigating (highly nonlinear) response properties of different cortical areas as induced by arbitrary sensory inputs, where responses are measured indirectly via signal-altering neural recording methods. The present paper provides an overview of this new area of research and explores how encoding models may be used to provide novel insights into how neural responses are affected by bottom-up sensory evidence as well as top-down executive processes in naturalistic paradigms. Section   2  describes how encoding models can be estimated and inverted using experimental data. Section   3  addresses related approaches. In Section   4 , the construction and use of different feature spaces are reviewed. Section   5  describes how encoding models may be used to inform about the nature of neural representations. Section   6  provides an outlook on future applications of encoding models in sensory neuroscience. We end with some general conclusions in Section   7 .
+
+In contrast to more controlled paradigms in cognitive neuroscience ( Rust & Movshon, 2005 ), encoding models typically seek to characterize how arbitrary sensory input affects observed responses. This input often takes the form of high-dimensional naturalistic stimuli ( Creutzfeldt & Nothdurft, 1978; Einhäuser & König, 2010; Felsen & Dan, 2005; Gallant, Connor, & Van Essen, 1998; Hasson, Malach, & Heeger, 2010; Kayser, Körding, & König, 2004 ). Naturalistic stimuli feature characteristic statistics that are usually not contained in highly controlled stimuli (e.g. bars and gratings). To learn how this high-dimensional stimulus space maps onto neural responses, a sufficient number of stimulus–response pairs needs to be collected, resulting in many hours of scanning time per subject. For this reason, studies that employ encoding models tend to report results for a handful of individuals, as is common in animal studies, where data collection is laborious as well, albeit for other reasons. 
+                         3 
+                      
+                      
+                         3 
+                         One might also argue that the highly detailed response properties as captured by encoding models can be highly individualized, thus making group-level analyses less meaningful. 
+                       After estimating the parameters of an encoding model, it can be used to predict how stimuli induce measured brain responses ( Victor et al., 1994 ).
+
+Given  
+                            n 
+                          unique presented stimuli and  
+                            m 
+                          observed measurement vectors, an encoding model seeks to predict the set of measurements  
+                            
+                               { 
+                               
+                                  
+                                     
+                                        y 
+                                     
+                                  
+                                  
+                                     t 
+                                  
+                               
+                               } 
+                            
+                          as a function of the set of sensory inputs  
+                            
+                               { 
+                               
+                                  
+                                     
+                                        x 
+                                     
+                                  
+                                  
+                                     t 
+                                  
+                               
+                               } 
+                            
+                          using a suitable feature space  
+                            
+                               ϕ 
+                            
+                          and forward models  
+                            
+                               f 
+                            
+                         . Assuming that, over time, measurements are conditionally independent given the population activity, together with the assumed deterministic dependence of the feature space on the input stimulus, we may write 
+                            4 
+                         
+                         
+                            4 
+                            In reality, measurements can be highly (auto)correlated even after conditioning on the population activity. In practice, this may be circumvented using particular preprocessing steps such as averaging over blocks or using trial-specific regression coefficients as surrogate measurements. 
+                         
+                         
+                            
+                               (6) 
+                               
+                                  p 
+                                  
+                                     ( 
+                                     
+                                        { 
+                                        
+                                           
+                                              
+                                                 y 
+                                              
+                                           
+                                           
+                                              t 
+                                           
+                                        
+                                        } 
+                                     
+                                     ∣ 
+                                     
+                                        { 
+                                        
+                                           
+                                              
+                                                 x 
+                                              
+                                           
+                                           
+                                              t 
+                                           
+                                        
+                                        } 
+                                     
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        ∏ 
+                                     
+                                     
+                                        t 
+                                     
+                                  
+                                  p 
+                                  
+                                     ( 
+                                     
+                                        
+                                           
+                                              y 
+                                           
+                                        
+                                        
+                                           t 
+                                        
+                                     
+                                     ∣ 
+                                     
+                                        
+                                           
+                                              ϕ 
+                                           
+                                        
+                                        
+                                           t 
+                                        
+                                     
+                                     ) 
+                                  
+                                  , 
+                               
+                            
+                          where  
+                            t 
+                          ranges over the times at which a measurement was taken.
+
+It is computationally expedient to assume that the conditional densities are given by a multivariate Gaussian  
+                            
+                               (7) 
+                               
+                                  p 
+                                  
+                                     ( 
+                                     
+                                        
+                                           
+                                              y 
+                                           
+                                        
+                                        
+                                           t 
+                                        
+                                     
+                                     ∣ 
+                                     
+                                        
+                                           
+                                              ϕ 
+                                           
+                                        
+                                        
+                                           t 
+                                        
+                                     
+                                     ) 
+                                  
+                                  = 
+                                  N 
+                                  
+                                     ( 
+                                     
+                                        
+                                           
+                                              y 
+                                           
+                                        
+                                        
+                                           t 
+                                        
+                                     
+                                     ; 
+                                     
+                                        
+                                           
+                                              μ 
+                                           
+                                        
+                                        
+                                           t 
+                                        
+                                     
+                                     , 
+                                     
+                                        Σ 
+                                     
+                                     ) 
+                                  
+                                  , 
+                               
+                            
+                          where the mean  
+                            
+                               
+                                  
+                                     μ 
+                                  
+                               
+                               
+                                  t 
+                               
+                            
+                          represents the expected value of the measurements, as defined in Eq.  (5) , and the covariance matrix  
+                            
+                               Σ 
+                            
+                          captures the residual measurement noise. 
+                            5 
+                         
+                         
+                            5 
+                            We often leave model parameters implicit in our notation to reduce clutter. 
+                          If we assume that each forward model is given by a linear mapping then Eq.  (6)  can be conveniently written as  
+                            
+                               (8) 
+                               
+                                  p 
+                                  
+                                     ( 
+                                     
+                                        { 
+                                        
+                                           
+                                              
+                                                 y 
+                                              
+                                           
+                                           
+                                              t 
+                                           
+                                        
+                                        } 
+                                     
+                                     ∣ 
+                                     
+                                        { 
+                                        
+                                           
+                                              
+                                                 x 
+                                              
+                                           
+                                           
+                                              t 
+                                           
+                                        
+                                        } 
+                                     
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        ∏ 
+                                     
+                                     
+                                        t 
+                                     
+                                  
+                                  N 
+                                  
+                                     ( 
+                                     
+                                        
+                                           
+                                              y 
+                                           
+                                        
+                                        
+                                           t 
+                                        
+                                     
+                                     ; 
+                                     
+                                        
+                                           
+                                              B 
+                                           
+                                        
+                                        
+                                           
+                                              T 
+                                           
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              ϕ 
+                                           
+                                        
+                                        
+                                           t 
+                                        
+                                     
+                                     , 
+                                     
+                                        Σ 
+                                     
+                                     ) 
+                                  
+                               
+                            
+                          with  
+                            
+                               B 
+                            
+                            = 
+                            
+                               [ 
+                               
+                                  
+                                     
+                                        β 
+                                     
+                                  
+                                  
+                                     1 
+                                  
+                               
+                               , 
+                               … 
+                               , 
+                               
+                                  
+                                     
+                                        β 
+                                     
+                                  
+                                  
+                                     q 
+                                  
+                               
+                               ] 
+                            
+                          a matrix of regression coefficients.
+
+Eq.  (8)  is known as a  linearizing encoding model  since it only requires a linear mapping between the population responses and the observations ( Naselaris et al., 2011 ). In this setting, parameter estimation entails solving a set of multiple linear regression problems, yielding the regression coefficients  
+                            
+                               B 
+                            
+                         . Since  
+                            
+                               ϕ 
+                            
+                          can be extremely high-dimensional and the stimulus features can display high collinearity, standard ordinary least squares estimation of  
+                            
+                               B 
+                            
+                          is unstable. Instead regularized estimators should be used which impose constraints on  
+                            
+                               B 
+                            
+                         , thereby making the parameter estimates more well-behaved ( Schoenmakers, Barth, Heskes, & van Gerven, 2013; Wu, David, & Gallant, 2006 ). 
+                            6 
+                         
+                         
+                            6 
+                            For example, ridge regression assumes a zero-mean Gaussian prior on individual coefficients, thereby mitigating collinearity issues. The use of regularization comes at the expense of having to estimate a regularization parameter using separate validation data. 
+                          The noise covariance  
+                            
+                               Σ 
+                            
+                          can either be analytically approximated or estimated from a separate dataset. Validation of an encoding model typically proceeds by computing the variance explained by the model on a separate test set which has not been used during model estimation.
+
+Eq.  (8)  subsumes many of the encoding models that have been developed to date, such as  Güçlü and van Gerven (2014, 2015) ,  Kay, Naselaris, Prenger, and Gallant (2008) ,  Naselaris, Prenger, Kay, Oliver, and Gallant (2009)  and  Schoenmakers et al. (2013) . The essential difference between these various encoding models follows from their use of different feature spaces  
+                            
+                               ϕ 
+                            
+                         , reflecting different assumptions about how neuronal populations respond to sensory input. In this setting, regression coefficients  
+                            
+                               B 
+                            
+                          are used to (1) be able to predict observed data from the stimulus features and (2) explore which stimulus features are most involved in this prediction.
+
+Whereas encoding refers to predicting the response given a stimulus, decoding refers to predicting the stimulus from the measured response, allowing probing of the representational content of neuronal population recordings ( Bialek, Rieke, de Ruyter van Steveninck, & Warland, 1991; Stanley, Li, & Dan, 1999 ). Decoding can be accomplished via the inversion of an encoding model since  
+                            
+                               (9) 
+                               
+                                  p 
+                                  
+                                     ( 
+                                     
+                                        { 
+                                        
+                                           
+                                              
+                                                 x 
+                                              
+                                           
+                                           
+                                              t 
+                                           
+                                        
+                                        } 
+                                     
+                                     ∣ 
+                                     
+                                        { 
+                                        
+                                           
+                                              
+                                                 y 
+                                              
+                                           
+                                           
+                                              t 
+                                           
+                                        
+                                        } 
+                                     
+                                     ) 
+                                  
+                                  ∝ 
+                                  p 
+                                  
+                                     ( 
+                                     
+                                        { 
+                                        
+                                           
+                                              
+                                                 y 
+                                              
+                                           
+                                           
+                                              t 
+                                           
+                                        
+                                        } 
+                                     
+                                     ∣ 
+                                     
+                                        { 
+                                        
+                                           
+                                              
+                                                 x 
+                                              
+                                           
+                                           
+                                              t 
+                                           
+                                        
+                                        } 
+                                     
+                                     ) 
+                                  
+                                  p 
+                                  
+                                     ( 
+                                     
+                                        { 
+                                        
+                                           
+                                              
+                                                 x 
+                                              
+                                           
+                                           
+                                              t 
+                                           
+                                        
+                                        } 
+                                     
+                                     ) 
+                                  
+                                  , 
+                               
+                            
+                          where the right-hand side follows from Bayes’ rule. Here,  
+                            p 
+                            
+                               ( 
+                               
+                                  { 
+                                  
+                                     
+                                        
+                                           x 
+                                        
+                                     
+                                     
+                                        t 
+                                     
+                                  
+                                  } 
+                               
+                               ) 
+                            
+                          is a stimulus prior which models the statistical structure in the environment.
+
+If we assume that the system is Markovian (i.e. the future is independent of the past given the present) then we may write 
+                            7 
+                         
+                         
+                            7 
+                            This formulation does not preclude modeling of non-Markovian dynamics since long-term dependencies can be either captured using augmented stimulus representations (capturing, e.g., stimulus velocity) or by encoding these dependencies in the neural population dynamics itself (cf. Eq.  (3) ). 
+                         
+                         
+                            
+                               (10) 
+                               
+                                  p 
+                                  
+                                     ( 
+                                     
+                                        { 
+                                        
+                                           
+                                              
+                                                 x 
+                                              
+                                           
+                                           
+                                              t 
+                                           
+                                        
+                                        } 
+                                     
+                                     ) 
+                                  
+                                  = 
+                                  p 
+                                  
+                                     ( 
+                                     
+                                        
+                                           
+                                              x 
+                                           
+                                        
+                                        
+                                           1 
+                                        
+                                     
+                                     ) 
+                                  
+                                  
+                                     
+                                        ∏ 
+                                     
+                                     
+                                        i 
+                                        = 
+                                        2 
+                                     
+                                     
+                                        n 
+                                     
+                                  
+                                  p 
+                                  
+                                     ( 
+                                     
+                                        
+                                           
+                                              x 
+                                           
+                                        
+                                        
+                                           i 
+                                        
+                                     
+                                     ∣ 
+                                     
+                                        
+                                           
+                                              x 
+                                           
+                                        
+                                        
+                                           i 
+                                           − 
+                                           1 
+                                        
+                                     
+                                     ) 
+                                  
+                                  . 
+                               
+                            
+                          Normally, the objective is to obtain the most probable reconstruction of the stimulus given observed data, which, when combining Eqs.  (6) and (10) , is given by  
+                            
+                               (11) 
+                               
+                                  
+                                     
+                                        
+                                           { 
+                                           
+                                              
+                                                 
+                                                    x 
+                                                 
+                                              
+                                              
+                                                 t 
+                                              
+                                           
+                                           } 
+                                        
+                                     
+                                     
+                                        ∗ 
+                                     
+                                  
+                                  = 
+                                  arg 
+                                  
+                                     
+                                        max 
+                                     
+                                     
+                                        
+                                           { 
+                                           
+                                              
+                                                 
+                                                    x 
+                                                 
+                                              
+                                              
+                                                 t 
+                                              
+                                           
+                                           } 
+                                        
+                                     
+                                  
+                                  
+                                     { 
+                                     p 
+                                     
+                                        ( 
+                                        
+                                           
+                                              
+                                                 x 
+                                              
+                                           
+                                           
+                                              1 
+                                           
+                                        
+                                        ) 
+                                     
+                                     
+                                        
+                                           ∏ 
+                                        
+                                        
+                                           i 
+                                           = 
+                                           2 
+                                        
+                                        
+                                           n 
+                                        
+                                     
+                                     p 
+                                     
+                                        ( 
+                                        
+                                           
+                                              
+                                                 x 
+                                              
+                                           
+                                           
+                                              i 
+                                           
+                                        
+                                        ∣ 
+                                        
+                                           
+                                              
+                                                 x 
+                                              
+                                           
+                                           
+                                              i 
+                                              − 
+                                              1 
+                                           
+                                        
+                                        ) 
+                                     
+                                     
+                                        
+                                           ∏ 
+                                        
+                                        
+                                           t 
+                                        
+                                     
+                                     p 
+                                     
+                                        ( 
+                                        
+                                           
+                                              
+                                                 y 
+                                              
+                                           
+                                           
+                                              t 
+                                           
+                                        
+                                        ∣ 
+                                        
+                                           
+                                              
+                                                 ϕ 
+                                              
+                                           
+                                           
+                                              t 
+                                           
+                                        
+                                        ) 
+                                     
+                                     } 
+                                  
+                                  . 
+                               
+                            
+                          This formulation was used in, e.g.,  van Gerven, Kok, de Lange, and Heskes (2011) , where both the direction and orientation of perceived rotating gratings were decoded from fMRI measurements. In case there are no temporal dependencies, each stimulus can be reconstructed separately for each response vector at a specific time point as  
+                            
+                               (12) 
+                               
+                                  
+                                     
+                                        
+                                           x 
+                                        
+                                     
+                                     
+                                        t 
+                                     
+                                     
+                                        ∗ 
+                                     
+                                  
+                                  = 
+                                  arg 
+                                  
+                                     
+                                        max 
+                                     
+                                     
+                                        
+                                           
+                                              
+                                                 x 
+                                              
+                                           
+                                           
+                                              t 
+                                           
+                                        
+                                     
+                                  
+                                  
+                                     { 
+                                     p 
+                                     
+                                        ( 
+                                        
+                                           
+                                              
+                                                 x 
+                                              
+                                           
+                                           
+                                              t 
+                                           
+                                        
+                                        ) 
+                                     
+                                     p 
+                                     
+                                        ( 
+                                        
+                                           
+                                              
+                                                 y 
+                                              
+                                           
+                                           
+                                              t 
+                                           
+                                        
+                                        ∣ 
+                                        
+                                           
+                                              
+                                                 ϕ 
+                                              
+                                           
+                                           
+                                              t 
+                                           
+                                        
+                                        ) 
+                                     
+                                     } 
+                                  
+                                  .
+
+Validation of a decoding model typically proceeds by computing the similarity (e.g. correlation) between presented stimuli  
+                            
+                               
+                                  
+                                     x 
+                                  
+                               
+                               
+                                  t 
+                               
+                            
+                          and reconstructed stimuli  
+                            
+                               
+                                  
+                                     x 
+                                  
+                               
+                               
+                                  t 
+                               
+                               
+                                  ∗ 
+                               
+                            
+                          on a separate test set which has not been used during model estimation. A schematic which depicts the relationship between encoding and decoding is shown in  Fig. 2 
+                         .
+
+To place the encoding framework within a broader context of analysis approaches in cognitive neuroscience, a brief overview of alternative popular approaches is provided. We here consider statistical parametric mapping, multivariate pattern analysis, population receptive field mapping and representational similarity analysis.
+
+Statistical parametric mapping (SPM) is a commonly used approach in neuroimaging ( Friston et al., 1995 ). Let  
+                            
+                               Φ 
+                            
+                          be the  
+                            n 
+                            × 
+                            p 
+                          design matrix where  
+                            n 
+                          is the number of trials and  
+                            p 
+                          the number of regressors. SPM makes use of the general linear model (GLM), to write the observed responses as  
+                            
+                               (13) 
+                               
+                                  
+                                     Y 
+                                  
+                                  = 
+                                  
+                                     H 
+                                  
+                                  
+                                     Φ 
+                                  
+                                  
+                                     B 
+                                  
+                                  + 
+                                  
+                                     E 
+                                  
+                               
+                            
+                          where  
+                            
+                               Y 
+                            
+                          is the  
+                            m 
+                            × 
+                            q 
+                          measurement matrix,  
+                            
+                               H 
+                            
+                          is a  
+                            m 
+                            × 
+                            n 
+                          Toeplitz matrix which takes into account the hemodynamic delay,  
+                            
+                               B 
+                            
+                          is the  
+                            p 
+                            × 
+                            q 
+                          matrix of regression coefficients and where  
+                            
+                               E 
+                            
+                          is residual noise. SPM uses the regression coefficients associated with a small number of task regressors (i.e.   
+                            p 
+                          tends to be small) to test hypotheses about regionally specific effects.
+
+One could argue that the Gaussian encoding model in Eq.  (8)  is equivalent to the formulation of a GLM in Eq.  (13) . There is however an important conceptual difference between the encoding and SPM approaches. In contrast to SPM, encoding models constitute hypotheses about how the brain processes arbitrary sensory input, ultimately leading to observed measurements. In this sense, model comparison becomes the key objective. To function as veridical models of sensory processing, encoding models may use up to thousands of features to accurately predict measured responses to arbitrary sensory input (i.e.   
+                            p 
+                          tends to be large). Moreover, encoding models may use forward models of arbitrary complexity rather than being restricted to the formulation used in Eq.  (8) .
+
+An alternative analysis approach which has become increasingly popular over the last decade is multivariate (or multivoxel) pattern analysis (MVPA) ( Cox & Savoy, 2003; Haxby et al., 2001; Haynes & Rees, 2006; Kamitani & Tong, 2005; Miyawaki et al., 2008; Norman, Polyn, Detra, & Haxby, 2006; Tong & Pratte, 2012 ). Here, the strategy is to decode stimuli on a trial-by-trial basis by computing  
+                            
+                               (14) 
+                               
+                                  
+                                     
+                                        
+                                           x 
+                                        
+                                     
+                                     
+                                        t 
+                                     
+                                     
+                                        ∗ 
+                                     
+                                  
+                                  = 
+                                  arg 
+                                  
+                                     
+                                        max 
+                                     
+                                     
+                                        
+                                           
+                                              
+                                                 x 
+                                              
+                                           
+                                           
+                                              t 
+                                           
+                                        
+                                     
+                                  
+                                  p 
+                                  
+                                     ( 
+                                     
+                                        
+                                           
+                                              x 
+                                           
+                                        
+                                        
+                                           t 
+                                        
+                                     
+                                     ∣ 
+                                     
+                                        
+                                           
+                                              y 
+                                           
+                                        
+                                        
+                                           t 
+                                        
+                                     
+                                     ) 
+                                  
+                                  . 
+                               
+                            
+                          Hence, in contrast to the inversion of an encoding model as in Eq.  (12) , MVPA aims to predict the stimulus directly from data. 
+                            8 
+                         
+                         
+                            8 
+                            See  van Bergen, Ma, Pratte, and Jehee (2015)  for a recent example where the sensory  uncertainty  rather than sensory representation was decoded using an MVPA approach. 
+                          In machine learning parlance, encoding models are generative models whereas MVPA makes use of discriminative models, both of which have their own strengths and weaknesses ( Ng & Jordan, 2001 ).
+
+In a neuroscientific context, MVPA has as an advantage that region-specific representational content can be probed without requiring any assumptions about how that brain region responds to a stimulus. Conversely, encoding models have as an advantage that they make explicit our assumptions on how brain regions respond to stimuli, also facilitating model refinement in order to improve model fit.
+
+Another related approach is pRF mapping ( Wandell & Winawer, 2011 ), where the goal is to map pRF parameters estimated from fMRI data back onto cortex in order to reveal the functional organization of sensory cortices. Consider again Eq.  (2) . In pRF mapping, it is assumed that the population receptive field  
+                            
+                               
+                                  
+                                     w 
+                                  
+                               
+                               
+                                  i 
+                               
+                            
+                          of each voxel  
+                            i 
+                          can be generated using a small number of voxel-specific parameters that need to be estimated from data. These parameters are crucial in pRF mapping as they are mapped back onto cortex.
+
+For example, in a Gaussian pRF model, for a voxel  
+                            i 
+                         , these parameters are the mean  
+                            
+                               
+                                  
+                                     μ 
+                                  
+                               
+                               
+                                  i 
+                               
+                            
+                          and variance  
+                            
+                               
+                                  σ 
+                               
+                               
+                                  i 
+                               
+                               
+                                  2 
+                               
+                            
+                          of a Gaussian kernel  
+                            
+                               (15) 
+                               
+                                  
+                                     
+                                        k 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  
+                                     ( 
+                                     x 
+                                     , 
+                                     y 
+                                     ) 
+                                  
+                                  = 
+                                  exp 
+                                  
+                                     ( 
+                                     − 
+                                     
+                                        
+                                           
+                                              
+                                                 
+                                                    ‖ 
+                                                    
+                                                       
+                                                          
+                                                             μ 
+                                                          
+                                                       
+                                                       
+                                                          i 
+                                                       
+                                                    
+                                                    − 
+                                                    
+                                                       
+                                                          
+                                                             ( 
+                                                             x 
+                                                             , 
+                                                             y 
+                                                             ) 
+                                                          
+                                                       
+                                                       
+                                                          
+                                                             T 
+                                                          
+                                                       
+                                                    
+                                                    ‖ 
+                                                 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                        
+                                        
+                                           2 
+                                           
+                                              
+                                                 σ 
+                                              
+                                              
+                                                 i 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                        
+                                     
+                                     ) 
+                                  
+                               
+                            
+                          which defines, for each location  
+                            
+                               ( 
+                               x 
+                               , 
+                               y 
+                               ) 
+                            
+                          in visual space, the responsiveness of voxel  
+                            i 
+                          to that location. If we associate each input with a point  
+                            
+                               ( 
+                               
+                                  
+                                     x 
+                                  
+                                  
+                                     n 
+                                  
+                               
+                               , 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     n 
+                                  
+                               
+                               ) 
+                            
+                          in sensory space then we can construct the  
+                            n 
+                         th element of the  
+                            i 
+                         th Gaussian filter as  
+                            
+                               
+                                  
+                                     ( 
+                                     
+                                        
+                                           
+                                              w 
+                                           
+                                        
+                                        
+                                           i 
+                                        
+                                     
+                                     ) 
+                                  
+                               
+                               
+                                  n 
+                               
+                            
+                            = 
+                            
+                               
+                                  k 
+                               
+                               
+                                  i 
+                               
+                            
+                            
+                               ( 
+                               
+                                  
+                                     x 
+                                  
+                                  
+                                     n 
+                                  
+                               
+                               , 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     n 
+                                  
+                               
+                               ) 
+                            
+                         . It is these parameters, estimated per voxel, that allow mapping of receptive field sizes  
+                            
+                               
+                                  σ 
+                               
+                               
+                                  i 
+                               
+                               
+                                  2 
+                               
+                            
+                          and locations  
+                            
+                               
+                                  
+                                     μ 
+                                  
+                               
+                               
+                                  i 
+                               
+                               
+                                  2 
+                               
+                            
+                          across the cortical surface, thereby revealing the retinotopic organization of visual cortex.
+
+Summarizing, pRF mapping can be seen as a special kind of parametric encoding model whose feature space is determined by a small number of parameters of interest that can be easily mapped back onto the cortical surface. Extensions of the Gaussian pRF model aim to better account for unexplained variance using richer parameterized distributions, e.g. by modeling surround suppression using a difference of Gaussians ( Zuiderbaan, Harvey, & Dumoulin, 2012 ).
+
+Yet another approach which has gained traction in recent years is representational similarity analysis (RSA) ( Kriegeskorte, Mur, & Bandettini, 2008 ). One goal of RSA is to evaluate whether the representational structure of a particular computational model matches that of the response patterns in a particular brain region. Let  
+                            
+                               Y 
+                            
+                          be the  
+                            n 
+                            × 
+                            q 
+                          matrix of brain responses and let  
+                            
+                               Φ 
+                            
+                          be the  
+                            n 
+                            × 
+                            p 
+                          design matrix. We use  
+                            
+                               U 
+                            
+                          and  
+                            
+                               V 
+                            
+                          to represent the  
+                            n 
+                            × 
+                            n 
+                          dissimilarity matrices constructed from  
+                            
+                               Y 
+                            
+                          and  
+                            
+                               Φ 
+                            
+                         , respectively. Here,  
+                            
+                               
+                                  u 
+                               
+                               
+                                  i 
+                                  j 
+                               
+                            
+                          represents the difference (e.g. one minus the correlation) between trials  
+                            i 
+                          and  
+                            j 
+                          in terms of their respective brain responses whereas  
+                            
+                               
+                                  v 
+                               
+                               
+                                  i 
+                                  j 
+                               
+                            
+                          represents this difference in terms of the model predictions. By computing the similarity (e.g. correlation) between (the vectorized upper triangular parts of)  
+                            
+                               U 
+                            
+                          and  
+                            
+                               V 
+                            
+                          one can obtain evidence about how well a particular computational model explains the response patterns in a particular brain region.
+
+An advantage of RSA is that no forward model is needed to compare feature activations with measured responses. This is particularly computationally advantageous when dealing with high-dimensional feature spaces. A disadvantage is that RSA cannot determine representation-specific information encoded in individual neuronal responses since similarity matrices must be constructed from multivariate response patterns.
+
+From  (4) , it is clear that the notion of a feature space is central to the development of an encoding model. The question becomes what constitutes a suitable feature space. To simplify the exposition, we assume that the encoding model is written in the linearizing form of Eq.  (8) . Furthermore, without loss of generality, we assume that the response is instantaneous. That is, we write the expected response across neuronal populations as  
+                         
+                            (16) 
+                            
+                               
+                                  
+                                     
+                                        μ 
+                                     
+                                  
+                                  
+                                     t 
+                                  
+                               
+                               = 
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                  
+                                  
+                                     
+                                        T 
+                                     
+                                  
+                               
+                               
+                                  
+                                     
+                                        ϕ 
+                                     
+                                  
+                                  
+                                     t 
+                                  
+                               
+                               . 
+                            
+                         
+                       In the literature, researchers have made different proposals for  
+                         
+                            
+                               
+                                  ϕ 
+                               
+                            
+                            
+                               t 
+                            
+                         
+                      , as described in the following.
+
+A straightforward approach is to assume that  
+                            
+                               
+                                  
+                                     ϕ 
+                                  
+                               
+                               
+                                  t 
+                               
+                            
+                            = 
+                            
+                               
+                                  
+                                     x 
+                                  
+                               
+                               
+                                  t 
+                               
+                            
+                         . This choice implements the notion that the measured response is a linear combination of the sensory inputs. While this linearity assumption is quite restrictive, such a model has been shown to outperform standard approaches for pRF mapping ( Lee, Papanikolaou, Logothetis, Smirnakis, & Keliris, 2013 ). Furthermore, in contrast to more complex models, it has as an advantage that the decoding model follows analytically from the encoding model. Let  
+                            
+                               R 
+                            
+                          denote the pixel covariance estimated from the (demeaned) training data. Given regression coefficients  
+                            
+                               B 
+                            
+                         , noise covariance  
+                            
+                               Σ 
+                            
+                          and a stimulus prior  
+                            
+                               x 
+                            
+                            ∼ 
+                            N 
+                            
+                               ( 
+                               
+                                  0 
+                               
+                               , 
+                               
+                                  R 
+                               
+                               ) 
+                            
+                         , the optimal reconstruction can be shown to equal  
+                            
+                               (17) 
+                               
+                                  
+                                     
+                                        
+                                           x 
+                                        
+                                     
+                                     
+                                        t 
+                                     
+                                     
+                                        ∗ 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        
+                                           ( 
+                                           
+                                              
+                                                 
+                                                    R 
+                                                 
+                                              
+                                              
+                                                 − 
+                                                 1 
+                                              
+                                           
+                                           + 
+                                           
+                                              B 
+                                           
+                                           
+                                              
+                                                 
+                                                    Σ 
+                                                 
+                                              
+                                              
+                                                 − 
+                                                 1 
+                                              
+                                           
+                                           
+                                              
+                                                 
+                                                    B 
+                                                 
+                                              
+                                              
+                                                 
+                                                    T 
+                                                 
+                                              
+                                           
+                                           ) 
+                                        
+                                     
+                                     
+                                        − 
+                                        1 
+                                     
+                                  
+                                  
+                                     B 
+                                  
+                                  
+                                     
+                                        
+                                           Σ 
+                                        
+                                     
+                                     
+                                        − 
+                                        1 
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           y 
+                                        
+                                     
+                                     
+                                        t 
+                                     
+                                  
+                                  .
+
+Using this approach, as illustrated in  Fig. 3 
+                         (A), perceived images of handwritten characters could be successfully reconstructed from measured fMRI response patterns ( Schoenmakers et al., 2013 ). Extensions that make use of a Gaussian mixture prior and semantic gating further improve on this approach ( Schoenmakers, Güçlü, van Gerven, & Heskes, 2015 ). Still, the linearity assumption used in conjunction with a Gaussian prior does not generalize well to more complex naturalistic datasets.
+
+A more sophisticated approach is to use a feature space of the form  
+                            
+                               (18) 
+                               
+                                  
+                                     
+                                        
+                                           ϕ 
+                                        
+                                     
+                                     
+                                        t 
+                                     
+                                  
+                                  = 
+                                  
+                                     h 
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           
+                                              W 
+                                           
+                                        
+                                        
+                                           
+                                              T 
+                                           
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              x 
+                                           
+                                        
+                                        
+                                           t 
+                                        
+                                     
+                                     ) 
+                                  
+                                  , 
+                               
+                            
+                          where the neural response depends on linear filters (columns of  
+                            
+                               W 
+                            
+                         ) that are applied to the stimulus, followed by a static nonlinearity  
+                            
+                               h 
+                            
+                            
+                               ( 
+                               ⋅ 
+                               ) 
+                            
+                          ( Kay, Winawer, Mezer, & Wandell, 2013 ). This is very close to the definition of the pRF model of Eq.  (2) . However, in this case, a vector of putative pRF model responses is obtained which are then linearly mapped onto the observed responses via the matrix  
+                            
+                               B 
+                            
+                         . Note that the nonlinearity  
+                            
+                               h 
+                            
+                            
+                               ( 
+                               ⋅ 
+                               ) 
+                            
+                          is essential since, without it, using Eq.  (16) , we may write  
+                            
+                               μ 
+                            
+                            = 
+                            
+                               
+                                  
+                                     B 
+                                  
+                               
+                               
+                                  
+                                     T 
+                                  
+                               
+                            
+                            
+                               
+                                  
+                                     ϕ 
+                                  
+                               
+                               
+                                  t 
+                               
+                            
+                            = 
+                            
+                               
+                                  
+                                     C 
+                                  
+                               
+                               
+                                  
+                                     T 
+                                  
+                               
+                            
+                            
+                               
+                                  
+                                     x 
+                                  
+                               
+                               
+                                  t 
+                               
+                            
+                          with  
+                            
+                               C 
+                            
+                            = 
+                            
+                               W 
+                            
+                            
+                               B 
+                            
+                         , which is no more expressive than the linear formulation. Moreover, the nonlinearity allows for the implementation of various nonlinear neural response properties that are known to hold ( Kay, Winawer, Rokem, Mezer, & Wandell, 2013; Wandell, Winawer, & Kay, 2015 ).
+
+As an example, consider the nonlinear Gabor wavelet pyramid (GWP) model ( Kay et al., 2008; Naselaris et al., 2009 ) which uses local contrast energy features computed from 2D Gabor wavelets. Gabor wavelets have been used to model the properties of neurons in early visual cortex ( Daugman, 1985; Jones & Palmer, 1987; Marčelja, 1980 ). A Gabor wavelet with unit gain and zero offset can be written as  
+                            
+                               (19) 
+                               
+                                  
+                                     
+                                        k 
+                                     
+                                     
+                                        i 
+                                     
+                                  
+                                  
+                                     ( 
+                                     x 
+                                     , 
+                                     y 
+                                     ) 
+                                  
+                                  = 
+                                  exp 
+                                  
+                                     ( 
+                                     − 
+                                     
+                                        
+                                           
+                                              
+                                                 ω 
+                                              
+                                              
+                                                 i 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                        
+                                        
+                                           2 
+                                           
+                                              
+                                                 σ 
+                                              
+                                              
+                                                 i 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                        
+                                     
+                                     − 
+                                     
+                                        
+                                           
+                                              
+                                                 ρ 
+                                              
+                                              
+                                                 i 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                        
+                                        
+                                           2 
+                                           
+                                              
+                                                 ν 
+                                              
+                                              
+                                                 i 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                        
+                                     
+                                     ) 
+                                  
+                                  cos 
+                                  
+                                     ( 
+                                     2 
+                                     π 
+                                     
+                                        
+                                           f 
+                                        
+                                        
+                                           i 
+                                        
+                                     
+                                     
+                                        
+                                           ρ 
+                                        
+                                        
+                                           i 
+                                        
+                                     
+                                     + 
+                                     
+                                        
+                                           ϕ 
+                                        
+                                        
+                                           i 
+                                        
+                                     
+                                     ) 
+                                  
+                               
+                            
+                          with  
+                            
+                               
+                                  ω 
+                               
+                               
+                                  i 
+                               
+                            
+                            = 
+                            
+                               ( 
+                               x 
+                               − 
+                               
+                                  
+                                     
+                                        
+                                           x 
+                                        
+                                        
+                                           ̄ 
+                                        
+                                     
+                                  
+                                  
+                                     i 
+                                  
+                               
+                               ) 
+                            
+                            cos 
+                            
+                               
+                                  θ 
+                               
+                               
+                                  i 
+                               
+                            
+                            + 
+                            
+                               ( 
+                               y 
+                               − 
+                               
+                                  
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           ̄ 
+                                        
+                                     
+                                  
+                                  
+                                     i 
+                                  
+                               
+                               ) 
+                            
+                            sin 
+                            
+                               
+                                  θ 
+                               
+                               
+                                  i 
+                               
+                            
+                          and  
+                            
+                               
+                                  ρ 
+                               
+                               
+                                  i 
+                               
+                            
+                            = 
+                            − 
+                            
+                               ( 
+                               x 
+                               − 
+                               
+                                  
+                                     
+                                        
+                                           x 
+                                        
+                                        
+                                           ̄ 
+                                        
+                                     
+                                  
+                                  
+                                     i 
+                                  
+                               
+                               ) 
+                            
+                            sin 
+                            
+                               
+                                  θ 
+                               
+                               
+                                  i 
+                               
+                            
+                            + 
+                            
+                               ( 
+                               y 
+                               − 
+                               
+                                  
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           ̄ 
+                                        
+                                     
+                                  
+                                  
+                                     i 
+                                  
+                               
+                               ) 
+                            
+                            cos 
+                            
+                               
+                                  θ 
+                               
+                               
+                                  i 
+                               
+                            
+                         . Here,  
+                            
+                               ( 
+                               
+                                  
+                                     f 
+                                  
+                                  
+                                     i 
+                                  
+                               
+                               , 
+                               
+                                  
+                                     σ 
+                                  
+                                  
+                                     i 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               , 
+                               
+                                  
+                                     ν 
+                                  
+                                  
+                                     i 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                               ) 
+                            
+                         ,  
+                            
+                               
+                                  ϕ 
+                               
+                               
+                                  i 
+                               
+                            
+                         ,  
+                            
+                               ( 
+                               
+                                  
+                                     
+                                        
+                                           x 
+                                        
+                                        
+                                           ̄ 
+                                        
+                                     
+                                  
+                                  
+                                     i 
+                                  
+                               
+                               , 
+                               
+                                  
+                                     
+                                        
+                                           y 
+                                        
+                                        
+                                           ̄ 
+                                        
+                                     
+                                  
+                                  
+                                     i 
+                                  
+                               
+                               ) 
+                            
+                          and  
+                            
+                               
+                                  θ 
+                               
+                               
+                                  i 
+                               
+                            
+                          determine the spatial scale, phase, location and orientation of the wavelet, respectively. 
+                            9 
+                         
+                         
+                            9 
+                            See  Vu, Ravikumar, and Naselaris (2011)  for an alternative formulation of the Gabor wavelet in terms of a product of a complex 2D Fourier basis function and a Gaussian kernel. 
+                          Analogous to the Gaussian filter, we construct the  
+                            n 
+                         th element of the  
+                            i 
+                         th Gabor filter as  
+                            
+                               
+                                  
+                                     ( 
+                                     
+                                        
+                                           
+                                              w 
+                                           
+                                        
+                                        
+                                           i 
+                                        
+                                     
+                                     ) 
+                                  
+                               
+                               
+                                  n 
+                               
+                            
+                            = 
+                            
+                               
+                                  k 
+                               
+                               
+                                  i 
+                               
+                            
+                            
+                               ( 
+                               
+                                  
+                                     x 
+                                  
+                                  
+                                     n 
+                                  
+                               
+                               , 
+                               
+                                  
+                                     y 
+                                  
+                                  
+                                     n 
+                                  
+                               
+                               ) 
+                            
+                         . By using these filters together with a compressive nonlinearity  
+                            
+                               h 
+                            
+                            
+                               ( 
+                               
+                                  x 
+                               
+                               ) 
+                            
+                            = 
+                            log 
+                            
+                               ( 
+                               
+                                  | 
+                                  
+                                     x 
+                                  
+                                  | 
+                               
+                               + 
+                               1 
+                               ) 
+                            
+                          as the feature space for a linearizing encoding model, it has been shown that brain responses to naturalistic images could be predicted with high accuracy. The Gaussian filter has also been used by  Thirion et al. (2006)  to reconstruct perceived and even imagined patterns from multivariate fMRI response patterns (see  Fig. 3 (B)).
+
+A similar model has been used to predict population responses to dynamically changing visual stimuli.  Nishimoto et al. (2011)  used a nonlinear motion–energy model based on spatiotemporal Gabor filters to accurately predict brain responses to naturalistic movies and even reconstruct movies from observed brain responses. This is impressive given the high sampling rate of naturalistic movies compared to the low sampling rate of fMRI responses.
+
+While nonlinear encoding models improve encoding performance over linear ones, they do prohibit decoding via analytical inversion as in Eq.  (17)  since the used nonlinearity may be non-invertible. Instead, decoding can be achieved via numerical inversion. For example, one can make use of an empirical prior ( Naselaris et al., 2009 ). This prior assumes that the stimuli are completely characterized by a large but finite set  
+                            X 
+                          of candidate stimuli of equal probability, such that  
+                            p 
+                            
+                               ( 
+                               
+                                  x 
+                               
+                               ) 
+                            
+                            ∝ 
+                            
+                               
+                                  1 
+                               
+                               
+                                  
+                                     x 
+                                  
+                                  ∈ 
+                                  X 
+                               
+                            
+                          where  
+                            1 
+                          is the indicator function. In this case, the optimal reconstruction becomes  
+                            
+                               
+                                  
+                                     x 
+                                  
+                               
+                               
+                                  ∗ 
+                               
+                            
+                            = 
+                            arg 
+                            
+                               
+                                  max 
+                               
+                               
+                                  
+                                     x 
+                                  
+                                  ∈ 
+                                  X 
+                               
+                            
+                            p 
+                            
+                               ( 
+                               
+                                  y 
+                               
+                               ∣ 
+                               
+                                  x 
+                               
+                               ) 
+                            
+                         , which can be computed by iterating over all stimuli in the set and computing its likelihood. If the target stimulus is part of the candidate set then we refer to this procedure as identification rather than reconstruction.
+
+An alternative to the use of a predetermined feature space which embodies our assumptions about stimulus–response relationships is to use a more objective approach, where the feature space is learnt directly from data. The underlying assumption here is that the brain is optimized to extract statistical regularities from the environment ( Blakemore & Cooper, 1970; Marr, 1970; Purves, Wojtach, & Lotto, 2011; Rao & Ballard, 1999; Simoncelli & Olshausen, 2001 ). This suggests that a statistical model that learns invariances from massive datasets may constitute an optimal feature space. In  Güçlü and van Gerven (2014)  a sparse coding (SC) model was used which learns simple- and complex-cell responses in an unsupervised manner by presenting the model with a large number of natural image patches ( Hyvärinen & Hoyer, 2001 ). Interestingly, it was shown that responses predicted by the SC model significantly outperformed those of the GWP model ( Kay et al., 2008 ). This implies that the GWP model remains wanting when it comes to explaining responses in early visual cortex. See  Fig. 3 (C) for an example of a Gabor wavelet and a sparse coding filter, showing both differences and similarities. An important upshot of this work is that it is possible to validate computational models of learning and inference in sensory cortex using non-invasively recorded neural data.
+
+While the GWP model and related models such as the SC model capture low-level stimulus features that inform about responses in early visual cortex, they are unable to capture responses to high-level stimulus features that inform about semantic representations in downstream association areas.
+
+One way to circumvent this problem is to manually construct a feature space, as in the GWP model for early visual cortex, but now geared towards the direct representation of semantic information. This approach was used, for example, in a seminal study by  Mitchell et al. (2008) , where the feature space for written nouns was modeled in terms of their association strengths with different verbs. It was shown that this model could predict responses to nouns that were not previously seen by the encoding model by using the mapping from nouns to verbs in conjunction with the mapping from verbs to fMRI responses.
+
+In  Naselaris et al. (2009) , a low-level structural encoding model, predicting responses in early visual cortex, was combined with a semantic encoding model, predicting responses to stimulus category in downstream areas. The integration of both sources of information together with the use of an empirical prior led to high-quality reconstructions.
+
+Huth, Nishimoto, Vu, and Gallant (2012)  annotated thousands of movie frames with hundreds of object and action categories to create a feature space with which to examine the representation of semantic knowledge across the human brain. Principal component analysis of the regression coefficients that map the feature space to voxel responses revealed a number of dimensions that had an intuitive semantic interpretation in terms of animacy, social categories and man-made versus natural stimuli. Recently, a similar approach has been used by the same authors to map semantic information across the cortical sheet using fMRI data obtained while subjects were listening to autobiographical stories ( Huth, de Heer, Griffiths, & Gallant, 2016 ).
+
+A limitation of the manual annotation of stimuli in terms of semantic properties is that it is laborious and may introduce annotator bias. More importantly, it does not inform about  how  these semantic representations come about in actual brains. In a sense, human-defined feature spaces can be viewed as computational oracles that do not provide an explicit account of neural processing of sensory stimuli. Ideally, we would like to model how low-, mid- and high-level stimulus features emerge by committing to a learning procedure. These features can subsequently be used to probe representations across the cortical sheet. One way to tackle this problem is to use hierarchical models consisting of multiple layers of elementary units that are trained to process increasingly complex features of their environment.
+
+Recently, hierarchical models of this sort, known as deep neural networks (DNNs), have been used to predict neural responses in downstream cortical areas. From a neuroscientific point of view DNNs are of interest since their ability to detect increasingly abstract properties of their environment is reminiscent of the way sensory input is processed across different sensory pathways ( Cox & Dean, 2014; Fukushima, 1980; Riesenhuber & Poggio, 1999; Serre, Wolf, Bileschi, Riesenhuber, & Poggio, 2007 ). A DNN learns a feature space in a supervised manner and has been shown to provide excellent predictions of neural responses. Briefly, given a labeled training dataset  
+                            
+                               Z 
+                            
+                            = 
+                            
+                               { 
+                               
+                                  ( 
+                                  
+                                     
+                                        
+                                           x 
+                                        
+                                     
+                                     
+                                        1 
+                                     
+                                  
+                                  , 
+                                  
+                                     
+                                        
+                                           z 
+                                        
+                                     
+                                     
+                                        1 
+                                     
+                                  
+                                  ) 
+                               
+                               , 
+                               … 
+                               , 
+                               
+                                  ( 
+                                  
+                                     
+                                        
+                                           x 
+                                        
+                                     
+                                     
+                                        N 
+                                     
+                                  
+                                  , 
+                                  
+                                     
+                                        
+                                           z 
+                                        
+                                     
+                                     
+                                        N 
+                                     
+                                  
+                                  ) 
+                               
+                               } 
+                            
+                         , consisting, for example, of images  
+                            
+                               
+                                  
+                                     x 
+                                  
+                               
+                               
+                                  j 
+                               
+                            
+                          and their categories  
+                            
+                               
+                                  
+                                     z 
+                                  
+                               
+                               
+                                  j 
+                               
+                            
+                         , a hierarchy of  
+                            K 
+                          non-linear transformations  
+                            
+                               
+                                  
+                                     ϕ 
+                                  
+                               
+                               
+                                  k 
+                               
+                            
+                          is learned using (stochastic) optimization such that  
+                            
+                               (20) 
+                               
+                                  
+                                     
+                                        
+                                           z 
+                                        
+                                     
+                                     
+                                        ˆ 
+                                     
+                                  
+                                  = 
+                                  
+                                     ( 
+                                     
+                                        
+                                           
+                                              ϕ 
+                                           
+                                        
+                                        
+                                           K 
+                                        
+                                     
+                                     ∘ 
+                                     ⋯ 
+                                     ∘ 
+                                     
+                                        
+                                           
+                                              ϕ 
+                                           
+                                        
+                                        
+                                           1 
+                                        
+                                     
+                                     ) 
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           
+                                              x 
+                                           
+                                        
+                                        
+                                           i 
+                                        
+                                     
+                                     ) 
+                                  
+                               
+                            
+                          is optimal in the sense that an objective function quantifying the distance between  
+                            
+                               
+                                  
+                                     z 
+                                  
+                               
+                               
+                                  ˆ 
+                               
+                            
+                          and  
+                            
+                               
+                                  
+                                     z 
+                                  
+                               
+                               
+                                  i 
+                               
+                            
+                          is minimized ( LeCun, Bengio, & Hinton, 2015 ). Subsequently, any subset of the features embedded in the hierarchical model can be used as an encoding model’s feature space as defined in Eq.  (4) , which is then mapped onto the observed responses (cf. Eq.  (5) ).
+
+Researchers have begun to use DNNs to predict neural responses to complex naturalistic stimuli, yielding state-of-the-art results ( Kriegeskorte, 2015 ).  Khaligh-Razavi and Kriegeskorte (2014)  used DNNs in conjunction with RSA to explain responses in IT cortex. Their results were consistent with those of  Yamins et al. (2014)  who have shown that responses in Monkey IT are best predicted by hierarchical models that are explicitly optimized for object categorization.
+
+Güçlü and van Gerven (2015, in press)  have subsequently shown that DNN layers higher up in the hierarchy better encode the responses of brain regions as one moves downstream along both the ventral and dorsal visual pathways (see  Fig. 3 (D)). Based on MEG data,  Cichy, Khosla, Pantazis, Torralba, and Oliva (2016)  used an RSA approach to show that this gradient is not only reflected in space, with deeper DNN layers corresponding best with downstream brain regions, but also in time, with deeper DNN layers being mostly expressed at later points in time.
+
+While deep neural networks have mainly been applied in the context of visual perception, they can equally well be applied to auditory data in order to understand population responses in auditory cortex. See  Güçlü, Thielen, Hanke, and van Gerven (2016)  and  Kell et al. (2015)  for initial work in this direction.
+
+Along the same lines, neural networks can be made suitable for processing of linguistic input using word embeddings learned from large linguistic corpora based on the skip-gram model ( Mikolov, Sutskever, Chen, Corrado, & Dean, 2013 ). See  Güçlü and van Gerven (2016)  and  Nishida, Huth, Gallant and Nishimoto (2015)  for neuroscientific applications of this model.
+
+Finally,  Horikawa and Kamitani (2016)  have recently demonstrated that DNNs even allow the decoding of imagined object categories from fMRI measurements.
+
+The previous section reviewed state-of-the-art approaches in the development of increasingly sophisticated feature spaces. Here, we explore how encoding models are used to provide novel insights in sensory neuroscience.
+
+Encoding models allow for the characterization of how particular stimulus properties are mapped across (sub)cortical areas, providing a macroscopic view of the neural organization of sensory representations at the level of neuronal populations ( DeSimone, Viviano, & Schneider, 2015; Sanger, 2003; Wandell et al., 2015 ). This can, for example, be achieved by identifying which stimulus features drive a voxel  
+                            i 
+                          by inspecting the vector of regression coefficients  
+                            
+                               
+                                  
+                                     β 
+                                  
+                               
+                               
+                                  i 
+                               
+                            
+                         . However, this characterization is typically based on the use of a high-dimensional feature space, which complicates the analysis. That is, given the large number of features, significance testing on individual model weights as in an SPM analysis not only becomes cumbersome, but also problematic due to multicollinearity ( Monti, 2011 ).
+
+To resolve this issue, different approaches have been used to project the data onto a lower-dimensional space. For example,  Huth et al. (2012)  used a principal components analysis on model weights to reveal how semantic information is represented across cortex.  Güçlü and van Gerven (2015)  instead characterized stimulus features in terms of their Kolmogorov complexity in order to show how increasingly complex stimulus properties are encoded across the ventral stream.
+
+Alternatively, one may resort to the use of what we refer to as  simulated neurophysiology , where encoding models are used post hoc to predict how neural populations respond to basic stimuli that are more easily characterizable ( Güçlü & van Gerven, 2014; Kay et al., 2008; Kay, Winawer, Rokem et al., 2013; Nishimoto et al., 2011 ). For example,  Güçlü and van Gerven (2014)  used point stimuli and sine wave gratings as input to an encoding model to estimate RF location, orientation and spatial frequency tuning of individual voxels.
+
+Yet another approach is to use each feature individually to predict BOLD responses and to analyze the resulting response patterns. For example, cluster analysis of response patterns in area LO hinted at subsets of voxels that were sensitive to different groups of stimulus features ( Güçlü & van Gerven, 2015 ). This more detailed mapping of representations across cortex is particularly important for unraveling the elusive characteristics of mid- to high-level neural representations ( Carandini et al., 2005; Orban, 2008; Peirce, 2015 ).
+
+An important utility of the encoding approach lies in testing different computational models against each other. Basically, each estimated encoding model implements a particular theory concerning how sensory information is represented in the brain. By comparing encoding models in terms of how well they explain observed data, we may select among competing theories. This makes it possible to test whether proposed mechanisms underlying the emergence of neural representations indeed lead to more precise predictions of neural responses to sensory input.
+
+For example, the observation that sparse coding models outperform Gabor wavelet models ( Güçlü & van Gerven, 2014 ) lends support to the hypothesis that sparse coding could be a driving principle behind the organization of receptive fields in striate cortex ( Olshausen & Field, 1996 ). Likewise, recent observations that hierarchical models which are optimized for object categorization provide state-of-the-art predictions across different areas of the ventral stream ( Güçlü & van Gerven, 2015; Khaligh-Razavi & Kriegeskorte, 2014; Yamins et al., 2014 ) suggest that the ventral stream is explicitly optimized for object categorization.
+
+At the same time, one should be careful in drawing inferences of this sort. The stimulus features that emerge by explicitly optimizing for object categorization may also emerge via the optimization of other objective functions, like the one used in deep reinforcement learning ( Mnih et al., 2015 ). That is, while maximizing a particular objective function can be sufficient for explaining neural responses, it might not be necessary. In other words, one cannot directly infer function from receptive field properties ( Churchland & Sejnowski, 1990 ).
+
+So far, encoding models have been described in terms of feedforward processing of sensory information. However, the brain is not a passive input device. Top-down changes in attention ( Çukur et al., 2013 ), expectation ( Summerfield & de Lange, 2014 ) and task demand ( Fritz, Shamma, Elhilali, & Klein, 2003; McKee et al., 2014 ) induce population receptive field reconfigurations ( Gilbert & Li, 2013 ), which can be probed using encoding models. For example, attention has been shown to increase pRF gain, eccentricity, and size in visual cortex ( Kay, Weiner, & Grill-Spector, 2015; Klein, Harvey, & Dumoulin, 2014 ).  Brouwer and Heeger (2013)  used a pRF model to show that the representation of color in downstream visual areas changed to a more categorical representation in a color naming task compared to a diverted attention task.
+
+Changes in population responses may also be induced by (reversible) learning effects ( Rainer, Lee, & Logothetis, 2004 ), developmental change ( Johnson & Munakata, 2005 ) or neurodegeneration ( Brewer & Barton, 2014 ). Encoding models can in principle be used to probe these fleeting or long-lasting changes in the organization of low-, mid- and high-level representations across the cortical surface, for example, in case of neurodegeneration, by comparing the predictions of neural response patterns in patients and controls.
+
+Also within the general population, variability in population responses across cortex is to be expected. These differences can be explored by developing encoding models tailored to individual subjects. This constitutes a shift in research focus from finding commonalities between subjects using group-level analyses, towards understanding the detailed functional organization of neural representations in individual subjects as driven by more abstract key computational principles ( Stelzer, Lohmann, Mueller, Buschmann, & Turner, 2014 ).
+
+Whereas encoding makes explicit our assumptions about how stimuli are represented in the brain, decoding allows us to peer into the human mind by reconstructing stimuli from multivariate response patterns ( Tong & Pratte, 2012 ). This allows one to address, for example, what stimulus information is present within particular regions of interest. It also informs about those stimulus properties that are not accurately captured by the used encoding models, as this would reveal itself in terms of degraded stimulus reconstructions.
+
+Decoding also affords the reconstruction of percepts that are not a direct consequence of external bottom-up input but rather of top-down internal drive. One may think here of representations induced by imagery ( Horikawa & Kamitani, 2016; Naselaris, Olman, Stansbury, Ugurbil, & Gallant, 2015; Parkkonen, Andersson, Hämäläinen, & Hari, 2008; Stokes, Thompson, Cusack, & Duncan, 2010; Thirion et al., 2006; Vetter, Smith, & Muckli, 2014 ), selective attention ( Kamitani & Tong, 2005; Niazi et al., 2014 ), perceptual filling-in ( Chong, Familiar, & Shim, 2015 ), visual illusions ( Corney & Lotto, 2007; Kok & de Lange, 2014 ), memory processing ( Harrison & Tong, 2009; Polanía, Paulus, & Nitsche, 2012; Serences, Ester, Vogel, & Awh, 2009 ) and dreaming ( Horikawa, Tamaki, Miyawaki, & Kamitani, 2013 ). Decoded representations may also be directly related to overt behavior ( Haynes et al., 2007; Williams, Dang, & Kanwisher, 2007 ). Finally, if internal representations can be directly decoded from human brain activity, then this may spur the development of new kinds of brain–computer interfaces that are driven by changes in internally induced mental states ( van Gerven et al., 2009 ).
+
+In the previous section, possible applications of encoding models have been sketched. Here, a number of research directions are pointed out that are expected to further advance computational modeling in sensory neuroscience.
+
+So far, encoding models have mainly been applied to fMRI data collected using relatively standard acquisition protocols with repetition times on the order of 1 s and voxel sizes of about 2 millimeter isotropic. In the near future we can expect to see more examples of encoding models applied to high spatial and temporal resolution fMRI data acquired under novel protocols at ultra-high field strengths ( Barth & Poser, 2011 ). At some point, such studies may allow probing of representational content at the level of individual cortical columns ( Yacoub, Harel, & Ugurbil, 2008 ) as well as cortical layers ( Kok, Bains, van Mourik, Norris, & de Lange, 2016; Muckli et al., 2015 ). Research will also be facilitated by recent initiatives that provide open-access high-resolution fMRI datasets that are tailored to encoding studies ( Hanke et al., 2014 ).
+
+As described earlier on, encoding models can also be used in conjunction with other imaging modalities. More detailed insights concerning the spatio-temporal dynamics of neural representations can be gained using non-invasive EEG/MEG recording techniques ( Cichy et al., 2016; Clarke, Devereux, Randall, & Tyler, 2014; Pantazis, Oliva, & Cichy, 2014; Scholte, Ghebreab, Waldorp, Smeulders, & Lamme, 2009; van de Nieuwenhuijzen et al., 2013 ). The use of more invasive recording techniques ( Kobatake & Tanaka, 1994; Quian Quiroga, Reddy, Kreiman, Koch, & Fried, 2005; Yamins et al., 2014 ) may lead to a new understanding of the receptive fields of single neurons or small neuronal populations. In practice, the use of other modalities only requires the development of appropriate forward models that link feature spaces to observed responses.
+
+Since encoding models require massive amounts of data in order to afford proper model estimation, it is important to develop techniques that make optimal use of the data available. One way to achieve this is to impose additional realistic constraints on the models (see also Section   6.2 ). Also, better removal of (physiological) noise ( Kay, Rokem, Winawer, Dougherty, & Wandell, 2013; Särkkä et al., 2012 ) and data-driven estimation of hemodynamic response functions that map neural activity to observed BOLD responses will improve sensitivity ( Pedregosa, Eickenberg, Ciuciu, Thirion, & Gramfort, 2015 ). Combining data across subjects via techniques such as hyperalignment ( Haxby et al., 2011 ) may also further improve sensitivity, as demonstrated in  Güçlü and van Gerven (in press) . The use of optimal experimental designs ( Lewi, Butera, & Paninski, 2009 ), where the optimal stimulation sequence is determined on the fly such as to maximize information gain, could also further improve results. To date, this approach remains underexplored as it would require near real-time estimation of model parameters and the use of closed-loop experimental setups.
+
+At present, encoding models do not yet provide a particularly veridical mapping from stimuli to observed brain responses. In their current formulation, various simplifying assumptions are introduced either for reasons of computational efficiency or because the details underlying particular transformations remain elusive. In practice, this mapping is extraordinarily complex, involving intricate short- and long-range interactions between neuronal populations in space and time that can only be partially observed through acquired measurements. To improve the sensitivity of encoding models, it is imperative that more realistic assumptions about neural information processing are incorporated.
+
+Already at the sensory epithelia, the incoming stimulus is transduced in complex ways ( Gollisch & Meister, 2010; Masland, 2012 ). Furthermore, processing of these stimuli is an active process where sensory input is selected such as to maximize reward or information gain ( Ahmad & Yu, 2013 ). Neural population activity itself is characterized by intricate dynamics and may not only encode representations of invariants in our environment but also their sensory uncertainty ( van Bergen et al., 2015 ). By modeling such processes, more realistic encoding models can be obtained (also see  Edelman, 2015 ).
+
+Concerning the employed forward models it should be mentioned that encoding models can in principle use arbitrarily complex forward models, replacing standard linear regression methods. In neuroimaging, these models can provide more explicit implementations of the transformation from neural responses to the BOLD response, as induced by neurovascular coupling ( Aquino, Robinson, & Drysdale, 2014; Kay, Winawer, Rokem et al., 2013 ). In electrophysiology, these models can incorporate explicit mechanisms for spike generation ( Paninski, 2004 ).
+
+When considering the state-of-the-art feature spaces afforded by deep artificial neural networks it is important to realize that while they replicate some of the response properties of neurons across the sensory stream, they make assumptions that are unrealistic from a neurobiological point of view, both regarding the learning procedure with which neural networks are trained as well as their assumed architecture ( Robinson & Rolls, 2015 ). For example, while DNNs trained in a supervised manner provide state-of-the-art performance on object categorization tasks, the employed learning scheme is far removed from learning in their biological counterparts ( Bliss & Lømo, 1973 ). 
+                            10 
+                         
+                         
+                            10 
+                            But see  Bengio, Lee, Bornschein, and Lin (2015)  for some recent developments which makes deep learning based on backpropagation less implausible. 
+                          Furthermore, cortical processing is determined not only by feedforward input but also by lateral and feedback connections (cf. Eq.  (3) ), both within and between cortical and subcortical neuronal populations ( Mumford, 1992 ).
+
+As a tentative example of a neural network architecture which incorporates top-down processing consider the work presented in  van Gerven, de Lange, and Heskes (2010) . Here, a deep belief network (DBN) rather than a deep feed-forward neural network was used to reconstruct perceived images from fMRI measurements. DBNs differ from their feed-forward counterparts by having recurrent connections between network layers. Moreover, they are generative models in the sense that sensory inputs can be sampled from the model. This is reminiscent of predictive processing, in which top-down predictions are thought to explain away bottom-up inputs ( Clark, 2016; Rao & Ballard, 1999 ); a view which was already present in the writings of  Thurstone (1923) . Indeed, results show that, by sampling from the DBN after conditioning its internal state on observed brain data, accurate reconstructions of perceived handwritten digits could be obtained.
+
+Lateral and feedback connections also support the inclusion of long-term temporal dependencies. These dependencies are essential since they afford modeling of complex spatio-temporal patterns in the sensory input and can account for adaptation effects at the neuronal level. One way to incorporate population dynamics in an encoding setting is through the use recurrent neural networks that have persistent states ( Hochreiter & Schmidhuber, 1997 ). This approach was followed in  Güçlü and van Gerven (2016)  to model how low-level and high-level representations of dynamically changing inputs influence the BOLD response.
+
+Given the rapid development of neural network theory, both in the engineering and computational neuroscience communities ( Yuste, 2015 ), it is to be expected that increasingly sophisticated neural network architectures will become available. When one considers such an architecture as a putative explanation of neural information processing then the encoding framework provides a means to test this hypothesis against neural data.
+
+This review addressed the theoretical basis, applications and future directions of encoding models in sensory neuroscience. These encoding models strive to provide new insights into the functional mechanisms that mediate how representations of our environment are encoded in neural response patterns.
+
+Encoding can be viewed as a model-based approach where internal latent states of computational models are fitted to neural and behavioral responses as subjects are engaged in that particular task ( Anderson et al., 2008; Ashby & Waldschmidt, 2008; Forstmann & Wagenmakers, 2015 ). The advantages of this approach are that (i) a good match between internal states and observed regional brain responses can be taken as evidence for a neural correlate of that state and (ii) different computational models can be tested against each other by comparing their fit to observed data. In the context of sensory neuroscience, concrete and abstract stimulus features play the role of these latent states. The comparison of encoding models that use different underlying feature representations provide the means to compare alternative theories about sensory processing in the human brain.
+
+In summary, encoding models that are grounded in theory and veridically model the transformation from arbitrary sensory stimuli to measured neural response patterns provide the means to further our understanding of neural representations. Ultimately, this could even allow faithful decoding of internal representations in the absence of sensory stimulation.
+
+This research was supported by VIDI grant number  639.072.513  of  The Netherlands Organization for Scientific Research (NWO) . The author expresses his gratitude to Sander Bosch, Umut Güçlü, Max Hinne, Katja Müller, Silvan Quax and the reviewers for their helpful comments.

@@ -1,0 +1,481 @@
+10.1006/jmps.1999.1278
+Journal of Mathematical Psychology 44, 92�107 (2000) doi:10.1006�jmps.1999.1278, available online at http:��www.idealibrary.com on 
+
+==> picture [38 x 18] <==
+
+Bayesian Model Selection and Model Averaging 
+
+Larry Wasserman 
+
+Carnegie Mellon University 
+
+This paper reviews the Bayesian approach to model selection and model averaging. In this review, I emphasize objective Bayesian methods based on noninformative priors. I will also discuss implementation details, approximations, and relationships to other methods. � 2000 Academic Press Key Words: AIC; Bayes factors; BIC; consistency; default Bayes methods; Markov chain Monte Carlo. 
+
+1. INTRODUCTION 
+
+Suppose we are analyzing data and we believe that the data arise from one of a set of possible models M1 , ..., Mk . In this paper, a model will refer to a set of probability distributions. For example, suppose the data consist of a normally distributed outcome Y and a covariate X and that two possibilities are entertained. The first possibility is that Y is unrelated to X and the second possibility is that Y is linearly related to X. Then M1 consists of the distributions for which YtN(+, _[2] ) and M2 consists of the distributions for which YtN( ;0+;1 X, {[2] ). This is a simple example with only two models. There could be many models under consideration and each could be very complicated. Of course, the models are often based on subject matter theories. A referee suggested the following example. If we are studying response times, then under a serial process structure we could be led to a gamma distribution while under a diffusion model of decision processes we might be led to an inverse Gaussian distribution. Thus M1 consists of the gamma distributions and M2 consists of inverse Gaussian distributions and we have been led to the models by way of two substantive theories. 
+
+Model selection refers to the problem of using the data to select one model from the list of candidate models M1 , ..., Mk . Model averaging refers to the process of estimating some quantity under each model Mj and then averaging the estimates according to how likely each model is. For example, we could use model Mj 
+
+I am grateful to the organizers of the workshop for inviting me to speak and for financial support. I also thank Fulvio De Santis, Rob Kass, Richard Golden, Herbie Lee, Michael Browne, Thomas Wallsten, In Jae Myung, Malcolm Forster, and Isabella Verdinelli and an anonymous referee for providing feedback on an earlier version of this paper. Research was supported by NIH Grant RO1-CA54852 and NSF Grants DMS-9303557 and DMS-9357646. Correspondence and reprint requests should be sent to Larry Wasserman, Department of Statistics, Bakerhall, Carnegie Mellon University, Pittsburgh, PA 15213. 
+
+==> picture [27 x 27] <==
+
+92 
+
+0022-2496�00 �35.00 Copyright � 2000 by Academic Press All rights of reproduction in any form reserved. 
+
+93 
+
+BAYESIAN MODEL SELECTION 
+
+together with the data to produce a prediction Y�j of a future observation. Then our overall prediction is �[k] j=1[w] j[Y�] j[where the weight][ w] j[is used to reflect how probable] it is that the model Mj generated the data. 
+
+One Bayesian solution to these problems is to compute the posterior probability Pr(Mj | Data) for each model. For model selection, we choose the model that maximizes Pr(Mj | Data). Moreover, Pr(Mj | Data) provides a numerical summary of the strength of evidence in favor of model Mj . For model averaging, we use wj=Pr(Mj | Data) as the weights. 
+
+In this paper I explain how to derive Pr(Mj | Data). I also discuss the strengths and limitations of the Bayesian approach and I compare it to other approaches. A thorough review of Bayesian model selection, aimed at statisticians, is contained in Kass and Raftery (1995). Raftery (1995) gives an excellent introduction to Bayesian model selection in the social sciences. Gelman, Meng, and Stern (1996) provide a different perspective on Bayesian model selection and model checking from that provided here using an approach based on posterior predictive p-values. See also the comment by Gelman and Rubin after the the Raftery (1995) article. 
+
+In Section 2, I consider a simple pedagogical example that illustrates the main points. In Section 3, I review Bayesian estimation theory. Section 4 is the heart of the paper; there I provide the details about Bayesian model selection and model averaging. In Section 5, I discuss computation and simulation. In Section 6, I discuss the relationship between Bayesian methods and other methods and I consider the strengths and weaknesses of the Bayesian approach. Section 7 contains a brief discussion of what happens when all the models under consideration are wrong. Section 8 contains an example and Section 9 discusses the frequentist behavior of Bayesian model selection. Finally, Section 10 contains concluding remarks. 
+
+2. A PEDAGOGICAL EXAMPLE 
+
+Before plunging into any details, it is helpful to consider a very simple problem. We observe n independent flips of a coin. Denote the outcomes by Y[n] =(Y1 , ..., Yn) where each Yi is either 0 or 1 (corresponding to tails and heads on the coin). Let %=Pr(Yi=1) be the unknown probability of observing Yi=1. We have two theories. Theory one says that the coin is fair, i.e., %=1�2. Theory two says that the coin is not fair, i.e., %{1�2. The probability function for a single toss is p% ( y)=%[y] (1&%)[1&][ y] where y # [0, 1]. The two theories correspond to two sets of probability distributions: 
+
+==> picture [130 x 32] <==
+
+One question of interest is this: what is a reasonable numerical measure of the evidence in favor of one theory over the other? We call this the evidence problem. In the Bayesian approach, one measure of evidence is the posterior odds of one model versus the other model, i.e., the posterior probability of the second model divided by the posterior probability of the first model. In symbols, these odds are 
+
+94 
+
+LARRY WASSERMAN 
+
+Pr(M2 |Y[n] )�Pr(M1 |Y[n] ). However, a more commonly used measure of evidence is the Bayes factor Bn defined by 
+
+==> picture [238 x 27] <==
+
+which is the posterior odds in favor of M2 divided by the prior odds in favor of M2 . This tells us how much the data have changed our odds in favor of one model over the other. Typically, one sets the prior odds of each theory to be equal, i.e., Pr(M1)=Pr(M2)=1�2. In this case, the Bayes factor and the posterior odds are the same: 
+
+==> picture [217 x 26] <==
+
+In Section 4 we show that this reduces to 
+
+==> picture [227 x 26] <==
+
+where L(%)=>[n] i=1[p] %[(][ y] i[) is the likelihood function (the probability of the data] given the parameter %) and p(%) is a prior distribution for % under model M2 . Note that (4) is just the average likelihood under model 2, divided by the likelihood under model 1. In Section 4, we show that for a reasonable choice of the prior p(%), it turns out that log Bn rb where 
+
+==> picture [264 x 12] <==
+
+and %�=n[&1] �i yi is the maximum likelihood estimator of % under model M2 . Why does b approximate log Bn ? We get this by approximating L(%) with a normal density function in (3) centered at %�. Note that formula (4) uses only the log-likelihood ratio and the sample size n. Thus, 
+
+==> picture [279 x 26] <==
+
+These latter equations follow from Eqs. (1) and (4), the fact that Bn re[b] , and the fact that we are assuming that Pr(M1)=Pr(M2)=1�2. 
+
+A second question, which we call the prediction problem, is to predict future outcomes as accurately as possible. Specifically, having observed Y[n] =(Y1 , ..., Yn), what is the probability that a new observation Yn+1 will be heads? The answer is 
+
+==> picture [296 x 33] <==
+
+95 
+
+BAYESIAN MODEL SELECTION 
+
+where Pr(Yn+1=1 | Y[n] , M1)=1�2 since model M1 says that the coin is fair, 
+
+==> picture [268 x 24] <==
+
+which is the mean of % under M2 , and 
+
+==> picture [237 x 27] <==
+
+is the posterior density for % under model M2 . It is possible to show that, for large sample sizes, 
+
+==> picture [234 x 14] <==
+
+Putting all the pieces together we obtain 
+
+==> picture [268 x 28] <==
+
+Model averaging differs from more traditional prediction techniques in which we would use some criterion such as AIC (Section 6) and select either model M1 , in which case we predict Pr(Yn+1=1)=1�2, or we select model M2 , in which case we predict Pr(Yn+1=1)=%�. Model averaging avoids having to choose one model. Instead, we let the data give the competing models different weights. 
+
+3. BAYESIAN ESTIMATION THEORY 
+
+For this section, we assume we have only one model 
+
+==> picture [88 x 12] <==
+
+where % is an unknown parameter in some parameter space 0 and p% ( y) is a probability density function for Y which depends on the parameter %. An example is the model YtN(+, _[2] ) so that %=(+, _), and p% ( y)=(_- 2?)[&1] exp [ &(1�2)( y&+)[2] �_[2] ]. Assume we have n independent, identically distributed observations Y[n] = (Y1 , ..., Yn). For most of this section we will assume that % is scalar, though everything carries over to multidimensional parameters. 
+
+The likelihood function is defined by 
+
+==> picture [239 x 28] <==
+
+and the log-likelihood function is l(%)=log L(%). Note that the likelihood function is just the probability of the observed data given the parameter %. The maximum likelihood estimator (MLE) %� is the value of % that maximizes L(%). Thus, %� is the 
+
+96 
+
+LARRY WASSERMAN 
+
+value of the parameter that makes the observed data most likely. Under weak conditions, %� has many useful properties. First, the MLE is consistent, meaning that %� converges to the true value of % with probability 1. Second, it has, asymptotically in sample size, a normal distribution. To explain this last point, we need a bit more notation. The Fisher information I% is defined by I%=E% (s[2] %[) where][ s] %[=�log][ p] %[(][ y][)][�] �% and E% refers to expectation with respect to p% ( y). Then, for large n, %�rN(%0 , 1�(nI%0)) where %0 denotes the true value of %. As a consequence, %� is about 1�- n from the true value; formally, %�&%0=OP(n[&1][�][2] ). (Formally, a sequence of random variables Xn is OP(n[&1][�][2] ) if, for each $>0, there exists K>0 and n0 such that Pr(- n |Xn |>K)<$ for all n�n0 . Intuitively, this just means that Xn is going to 0 at rate n[&1][�][2] .) 
+
+It also follows that the interval %�\1.96 SE is, asymptotically, a 950 confidence interval for %, where SE[&1] =- nI%� . Furthermore, the MLE is known to be asymptotically optimal: of all regular estimators, %� has smallest asymptotic variance. 
+
+In Bayesian estimation theory, we introduce a prior distribution p(%). The prior p(%) represents how likely different values of % are, before seeing the data. After observing Y[n] we compute the posterior distribution, using Bayes theorem; 
+
+==> picture [307 x 27] <==
+
+where m( y[n] )=�L(%) p(%) d% is called the normalising constant. Since m( y[n] ) is a constant not depending on %, we often write Bayes' theorem as 
+
+==> picture [228 x 12] <==
+
+A point estimate of % is obtained by finding the posterior mean, %�=E(% | y[n] )= �%p(% | y[n] ) d%. An interval estimate I=(a, b) is found by choosing numbers a and b such that, for a given :, Pr(% # I | Y[n] = y[n] )=� a[b][p][(][%][ |][ y][n][)][ d%][=1&][:][.] 
+
+It can be shown that %�&%0=OP(n[&1][�][2] ) and %�&%�=OP(n[&1] ). This means that the difference between Bayes estimation and maximum likelihood estimation is an order of magnitude smaller than the estimation error. 
+
+A serious practical problem is to choose the prior p(%). The subjective theory of Bayesian inference prescribes that the prior p(%) is chosen to represent someone's prior opinions about %. The more common view is objective Bayesianism in which p(%) is chosen to be noninformative in some sense. It is beyond the scope of this paper to discuss this philosophically charged issue, but see Kass and Wasserman (1996) for a review of noninformative priors. 
+
+For our purposes it suffices to note that in many problems, there are agreed upon choices for noninformative priors. A commonly used noninformative prior is Jeffreys' (1961) prior which is defined by p(%)B|I% |[1][�][2] . For example, if the data are from a N(%, 1) distribution, Jeffreys' prior turns out to be the flat prior p(%)B1. In a coin flipping problem, Jeffreys' prior is p(%)B%[&1][�][2] (1&%)[&1][�][2] . If %=(%1 , ..., %p) is a vector, Jeffreys' prior is defined in the following way. Let s% be a vector whose ith component is �log p% ( y)��%i . Let I% be a matrix defined by I%=E% (s% s[T] %[). Then] 
+
+97 
+
+BAYESIAN MODEL SELECTION 
+
+Jeffreys' prior is defined as p(%)B|det(I%)|[1][�][2] where det(A) is the determinant of the matrix A. 
+
+Here is one sense in which Jeffreys' prior is noninformative. Consider finding a one-sided 1&: interval I. For example, let I=(&�, a] where a is chosen so that �&[a] �[p][(][%][ |][ y][n][)][ d%][=1&][:][. Thus, Pr(][%][ #][ I][ |][ Y][ n][)=1&][:][. This is a Bayesian one-sided] confidence interval. What happens if we decide to use the Bayesian interval I as if it were a confidence interval? Recall that the coverage of a confidence interval is the probability that the interval contains the true value of the parameter. It can be shown that the coverage of I, denoted Coverage(I ), satisfies Coverage(I )= 1&:+O(n[&1][�][2] ). In other words, Bayesian confidence intervals can also be interpreted as approximate frequentist intervals. However, if Jeffreys' prior was used, then it turns out that Coverage(I )=1&:+O(n[&1] ). In other words, Jeffreys' prior makes Bayesian intervals behave even more like usual confidence intervals. 
+
+One feature of noninformative priors is that they are often improper, which means that �p(%) d%=�. Nonetheless, the posterior p(% | y[n] )BL(%) p(%) is usually proper despite the fact that the prior is not. Note, however, that improper priors are only defined up to a constant. If p(%) is an improper prior, we can define a new prior q(%)=cp(%) where c>0 is an arbitrary positive number. It is easy to check that the posterior obtained from the prior q(%) is the same as the posterior obtained from p(%). This undefined constant in the prior poses no problem for estimation. But we shall see that it does create trouble for model selection. 
+
+As well as estimation, we might be interested in prediction. The predictive distribution is defined by 
+
+==> picture [237 x 21] <==
+
+We use p^ ( y) to make predictive probability statements about a future observation Y. It can be shown that 
+
+==> picture [209 x 12] <==
+
+which gives a simple approximation for the predictive density. 
+
+4. BAYESIAN MODEL SELECTION AND AVERAGING 
+
+Suppose we have k models M1 , ..., Mk under consideration. Each model consists of a set of probability densities for a random variable Y, 
+
+==> picture [228 x 13] <==
+
+where %j is the unknown parameter in the jth model. The likelihood function for model Mj is 
+
+==> picture [219 x 20] <==
+
+98 
+
+LARRY WASSERMAN 
+
+the product being over the n observations y[n] =( y1 , ..., yn). The log-likelihood is denoted by lj (%j)=log Lj (%j) and we let %�j denote the maximum likelihood estimate of %j . 
+
+We assign prior probabilities Pr(Mj) to the models. In this paper we assume, as is commonly done, that Pr(Mj)=1�k, j=1, ..., k. For each model, we also specify a prior pj (%j) for the parameter %j . The posterior for model Mj is easily found from Bayes' theorem to be 
+
+==> picture [268 x 27] <==
+
+Using elementary probability we find that p( y[n] | Mj)=�p%j ( y[n] ) pj (%j) d%j and, recalling that Pr(Mj)=1�k for each model, and that p%j ( y[n] )=Lj (%j), we see that 
+
+where 
+
+==> picture [242 x 26] <==
+
+==> picture [232 x 20] <==
+
+The Bayes factor for Mi versus Mj is defined to be 
+
+==> picture [283 x 27] <==
+
+The Bayes factor gives a measure of the evidence for model Mj versus model Mi . If Bij=10, for example, then model Mi is ten times more likely than model Mj , given the data. Jeffreys recommended a scale of evidence for interpreting Bayes factors. Table 1 gives Jeffreys' scale. (Our version is a slight modification of his scale.) To predict a new observation Y, we use the predictive distribution 
+
+==> picture [242 x 28] <==
+
+where 
+
+==> picture [242 x 20] <==
+
+is the predictive distribution from model Mj . 
+
+There are two practical problems to be solved if we are to make use of these ideas. First, we have to choose the priors pj (%j) and second, we have to compute the integrals in (21). 
+
+If we try to use a noninformative prior for pj (%j) we run into a problem. Recall that noninformative priors are often improper and that improper priors are only defined up to a constant. So if pj (%j) is an improper prior for %j and cj is an 
+
+99 
+
+BAYESIAN MODEL SELECTION 
+
+TABLE 1 
+
+Jeffreys' Scale of Evidence for Bayes Factors 
+
++--------------+--------------------------+
+| Bayes factor | Interpretation           |
++--------------+--------------------------+
+| Bij<1�10     | Strong evidence for Mj   |
++--------------+--------------------------+
+| 1�10<Bij<1�3 | Moderate evidence for Mj |
++--------------+--------------------------+
+| 1�3<Bij<1    | Weak evidence for Mj     |
++--------------+--------------------------+
+| 1<Bij<3      | Weak evidence for Mi     |
++--------------+--------------------------+
+| 3<Bij<10     | Moderate evidence for Mi |
++--------------+--------------------------+
+| Bij>10       | Strong evidence for Mi   |
++--------------+--------------------------+
+
+arbitrary positive constant, then qj (%j)=cj pj (%j) could also be used as a prior. But now the Bayes factor using these priors qj is 
+
+==> picture [237 x 29] <==
+
+so the Bayes factors and the posterior probabilities are ill-defined since there are arbitrary constants floating around in the equations. 
+
+One approach to dealing with the prior problem and the integration problem is the following. Let lj=lj (%�j) and let dj be the dimension of 0j . It can be shown that (Kass and Wasserman, 1995) mj=m^ j (1+OP(1)) where 
+
+==> picture [225 x 25] <==
+
+This result means that mj can be approximated by m^ j , which requires no integration and does not depend on the prior. The catch is that the error OP(1) does not go to 0 as n gets large. This is not as bad as it sounds for two reasons. First, quantities like mj typically tend to � or &� as sample size increases. Hence, the error of the approximation relative to the quantity we are estimating does tend to 0. In other words, |m^ j&mj |�|mj | � 0 in probability. Second, there are certain priors for which the approximation (25) has an error of size OP(n[&1][�][2] ). One example of such a prior is a unit information prior which is discussed in Kass and Wasserman (1995). (For example, if M2=[ p% ; % # R] and M1=[ p% ; %=%0], then the unit information prior is N(%0 , I[&1] %0[), where][ I] %0[is the Fisher information based on a] single observation.) A second prior that justifies the smaller error term is Jeffreys' prior. As noted in the previous section, Jeffreys' prior is usually improper and thus is plagued by the arbitrary constant. But if define the arbitrary constant in front of Jeffreys' prior is defined to be cj=(2?)[&][d][j][�][2] , then it turns out that, again, the error in (26) is OP(n[&1][�][2] ). In short, if we adopt the noninformative prior pj (%j)= [2?][&][d][j][�][2] |det(I%)|[1][�][2] then m^ j is a fairly accurate approximation of mj. There is no deep justification for this choice. Rather, we are just saying that using BIC is approximately equivalent to using Jeffreys' prior with this particular choice for the constant c . j 
+
+If we use the approximation (25), then 
+
+==> picture [232 x 26] <==
+
+100 
+
+LARRY WASSERMAN 
+
+Equation (26) is the most important equation in this paper. It gives a very easy, albeit approximate, way to compute the posterior probability of each model. From (25) and the definition of Bij we observe that 
+
+==> picture [247 x 24] <==
+
+which is also known as BIC or the Schwarz criterion (Schwarz, 1978; Kass and Raftery, 1995). Thus, BIC can be regarded as an approximation to the log Bayes factor. 
+
+If we are interested in prediction, then we can substitute (26) into (22). Further, we can approximate (23) by p%�j ( y) leading to 
+
+==> picture [99 x 28] <==
+
+==> picture [19 x 10] <==
+
+The above approximate method seems to work well in well-behaved problems with moderate to large sample sizes. But in some irregular cases, these approximations can break down. 
+
+An alternative theory, still being developed, that might be effective in these more delicate problems is the theory of intrinsic Bayes factors by Berger and Pericchi (1996). Briefly, the idea is this. Suppose we are comparing two models M1 and M2 . (The extension to several models is straightforward.) We start with improper noninformative priors pj (%j) for each model. A small subset S of the data Y[n] , called the training set, is used to update the prior by Bayes' theorem. Denote this posterior by p[S] j[. The training set is chosen to be minimal, which means that][ p][S] j[is proper but] no subset of S will yield a proper posterior. We can compute the Bayes factor using the priors p[S] 1[and][ p][S] 2[; denote the resulting Bayes factor by][ B][S] ij[. Note that][ B][S] ij[is well] defined since proper priors have no undefined constants. But B[S] ij[will depend on the] choice of training set. Berger and Pericchi suggest computing B[S] ij[for each possible] minimal training set. They define the intrinsic Bayes factor as the average over all the resulting Bayes factors. 
+
+It is beyond the scope of this paper to explain this methodology in detail. The reader is referred to Berger and Pericchi (1996). A related technique, called fractional Bayes factors, is discussed in O'Hagan (1995) and De Santis and Spezzaferri (1997). 
+
+5. COMPUTING POSTERIOR PROBABILITIES 
+
+Suppose that for each model Mj we do specify a prior pj (%j) for the parameter %j of that model. We may want to compute Pr(Mj | Y[n] ) exactly instead of using the approximation (26). From (19), it follows that to compute Pr(Mj | Y[n] ), we need to be able to compute mj=� Lj (%j) pj (%j) d%j . 
+
+Let us thus set aside the model selection problem for the moment and ask, more generally, how do we compute an integral of the form mj=� Lj (%j) pj (%j) d%j ? One approach is to use an analytic approximation. From Tierney and Kadane (1986) it follows that mj=m^ j (1+OP(n[&1] )) where 
+
+==> picture [260 x 14] <==
+
+101 
+
+BAYESIAN MODEL SELECTION 
+
+In (29), %�j is the mode of the posterior pj (%j | y[n] ) and H is the matrix of minus the second derivatives of the log-posterior, evaluated at %�j . This approximation arises from a method called Laplace's method. 
+
+A more exact method has become popular lately, namely simulation. The idea is this: we draw a random sample %[1] j[, ...,][ %][N] j[from the posterior][ p] j[(][%] j[|][ y][n][). We then try] to find a way to use the sample to estimate mj . 
+
+These days, the most common way to simulate from a posterior is to use Markov chain Monte Carlo (MCMC). Briefly, MCMC works like this. Pick a starting point %[0] j[. Draw a][ candidate value �][from a Normal centered at][ %] 0[with some variance][ b][2][.] Let 
+
+==> picture [238 x 28] <==
+
+Now draw Ut(0, 1), i.e., U is a random number between 0 and 1. If U<r set %[1] j[=][�][. Otherwise, set][ %][1] j[=][%][0] j[. Now draw a candidate from a Normal centered at] %[1] j[with variance][ b][2][ and so on. Continue the process until we have][ N][ draws. It can] be shown that the sample approximates a random draw from the posterior. This is, of course, a brief sketch of the idea. See Carlin and Louis (1996), Gelfand and Smith (1990), Gelman, Carlin, Stern, and Rubin (1995), Gilks, Richardson, and Spiegelhalter (1995), Tanner and Wong (1987), and Tierney (1994) for more details. 
+
+Having obtained a sample from the posterior, we still need to somehow use the sample to estimate mj . There are many ways to do this. Most of them are reviewed in DiCiccio, Kass, Raftery, and Wasserman (1997). Here, I will describe only one which is perhaps best called the density estimation approach. Recall that from Bayes' theorem we have 
+
+==> picture [235 x 26] <==
+
+Hence, 
+
+==> picture [219 x 26] <==
+
+This identity holds for all values of %j . So we can pick any value %�j of %j and calculate mj=Lj (%�j) pj (%�j)�pj (%�j | y[n] ). Evaluating Lj (%�j) and pj (%�j) is usually easy since these are given functions. The difficulty is to evaluate pj (%�j | y[n] ). How do we evaluate the height of the posterior density at the point %�j ? Since we have a sample from this density, this is just a standard density estimation problem. 
+
+In general, if we have a sample X1 , ..., Xn from a distribution with density f (x) and we want to estimate f (x), there are many techniques for doing so. The most common are histograms and kernel density estimation. Silverman (1986) is an excellent, readable introduction to density estimation. Thus, we apply any density estimation technique to use the sample %[1] j[, ...,][ %][N] j[to get an estimate][ p^] j[(][%�] j[|][ y][n][) of] 
+
+102 LARRY WASSERMAN 
+
+pj (%�j | y[n] ). Then our estimate of mj is m^ j=Lj (%�j) pj (%�j)�p^ j (%�j | y[n] ). This process is repeated for each model to get estimates m^ 1 , ..., m^ k . Finally, we get the posterior probabilities of the models by 
+
+==> picture [267 x 27] <==
+
+6. AIC, BIC, AND BAYES 
+
+There are many methods for choosing between competing models. We have discussed the Bayesian approach. The two most common other approaches are AIC and BIC. In the AIC approach (Akaike, 1973), one chooses the model that maximizes 
+
+==> picture [212 x 14] <==
+
+The BIC (Schwarz, 1978) method is to choose the model that maximizes 
+
+==> picture [232 x 14] <==
+
+As we saw in Section 4, BIC and Bayes methods are asymptotically equivalent under weak conditions. For the purposes of this section, I will therefore lump BIC and Bayes together and talk of them as if they were the same procedure. 
+
+Now we make a few brief remarks about AIC. AIC is aimed at solving the following prediction problem: find the model Mj that produces estimates of the density f�j #p%�j which is close, on average, to the true density. Here, close is measured by the Kullback�Leibler distance K( f, g)=�f ( y) log[ f ( y)�g( y)] dy. Let us call this the Akaike prediction problem. There appears to be some debate on the relative merits of AIC versus BIC. It should be noted, however, that AIC and BIC were designed for different purposes. AIC was designed to solve the Akaike prediction problem while��at least from the Bayesian perspective��BIC was designed to find the most probable model given the data. Here are a few more comments on this debate: 
+
+(1) If the models form a nested hierarchy and one of the models is correct, then, asymptotically in sample size, BIC chooses the smallest model containing the true density but generally AIC does not. However, this does not preclude the fact that AIC might choose the correct model more often in small samples. Zhang (1993) has some results on this issue. 
+
+(2) As discussed in Section 4, we can exponentiate BIC and treat it as an approximate posterior. Then the models can be averaged. I am unaware of any rigorous way to do model averaging using AIC. 
+
+(3) There are some arguments that AIC is better when none of the models is true. We discuss that general issue in the next section. 
+
+There are yet more methods for choosing among models. For example: minimum description length, cross-validation, and modified versions of AIC. We shall not consider these techniques further in this paper. 
+
+103 
+
+BAYESIAN MODEL SELECTION 
+
+7. WHEN ALL THE MODELS ARE WRONG 
+
+Whenever people discuss model selection, it is inevitable that someone says ``but surely all the models are wrong.'' Except in special cases, this is probably true. The methods in Section 4 unabashedly assume that one of the models under consideration contains the true distribution. So does it make sense to compare any finite list of models when we do not literally believe any of them? The answer is: sometimes. 
+
+First, we would hope that, while none of the models is exactly correct, at least one is approximately correct. It behooves the data analyst to do common sense exploratory analysis��checking residuals, for example��to make sure that not all of the models are heinously wrong. Surely, no competent data analyst compares models which are all horribly wrong. So the methods in Section 4 can be regarded as being useful under the reasonable assumption that at least one model is approximately correct. 
+
+Second, even when all models are wrong, it is useful to consider the relative merits of two models. Newtonian physics and general relativity are both wrong. Yet it makes sense to compare the relative evidence in favor of one or the other. Our conclusion would be: under the tentative working hypothesis that one of these two theories is correct, we find that the evidence strongly favors general relativity. It is understood that the working hypothesis that one of the models is correct is wrong. But it is a useful, tentative hypothesis and, proceeding under that hypothesis, it makes sense to evaluate the relative posterior probabilities of those hypotheses. 
+
+If we are interested purely in prediction, not explanation, then there are versions of AIC that do not assume that any of the models are correct, and thus AIC would be appropriate here. If we are seriously concerned about the correctness of all the models, and we have a large sample, then one might consider doing a nonparametric analysis. For example, one can consider an infinite list of increasingly complex models M1 , M2 , ... with the property that �[�] j=1[M] j[is infinite dimensional.] Such a set of models is called a sieve (Grenander, 1981; Wong and Shen, 1985). Choosing a model from a sieve is a hard problem and is an important current research topic in statistics. 
+
+8. A REGRESSION EXAMPLE 
+
+Consider the problem of choosing which covariates to include in a regression model. For the ith subject, we have a vector of data (Yi , Xi1 , ..., Xip). We have data on n subjects and we are contemplating a model of the form 
+
+==> picture [254 x 11] <==
+
+where the =i 's are independent N(0, _[2] ). 
+
+Suppose we have reason to believe that some of the covariates should be dropped from the model. Let S represent a subset of [0, 1, ..., p] and let MS represent the model in which all the ;i 's in (37) are zero except for [;j ; j # S]. For example, if S=[0, 1, 3] then MS refers to the model Yi=;0+;1 Xi1+;3Xi 3+=i . Note that there are 2[p][+1] models under consideration, each corresponding to including or 
+
+104 
+
+LARRY WASSERMAN 
+
+leaving out various covariates. We will now compute the posterior probability of each model using the approximation outlined in Section 4. 
+
+We may write model MS as YtN(XS ;S , _[2] ) where XS is a matrix with one column for each covariate in the model. For example, if S=[0, 1], then the first column of XS is all ones and the second column is (X11 , ..., Xn1). Also, ;S refers to the regression parameters of the model. Let %S=( ;S, _) refer to all the parameters in model MS . Since we are assuming normality, the log-likelihood for model MS is, after some algebra, 
+
+==> picture [308 x 57] <==
+
+where ;�S=(X[T] S[X] S[)][&1][ X][ T] S[Y][,][ v] S[=][n][&][c] S[,][ c] S[is the number of columns of][ X] S[,] A[2] S[=(][Y][&][Y�] S[)][T][ (][Y][&][Y�] S[)][�v] S[, and][ Y�] S[=][X] S[;�] S[. Maximizing this log-likelihood, we] see that the MLE of ;S is just ;�S. The MLE of _ is _^ S=vS A[2] S[�n][. Inserting these] MLEs into the above equation, we find that (25) becomes 
+
+Then 
+
+==> picture [257 x 24] <==
+
+==> picture [234 x 26] <==
+
+the sum being over all possible models. 
+
+Suppose we have a new subject with covariate values (X 1*, ..., X p*) and we want to predict his or her outcome Y. Model MS gives the predicted value Y�S=X*S;�S where X*S is a matrix with one row only, corresponding to the new subject's covariate values. We predict Y using model averaging by using the following equation, 
+
+==> picture [269 x 29] <==
+
+where again the sums are over all submodels. 
+
+This approach provides an alternative to the usual stepwise procedures. If the number of predictors p is large, then summing over all submodels is not feasible. In this case, deterministic or random searches (George and McCulloch, 1993) over some subset of the set of all models must be used. 
+
+9. THE FREQUENTIST BEHAVIOR OF BAYESIAN MODEL SELECTION 
+
+Let us assume that the true distribution which generates the data is in exactly one of the candidate models and that the models are disjoint. Let Mj denote the 
+
+105 
+
+BAYESIAN MODEL SELECTION 
+
+model containing the true density. Then, under weak conditions, it can be shown that, for i{ j, 
+
+==> picture [215 x 27] <==
+
+in probability. This means that the posterior probability of the true model goes to one and that the posterior probability of the other models goes to zero. BIC has the same asymptotic behavior: it selects the true model asymptotically. 
+
+When the models are nested, the true density can be in more than one model. For example, suppose model 1 says that YtN(;0 , _[2] ) and model 2 says that YtN( ;0+;1 X, _[2] ). Suppose that ;1=0. Then both model 1 and model 2 are true. In such a case, the posterior of the smallest (lowest dimensional) model tends to one and the others tend to zero. Thus, Bayesian model selection automatically incorporates Occam's razor. 
+
+For separate models, things work even better. Suppose, for example, that M1 and M2 have no overlap and, moreover, that no distribution in one model is the limit of distributions from the other. Then, again, the posterior of the true model converges to one. And in this case, the convergence can be shown to happen very quickly. Technically, the convergence is at an exponential rate. These facts follow from standard asymptotic theorems. See Haughton (1988) and Kass and Wasserman (1995), for example. 
+
+An interesting question is how the small sample behaviors of Bayesian model selection and model averaging compare to competitors like AIC. As far as I know, there are not any systematic comparisons, which is unfortunate. Another interesting question is what happens to the posterior probabilities when the true distribution is in none of the models. Under regularity conditions, what happens is this: the posterior probability of the model that contains the closest distribution to the true distribution tends to one. 
+
+10. CONCLUSION 
+
+When faced with several candidate models, the analyst can either choose one model or average over the models. Bayesian methods provide a set of tools for these problems. Bayesian methods also give us a numerical measure of the relative evidence in favor of competing theories. The main points of this paper are: 
+
+(1) Bayesian model selection and model averaging is a conceptually simple, unified approach. 
+
+(2) For well-behaved models and moderate to large sample sizes, BIC provides a useful approximation to the log Bayes factor. 
+
+(3) For nonstandard problems, an intrinsic Bayes factor might be a useful approach. 
+
+(4) There is no need to choose one model. It is possible to average the predictions from several models. 
+
+106 LARRY WASSERMAN 
+
+(5) Simulation methods make it feasible to compute posterior probabilities in many problems. 
+
+(6) I have emphasized objective Bayesian methods that do not require subjective prior distributions. This reflects my bias that subjective Bayes is unreliable, impractical, and not scientific. But there is vocal, and perhaps legitimate, opposition to this viewpoint in the statistical community. Also, there is an approach called robust Bayesian inference (Berger, 1984; Berger and Delampady, 1987) in which Bayesian inference is performed with a set of priors rather than a single prior. This provides a bridge between subjective and objective Bayesian methods. 
+
+Finally, let me add that software for using Bayesian model selection tools can be found at http:��www.research.att.com�volinsky�bma.html. 
+
+REFERENCES 
+
+Akaike, H. (1973). Information theory and an extension of the maximum likelihood principle. In B. N. Petrov and F. Csaki (Eds.), 2nd International Symposium on Information Theory (pp. 267�281). Akad. Kiado, Budapest.
+
+Berger, J. (1984). The robust Bayesian viewpoint (with discussion). In J. Kadane (Ed.), Robustness in Bayesian statistics, Amsterdam: North Holland.
+
+Berger, J., 6 Delampady, M. (1987). Testing precise hypotheses (with discussion). Statistical Science, 2, 317�352.
+
+Berger, J. O., 6 Pericchi, L. (1996). The intrinsic Bayes factor for model selection and prediction. The Journal of the American Statistical Association, 91, 109�122.
+
+Carlin, B., 6 Louis, T. (1996). Bayes and empirical Bayes methods for data analysis. New York: Chapman and Hall.
+
+De Santis, F., 6 Spezzaferri, F. (1997). Alternative Bayes factors for model selection. The Canadian Journal of Statistics, to appear.
+
+DiCiccio, T., Kass, R., Raftery, A., 6 Wasserman, L. (1997). Computing Bayes factors by combining simulation and asymptotic approximations. The Journal of the American Statistical Association, 92, 903�915.
+
+Gelfand, A., 6 Smith, A.F.M. (1990). Sampling based approaches to calculating marginal densities. Journal of the American Statistical Association, 85, 398�409.
+
+Gelman, A., Carlin, J., Stern, H., 6 Rubin, D. (1995). Bayesian data analysis. New York: Chapman and Hall.
+
+Gelman, A., Meng, X., 6 Stern, H. (1996). Posterior predictive assessment of model fitness. Statistical Sinica, 6, 773�807.
+
+George, E., 6 McCulloch, R. (1993). Variable selection via Gibbs sampling. Journal of the American Statistical Association, 88, 881�889.
+
+Gilks, W. R., Richardson, S., 6 Spiegelhalter, D. J. (1995). Markov chain monte carlo in practice. London: Chapman and Hall.
+
+Grenander, U. (1981). Abstract inference. Wiley: New York.
+
+Haughton, D. (1988). On the choice of a model to fit data from an exponential family. The Annals of Statistics, 16, 342�355.
+
+Jeffreys, H. (1961). Theory of probability (3rd ed.). Oxford: Clarendon Press.
+
+Kass, R. E., 6 Raftery, A. E. (1995). Bayes factors. Journal of the American Statistical Association, 90, 377�395.
+
+Kass, R. E., 6 Wasserman, L. (1995). A reference Bayesian test for nested hypotheses and its relationship to the Schwarz criterion. Journal of the American Statistical Association, 90, 928�934.
+
+107 
+
+BAYESIAN MODEL SELECTION 
+
+Kass, R. E., 6 Wasserman, L. (1996). The selection of prior distributions by formal rules. Journal of the American Statistical Association, 91, 1343�1370.
+
+O'Hagan, A. (1995). Fractional Bayes factors for model comparison (with discussion). Journal of the Royal Statistical Society Series B, 57, 99�138.
+
+Raftery, A. (1995). Bayesian model selection in social research. Sociological Methodology, 111�163.
+
+Schwarz, G. (1978). Estimating the dimension of a model. The Annals of Statistics, 6, 461�464.
+
+Silverman, B. W. (1986). Density estimation for statistics and data analysis. New York: Chapman and Hall.
+
+Tanner, M., 6 Wong, W. (1987). The calculation of posterior distributions by data augmentation. The Journal of the American Statistical Association, 82, 528�540.
+
+Tierney, L. (1994). Markov chains for exploring posterior distributions (with discussion). The Annals of Statistics, 22, 1701�1762.
+
+Tierney, L., 6 Kadane, J. (1986). Accurate approximations for posterior moments and marginal densities, Journal of the American Statistical Association, 81, 82�86.
+
+Wong, W., 6 Shen, X. (1995). Probability inequalities for likelihood ratios and convergence rates of sieve MLE's. The Annals of Statistics, 23, 339�362.
+
+Zhang, P. (1993). On the convergence rate of model selection criteria. Communications in Statistics, 22, 2765�2775.
+
+Received: October 7, 1997; revised: August 4, 1998 
+

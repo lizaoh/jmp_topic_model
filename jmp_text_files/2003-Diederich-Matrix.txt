@@ -1,0 +1,3169 @@
+10.1016/s0022-2496(03)00003-8
+Over the last 40 years there have been many systematic attempts to model the processes underlying human decision making in a wide variety of psychological tasks (for reviews see,  Luce, 1986 ;  Townsend & Ashby, 1983 ). One line of thought is based on the notion of sequential sampling according to which information in sensory or cognitive systems is accumulated sequentially over time until a preset criterion is reached and a response is initiated.  Information  in this context usually means any changes in the central nervous system that translate perception and cognition into action ( Luce, 1986 ;  Smith, 2000 ). Characteristics, both of the stimulus (e.g., intensity) and the subject (e.g., strategy), may influence the information accumulation process.
+
+Sequential sampling models seek to account for both response time and accuracy data. All approaches assume that the stimuli (or choice alternatives) can be mapped onto a hypothetical numerical dimension representing the instantaneous level of activation, evidence, or preference. Further, they assume some random fluctuation of this value over time in the course of information accumulation. Therefore, sequential sampling can be described as a stochastic process. Two quantities are of foremost interest: (1) the probability that the process eventually reaches one or the other boundary for the first time (the criterion to initiate a response), called  first passage probability ; (2) the time it takes for the process to reach one of the boundaries for the first time, called  first passage time . The former quantity is related to the observed relative frequencies, the latter usually to the observed mean choice response times.
+
+Traditionally, sequential sampling models have been applied to account for response time and accuracy data in identification and discrimination tasks using choice response time paradigms (e.g.,  Audley (1960) ,  Audley and Pike (1965) ;  Ashby (1983) ,  Edwards (1965) ,  Heath (1981) ,  Laming (1968) ,  Link and Heath (1975) ,  Pike (1966) ;  Ratcliff (1978, 1981, 1985, 1988) ,  Ratcliff and McKoon (1982) ,  Ratcliff and Rouder (1998, 2000) ,  Ratcliff, Van Zandt, and McKoon (1999) ,  Stone (1960) ,  Van Zandt, Colonius, and Proctor (2000) ,  Vickers (1970) ; for reviews see  Luce (1986) ,  Townsend and Ashby (1983) ). They were also used for classification tasks (e.g., general recognition theory,  Ashby (2000) ; exemplar-based random walk models of classification,  Nosofsky and Palmeri (1997) ) and decision making tasks (e.g., criterion-dependent choice model,  Aschenbrenner, Albert, and Schmalhofer (1984) ; decision field theory,  Busemeyer and Townsend (1993) ; multiattribute dynamic decision model,  Busemeyer and Diederich (2002) ,  Diederich (1996, 1997, 2003a,b) ;  Diederich and Busemeyer (1999) ). Moreover, they have been applied to account for observed response time patterns in detection tasks using  simple  response time paradigms (e.g.,  Diederich (1992, 1995) ;  Pacut (1980) ;  Schwarz (1994) ;  Smith (1995) ). Most recently, these models have been applied to multialternative decision problems ( Roe, Busemeyer, & Townsend, 2001 ;  Usher & McClelland, 2001 ).
+
+However, lack of mathematical tractability has prevented broad applications of these models to empirical data, especially when the models go beyond utilizing simple random walks. The present tutorial shows how to construct these models, how to implement them on a computer, and how to calculate the predictions made by these models. We only include basic mathematics in the tutorial; derivations and additional comments are put in the appendix. As will be shown all quantitative predictions are calculated rather than simulated, using Markov chain approximations. The tutorial is organized as follows. We start with a simple numerical example and introduce the simple random walk model. Then we show how the simple random walk can approximate the Wiener process. Third, we introduce the birth–death chain and show how this chain can approximate a diffusion process. As a special diffusion process we develop the Ornstein–Uhlenbeck process. We show how to extend the approach to multiattributive stimuli and, for the first time, to three choice alternatives and to processes with variable drift. We included mathematical derivations in the text only if absolutely necessary. Details are put in the appendix. Finally, we show how to implement the models on the computer by providing two Matlab programs.
+
+Intuitively, a stochastic process is an entity that evolves randomly in time or space. In physics or biology this entity may be particles or neural activation. Here, we will refer to it as amount of information throughout the present tutorial although in psychology it is also called activation, pieces of evidence, preference and the like.
+
+Consider the following very simple example in the context of signal detection. Suppose a person is trying to make the decision whether a signal or noise trial is presented, based on the stimulus presented on a trial.
+
+At any moment in time, the person may sample an amount of information that provides evidence for a signal or noise response. For this example, the probability of sampling evidence in favor of the signal response equals 0.4; the probability of sampling evidence favoring the noise response is 0.6. Amounts of information are coded in units of one and minus one, and the accumulated information is labeled  X  for the  state  of the process. Assume that information in favor of the signal is added (+1) and information in favor of the noise is subtracted (−1). Let  X 
+                      
+                         n 
+                       denote the amount of information accumulated up to time unit  n ,  n =0,1,2,3,…. ( X 
+                      
+                         n 
+                       is also called the value of the process at time  n .) Furthermore, assume that at the beginning of the trial no amount of information has been sampled yet,  X 
+                      0 =0, and that the sampling process stops as soon as a critical value (state) is reached for either initiating a response in favor of the signal or in favor of the noise. Let us assume that the critical value (state) for the signal response is 3 and for the noise response is −3. Three possible realizations of this information accumulation process are 
+                         
+                            (0,+1,0,−1,−2,−3) 
+                               trial 
+                               # 1,(0,+1,+2,+1,+2,+3) 
+                               trial 
+                               # 2,(0,−1,0,−1,−2,−1,−2,−3) 
+                               trial 
+                               # 3. 
+                         
+                      In the first trial, the first amount of information gives evidence for the signal and the state changes from neutral (state 0) to a state that moderately favors the signal (state +1). But the evidence is not sufficiently strong to decide. The next amount of information favors noise, producing a step back to neutral. The process continues until one of the critical values is reached, at which point the respective response is chosen, i.e., as soon as  X 
+                      
+                         n 
+                      =+3 or  X 
+                      
+                         n 
+                      =−3. In the case of trial 1, the evidence is sufficiently strong to make a decision in favor of the noise after the 6th sample. In the second trial there was enough information accumulated in favor of the signal after the 6th sample, in the last trial there was sufficiently strong evidence to make a decision in favor of the noise after the 8th sample. For the last example, the cumulative amount of information at each time is  X 
+                      0 =0; X 
+                      1 =−1; X 
+                      2 =0; X 
+                      3 =−1; X 
+                      4 =−2; X 
+                      5 =−1; X 
+                      6 =−2; X 
+                      7 =−3.
+
+This is an example of a very basic stochastic process, called a  simple random walk with two absorbing states . It is  simple  because steps (amounts of information) take only values of +1 and −1. Random walk indicates that the steps up (+1) and down (−1) occur according to a probability distribution, here  Pr ( step =+1)=0.4 and  Pr ( step =−1)=0.6. An absorbing state means that the process stops, or is absorbed as soon as it reaches this state, in this example +3 or −3. Absorbing states are also called  absorbing boundaries  or  absorbing barriers . With respect to psychological applications this is called  decision criterion ,  decision boundary , or simply  criterion . The remaining intermediate states (−2,−1,0,+1,+2) are called  transient states . Eventually, the state of information leaves the transient states and is captured by one of the absorbing states. That is, the probability of absorbtion is 1. The set of all states of the process is called the  state space  and is labeled  S .
+
+As we have indicated at the beginning, two quantities are of foremost interest: (1) the probability that the process eventually reaches one or the other boundary for the first time (the criterion to initiate a response), which is then related to the observed relative frequencies; (2) the time it takes for the process to reach one of the boundaries, which is usually related to the observed mean choice response times.
+
+According to this simple model, the probability of choosing a signal is determined by the probability of eventually reaching the +3 absorbing state before reaching the −3 absorbing state. The mean time for initiating a “signal” response is simply the mean number of steps required to reach the absorbing state for signal, given that “signal” is chosen. Both quantities can be computed in a simple way by using Markov Chain theory as follows.
+
+First, we construct a matrix representing all the probabilities of the states. The rows of the state matrix are organized with states −3,−2,−1,0,+1,+2,+3 represented by rows 1, 2, 3, 4, 5, 6, and 7, respectively; and similarly for the columns. This matrix (the entries within the bracket) is called  transition probability matrix  and labeled  P . 
+                         
+                            
+                               
+                                  P 
+                               = 
+                                  
+                                     
+                                        
+                                           
+                                              index 
+                                              
+                                              1 
+                                              2 
+                                              3 
+                                              4 
+                                              5 
+                                              6 
+                                              7 
+                                           
+                                           
+                                              
+                                              state 
+                                              −3 
+                                              −2 
+                                              −1 
+                                              0 
+                                              +1 
+                                              +2 
+                                              +3 
+                                           
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           
+                                              1 
+                                              −3 
+                                           
+                                           
+                                              2 
+                                              −2 
+                                           
+                                           
+                                              3 
+                                              −1 
+                                           
+                                           
+                                              4 
+                                              0 
+                                           
+                                           
+                                              5 
+                                              +1 
+                                           
+                                           
+                                              6 
+                                              +2 
+                                           
+                                           
+                                              7 
+                                              +3 
+                                           
+                                        
+                                        
+                                           
+                                           
+                                              
+                                                 1 
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0 
+                                              
+                                              
+                                                 0.6 
+                                                 0 
+                                                 0.4 
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0 
+                                              
+                                              
+                                                 0 
+                                                 0.6 
+                                                 0 
+                                                 0.4 
+                                                 0 
+                                                 0 
+                                                 0 
+                                              
+                                              
+                                                 0 
+                                                 0 
+                                                 0.6 
+                                                 0 
+                                                 0.4 
+                                                 0 
+                                                 0 
+                                              
+                                              
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0.6 
+                                                 0 
+                                                 0.4 
+                                                 0 
+                                              
+                                              
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0.6 
+                                                 0 
+                                                 0.4 
+                                              
+                                              
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 1 
+                                              
+                                           
+                                           
+                                        . 
+                                  
+                               
+                            
+                         
+                      As we will see, this matrix plays an important role for determining the predicted choice probabilities and choice response times for all processes discussed in the following.
+
+Each cell,  p 
+                      
+                         ij 
+                      , of this matrix represents the probability of going from state  i  to state  j  and is called  transition probability . For example, from column 4 to column 5 reflects the transition probabilities from the neutral state (state 0) to either the state one step up, (to state +1 from row 4 to column 5 with probability 0.4); or remaining in neutral (with probability 0); or to the state one step down (to state −1 from column 4 to column 3 with probability 0.6). The remaining rows are defined in a similar manner.
+
+For computational convenience the transition probability matrix can be rearranged according to the transition states. The absorbing states are −3 and +3 with transition probabilities  p 
+                      11 =1 and  p 
+                      77 =1, i.e., the process is absorbed with probability 1. The matrix containing these probabilities is labeled  P 
+                      
+                         I 
+                      . The size of this submatrix is determined by the number of absorbing states, here a 2×2 matrix. The second class of states are those that eventually lead to the absorbing states in one-step transition, here from +2 to +3 with transition probability  p 
+                      67 =0.4 and from −2 to −3 with transition probability  p 
+                      21 =0.6. The matrix containing these probabilities is labeled  R . The size of this submatrix is determined by the number of absorbing states and the number of the transient states, here a 5×2 matrix. The matrix of the probabilities for the remaining transient states is labeled  Q . Its size is determined by the number of transient states, here a 5×5 submatrix. Obviously, the number of transient states is the total number of states minus the number of absorbing states. 
+                         
+                            (1) 
+                            
+                               
+                                  P 
+                               = 
+                                  
+                                     
+                                        
+                                           
+                                              state 
+                                              −3 
+                                              +3 
+                                              −2 
+                                              −1 
+                                              0 
+                                              +1 
+                                              +2 
+                                           
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           
+                                              −3 
+                                           
+                                           
+                                              +3 
+                                           
+                                           
+                                              −2 
+                                           
+                                           
+                                              −1 
+                                           
+                                           
+                                              0 
+                                           
+                                           
+                                              +1 
+                                           
+                                           
+                                              +2 
+                                           
+                                        
+                                        
+                                           
+                                           
+                                              
+                                                 1 
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0 
+                                              
+                                              
+                                                 
+                                                    0 
+                                                 
+                                                    1 
+                                                 
+                                                    0 
+                                                 
+                                                    0 
+                                                 
+                                                    0 
+                                                 
+                                                    0 
+                                                 
+                                                    0 
+                                              
+                                              
+                                                 0.6 
+                                                 0 
+                                                 0 
+                                                 0.4 
+                                                 0 
+                                                 0 
+                                                 0 
+                                              
+                                              
+                                                 0 
+                                                 0 
+                                                 0.6 
+                                                 0 
+                                                 0.4 
+                                                 0 
+                                                 0 
+                                              
+                                              
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0.6 
+                                                 0 
+                                                 0.4 
+                                                 0 
+                                              
+                                              
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0.6 
+                                                 0 
+                                                 0.4 
+                                              
+                                              
+                                                 0 
+                                                 0.4 
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0.6 
+                                                 0 
+                                              
+                                           
+                                           
+                                        
+                                     
+                                  
+                               = 
+                                  
+                                  
+                                     
+                                        
+                                           
+                                           
+                                           
+                                              P 
+                                           
+                                           
+                                              
+                                                 I 
+                                              
+                                           
+                                        
+                                        
+                                           
+                                           
+                                              0 
+                                           
+                                        
+                                     
+                                     
+                                        
+                                           
+                                           
+                                              R 
+                                           
+                                        
+                                        
+                                           
+                                              Q 
+                                           
+                                        
+                                     
+                                  
+                                  
+                               . 
+                         
+                      Furthermore, we construct a vector, labeled  Z , representing the starting position of the process over the transient states, before the decision process begins. That is, at time  t =0 the process is set in motion either by starting it at a fixed state  i 
+                      0 , called the  initial state , or by randomly locating it in the state space according to a probability distribution  Z  on  S , called the  initial distribution . In the former case,  Z  is the distribution concentrated at the state  i 
+                      0 , i.e.,  Z 
+                      
+                         j 
+                      =1 if  j = i 
+                      0 ,  Z 
+                      
+                         j 
+                      =0 if  j ≠ i 
+                      0 . In the latter case, the probability is  z 
+                      
+                         i 
+                       that at time zero the process will be found in state  i , where 0⩽ z 
+                      
+                         i 
+                      ⩽1 and  ∑ i 
+                         z i =1 . For example,  
+                         
+                            Z 
+                         =(0 0 1 0 0)  guarantees that the process starts at the neutral state (at state 0 with probability 1), as for the example above; with  
+                         
+                            Z 
+                         =(0 0 0 1 0)  the process starts at state +1, indicating a bias towards signal. In both cases the process starts at a  fixed state . Setting  
+                         
+                            Z 
+                         =(0.05 0.10 0.70 0.10 0.05)  means, there is a 0.70 probability of starting the decision process in the neutral state, and a 0.1 probability of starting in state +1, etc. In this case we have a  initial probability distribution  over all transient states.
+
+Finally, we need to build a matrix called  identity matrix , labeled  I , which has ones in the diagonal and zeros in the off diagonal. It is only for computational reasons and has the same size (number of rows and columns) as the matrix  Q . For this example, it is a 5×5 matrix defined as follows: 
+                         
+                            
+                               
+                                  I 
+                               = 
+                                  
+                                  
+                                     
+                                        1 
+                                        0 
+                                        0 
+                                        0 
+                                        0 
+                                     
+                                     
+                                        0 
+                                        1 
+                                        0 
+                                        0 
+                                        0 
+                                     
+                                     
+                                        0 
+                                        0 
+                                        1 
+                                        0 
+                                        0 
+                                     
+                                     
+                                        0 
+                                        0 
+                                        0 
+                                        1 
+                                        0 
+                                     
+                                     
+                                        0 
+                                        0 
+                                        0 
+                                        0 
+                                        1 
+                                     
+                                  
+                                  
+                               . 
+                         
+                      The probability of choosing the signal response,  Pr ( S ), and the probability of choosing the noise,  Pr ( N ), can be computed according to the matrix equation (e.g.,  Bhat, 1984 ): 
+                         
+                            (2) 
+                            [Pr(N),Pr(S)]= 
+                                  Z 
+                               ·( 
+                                  I 
+                               − 
+                                  Q 
+                               ) −1 · 
+                                  R 
+                               , 
+                         
+                      where ( I − Q ) −1  is the inverse of the matrix ( I − Q ) and ( I − Q ) −1 ( I − Q )= I . (For derivation see  Appendix A .)
+
+The mean number of steps required to reach the absorbing state either for signal or for noise can be computed in a similar way. Define  E ( T | S ) as the mean number of time steps required to make a choice, given that a signal response is chosen; and similarly,  E ( T | N ) as the mean number of time steps, given a noise response is chosen. The conditional expected values are 
+                         
+                            (3) 
+                            [E(T|N),E(T|S)]=[ 
+                                  Z 
+                               ·( 
+                                  I 
+                               − 
+                                  Q 
+                               ) −2 · 
+                                  R 
+                               ]./[Pr(N),Pr(S)], 
+                         
+                      where ( I − Q ) −2  indicates the matrix product [( I − Q ) −1 ·( I − Q ) −1 ]. (For derivation see  Appendix A .) In this formula, the numerator produces a row vector of two numbers, and the denominator is also a row vector of two numbers, and the symbol ./ means an elementwise division (divide the first element in the numerator by the first in the denominator, and the second element in the numerator by the second in the denominator). These equations can be computed almost directly as shown using commonly available matrix language programs such as Gauss, Matlab, Mathematica, or Proc IML in SAS.
+
+The choice probabilities and conditional expectations for the above example are: 
+                         
+                            
+                               
+                               
+                               
+                               
+                               
+                               
+                                  
+                                     Initial distribution 
+                                     
+                                        Pr(S) 
+                                     
+                                     
+                                        Pr(N) 
+                                     
+                                     
+                                        E(T|S) 
+                                     
+                                     
+                                        E(T|N) 
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           
+                                              Z 
+                                           =(0 0 1 0 0) 
+                                     
+                                     0.23 
+                                     0.77 
+                                     8.14 
+                                     8.14 
+                                  
+                                  
+                                     
+                                        
+                                           
+                                              Z 
+                                           =(0 0 0 1 0) 
+                                     
+                                     0.39 
+                                     0.61 
+                                     5.93 
+                                     9.77 
+                                  
+                                  
+                                     
+                                        
+                                           
+                                              Z 
+                                           =(0.05 0.10 0.70 0.10 0.05) 
+                                     
+                                     0.25 
+                                     0.75 
+                                     7.26 
+                                     7.77 
+                                  
+                               
+                            
+                         
+                       In the above formulas, there is nothing special about the particular probabilities, and any transition probabilities may be substituted. Also, there is nothing special about the number of transient states, and the same formula applies to an arbitrary number of transient states. Finally, as we have seen there is nothing special about the initial probability vector, and any distribution is permitted.
+
+Before discussing the Markov-chain method to compute the distribution statistics for the Wiener process we should mention that there are other solutions to the same problem. 
+                         1 
+                      
+                      
+                         1 
+                         For example, suppose there are two boundaries,  θ 
+                            
+                               S 
+                             and  θ 
+                            
+                               N 
+                            , one for choosing  S  and the other for choosing  N  and the process starts at  z  then the probability that the process reaches boundary  θ 
+                            
+                               S 
+                            > z  before hitting  θ 
+                            
+                               N 
+                            < z  is given by  Pr(S| processstartsat z)= 
+                                  
+                                     exp (−2μz/σ 2 )− exp (−2μθ N /σ 2 ) 
+                                  
+                                     exp (−2μθ S /σ 2 )− exp (−2μθ N /σ 2 ) 
+                               
+                             (see e.g.,  Karlin & Taylor, 1975 , p. 361.)  μ  and  σ  are defined and explained in the following section. 
+                       However, the solution presented, for example, by  Ratcliff (1978)  is limited only to the Wiener process, whereas the Markov chain method can be used for other, more complex processes as discussed later.
+
+Consider the simple random walk again. The state space of the process is 
+                         
+                            S={−θ,…,−2,−1,0,+1,+2,…,+θ}, 
+                         
+                      where  θ  denotes the absorbing states (the decision criteria). The parameter set (time space) is {0,1,2,3,…}. Now suppose we have a time interval [0, t ] and divide this into subintervals of length  τ  so that we have  t / τ  such subintervals. That is, the process makes a step at  τ ,2 τ ,3 τ ,… . Further, instead of steps up and down of unit magnitude assume that the size of the steps is either + Δ  or − Δ  with probability 0.5, so that the move is up or down. The state space is now 
+                         
+                            (4) 
+                            S={−kΔ,…,−2Δ,−Δ,0,+Δ,+2Δ,…,+kΔ}, 
+                         
+                      where  θ = kΔ  and − θ =− kΔ , and  k  equals the number of steps to reach the criterion from the neutral starting point. The amount of information accumulated at time  t  (the value of the process at time  t ) is a random walk after  t / τ  steps. This depends obviously on the choice of  Δ  and  τ  which can get smaller and smaller. Setting  Δ= 
+                            τ 
+                         
+                      
+                      
+                         2 
+                      
+                      
+                         2 
+                         This is only a convenient choice for which the variance of the process becomes  t  for all values of  τ , see below. 
+                       and letting  τ  approach 0 the random walk model converges to a process called the  standard 
+                      
+                         3 
+                      
+                      
+                         3 
+                         “Standard” means that the probability of moving up or down is 0.5, and this expression is used in the mathematical literature. In psychology this process is often labeled  unbiased process with 0 drift . 
+                       
+                      Wiener process  which has continuous time set and continuous state space and we will label it  W ( t ). Markov processes with continuous time set and continuous state space are called  diffusion processes  and the standard Wiener process is the simplest diffusion process.
+
+For example, suppose that we have the same criteria (absorbing states) as before, i.e.  θ =+3 for a signal response and − θ =−3 for a noise response. Further, assume that the step size is now  Δ =0.5, and therefore  k =3/0.5=6. The state space becomes  S ={−6·0.5,−5·0.5,−4·0.5,−3·0.5,−2·0.5,−1·0.5,0,+1·0.5,+2·0.5,+3·0.5,+4·0.5,+5·0.5,+6·0.5}. For this process it would take, on average, 36 steps of size  Δ =0.5 to reach the criterion  θ . This is compared to the 9 steps, when assuming a step size of  Δ =1. However, if we want to relate the expected number of steps to decision time, we have to adjust  Eq. (3)  by the time unit  τ , i.e., 
+                         
+                            (5) 
+                            [(E(T|N),E(T|S)]=τ·[ 
+                                  Z 
+                               ·( 
+                                  I 
+                               − 
+                                  Q 
+                               ) −2 · 
+                                  R 
+                               ]./[Pr(N),Pr(S)]. 
+                         
+                      
+                      Fig. 1 
+                       shows these ideas for  Δ =1, 0.5, and 0.25. For the  Δ =0.25 case we have 4 small steps instead of one big step and within the original one time unit we have 16 subintervals of length  τ  equal to 1/16.
+
+The simple random walk and the Wiener process seem to be very similar. Note however a very important theoretical difference. The random walk moves one step up or down from one time unit to the next with probability  p  and  q =1− p . The increment of the process (a step up or down) from time unit  n  to  n +1 is the difference between two instances of the process, (e.g.,  Tuckwell, 1995 ) i.e., 
+                         
+                            X n+1 −X n =Z n+1 , n=0,1,2,… 
+                         
+                      and the  Z 
+                      
+                         n 
+                       are independent identically distributed with  Pr { Z 
+                      1 =+1}= p  and  Pr { Z 
+                      1 =−1}= q ; and  X 
+                      0 =0. For  p = q  it follows that  E ( Z 
+                      1 )= p − q =0 and therefore  E(X n )=E(∑ i=1 
+                         n 
+                         Z i )=nE(Z 1 ) . The variance  Var ( Z 
+                      1 )=4 pq =1 and therefore  Var(X n )=n Var(Z 1 )=n .
+
+For the approximation of the standard Wiener process we take  X t/τ =∑ i=1 
+                         t/τ 
+                         Z i 
+                      . Since the  Z 
+                      
+                         i 
+                       are independent and identically distributed with  Pr [ Z 
+                      
+                         i 
+                      =+ Δ ]= Pr [ Z 
+                      
+                         i 
+                      =− Δ ]=0.5 we get  E ( Z 
+                      1 )=0 and  Var ( Z 
+                      1 )= Δ 
+                      2 . Therefore, the expected value is  E ( X 
+                      
+                         t / τ 
+                      )=0 and, with  Δ= 
+                            τ 
+                         
+                      , the variance is  Var(X t/τ )=(t/τ) Var(Z 1 )=tΔ 2 /τ=t . If we let  τ →0, then  X 
+                      
+                         t / τ 
+                       converges in distribution to a random variable  W ( t ) which we called the standard Wiener process. From the central limit theorem we know that  W ( t ) is normally distributed.
+
+Thus, for the standard Wiener process the increment (a very small step moving up or down) in the small time interval ( t , t + τ ) is 
+                         
+                            (6) 
+                            dW(t)=W(t+τ)−W(t), 
+                         
+                      and  W ( t ) is normally distributed with mean zero and variance  t . The  Wiener process with drift  is obtained with some algebraic operations on a standard Wiener process. The random variable  W ( t ) is multiplied by a constant,  σ ,  σ >0, and a linear function of time,  μt , is added, where  μ , can be positive, negative or zero, resulting in 
+                         
+                            (7) 
+                            V(t)=μt+σW(t), 
+                         
+                      or in a difference equation form 
+                         
+                            (8) 
+                            dV(t)=V(t+τ)−V(t)=μτ+σdW(t). 
+                         
+                      
+                      V ( t ) is normally distributed with mean  μt  and variance  σ 
+                      2 
+                      t .
+
+The Wiener process with drift is related to more interesting cases when  p ≠ q ≠0.5. We show next how we determine the choice probabilities and choice response time for this situation. To do so we first have to define two functions more precisely.
+
+The properties of an increment  dX ( t )= X ( t + τ )− X ( t ) in a small time interval ( t , t + τ ) may depend on the time  t  and the value  x  of the process at the beginning of the small time interval. Therefore, conditioned on  X ( t )= x , two functions are defined now as infinitesimal mean  μ ( x , t ) and infinitesimal variance  σ 
+                      2 ( x , t ). 
+                         
+                            (a) 
+                            The infinitesimal mean (or infinitesimal first moment or instantaneous mean or drift coefficient) is defined as 
+                                  
+                                     μ(x,t)= 
+                                           
+                                              lim 
+                                           
+                                           τ→0 
+                                        
+                                        
+                                        
+                                           E[dX(t)|X(t)=x] 
+                                           τ 
+                                        . 
+                                  
+                               
+                            
+                         
+                         
+                            (b) 
+                            The infinitesimal variance (or infinitesimal second moment or instantaneous variance or diffusion coefficient) is defined as 
+                                  
+                                     σ 2 (x,t)= 
+                                           
+                                              lim 
+                                           
+                                           τ→0 
+                                        
+                                        
+                                        
+                                           E[(dX(t) 2 |X(t)=x)] 
+                                           τ 
+                                        . 
+                                  
+                               
+                            
+                         
+                       Note that  μ ( x , t ) and  σ 
+                      2 ( x , t ) are deterministic functions of  x  and  t . Once the drift and diffusion terms are specified, the transition probability density function can be determined and all required information about the process is provided. These two coefficients are quite important for modeling in psychological tasks, especially the drift coefficient  μ ( x , t ). For example, a higher intensity stimulus may provide more information than a weaker one and the amount of accumulated information needed to evoke a response may reach the boundary sooner. Therefore, the drift coefficient of the process may be related to stimulus intensity as we will see in more detail below.
+
+The infinitesimal mean (or infinitesimal first moment or instantaneous mean or drift coefficient) is defined as 
+                                  
+                                     μ(x,t)= 
+                                           
+                                              lim 
+                                           
+                                           τ→0 
+                                        
+                                        
+                                        
+                                           E[dX(t)|X(t)=x] 
+                                           τ 
+                                        .
+
+The infinitesimal variance (or infinitesimal second moment or instantaneous variance or diffusion coefficient) is defined as 
+                                  
+                                     σ 2 (x,t)= 
+                                           
+                                              lim 
+                                           
+                                           τ→0 
+                                        
+                                        
+                                        
+                                           E[(dX(t) 2 |X(t)=x)] 
+                                           τ 
+                                        .
+
+In particular, the drift and diffusion coefficients for the Wiener process are  μ ( x , t )= μ  and  σ 
+                      2 ( x , t )= σ 
+                      2 , respectively. Now, the transition probabilities  p 
+                      
+                         i , i −1  and  p 
+                      
+                         i , i +1  can be written as functions of these coefficients (see the appendix). With  
+                         
+                            τ 
+                         =Δ/σ , 
+                         
+                            (9) 
+                            p i,i−1 = 
+                                  1 
+                                  2 
+                               
+                               
+                                  1− 
+                                     μ 
+                                     σ 
+                                  
+                                  
+                                  
+                                     τ 
+                                  
+                                  
+                               , 
+                         
+                      
+                      
+                         
+                            (10) 
+                            p i,i+1 = 
+                                  1 
+                                  2 
+                               
+                               
+                                  1+ 
+                                     μ 
+                                     σ 
+                                  
+                                  
+                                  
+                                     τ 
+                                  
+                                  
+                               . 
+                         
+                      These transition probabilities determine the probability matrix in exactly the same way as we have already seen. Note that  μ / σ  is restricted to the range  (−1/ 
+                            ( 
+                         τ),1/ 
+                            ( 
+                         τ))  to guarantee that 0⩽ p 
+                      
+                         i , i −1 , p 
+                      
+                         i , i +1 ⩽1. For example, with  μ =0, the probability is 0.5 of a step in either direction. The sign of the drift coefficient determines the direction the process takes, on average. For  μ >0 the process moves, on average, up. For  μ <0 the process moves, on average, in the opposite direction. For example, setting  σ  and step size to one and  μ =−0.2 yields  p 
+                      
+                         i , i −1 =0.6 and  p 
+                      
+                         i , i +1 =0.4, the transition probabilities for the introductory example. The process stops and a response is initiated as soon as an absorbing state is reached. In particular, “signal”, or in general, alternative A, is chosen as soon as  V ( t )⩾ θ  and “noise”, or in general, alternative B, is chosen as soon as  V ( t )⩽− θ .
+
+To see how well the continuous process can be mimicked by a discrete process we determine the mean and probability as a function of the step size  Δ . In  Eq. (4)  we set the criteria to  θ = kΔ  and − θ =− kΔ  and expressed the state space as a function of the step size  Δ  and the criteria, i.e., 
+                         
+                            (11) 
+                            S={−kΔ,−(k−1)Δ,…,−2Δ,−Δ,0,Δ, 2Δ,…,(k−1)Δ,kΔ}. 
+                         
+                      The total number of states in  S  is  m =2· k +1 or, equivalently,  m =2· θ / Δ +1. Thus, decreasing the step size  Δ  leads to an increase of the matrix size  m , holding all other factors fixed.
+
+Fig. 2 
+                       shows the mean and probability for choosing one alternative plotted as a function of the matrix size  m  for different decision criteria,  θ =3 and  θ =5, with three different drift coefficients  μ  (see  Diederich, 1995 , for a different range of parameters).
+
+As can be seen, mean and probability reach an asymptote already for matrix of size 7×7. This corresponds to a step size  Δ =1 for  θ =3 and a step size  Δ =1.67 for  θ =5. Thus, with a relatively small matrix size and a relative large step size the continuous process is mimicked by a discrete process.
+
+Let us stay for another moment with our example. The person is trying to make a decision whether a signal or noise trial is presented, based on the stimulus presented on a trial. However, suppose that no diagnostic information can be sampled from one moment to the next, i.e., there is a positive probability that the process remains in the same state. Assume that the probability for a signal response is 0.2; the probability for a noise response is 0.3; and the probability for non-diagnostic information is 1−(0.2+0.3)=0.5. With the same state space as before the transition probability matrix becomes 
+                         
+                            (12) 
+                            
+                               
+                                  
+                                     
+                                        
+                                           
+                                              state 
+                                              −3 
+                                              −2 
+                                              −1 
+                                              0 
+                                              +1 
+                                              +2 
+                                              +3 
+                                           
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           
+                                              −3 
+                                           
+                                           
+                                              −2 
+                                           
+                                           
+                                              −1 
+                                           
+                                           
+                                              0 
+                                           
+                                           
+                                              +1 
+                                           
+                                           
+                                              +2 
+                                           
+                                           
+                                              +3 
+                                           
+                                        
+                                        
+                                           
+                                           
+                                              
+                                                 1 
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0 
+                                              
+                                              
+                                                 0.3 
+                                                 0.5 
+                                                 0.2 
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0 
+                                              
+                                              
+                                                 0 
+                                                 0.3 
+                                                 0.5 
+                                                 0.2 
+                                                 0 
+                                                 0 
+                                                 0 
+                                              
+                                              
+                                                 0 
+                                                 0 
+                                                 0.3 
+                                                 0.5 
+                                                 0.2 
+                                                 0 
+                                                 0 
+                                              
+                                              
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0.3 
+                                                 0.5 
+                                                 0.2 
+                                                 0 
+                                              
+                                              
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0.3 
+                                                 0.5 
+                                                 0.2 
+                                              
+                                              
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 0 
+                                                 1 
+                                              
+                                           
+                                           
+                                        . 
+                                  
+                               
+                            
+                         
+                      Following the same procedure as before, the choice probabilities and conditional expectations for this example are 
+                         
+                            
+                               
+                               
+                               
+                               
+                               
+                               
+                                  
+                                     Initial distribution 
+                                     
+                                        Pr(S) 
+                                     
+                                     
+                                        Pr(N) 
+                                     
+                                     
+                                        E(T|S) 
+                                     
+                                     
+                                        E(T|N) 
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           
+                                              Z 
+                                           =(0 0 1 0 0) 
+                                     
+                                     0.23 
+                                     0.77 
+                                     16.29 
+                                     16.29 
+                                  
+                                  
+                                     
+                                        
+                                           
+                                              Z 
+                                           =(0 0 0 1 0) 
+                                     
+                                     0.39 
+                                     0.61 
+                                     11.86 
+                                     19.55 
+                                  
+                                  
+                                     
+                                        
+                                           
+                                              Z 
+                                           =(0.05 0.10 0.70 0.10 0.05) 
+                                     
+                                     0.25 
+                                     0.75 
+                                     14.51 
+                                     15.54 
+                                  
+                               
+                            
+                         
+                       This describes a simple random walk that never skips states in its evolution, i.e., a Markov chain with state space  S ={0,±1,±2,…} for which transitions from state  n  can only move to state  n +1 or to state  n −1 or stay in the same state. It is called a  birth–death chain . In addition let the time unit  τ  between two steps decrease so that a step occurs within the time interval ( t , t + τ ). As  τ  approaches 0 the Markov chain with these properties is called a  birth–death process . The state space can be seen as the size of a population, the increase of the population size by one as birth and the decrease by one as death. The time set is continuous as  τ  approaches 0.
+
+These ideas lead to a process that allows us to approximate a broad class of stochastic processes, called  diffusion processes , one of which is the Wiener process.
+
+The transition probabilities  p 
+                      
+                         ij 
+                       of going from state  i  to state  j  for the birth–death chain are 
+                         
+                            p ij = 
+                                  
+                                  
+                                     
+                                        α i 
+                                        
+                                        
+                                           if 
+                                           j=i−1, 
+                                     
+                                     
+                                        β i 
+                                        
+                                        
+                                           if 
+                                           j=i+1, 
+                                     
+                                     
+                                        1−α i −β i 
+                                        
+                                        
+                                           if 
+                                           j=i, 
+                                     
+                                     
+                                        0 
+                                        
+                                           otherwise . 
+                                     
+                                  
+                               
+                            
+                         
+                      Note, that the transition probabilities may depend on the state of the process.
+
+Decreasing also the step size  Δ  for the birth–death chain with transition probabilities  p 
+                      
+                         ij 
+                       approximates a diffusion process  X ( t ) with drift coefficient  μ ( x , t ) and diffusion coefficient  σ 
+                      2 ( x , t ) as  Δ →0. (See Convergence Theorem, e.g.,  Bhattacharya and Waymire (1990, p. 387) ,  Karlin and Taylor (1975, p.169) , and the appendix).
+
+One of the diffusion processes becomes increasingly interesting for cognitive science research, namely the Ornstein–Uhlenbeck (OU) process,  X ( t ), t ⩾0, with drift. The process, developed in physics, assumes that the  velocity  of a particle is a stochastic process (rather than its position as in the Wiener process). As we will see the OUP has properties that are interesting for model building in psychology. For example, some properties account for assumptions concerning leakage or decay in information accumulation ( Busemeyer & Townsend, 1992 ;  Diederich, 1992, 1995, 1997 ;  Smith, 1995 ;  Usher & McClelland, 2001 ); primacy and recency effects in memory ( Busemeyer & Townsend, 1993 ); approach and avoidance conflicts in decision making ( Busemeyer & Townsend, 1993 ,  Diederich, 2003a ).
+
+In a small time interval the change in velocity of information accumulation is assumed to be influenced by two factors: the specific tasks with their cognitive interpretation which slows down the motion of the process and some random fluctuation due to new information. Assuming that the damping effect is directly proportional to the velocity, leads to the equation 
+                         
+                            (13) 
+                            X(t+τ)=(1−τγ)X(t)+V(t+τ)=τδ+(1−τγ)X(t)+σW(t+τ) 
+                         
+                      or in a difference equation form 
+                         
+                            (14) 
+                            dX(t)=X(t+τ)−X(t)=−τγX(t)+V(t+τ)=τδ−τγX(t)+σW(t+τ). 
+                         
+                      
+                      W ( t ) refers to the standard Wiener process ( Eq. (6) ) and  V ( t ) to the Wiener process with drift  δ  and diffusion coefficient  σ 
+                      2  ( Eq. (7) ), as we discussed above.  X ( t ) is normally distributed with mean  
+                         
+                            δ 
+                            γ 
+                         (1−e −γt )  and variance  
+                         
+                            σ 2 
+                            
+                            2γ 
+                         (1−e −2γt ) . The drift coefficient of the OUP (more precisely the OUP with drift for  δ ≠0) is  μ ( x , t )= δ − γx . One part of it, − γx , is proportional to the value  x  of the process and the other part of the drift,  δ , is a constant. As before,  δ  determines the direction of the process’ motion and − γx  causes the decay of the process depending on the state  x  in the state space. For example, if  γ >0 the process takes longer to reach a preset criterion because the increments decrease with increasing position in the state space, i.e. in a sense it slows down the process. This is applicable to model ‘leakage of information’, or avoidance behavior. For  γ <0, it takes less time for the process to reach a preset criterion since the increments increase with increasing position in the state space. This is applicable for “the winner takes all” assumption; to model facilitation effects; or speeded responses in approach–conflict situations. However, the process might become unstable and, strictly speaking, it is not called OUP for  γ <0.
+
+Fig. 3 
+                       shows three sample paths (trajectories) of the standard Wiener process ( μ =0); the Wiener process with drift  μ =0.2; the OUP with  δ =0.2 and  γ =0.005; and the OUP with  δ =0.2 and  γ =−0.01. The time units ( x -axis) are  t = n ·0.1 for all four figures. The solid lines are the respective drift rates.
+
+The process stops and a response is initiated as soon as an absorbing state is reached. In particular, alternative A is chosen as soon as  X ( t )⩾ θ  and alternative B is chosen as soon as  X ( t )⩽− θ .
+
+As mentioned, once the drift and diffusion terms are specified, the transition probability density function can be determined and all required information about the process is provided. The drift and diffusion coefficients for the OUP are  μ ( x , t )= δ − γx  and  σ 
+                      2 ( x , t )= σ 
+                      2 , respectively. The transition probabilities  p 
+                      
+                         i , i −1 ,  p 
+                      
+                         ii 
+                      , and  p 
+                      
+                         i , i +1  can be written as functions of these coefficients exactly as we have done before (see the appendix).
+
+Again, we start with defining the state space of the process,  S , which consists of all states of information (states of activation, states of preference). We assume that these entities change by very small steps of size  Δ >0. The information accumulation process is bounded by  θ  and − θ , the criteria to initiate a response for A and B, respectively. Setting ( θ = kΔ ) and (− θ =− kΔ ) the state spaces can be expressed as a function of the step size  Δ  and the criteria ( Eq. (11) ). The total number of states in  S  is  m =2· k +1 or, equivalently,  m =2· θ / Δ +1. For convenience the states are indexed by  i =1,…, m  according to magnitude, i.e., 
+                         
+                            S= 
+                                  
+                                     {−kΔ, 
+                                     −(k−1)Δ, 
+                                     …, 
+                                     −Δ, 
+                                     0 
+                                     Δ, 
+                                     …, 
+                                     (k−1)Δ, 
+                                     kΔ}. 
+                                  
+                                  
+                                     1 
+                                     2 
+                                     … 
+                                     
+                                     (m−1)/2 
+                                     
+                                     … 
+                                     m−1 
+                                     m 
+                                  
+                               
+                            
+                         
+                      As before, the transition probabilities for the  m  states of the Markov chain are arranged in an  m × m  transition probability matrix  P , with the elements  p 
+                      11 =1 and  p 
+                      
+                         mm 
+                      =1, and, for 1< i < m , 
+                         
+                            (15) 
+                            p i,j = 
+                                  
+                                  
+                                     
+                                        
+                                           
+                                              1 
+                                              2α 
+                                           (1− 
+                                              μ(−kΔ+(i−1)Δ) 
+                                              σ 2 
+                                              
+                                           
+                                           
+                                              τ 
+                                           ) 
+                                        
+                                           if 
+                                           j−i=−1, 
+                                     
+                                     
+                                        
+                                           
+                                              1 
+                                              2α 
+                                           (1+ 
+                                              μ(−kΔ+(i−1)Δ) 
+                                              σ 2 
+                                              
+                                           
+                                           
+                                              τ 
+                                           ) 
+                                        
+                                           if 
+                                           j−i=+1, 
+                                     
+                                     
+                                        1−p i,i−1 −p i,i+1 =1− 
+                                              1 
+                                              α 
+                                           
+                                        
+                                        
+                                           if 
+                                           j=i, 
+                                     
+                                     
+                                        0 
+                                        
+                                           otherwise 
+                                        
+                                     
+                                  
+                               
+                            
+                         
+                      and with  μ ( x )= δ − γ · x  for the OUP 
+                         
+                            (16) 
+                            p i,j = 
+                                  
+                                  
+                                     
+                                        
+                                           
+                                              1 
+                                              2α 
+                                           (1− 
+                                              δ−γ·(−kΔ+(i−1)Δ) 
+                                              σ 2 
+                                              
+                                           
+                                           
+                                              τ 
+                                           ) 
+                                        
+                                           if 
+                                           j−i=−1, 
+                                     
+                                     
+                                        
+                                           
+                                              1 
+                                              2α 
+                                           (1+ 
+                                              δ−γ·(−kΔ+(i−1)Δ) 
+                                              σ 2 
+                                              
+                                           
+                                           
+                                              τ 
+                                           ) 
+                                        
+                                           if 
+                                           j−i=+1, 
+                                     
+                                     
+                                        1− 
+                                              1 
+                                              α 
+                                           
+                                        
+                                        
+                                           if 
+                                           j=i 
+                                     
+                                     
+                                        0 
+                                        
+                                           otherwise . 
+                                     
+                                  
+                               
+                            
+                         
+                      Here  Δ  is set to  Δ=ασ 
+                            τ 
+                         
+                      . The parameter,  α >1, is a free parameter and is chosen to improve the approximation to a continuous time process. It has no effect on choice probabilities.
+
+The transition probability matrix  P =|| p 
+                      
+                         ij 
+                      || is presented in its canonical form: 
+                         
+                            (17) 
+                            
+                         
+                      The number of states in the state space determine the size of the transition matrix and its submatrices. In particular,  R  is a matrix of size ( m −2)×2 and  Q  is of size ( m −2)×( m −2). With these submatrices we proceed as we did before to determine the probability for reaching a particular boundary ( Eq. (2) ) and the mean time to reach that absorbing boundary ( Eq. (5) ). Note, that for  γ =0 the OUP becomes the Wiener process with drift. The first passage time distribution for reaching the boundaries for alternatives A and B can also be determined by using this approach, i.e., 
+                         
+                            (18) 
+                            [Pr(T=t|B),Pr(T=t|A)]= 
+                                  [Pr(T=t∩ choose 
+                                     B),Pr(T=t∩ choose 
+                                     A)] 
+                                  [Pr( choose 
+                                     B),Pr( choose 
+                                     A)] 
+                               = 
+                                  ZQ 
+                               
+                               n−1 
+                               
+                                  R 
+                               ./ 
+                                  Z 
+                               ( 
+                                  I 
+                               − 
+                                  Q 
+                               ) −1 
+                               
+                                  R 
+                               , 
+                         
+                      where  t = nτ . (The symbol ./ refers to dividing elementwise, see above.  Q  to the  n th power can be computed easily by decomposing the matrix into its eigenvectors and eigenvalues, as shown in  Appendix A .)
+
+To summarize the steps to determine the choice probabilities, the mean decision times, and the probability distribution of decision times: 
+                         
+                            1. 
+                            Define the process you want to use, e.g., Wiener, OUP. 
+                         
+                         
+                            2. 
+                            Depending on your choice, the parameters for the drift and diffusion coefficients are specified. For the Wiener process, these are  μ  and  σ ; for the OUP, they are  δ , γ , σ . For most applications  σ  can be set to one since it is only a scaling factor and not observable. 
+                         
+                         
+                            3. 
+                            Set the decision criterion  θ  to establish the time constant  τ  and, for the OUP,  α . This gives you immediately the step size  Δ  and the matrix size  m . ( Δ=ασ 
+                                     τ 
+                                  ;m=2·θ/Δ+1 ). 
+                         
+                         
+                            4. 
+                            With these parameters determine the transition probabilities and construct the transition probability matrix  P . 
+                         
+                         
+                            5. 
+                            Partition the matrix  P  according to  Eq. (1)  ( Eq. (17) ); you only need  R  and  Q . 
+                         
+                         
+                            6. 
+                            Decide about the initial distribution, i.e., the probabilities at which states the process starts. These probabilities are assigned to the vector  Z . The length of  Z  is the same as for the matrix  Q . 
+                         
+                         
+                            7. 
+                            Calculate the choice probabilities ( Eq. (2) ), mean times ( Eq. (5) ) and distributions ( Eq. (18) ) using the vector  Z  and the matrices  Q  and  R . 
+                         
+                       
+                      τ  and  α  are set depending on how good the approximation to the continuous time process is desired. The parameters  μ  ( δ  and  γ  for the OUP),  σ  and  θ  can be estimated from the data. Furthermore, depending of the choice of the initial distribution the parameters for this distribution are estimated as well. The minimum number of parameters for the Wiener process is three (drift, boundary, starting point) and for the OUP four. If we assume the special case of symmetric boundaries (no bias), i.e., if the starting point is exactly between the boundaries, we can even reduce the number of parameters to two and three, respectively. Note, the Wiener process with two parameters often cannot account for observed data since it predicts the same RT for correct and incorrect responses (see e.g.,  Luce, 1986 ;  Townsend & Ashby, 1983 ; for a review). However, the OUP with three parameters predicts different RT for correct and incorrect response.
+
+Define the process you want to use, e.g., Wiener, OUP.
+
+Depending on your choice, the parameters for the drift and diffusion coefficients are specified. For the Wiener process, these are  μ  and  σ ; for the OUP, they are  δ , γ , σ . For most applications  σ  can be set to one since it is only a scaling factor and not observable.
+
+Set the decision criterion  θ  to establish the time constant  τ  and, for the OUP,  α . This gives you immediately the step size  Δ  and the matrix size  m . ( Δ=ασ 
+                                     τ 
+                                  ;m=2·θ/Δ+1 ).
+
+With these parameters determine the transition probabilities and construct the transition probability matrix  P .
+
+Partition the matrix  P  according to  Eq. (1)  ( Eq. (17) ); you only need  R  and  Q .
+
+Decide about the initial distribution, i.e., the probabilities at which states the process starts. These probabilities are assigned to the vector  Z . The length of  Z  is the same as for the matrix  Q .
+
+Calculate the choice probabilities ( Eq. (2) ), mean times ( Eq. (5) ) and distributions ( Eq. (18) ) using the vector  Z  and the matrices  Q  and  R .
+
+We can extend these models to a broader frame which will be shown next.
+
+The unbiased Wiener process (process with symmetric boundaries around the starting position) predicts the same reaction time both for the more frequently and the less frequently chosen alternative, regardless of the drift. However, response time and accuracy data often show a speeded response for the more frequently chosen alternative (see for a review  Luce, 1986 ;  Townsend & Ashby, 1983 ). There are at least three possibilities to modify the Wiener process to account for those data: (1) the Wiener process with bias (e.g.,  Link & Heath, 1975 ), i.e., the process does not start half-way between the decision boundaries but closer to either one or with a distribution over starting values as shown for the random walk in the previous sections; (2) the Wiener process with changing drift within a trial (e.g.,  Diederich, 1992, 1995, 1997 ; Diederich, 1996,  Heath, 1981 ;  Ratcliff, 1981 ); (3) the Wiener process with variable drift across trials (e.g.,  Laming, 1968 ;  Ratcliff, 1978, 1981 ). That is, on each trial the information is accumulated according to a Wiener process with a different drift drawn from a distribution of drifts. How to incorporate these ideas in the matrix approach is shown next. Note that this approach is not limited to a Wiener process but it can be applied to the Ornstein–Uhlenbeck process as well. For simplicity, we keep the illustration limited to the Wiener process.
+
+A commonly used assumption (cf.  Ratcliff, 1978 ) is that the drift rate is approximately Gaussian distributed with mean  μ 
+                         
+                            G 
+                         = μ  and variance  σ 
+                         
+                            G 
+                         
+                         2 . Use an approximation of the Gaussian distribution over discrete intervals and use the mid interval as single drifts  μ 
+                         1 , μ 
+                         2 …, μ 
+                         
+                            n 
+                         . Note that  −1/ 
+                               ( 
+                            τ)⩽μ i /σ⩽1 
+                               ( 
+                            τ)  must be obtained to provide transition probabilities between 0 and 1 (see above). Choose a large number of drift values to form a finite distribution over drift values that closely approximates a Gaussian distribution ( n =20 is usually adequate, R.Ratcliff, pers. comm.). For each single drift  μ 
+                         
+                            i 
+                          determine the probability and expected time for choosing the alternatives  N  and  S  of our example. The overall mean and probability for each choice alternative is a mixture of the individual mean and probabilities. Let  Pr(∗|μ i )  denote the probability for choosing alternative  ∗  ( S  or  N ) given drift  μ 
+                         
+                            i 
+                         ,  i =1,…, n  and  Pr ( μ 
+                         
+                            i 
+                         ) the probability for  μ 
+                         
+                            i 
+                          according to the Gaussian distribution. The overall probability for choosing alternative  ∗  is the sum of this product, i.e.,  Pr(∗)=∑ i=1 
+                            n 
+                            Pr(∗|μ i )Pr(μ i )  (according to the law of total probability). The expected time for each choice alternative is the sum over weighted expected time given drift  μ 
+                         
+                            i 
+                         , i.e.,  E[T|∗]=∑ i=1 
+                            n 
+                            Pr(∗|μ i )Pr(μ i )/Pr(∗)·E[T|∗∩μ i ] .  Table 1 
+                          shows how the mean times and choice probabilities change as a function of the number of individual  μ 
+                         
+                            i 
+                         ,  i =1,…, n  with  μ 
+                         
+                            G 
+                         =0.2,  σ 2 
+                            G =((1/4)·(1/ 
+                               ( 
+                            τ)−μ G )) 2 
+                         , and  θ =3 as before.
+
+Up to here we have considered two alternative choice response time tasks and proposed a model to account for choice probabilities, mean choice response times and response time distributions. Consider now a simple response time paradigm in which a subject gives a response as soon as a stimulus is detected.
+
+As before we assume that as soon as a stimulus is presented to the subject a mechanism stochastically accumulates very small amounts of information continuously over time until the  criterion  is reached and a response is initiated. It is assumed that the criterion is set by the subject prior to the stimulus presentation and does not change during the accumulation process.
+
+In contrast to choice response paradigms we only assume a single criterion where the process is absorbed. Further we assume that information never drops below its initial level. That is, we assume that the process is reflected on its lower boundary. This idea fits nicely with neuronal activity dynamics studies in neurobiology (e.g.,  Ricciardi, 1977 ). Note, that assuming the reflecting boundary placed far away from the starting position, this boundary has no effect and the process approximates a process with an unrestricted boundary. 
+                         4 
+                      
+                      
+                         4 
+                         The density of the decision latencies to this problem is known as Wald density or inverse Gaussian, see e.g.,  Luce (1986, pp. 145, 333ff) . 
+                       The state space for the process with one reflecting and one absorbing boundary is 
+                         
+                            S={0,Δ,2Δ,…,kΔ}, 
+                         
+                      with  θ = kΔ  and  m = k +1. Here  kΔ  is an absorbing state and 0 is a reflecting state. The transition probability matrix (in brackets) is accordingly 
+                         
+                            
+                         
+                      Note that there is no absorption at state 0. Further, if the process reaches state 0 the probability is nonzero to make a step  Δ . That is what is meant by classifying 0 as a reflecting state.
+
+The transition probability matrix  P =|| p 
+                      
+                         ij 
+                      || is presented in its canonical form: 
+                         
+                            
+                         
+                      With the matrix  Q  and the vector  R  we proceed as before, i.e. the first passage time distribution for reaching the boundary with  t = nτ ,  n =1,2,…,∞, is 
+                         
+                            (19) 
+                            Pr[T=t]= 
+                                  ZQ 
+                               
+                               n−1 
+                               
+                                  R 
+                               .
+
+The expected time for the entire process to reach the boundary is 
+                         
+                            (20) 
+                            E[T]=τ 
+                                  Z 
+                               ( 
+                                  I 
+                               − 
+                                  Q 
+                               ) −2 
+                               
+                                  R 
+                               . 
+                         
+                      Note that the first passage time distribution and the expected value are not conditioned on a choice anymore since we only have one absorbing state, i.e., one response in the simple response time paradigm. The vector  Z  is the initial state or initial distribution. For example, assuming that the process starts accumulating information only if a signal is presented it is also reasonable to assume that  Z  has a 1 at index 1 and zeros otherwise. This process can be extended to multidimensional stimuli. Consider an experimental setup in information about the stimulus changes during one trial. For example, in trials with different stimulus onset times, light followed by a tone, information is presented successively during one trial ( Diederich, 1992, 1995 ). This model is presented in the appendix.
+
+Here we develop the ternary choice model for the optional stopping time task. Before we do this consider  Eq. (13)  again, i.e., the information accumulation process for two choice alternatives was described by the diffusion process 
+                         
+                            (21) 
+                            X(t+τ)=(1−τγ)X(t)+V(t+τ) 
+                         
+                      for  τ →0. The process stops and a response for A is initiated as soon as  X ( t )⩾ θ  and a response for B is initiated as soon as  X ( t )⩽− θ . This assumption, however, is equivalent to the following. Assume that the accumulation process is represented by a two-dimensional diffusion process of the form (cf.  Heath, 1981 ) 
+                         
+                            (22) 
+                            X 1 (t+τ)=[(1−τγ 1 )X 1 (t)−τγ 2 X 2 (t)]+V 1 (t+τ) 
+                         
+                      for choosing A and 
+                         
+                            (23) 
+                            X 2 (t+τ)=[−τγ 2 X 1 (t)+(1−τγ 1 )X 2 (t)]+V 2 (t+τ) 
+                         
+                      for choosing B, with  V 
+                      1 + V 
+                      2 =0.
+
+Writing these equations in matrix form we get 
+                         
+                            
+                               
+                                  
+                                  
+                                     
+                                        X 1 (t+τ) 
+                                     
+                                     
+                                        X 2 (t+τ) 
+                                     
+                                  
+                                  
+                               = 
+                                  
+                                  
+                                     
+                                        (1−τγ 1 ) 
+                                        −τγ 2 
+                                        
+                                     
+                                     
+                                        −τγ 2 
+                                        
+                                        (1−τγ 1 ) 
+                                     
+                                  
+                                  
+                               · 
+                                  
+                                  
+                                     
+                                        X 1 (t) 
+                                     
+                                     
+                                        X 2 (t) 
+                                     
+                                  
+                                  
+                               + 
+                               
+                                  
+                                  
+                                     
+                                        V 1 (t+τ) 
+                                     
+                                     
+                                        V 2 (t+τ) 
+                                     
+                                  
+                                  
+                               , 
+                         
+                      
+                      
+                         
+                            (24) 
+                            
+                               
+                                  X 
+                               (t+τ)=[ 
+                                  I 
+                               −τ 
+                                  Γ 
+                               ]· 
+                                  X 
+                               (t)+ 
+                                  V 
+                               (t+τ), 
+                         
+                      where  I  is the identity matrix and  Γ  the matrix containing the  γ 's. The diagonal elements of [ I − τ 
+                      Γ ] provide memory for previous states of the system. The off-diagonal values allow for competitive interactions among competing alternatives.
+
+Note that if the sum  X 
+                      1 (0)+ X 
+                      2 (0)=0 then  X 
+                      1 ( t )+ X 
+                      2 ( t )=0⇔ X 
+                      1 ( t )=− X 
+                      2 ( t ) for all  t , and therefore the processes in  Eqs. (22) and (23)  are represented by the single process in  Eq. (21)  with  γ =( γ 
+                      2 − γ 
+                      1 ).
+
+For a choice from a set { A , B , C } let us first assume three processes, one for each choice alternative, similar to  Eq. (24) . The change in evidence within the interval ( t , t + τ ) is 
+                         
+                            d 
+                                  X 
+                               (t)= 
+                                  X 
+                               (t+τ)− 
+                                  X 
+                               (t)=−τ 
+                                  Γ 
+                               (t) 
+                                  X 
+                               (t)+ 
+                                  V 
+                               (t+τ). 
+                         
+                      The moments of the change in evidence are given by 
+                         
+                            (25) 
+                            E[d 
+                                  X 
+                               (t)| 
+                                  X 
+                               (t)= 
+                                  x 
+                               ]=τμ( 
+                                  x 
+                               )=τ( δ − 
+                                  Γ 
+                               
+                               
+                                  x 
+                               )=τ 
+                                  
+                                  
+                                     
+                                        δ 1 −(γ 1 x 1 +γ 2 x 2 +γ 3 x 3 ) 
+                                     
+                                     
+                                        δ 2 −(γ 4 x 1 +γ 5 x 2 +γ 6 x 3 ) 
+                                     
+                                     
+                                        δ 3 −(γ 7 x 1 +γ 8 x 2 +γ 9 x 3 ) 
+                                     
+                                  
+                                  
+                               
+                            
+                         
+                      and 
+                         
+                            (26) 
+                            Cov[d 
+                                  X 
+                               (t)| 
+                                  X 
+                               (t)= 
+                                  x 
+                               ]=τ 
+                                  Σ 
+                               =τ 
+                                  
+                                  
+                                     
+                                        σ 1 
+                                           2 
+                                        
+                                        σ 12 
+                                        
+                                        σ 13 
+                                        
+                                     
+                                     
+                                        σ 21 
+                                        
+                                        σ 2 
+                                           2 
+                                        
+                                        σ 23 
+                                        
+                                     
+                                     
+                                        σ 31 
+                                        
+                                        σ 32 
+                                        
+                                        σ 2 
+                                           3 
+                                        
+                                     
+                                  
+                                  
+                               . 
+                         
+                      If we restrict the matrix  Γ  to the following: (1) the elements in the diagonal are the same; (2) the matrix is symmetric; (3) the columns sum up to the same constant, i.e. 
+                         
+                            
+                               
+                                  Γ 
+                               = 
+                                  
+                                  
+                                     
+                                        γ 1 
+                                        
+                                        γ 2 
+                                        
+                                        γ 2 
+                                        
+                                     
+                                     
+                                        γ 2 
+                                        
+                                        γ 1 
+                                        
+                                        γ 2 
+                                        
+                                     
+                                     
+                                        γ 2 
+                                        
+                                        γ 2 
+                                        
+                                        γ 1 
+                                        
+                                     
+                                  
+                                  
+                               
+                            
+                         
+                      and if we assume that  V 
+                      1 + V 
+                      2 + V 
+                      3 =0 and  X 
+                      1 (0)+ X 
+                      2 (0)+ X 
+                      3 (0)=0, then  X 
+                      3 ( t )=−[ X 
+                      1 ( t )+ X 
+                      2 ( t )]. In this case, option A is chosen as soon as  X 
+                      1 ( t )⩾ θ , option B is chosen as soon as  X 
+                      2 ( t )⩾ θ , and option C is chosen as soon as  X 
+                      3 ( t )=−[ X 
+                      1 ( t )+ X 
+                      2 ( t )]⩾ θ . Thus, the diffusion process is restricted to a two-dimensional simplex (triangular plane). The following developments are limited to diffusions on this simplex. Markov chains can be used to approximate multidimensional diffusion processes (see  Stroock & Varadhan, 1979 , Theorem 11.2.3). In the case of the diffusion on the simplex, we approximate the stochastic change in evidence  d 
+                      X ( t ) by a random increment, [ dX 
+                      1 ( t ), dX 
+                      2 ( t ), dX 
+                      3 ( t )]. On each step, we assume that these three increments sum to zero, so that only the first two coordinates need to be included in the model. Each coordinate,  dX 
+                      
+                         i 
+                      ( t ), is a small positive step  Δ=ασ 
+                            τ 
+                         
+                       or a small negative step  −Δ=−ασ 
+                            τ 
+                         
+                      , or zero; and we set  σ= 
+                            (σ 2 
+                               1 +σ 2 
+                               2 +σ 2 
+                               3 )/2 
+                         
+                       (i.e., the diffusion coefficients for  X 
+                      1 ( t ), X 
+                      2 ( t ), and  X 
+                      3 ( t )), and we require  α ⩾1. The state space of the Markov chain is defined by a set of equally spaced discrete states that form a grid of points on the simplex (see  Fig. 4 ): 
+                      
+                         
+                            
+                               
+                                  S 
+                               ={[iΔ,jΔ],(i=−(k+j),…,k), (j=−2k,−(2k−1),…,−1,0,1,…,k)}. 
+                         
+                      The total number of states is therefore  m =(3 k +2)(3 k +1)/2. The threshold bound for option A is defined by the right vertical line of points [ θ = kΔ , jΔ ] for  j =−2 k ,−(2 k −1)…, k ; the threshold bound for option B is defined by the top horizontal line of points [ iΔ , θ = kΔ ] for  i =−2 k ,−(2 k −1)…, k ; and the threshold bound for option C is defined by the negative diagonal line of points [ iΔ ,−( k + i ) Δ ] for  i =−2 k ,−(2 k −1)…, k . The remaining ((3 k +1)−3)((3 k +1)−2)/2 states represent transient states. The transition probabilities for the transient states are symbolized as 
+                         
+                            Pr[dX 1 (t)=+Δ,dX 2 (t)=0| 
+                                  X 
+                               (t)= 
+                                  x 
+                               ]=p +0 ( 
+                                  x 
+                               ),Pr[dX 1 (t)=+Δ,dX 2 (t)=−Δ| 
+                                  X 
+                               (t)= 
+                                  x 
+                               ]=p +− ( 
+                                  x 
+                               ),Pr[dX 1 (t)=0,dX 2 (t)=+Δ| 
+                                  X 
+                               (t)= 
+                                  x 
+                               ]=p 0+ ( 
+                                  x 
+                               ),Pr[dX 1 (t)=0,dX 2 (t)=−Δ| 
+                                  X 
+                               (t)= 
+                                  x 
+                               ]=p 0− ( 
+                                  x 
+                               ),Pr[dX 1 (t)=−Δ,dX 2 (t)=0| 
+                                  X 
+                               (t)= 
+                                  x 
+                               ]=p −0 ( 
+                                  x 
+                               ),Pr[dX 1 (t)=−Δ,dX 2 (t)=+Δ| 
+                                  X 
+                               (t)= 
+                                  x 
+                               ]=p −+ ( 
+                                  x 
+                               ), 
+                         
+                      and we define  p 
+                      00 ( x )=1−[ p 
+                      +0 ( x )+ p 
+                      +− ( x )+ p 
+                      0+ ( x )+ p 
+                      0− ( x )+ p 
+                      −0 ( x )+ p 
+                      −+ ( x )] as the probability of no change in state. Note that we assume  p 
+                      ++ ( x )= p 
+                      −− ( x )=0, that is no simultaneous changes in the same direction. The transition probabilities are defined by equating the moments of the discrete and continuous state processes shown in the appendix. Solving the equations yields the transition probabilities for each transient state: 
+                         
+                            (27) 
+                            p +0 ( 
+                                  x 
+                               )=τ 
+                                  
+                                  
+                                     μ 1 ( 
+                                           x 
+                                        ) 
+                                     2Δ 
+                                  + 
+                                     σ 2 
+                                        1 
+                                     
+                                     2Δ 2 
+                                     
+                                  + 
+                                     σ 21 
+                                     
+                                     Δ 2 
+                                     
+                                  
+                                  
+                               +β, 
+                         
+                      
+                      
+                         
+                            (28) 
+                            p +− ( 
+                                  x 
+                               )=−τ 
+                               
+                                  σ 21 
+                                  
+                                  Δ 2 
+                                  
+                               −β, 
+                         
+                      
+                      
+                         
+                            (29) 
+                            p 0+ ( 
+                                  x 
+                               )=τ 
+                                  
+                                  
+                                     μ 2 ( 
+                                           x 
+                                        ) 
+                                     2Δ 
+                                  + 
+                                     σ 2 
+                                        2 
+                                     
+                                     2Δ 2 
+                                     
+                                  
+                                  
+                               −β, 
+                         
+                      
+                      
+                         
+                            (30) 
+                            p 0− ( 
+                                  x 
+                               )=−τ 
+                                  
+                                  
+                                     μ 2 ( 
+                                           x 
+                                        ) 
+                                     2Δ 
+                                  − 
+                                     σ 2 
+                                        2 
+                                     
+                                     2Δ 2 
+                                     
+                                  − 
+                                     σ 21 
+                                     
+                                     Δ 2 
+                                     
+                                  
+                                  
+                               +β, 
+                         
+                      
+                      
+                         
+                            (31) 
+                            p −0 ( 
+                                  x 
+                               )=−τ 
+                                  
+                                  
+                                     μ 1 ( 
+                                           x 
+                                        ) 
+                                     2Δ 
+                                  − 
+                                     σ 2 
+                                        1 
+                                     
+                                     2Δ 2 
+                                     
+                                  
+                                  
+                               −β, 
+                         
+                      
+                      
+                         
+                            (32) 
+                            p −+ ( 
+                                  x 
+                               )=β. 
+                         
+                      The parameter  β  reflects indeterminacy in this linear system of equations. Any value of  β  will reproduce the moments of the continuous state model. The only constraints on  β  are that  β >0, it yields transition probabilities between zero and one, and the transition probabilities sum to less than or equal to one (thus allowing for  p 
+                      00 ( x )⩾0). Constraints produced by the moments of the third coordinate do not provide linearly independent equations. The solutions for  p 
+                      −+ ( x ) and  p 
+                      +− ( x ) require  σ 
+                      21 <0, which will generally be true as a consequence of the fact that the evidence sums to zero. The transition probabilities defined in  Eqs. (27)–(32)  are then inserted into the Markov chain model to approximate the continuous state diffusion process.
+
+Consider the following example. With  k =3 we have  m =(3 k +2)(3 k +1)/2=55 states that are arranged as a grid of points on a simplex in the following way: 
+                         
+                            
+                         
+                      Analogous to the binary choice problem, the transition probabilities defined in  Eqs. (27)–(32)  are arranged into four matrices: the first is a (3 k +1−3)(3 k +1−2)/2×(3 k +1−3)(3 k +1−2)/2 matrix  Q  containing the probabilities of transiting from one transient state to another. For our example with  k =3 we have a 28×28 matrix (first index: right(+)/left(−); second index: up(+)/down(−)), i.e., 
+                         
+                            (33) 
+                            
+                         
+                      The second is a (3 k −2)(3 k −1)/2×1 vector  R 
+                      
+                         A 
+                       containing the probabilities of transiting from a transient state to an absorbing state for option A; the third is a (3 k −2)(3 k −1)/2×1 vector  R 
+                      
+                         B 
+                       containing the probabilities of transiting from a transient state to an absorbing state for option B; and the fourth is a (3 k −2)(3 k −1)/2×1 vector  R 
+                      
+                         C 
+                       containing the probabilities of transiting from a transient state to an absorbing state for option C. Let  p 
+                      
+                         A 
+                         
+                            i 
+                         
+                      , p 
+                      
+                         B 
+                         
+                            i 
+                         
+                      , p 
+                      
+                         C 
+                         
+                            i 
+                         
+                       denote the probabilities for entering the absorbing states for A, B, and C, respectively from row  i . Then 
+                         
+                            (34) 
+                            
+                         
+                      As before, the  Z  vector contains the initial distribution and is of length (3 k −2)(3 k −1)/2. The neutral starting position, for example, is determined by assigning a one at index (2 k −1)(2 k )/2−( k −1).
+
+After making these assignments,  Eqs. (2) and (18)  are used to calculate the choice probabilities and mean decision times for each of the three options.
+
+For example, let  μ 
+                      1 =0.5 and  μ 
+                      2 =0.3. ( μ 
+                      3 =−( μ 
+                      1 + μ 
+                      2 )=−0.8) and the covariance matrix 
+                         
+                            
+                               
+                                  Σ 
+                               = 
+                                  
+                                  
+                                     
+                                        4 
+                                        −2 
+                                        −2 
+                                     
+                                     
+                                        −2 
+                                        4 
+                                        −2 
+                                     
+                                     
+                                        −2 
+                                        −2 
+                                        4 
+                                     
+                                  
+                                  
+                               . 
+                         
+                      Set  τ =0.01 and  α =1. Thus the step size becomes  Δ=α 
+                            (σ 1 
+                               2 +σ 2 
+                               2 +σ 3 
+                               2 )/2τ 
+                         =1· 
+                            3·4/2·0.01 
+                         
+                      . Inserting these values in  Eqs. (27)–(32)  and further assuming that  p 
+                      +− = p 
+                      −+  and  p 
+                      00 =0 yields the transition probabilities  p 
+                      +0 =0.1769,  p 
+                      +− =0.1667,  p 
+                      0+ =0.1728,  p 
+                      0− =0.1605,  p 
+                      −0 =0.1565,  p 
+                      −+ =0.1667. With these probabilities the respective matrices are constructed. Let the process start at a neutral position, i.e.,  Z 
+                      13 =1. Then  Pr ( A )=0.3636;  Pr ( B )=0.3508; and  Pr ( C )=0.2856. The expected times are  E ( T | A )=0.0897;  E ( T | B )=0.0897; and  E ( T | C )=0.0897.
+
+Note, that this can also be used to compute the distribution statistics for the leaky competing accumulator model recently proposed by  Usher and McClelland (2001) .
+
+Diffusion processes are very powerful approaches to model human information processing in a variety of psychological tasks. We believe that lack of mathematical tractability has prevented broad applications of these models to empirical data. We hope that this tutorial helps to spread this approach by showing how to construct models, how to implement them on a computer, and how to calculate predictions made by these models.
+
+A few words about why we chose the Markov chain approximation approach. As we have mentioned above that once the drift and diffusion coefficient are specified, all the information about the process can be determined via the transition probability density function. Traditionally, the transition probability density function can be found by solving partial differential equations known as forward equation (Fokker–Planck equation) and backward equation (Chapman–Kolmogorov equation). We did not elaborate on these equations since the major concern of this tutorial was just to avoid them and not to scare users away. Instead, we used the discrete state and time transition probabilities as approximations to the continuous transition densities. We only include basic mathematics in the tutorial. Second, for processes with boundaries, which are of special interest for psychologists, often no closed solutions are available when trying to solve partial differential equations. Third, any type of simulation of continuous time processes usually requires digital computers. That means all calculations are carried out discretely. Thus, the difference between continuous time and space models and the matrix approach is no longer valid. Fourth, following the discussion of  Thompson (1999) , differential–integral–difference equation type of formulations are an invention of the 19th and early 20th century in lack of powerful computers. Researchers had to content themselves with these formulations as means for summary information about the effect of trillions of gas molecules.
+
+The main advantage of the Markov chain approach, as compared to  Smith's (2000)  approach, is simplicity. For the Markov chain approach, the same simple matrix equations (e.g.,  Eqs. (2) and (3) ) can be used for any model, and there is no need to derive any new formulas when transition probability assumptions are changed.  Smith's (2000)  approach requires the derivation of new formulas for the distribution statistics for each new diffusion process. However, the main advantage of  Smith's (2000)  approach is that it can be used to model continuous changes in drift rate over time, whereas the Markov chain methods are limited to a finite number of changes in drift rate ( Diederich, 1995, 1997, 2003a, b ).
+
+Note that both the Markov chain approach and  Smith's (2000)  approach require the use of finite approximations to a continuous process since both approaches make use of digital computers.
+
+This research was supported by Deutsche Forschungsgemeinschaft Grants Di 506/5-1 and Di 506/6-1.
+
+Given an index set  I , a  stochastic process  indexed by  I  is a collection of random variables { X 
+                         
+                            λ 
+                         : λ ∈ I } on a probability space taking values in a set  S , the  state space  of the process. The state space in this context contains possible information states of the process and may be discrete or continuous. The index set or parameter set, often also called time space, contains the indices for which the process is defined. Again, the index set may be discrete or continuous. For example, information may be accumulated at discrete points in time or continuously over time.
+
+A  transition probability matrix  is a square matrix  P =( p 
+                         
+                            ij 
+                         ), where  i  and  j  vary over a finite enumerable set  S , satisfying  p 
+                         
+                            ij 
+                         ⩾0 for all  i  and  j  and  ∑ j∈S 
+                            p ij =1  for all  i . The set  S  is called the  state space  and its elements are  states .
+
+The probability of choosing  P  at time step  n  is 
+                            
+                               Pr(P 
+                                  at 
+                                  n)= 
+                                     Z 
+                                  · 
+                                     Q 
+                                  
+                                  n · 
+                                     R 
+                                  
+                                  P , 
+                            
+                         where  R 
+                         
+                            P 
+                          refers to the vector of matrix  R  with probabilities that lead to the absorbing state for alternative  P . The probability of choosing  P  is obtained by summing up over discrete time, i.e., 
+                            
+                               Pr(P)= 
+                                     Z 
+                                  · 
+                                     ∑ 
+                                     n=0 
+                                     ∞ 
+                                  
+                                  
+                                  
+                                     Q 
+                                  
+                                  n · 
+                                     R 
+                                  
+                                  P . 
+                            
+                         Realizing that 
+                            
+                               
+                                  
+                                     ∑ 
+                                     n=0 
+                                     ∞ 
+                                  
+                                  
+                                  
+                                     Q 
+                                  
+                                  n = 
+                                     I 
+                                  + 
+                                     Q 
+                                  + 
+                                     Q 
+                                  
+                                  2 +⋯=( 
+                                     I 
+                                  − 
+                                     Q 
+                                  ) −1 
+                               
+                            
+                         as  n →∞ (for a proof see, e.g.,  Bhat, 1984, p. 71 ) yields 
+                            
+                               Pr(P)= 
+                                     Z 
+                                  ·( 
+                                     I 
+                                  − 
+                                     Q 
+                                  ) −1 · 
+                                     R 
+                                  
+                                  P . 
+                            
+                         If we define  T  as the random number of time steps to reach the boundary then the first moment for the distribution of time steps to choose  P  is 
+                            
+                               E[T|P]= 
+                                     
+                                        
+                                           Z 
+                                        
+                                        
+                                           ∑ 
+                                           n=1 
+                                           ∞ 
+                                        
+                                        n· 
+                                           Q 
+                                        
+                                        n−1 · 
+                                           R 
+                                        
+                                        P 
+                                     
+                                     Pr(P) 
+                                  . 
+                            
+                         Realizing that 
+                            
+                               
+                                  
+                                     ∑ 
+                                     n=1 
+                                     ∞ 
+                                  
+                                  n· 
+                                     Q 
+                                  
+                                  n−1 = 
+                                     I 
+                                  +2 
+                                     Q 
+                                  +3 
+                                     Q 
+                                  
+                                  2 +⋯=( 
+                                     I 
+                                  − 
+                                     Q 
+                                  ) −2 
+                               
+                            
+                         as  n →∞ (for a proof see, e.g.  Diederich, 1995 , Appendix) yields 
+                            
+                               E[T|P]= 
+                                     
+                                        
+                                           Z 
+                                        ( 
+                                           I 
+                                        − 
+                                           Q 
+                                        ) −2 · 
+                                           R 
+                                        
+                                        P 
+                                     
+                                     Pr(P) 
+                                  .
+
+Suppose there are two real-valued functions  μ ( x ) and  σ 
+                         2 ( x ) on (−∞,∞) that are continuously differentiable and that  σ ″ exists and is continuous, and that  σ 
+                         2 ( x )>0 for all  x . Also assume that  μ ( x ) and  σ 
+                         2 ( x ) are bounded. Consider now a birth–death chain with state space  S ={0,± Δ ,±2 Δ ,…} with step size  Δ >0 and having transition probabilities  p 
+                         
+                            ij 
+                          of going from  iΔ  to  jΔ  in one step given by 
+                            
+                               p i,i−1 =α i 
+                                  (Δ) ≔ 
+                                     σ 2 (iΔ)τ 
+                                     2Δ 2 
+                                     
+                                  − 
+                                     μ(iΔ)τ 
+                                     2Δ 
+                                  ,p i,i+1 =β i 
+                                  (Δ) ≔ 
+                                     σ 2 (iΔ)τ 
+                                     2Δ 2 
+                                     
+                                  + 
+                                     μ(iΔ)τ 
+                                     2Δ 
+                                  ,p ii =1− 
+                                     σ 2 (iΔ)τ 
+                                     Δ 2 
+                                     
+                                  =1−α i 
+                                  (Δ) −β i 
+                                  (Δ) , 
+                            
+                         where  τ  is given by 
+                            
+                               τ= 
+                                     Δ 2 
+                                     
+                                     
+                                        sup 
+                                        x 
+                                        σ 2 (x) 
+                                  
+                               
+                            
+                         and represents the actual time in between two successive transitions. With the conditions imposed on  μ ( x ) and  σ 
+                         2 ( x ) a sufficiently small  Δ  guarantees the non-negativity of the transition probabilities  p 
+                         
+                            ii 
+                         , p 
+                         
+                            i , i −1 , p 
+                         
+                            i , i +1  (see  Bhattacharya & Waymire, 1990, p. 386 ).
+
+Given that the process is at  x = iΔ , the mean displacement in a single step of size  Δ  in time  τ  is 
+                            
+                               (A.1) 
+                               
+                                  Δ β i 
+                                  (Δ) +(−Δ)α i 
+                                  (Δ) =μ(iΔ)τ=μ(x)τ. 
+                            
+                         Therefore, the instantaneous rate of mean displacement per unit time, when the process is at  x , is  μ ( x ). The mean squared displacement in a single step of size  Δ  in time  τ  is 
+                            
+                               (A.2) 
+                               Δ 2 β i 
+                                  (Δ) +(−Δ) 2 α i 
+                                  (Δ) =σ 2 (iΔ)τ=σ 2 (x)τ. 
+                            
+                         That is, the instantaneous rate of mean squared displacement per unit time, when the process is at  x , is  σ 
+                         2 ( x ).
+
+Hence, the transition probabilities  p 
+                         
+                            i , i −1  and  p 
+                         
+                            i , i +1  can be written as functions of the drift and diffusion coefficient  μ ( x ) and  σ 
+                         2 ( x ), respectively. With  Δ 
+                         2 = τσ 
+                         2 ( x ) 
+                            
+                               (A.3) 
+                               p i,i−1 = 
+                                     1 
+                                     2 
+                                  
+                                  
+                                     1− 
+                                        μ(x) 
+                                        σ(x) 
+                                     
+                                     
+                                     
+                                        τ 
+                                     
+                                     
+                                  , 
+                            
+                         
+                         
+                            
+                               (A.4) 
+                               p i,i+1 = 
+                                     1 
+                                     2 
+                                  
+                                  
+                                     1+ 
+                                        μ(x) 
+                                        σ(x) 
+                                     
+                                     
+                                     
+                                        τ 
+                                     
+                                     
+                                  . 
+                            
+                         Thus, the birth–death chain with transition probabilities  p 
+                         
+                            ij 
+                          approximates the diffusion process with drift coefficient  μ ( x ) and diffusion coefficient  σ 
+                         2 ( x ) as  Δ →0 (see Convergence Theorem, e.g.  Bhattacharya & Waymire, 1990 , p. 387;  Karlin & Taylor, 1981 , p. 169).
+
+To see how a differential equation can be approximated by a difference equation let  p 
+                         
+                            ij 
+                         
+                         ( n )  be the  n -step transition probabilities going from  i  to  j . By definition  p ij 
+                            (n) =∑ k∈S 
+                            p ik p ik 
+                            n−1 
+                         ,  n =2,3,… and  S  is the state space. Therefore, with  p 
+                         
+                            ii 
+                         =1− β 
+                         
+                            i 
+                         
+                         ( Δ ) − α 
+                         
+                            i 
+                         
+                         ( Δ ) , we get for the birth–death process 
+                            
+                               p (n+1) 
+                                  ij =p ii p ij 
+                                  (n) +p i,i+1 p i+1,j 
+                                  (n) +p i,i−1 p (n) 
+                                  i−1,j ,p (n+1) 
+                                  ij =(1−β i 
+                                  (Δ) −α i 
+                                  (Δ) )p ij 
+                                  (n) +β i 
+                                  (Δ) p i+1,i 
+                                  (n) +α i 
+                                  (Δ) p i−1,i 
+                                  (n) 
+                               
+                            
+                         or 
+                            
+                               p ij 
+                                  (n+1) −p ij 
+                                  (n) =β i 
+                                  (Δ) (p i+1,j 
+                                  (n) −p ij 
+                                  (n) )−α i 
+                                  (Δ) (p ij 
+                                  (n) −p i−1,j 
+                                  (n) )= 
+                                     μ(iΔ)τ 
+                                     2Δ 
+                                  
+                                  ((p i+1,j 
+                                  (n) −p ij 
+                                  (n) )+(p ij 
+                                  (n) −p i−1,j 
+                                  (n) ))+ 
+                                  
+                                     1 
+                                     2 
+                                  
+                                  
+                                  
+                                     σ 2 (iΔ)τ 
+                                     Δ 2 
+                                     
+                                  (p i+1,j 
+                                  (n) −2p ij 
+                                  (n) +p (n) 
+                                  i−1,j ). 
+                            
+                         With  t = nτ  and states  x = iΔ  and  y = jΔ  and  Δ →0, defining as approximate density 
+                            
+                               p (Δ) (nτ;iΔ,jΔ)≔ 
+                                     p ij 
+                                        (n) 
+                                     
+                                     Δ 
+                                  , 
+                            
+                         we get 
+                            
+                               p (Δ) ((n+1)τ;iΔ,jΔ)−p (Δ) (nτ;iΔ,jΔ))=μ(iΔ)(p (Δ) (nτ;(i+1)Δ,jΔ)− p (Δ) (nτ;(i−1)Δ,jΔ))τ/2Δ+ 
+                                  
+                                     1 
+                                     2 
+                                  
+                                  σ 2 (iΔ)(p (Δ) (nτ;(i+1)Δ,jΔ)−2p (Δ) (nτ;iΔ,jΔ)+ p (Δ) (nτ;(i−1)Δ,jΔ))τ/Δ 2 
+                               
+                            
+                         which is the difference equation version of the partial differential equation 
+                            
+                               
+                                  
+                                     ∂ 
+                                     ∂t 
+                                  
+                                  p(t;x,y)=μ(x) 
+                                  
+                                     ∂ 
+                                     ∂x 
+                                  
+                                  p(t;x,y)+ 
+                                     1 
+                                     2 
+                                  
+                                  σ 2 (x) 
+                                  
+                                     ∂ 2 
+                                     
+                                     ∂x 2 
+                                     
+                                  
+                                  p(t;x,y), for 
+                                  t>0, −∞<x, y<∞. 
+                            
+                         That is, the transition probability density  p ( t ; x , y ) can be computed approximately by determining the  n -step transition probabilities  p 
+                         
+                            ij 
+                         
+                         ( n ) . This can be done by constructing a transition probability matrix and raising it to the  n th power shown below.
+
+To raise  Q  to the  n th power it is convenient to decompose  Q  into its eigenvectors and eigenvalues. Proceed as follows: 
+                            
+                               1. 
+                               Determine the eigenvalues and eigenvectors of  Q , a  k × k  matrix, by using a mathematical program, e.g., MATLAB with [ X , v ]= eig ( Q ). The program solves the determinant equation | vI − Q |= 0  to get the  v  eigenvalues  v  and solves  QX = vX  to get the  k  eigenvectors of length  k , i.e.,  X =|| X 
+                                  1 ,  X 
+                                  2 ,…, X 
+                                  
+                                     k 
+                                  ||. 
+                            
+                            
+                               2. 
+                               Determine the inverse of  X , i.e.,  X 
+                                  −1 , e.g.,  inv 
+                                     
+                                        X 
+                                     =inv( 
+                                        X 
+                                     ) . 
+                            
+                            
+                               3. 
+                               
+                                  Q 
+                                  
+                                     n 
+                                   can be written as 
+                                     
+                                        
+                                           
+                                              Q 
+                                           
+                                           n = 
+                                              XV 
+                                           
+                                           n 
+                                           
+                                              X 
+                                           
+                                           −1 
+                                        
+                                     
+                                  where 
+                                     
+                                        
+                                           
+                                              V 
+                                           
+                                           n = 
+                                              
+                                              
+                                                 
+                                                    v 1 
+                                                       n 
+                                                    
+                                                    
+                                                    
+                                                    0 
+                                                 
+                                                 
+                                                    
+                                                    ⋱ 
+                                                    
+                                                    
+                                                 
+                                                 
+                                                    0 
+                                                    
+                                                    
+                                                    v k 
+                                                       n 
+                                                    
+                                                 
+                                              
+                                              
+                                           . 
+                                     
+                                  
+                               
+                            
+                            
+                               4. 
+                               Conveniently the MATLAB program gives already the eigenvalues in form of a diagonal matrix. Thus 
+                                     
+                                        
+                                           
+                                              Q 
+                                           
+                                           n = 
+                                              Xv. 
+                                           
+                                           n ∗inv 
+                                           
+                                              X 
+                                           , 
+                                     
+                                  where . 
+                                     n 
+                                   means elementwise raising to the  n th power.
+
+Determine the eigenvalues and eigenvectors of  Q , a  k × k  matrix, by using a mathematical program, e.g., MATLAB with [ X , v ]= eig ( Q ). The program solves the determinant equation | vI − Q |= 0  to get the  v  eigenvalues  v  and solves  QX = vX  to get the  k  eigenvectors of length  k , i.e.,  X =|| X 
+                                  1 ,  X 
+                                  2 ,…, X 
+                                  
+                                     k 
+                                  ||.
+
+Determine the inverse of  X , i.e.,  X 
+                                  −1 , e.g.,  inv 
+                                     
+                                        X 
+                                     =inv( 
+                                        X 
+                                     ) .
+
+Q 
+                                  
+                                     n 
+                                   can be written as 
+                                     
+                                        
+                                           
+                                              Q 
+                                           
+                                           n = 
+                                              XV 
+                                           
+                                           n 
+                                           
+                                              X 
+                                           
+                                           −1 
+                                        
+                                     
+                                  where 
+                                     
+                                        
+                                           
+                                              V 
+                                           
+                                           n = 
+                                              
+                                              
+                                                 
+                                                    v 1 
+                                                       n 
+                                                    
+                                                    
+                                                    
+                                                    0 
+                                                 
+                                                 
+                                                    
+                                                    ⋱ 
+                                                    
+                                                    
+                                                 
+                                                 
+                                                    0 
+                                                    
+                                                    
+                                                    v k 
+                                                       n 
+                                                    
+                                                 
+                                              
+                                              
+                                           .
+
+Conveniently the MATLAB program gives already the eigenvalues in form of a diagonal matrix. Thus 
+                                     
+                                        
+                                           
+                                              Q 
+                                           
+                                           n = 
+                                              Xv. 
+                                           
+                                           n ∗inv 
+                                           
+                                              X 
+                                           , 
+                                     
+                                  where . 
+                                     n 
+                                   means elementwise raising to the  n th power.
+
+The transition probabilities are defined by equating the moments of the discrete and continuous state processes: 
+                            
+                               E[dX 1 (t)|X(t)=x]/τ=[p +0 (x)+p +− (x)−p −0 (x)− p −+ (x)]Δ/τ=μ 1 (x), 
+                            
+                         
+                         
+                            
+                               E[dX 2 (t)|X(t)=x]/τ=[p 0+ (x)+p −+ (x)−p 0− (x)− p +− (x)]Δ/τ=μ 2 (x), 
+                            
+                         
+                         
+                            
+                               Var[dX 1 (t)|X(t)=x]/τ=[p +0 (x)+p +− (x)+p −0 (x)+ p −+ (x)]Δ 2 /τ−μ 1 (x) 2 τ=σ 11 
+                                  2 , 
+                            
+                         
+                         
+                            
+                               Var[dX 2 (t)|X(t)=x]/τ=[p 0+ (x)+p −+ (x)+p 0− (x)+ p +− (x)]Δ 2 /τ−μ 2 (x) 2 τ=σ 22 
+                                  2 , 
+                            
+                         
+                         
+                            
+                               Cov[dX 1 (t),dX 2 (t)|X(t)=x]=−[p −+ (x)+p +− (x)]Δ 2 /τ−μ 1 (x)μ 2 (x)τ=σ 21 . 
+                            
+                         As  τ →0, then  μ 
+                         
+                            i 
+                         ( x ) μ 
+                         
+                            j 
+                         ( x ) τ →0, and so they can be ignored for small  τ .
+
+The simplest case how to combine different attributes is to assume that at a particular  point in time  attention switches from one attribute of the stimulus to the next and, therefore, the information accumulation process for the first attribute transforms into an information accumulation process for the second attribute  at time  
+                      t ∗ 
+                      .  t ∗ 
+                       may have to be estimated from the data or is determined by the experimental setup (e.g., SOA). That is, the basic assumption proposed here is that attributes are processed serially. Each attribute is considered for a certain amount of time and generates an information accumulation process for making a decision. The subprocesses are concatenated sequentially over time.
+
+As before we assume that as soon as the stimulus is presented, an information accumulation process is initiated accumulating very small amounts of information in very small time intervals. After some time  t ∗ 
+                       new information is available, e.g., the subject has switched attention to another attribute of the stimulus, or new information is externally added. The information accumulation process may change, i.e., the second subprocess (after  t ∗ 
+                      ) may have a different drift and/or diffusion coefficient than the first subprocess. Therefore, the entire process may reach the boundary, on average, sooner, or later, or may take an opposite direction towards the alternative boundary.
+
+The entire process is considered piecewise up to time  t ∗ 
+                      ; and then starting from there with a new process, we determine the probability of the second part. Eq. ?? shows that a different drift coefficient influences the  Q  and  R  matrices. Note, that the entire process is not time-homogeneous any more, i.e., the process changes at time  t ∗ 
+                      .
+
+Some notion has to be introduced. Note that the first column of  R  is associated with choosing alternative B, the second column with choosing A. For convenience we label these vectors as  R 
+                      
+                         A 
+                       and  R 
+                      
+                         B 
+                      , respectively. To keep it simpler we show how to calculate the quantities for choosing a particular alternative, say, A. The calculations for B are analogous. Further, the subprocesses are indicated by 1,2, etc. Thus, the  Q  matrix for the first subprocess is labeled  Q 
+                      1 , for the second subprocess  Q 
+                      1 . The  R  vector associated with choosing alternative A for the first process is labeled  R 
+                      
+                         A 
+                         1 
+                      , the one for the second process  R 
+                      
+                         A 
+                         2 
+                      .
+
+The probability that the process reaches the boundary for choosing A before time  t ∗ 
+                      ,  t ∗ =n 1 τ , is 
+                         
+                            (B.1) 
+                            Pr[T⩽t ∗ ∩ 
+                               choose 
+                               A]= 
+                                  Z 
+                               
+                               
+                               
+                                  ∑ 
+                                  i=1 
+                                  n 1 
+                                  
+                               
+                               
+                               
+                                  Q 
+                               
+                               1 
+                               i−1 
+                               
+                                  R 
+                               
+                               A 1 
+                               . 
+                         
+                      
+                      Z  contains the probability of the starting position of the process.  Q 
+                      1  denotes the transition probability matrix for non-absorbing (transient) states for the first part of the process up to time  t ∗ 
+                      . The vector  R 
+                      
+                         A 
+                         1 
+                       contains the transition probabilities from the transient states to absorbing states for the first part of the process.
+
+The probability that the process reaches the boundary for choosing A after time  t ∗ =n 1 τ  is 
+                         
+                            (B.2) 
+                            Pr[t ∗ <T∩ 
+                               choose 
+                               A]= 
+                                  ZQ 
+                               
+                               1 
+                               n 1 
+                               
+                               
+                                  ∑ 
+                                  i=n 1 +1 
+                                  ∞ 
+                               
+                               
+                               
+                                  Q 
+                               
+                               2 
+                               i−(n 1 +1) 
+                               
+                                  R 
+                               
+                               A 2 
+                               . 
+                         
+                      
+                      ZQ 
+                      1 
+                      
+                         n 
+                         1 
+                       contains the defective initial distribution (that is, it does not add up to 1) for the second part of the process.  Q 
+                      2  and  R 
+                      
+                         A 
+                         2 
+                       contain the respective probabilities for the second part of the process.
+
+The probability that the process reaches the boundary for choosing A is therefore 
+                         
+                            (B.3) 
+                            Pr[ choose 
+                               A]= 
+                                  Z 
+                               
+                               
+                               
+                                  ∑ 
+                                  i=1 
+                                  n 1 
+                                  
+                               
+                               
+                               
+                                  Q 
+                               
+                               1 
+                               i−1 
+                               
+                                  R 
+                               
+                               A 1 
+                               + 
+                               
+                                  ZQ 
+                               
+                               1 
+                               n 1 
+                               
+                               
+                               
+                                  ∑ 
+                                  i=n 1 +1 
+                                  ∞ 
+                               
+                               
+                               
+                                  Q 
+                               
+                               2 
+                               i−(n 1 +1) 
+                               
+                                  R 
+                               
+                               A 2 
+                               , 
+                         
+                      The first passage time distribution for the A boundary is determined as 
+                         
+                            (B.4) 
+                            Pr[T=t| choose 
+                               A]= 
+                                  
+                                  
+                                     
+                                        
+                                           
+                                              ZQ 
+                                           
+                                           1 
+                                           n−1 
+                                           
+                                              R 
+                                           
+                                           A 1 
+                                           /Pr[ choose 
+                                           A] 
+                                        : for 
+                                           t=nτ⩽t ∗ =n 1 τ, 
+                                     
+                                     
+                                        
+                                        n=1,2,…,n 1 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              ZQ 
+                                           
+                                           1 
+                                           n 1 
+                                           
+                                           
+                                              Q 
+                                           
+                                           2 
+                                           n−(n 1 +1) 
+                                           
+                                              R 
+                                           
+                                           A 2 
+                                           /Pr[ choose 
+                                           A] 
+                                        : for 
+                                           t=nτ>t ∗ =n 1 τ, 
+                                     
+                                     
+                                        
+                                        n=n 1 +1,… . 
+                                     
+                                  
+                               
+                            
+                         
+                      The mean time for the process to reach the boundary for choosing A is 
+                         
+                            (B.5) 
+                            E[T| choose 
+                               A]=τ 
+                                  
+                                     
+                                     
+                                        Z 
+                                     
+                                     
+                                        ∑ 
+                                        i=1 
+                                        n 1 
+                                        
+                                     
+                                     i 
+                                        Q 
+                                     
+                                     1 
+                                     i−1 
+                                     
+                                        R 
+                                     
+                                     A 1 
+                                     + 
+                                        ZQ 
+                                     
+                                     1 
+                                     n 1 
+                                     
+                                     
+                                        ∑ 
+                                        i=n 1 +1 
+                                        ∞ 
+                                     
+                                     i 
+                                        Q 
+                                     
+                                     2 
+                                     i−(n 1 +1) 
+                                     
+                                        R 
+                                     
+                                     A 2 
+                                     
+                                     
+                                  
+                                  
+                               
+                               Pr[ choose 
+                               A]. 
+                         
+                      The probability, the first passage time distribution, and the mean time of the process for choosing B are determined by substituting vector  R 
+                      
+                         A 
+                       by vector  R 
+                      
+                         B 
+                      , containing the probability from the transient to the absorbing state of the boundary for B.
+
+In the following we use sparse matrices to run programs with large matrices. The MATLAB command “SPARSE” converts a matrix to sparse form by squeezing out any zero elements.
+
+clear; 
+                                     
+                                     
+                                        % Simple Random walk 
+                                     
+                                     
+                                        %criterion value 
+                                     
+                                     
+                                        
+                                           theta=3 ; 
+                                     
+                                     
+                                        %total number of states 
+                                     
+                                     
+                                        
+                                           m=2∗theta+1 ; 
+                                     
+                                     
+                                        % Probabilities 
+                                     
+                                     
+                                        
+                                           p=0.6 ; 
+                                     
+                                     
+                                        
+                                           q=1−p ; 
+                                     
+                                     
+                                        % Constructing the transition probability matrix 
+                                     
+                                     
+                                        for  i=1 
+                                              : 
+                                              m−2 
+                                        
+                                     
+                                     
+                                        
+                                           i=i+1 ; 
+                                     
+                                     
+                                        
+                                           j=[(i−1) i (i+1)] ; 
+                                     
+                                     
+                                        
+                                           tm(i−1,j)=[p (1−(p+q)) q] ; 
+                                     
+                                     
+                                        end 
+                                     
+                                     
+                                        
+                                           Q=sparse(tm(:,2:m−1)) ; 
+                                     
+                                     
+                                        
+                                           R=sparse([tm(:,1) tm(:,m)]) ; 
+                                     
+                                     
+                                        % three different initial distribution 
+                                     
+                                     
+                                        
+                                           Z1=[0 0 1 0 0] ; 
+                                     
+                                     
+                                        
+                                           Z2=[0 0 0 1 0] ; 
+                                     
+                                     
+                                        
+                                           Z3=[0.05 0.1 0.7 0.1 0.05]; 
+                                        
+                                     
+                                     
+                                        % Identity matrix 
+                                     
+                                     
+                                        
+                                           I=speye(m−2) ; 
+                                     
+                                     
+                                        % Choice probabilities 
+                                     
+                                     
+                                        
+                                           PrBPrA=Z1∗(I−Q)∧(−1)∗R 
+                                        
+                                     
+                                     
+                                        % mean decision times 
+                                     
+                                     
+                                        
+                                           EtBEtA=(Z1∗(I−Q)∧(−2)∗R)./PrBPrA
+
+% Ornstein–Uhlenbeck process for two choice alternatives 
+                                     
+                                     
+                                        clear; 
+                                     
+                                     
+                                        %  model parameters 
+                                        
+                                     
+                                     
+                                        % criterion value 
+                                     
+                                     
+                                        
+                                           theta=4 ; 
+                                     
+                                     
+                                        % drift rate 
+                                     
+                                     
+                                        
+                                           delta=0.2 ; 
+                                     
+                                     
+                                        % decay 
+                                     
+                                     
+                                        
+                                           gamma=0.01 ; 
+                                     
+                                     
+                                        % diffusion coefficient 
+                                     
+                                     
+                                        
+                                           sigma=1 ; 
+                                     
+                                     
+                                        %  parameters set to approximate continuous process 
+                                        
+                                     
+                                     
+                                        % continuous time adjustment 
+                                     
+                                     
+                                        
+                                           alpha=1.5 ; 
+                                     
+                                     
+                                        % time unit 
+                                     
+                                     
+                                        
+                                           tau=0.01 ; 
+                                     
+                                     
+                                        % step size 
+                                     
+                                     
+                                        
+                                           Delta=alpha∗sqrt(sigma)∗sqrt(tau) ; 
+                                     
+                                     
+                                        %total number of states 
+                                     
+                                     
+                                        
+                                           m=2∗round(theta/Delta)+1 ; 
+                                     
+                                     
+                                        %states – exclusive the two absorbing boundaries 
+                                     
+                                     
+                                        
+                                           x=−(m−1)/2:(m−1)/2 ; 
+                                     
+                                     
+                                        
+                                     
+                                     
+                                        %transition probabilities 
+                                     
+                                     
+                                        
+                                           p1=1/(2∗alpha)∗(1−(delta−gamma∗x)∗sqrt(tau)/sigma) ; 
+                                     
+                                     
+                                        
+                                           p2=1/(2∗alpha)∗(1+(delta−gamma∗x)∗sqrt(tau)/sigma) ; 
+                                     
+                                     
+                                        
+                                           p3=1−(1/alpha)−0∗x ; 
+                                     
+                                     
+                                        
+                                     
+                                     
+                                        % constructing the transition probability matrix 
+                                     
+                                     
+                                        for  i=1:m−2 
+                                        
+                                     
+                                     
+                                        
+                                           i=i+1 ; 
+                                     
+                                     
+                                        
+                                           j=[(i−1) i (i+1)] ; 
+                                     
+                                     
+                                        
+                                           tm(i−1,j)=[p1(i) p3(i) p2(i)] ; 
+                                     
+                                     
+                                        end 
+                                     
+                                     
+                                        
+                                     
+                                     
+                                        
+                                           Q=sparse(tm(:,2:m−1)) ; 
+                                     
+                                     
+                                        
+                                           R=sparse([tm(:,1) tm(:,m)]) ; 
+                                     
+                                     
+                                        % initial distribution, here the process starts unbiased with probability 1 
+                                     
+                                     
+                                        
+                                           Z1=zeros(1,m−2) ; 
+                                     
+                                     
+                                        
+                                           Z1(1,(m−3)/2+1)=1 ; 
+                                     
+                                     
+                                        % identity matrix 
+                                     
+                                     
+                                        
+                                           I=speye(m−2) ; 
+                                     
+                                     
+                                        % choice probabilities 
+                                     
+                                     
+                                        
+                                           PrBPrA=Z1∗inv(I−Q)∗R 
+                                        
+                                     
+                                     
+                                        % mean decision times 
+                                     
+                                     
+                                        
+                                           EtBEtA=tau∗(Z1∗inv(I−Q)∗inv(I Q )∗R)./PrBPrA

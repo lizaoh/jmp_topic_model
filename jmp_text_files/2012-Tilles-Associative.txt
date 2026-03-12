@@ -1,0 +1,3926 @@
+10.1016/j.jmp.2012.11.002
+Early word-learning or lexicon acquisition by children, in which the child learns a fixed and coherent lexicon from language-proficient adults, is still a polemic problem in developmental psychology ( Bloom, 2000 ). The classical associationist viewpoint, which can be traced back to empiricist philosophers such as Hume and Locke, contends that the mechanism of word learning is sensitivity to covariation–if two events occur at the same time, they become associated–being part of humans’ domain-general learning capability. An alternative viewpoint, dubbed social-pragmatic theory, claims that the child makes the connections between words and their referents by understanding the referential intentions of others. This idea, which seems to be originally due to Augustine, implies that children use their intuitive psychology or theory of mind ( Adolphs, 2003 ) to read the adults’ minds. Although a variety of experiments with infants demonstrate that they exhibit a remarkable statistical learning capacity ( Bates & Elman, 1996 ), the findings that the word–object mappings are generated both fast and errorless by children are difficult to account for by any form of statistical learning. We refer the reader to the book by Bloom ( Bloom, 2000 ) for a review of this most controversial and fascinating theme.
+
+Regardless of the mechanisms children use to learn a lexicon, the issue of how good humans are at acquiring a new lexicon using statistical learning in controlled experiments has been tackled recently ( Kachergis, Yu, & Shiffrin, 2009, 2012; Smith, Smith, & Blythe, 2011; Yu & Smith, 2006, 2007, 2012 ). In addition, it has been conjectured that statistical learning may be the principal mechanism in the development of pidgin ( Fontanari & Cangelosi, 2011 ). In this context (pidgin), however, it is necessary to assume that the agents are endowed with some capacity to grasp the intentions of the others as well as to understand nonlinguistic cues, otherwise one cannot circumvent the referential uncertainty inherent in a word–object mapping ( Quine, 1960 ).
+
+The statistical learning scenario we consider here is termed cross-situational or observational learning, and it is based on the intuitive idea that one way that a learner can determine the meaning of a word is to find something in common across all observed uses of that word ( Gleitman, 1990; Pinker, 1984; Siskind, 1996 ). Hence learning takes place through the statistical sampling of the contexts in which a word appears. There are two competing theories about the word learning mechanism within the cross-situational scenario, namely, hypothesis testing and associative learning (see  Yu and Smith (2012)  for a review). The former mechanism assumes that the learner builds coherent hypotheses about the meaning of a word which is then confirmed or unconfirmed by evidence ( Frank, Goodman, & Tenenbaum, 2008; Markman, 1990; Waxman & Gelman, 2009; Xu & Tenenbaum, 2007 ), whereas the latter is based essentially on the counting of co-occurrences of word–object statistics ( Sloutsky, Kloos, & Fisher, 2007; Yu, 2008 ). Albeit associative learning can be made much more sophisticated than the mere counting of contingencies ( Yu & Smith, 2012 ), in this contribution we focus on the simplistic interpretation of that learning mechanism, which allows the derivation of explicit mathematical expressions to characterize the learner’s performance.
+
+Although cross-situational associative learning has been a very popular lexicon acquisition scenario since it can be easily implemented and studied through numerical simulations (see, e.g.,  Fontanari & Cangelosi, 2011; Fontanari, Tikhanoff, Cangelosi, Ilin, & Perlovsky, 2009; Smith, 2003a,b ), there were only a few attempts to study analytically this learning strategy ( Blythe, Smith, & Smith, 2010; Smith, Smith, Blythe, & Vogt, 2006 ). These works considered a minimal model of cross-situational learning, in which the one-to-one mapping between  
+                         N 
+                       objects and  
+                         N 
+                       words must be inferred through the repeated presentation of  
+                         C 
+                         + 
+                         1 
+                         < 
+                         N 
+                       objects (the context) together with a target word, which refers to one of the objects in the context. The co-occurrences between objects and words are stored in a confidence matrix, whose integer entries count how many times an object has co-occurred with a given word during the learning process. The meaning of a particular word is then obtained by picking the object corresponding to the greatest confidence value associated to that word, i.e., the object that has co-occurred more frequently with that word. In this paper, we expand on the work of Smith et al. ( Smith et al., 2006 ) and offer analytical expressions for the learning rates of this minimal associative algorithm for different word sampling schemes, see Eqs.  (9), (14) and (17) .
+
+To assess the relevance of our findings to the efforts on understanding how humans perform on cross-situational learning tasks, we use Monte Carlo simulations to compare the performance of the minimal associative algorithm with the performance of humans for short learning times ( Kachergis et al., 2009 ) and with the performance of a more elaborated learning algorithm for long times ( Kachergis et al., 2012 ). Our finding that the accuracy of the minimal associative algorithm is much higher than that observed in the experiments is imputed to the unlimited storage and discrimination capability of the algorithm. In fact, introduction of errors in the discrimination of confidence values according to Weber’s law reduces the performance to a level below that of humans. Somewhat surprisingly, introduction of forgetting acts synergistically with our prescription for Weber’s law resulting in an increase of performance that eventually matches the experimental results.
+
+The rest of this paper is organized as follows. In Section  2  we describe the learning scenario and in Section  3  we introduce and study analytically the simplest associative learning scheme for counting co-occurrences of words and objects, in which the words are learned independently. We consider first the problem of learning a single word and then investigate the effect of using different word sampling schemes for learning the complete  
+                         N 
+                      -word lexicon. In Section  4  we compare the performance of the minimal associative algorithm with the performance exhibited by adult subjects. To understand the high efficiency of the algorithm we introduce constraints on its storage and discrimination capabilities and show how the constraint parameters can be tuned to describe the experimental results. Finally, in Section  5  we discuss our findings and present some concluding remarks.
+
+We assume that there are  
+                         N 
+                       objects,  
+                         N 
+                       words and a one-to-one mapping between words and objects. To describe the one-to-one word–object mapping, we use the index  
+                         i 
+                         = 
+                         1 
+                         , 
+                         … 
+                         , 
+                         N 
+                       to represent the  
+                         N 
+                       distinct objects and the index  
+                         h 
+                         = 
+                         1 
+                         , 
+                         … 
+                         , 
+                         N 
+                       to represent the  
+                         N 
+                       distinct words. Without loss of generality, we define the correct mapping as that for which the object represented by  
+                         i 
+                         = 
+                         1 
+                       is named by the word represented by  
+                         h 
+                         = 
+                         1 
+                      , object represented by  
+                         i 
+                         = 
+                         2 
+                       by word represented by  
+                         h 
+                         = 
+                         2 
+                      , and so on. Henceforth we will refer to the integers  
+                         i 
+                       and  
+                         h 
+                       as objects and words, respectively, but we should keep in mind that they are actually labels to those complex entities.
+
+At each learning event, a target word, say word  
+                         h 
+                         = 
+                         1 
+                      , is selected and then  
+                         C 
+                         + 
+                         1 
+                       distinct objects are selected from the list of  
+                         N 
+                       objects. This set of  
+                         C 
+                         + 
+                         1 
+                       objects forms a context for the selected word. The correct object ( 
+                         i 
+                         = 
+                         1 
+                      , in this case) must be present in the context. The learner’s task is to guess which of the  
+                         C 
+                         + 
+                         1 
+                       objects the word refers to. This is then an ambiguous word learning scenario in which there are multiple object candidates for any word.
+
+The parameter  
+                         C 
+                       is a measure of the ambiguity (and so of the difficulty) of the learning task. In particular, in the case  
+                         C 
+                         = 
+                         N 
+                         − 
+                         1 
+                       the word–object mapping is unlearnable. At first sight one could expect that learning would be trivial for  
+                         C 
+                         = 
+                         0 
+                       since there is no ambiguity, but the learning complexity depends also on the manner in which the objects are selected to compose the contexts. Typically, the objects are chosen randomly and without replacement from the list of  
+                         N 
+                       objects (see, e.g.,  Blythe et al., 2010; Fontanari et al., 2009; Smith et al., 2006 ), which for  
+                         C 
+                         = 
+                         0 
+                       results in a learning error (i.e., the fraction of wrong word–object associations) that decreases exponentially with learning rate  
+                         − 
+                         ln 
+                         
+                            ( 
+                            1 
+                            − 
+                            1 
+                            / 
+                            N 
+                            ) 
+                         
+                       as the number of learning trials  
+                         t 
+                       increases. This is so because there is a non-vanishing probability that some words are not selected in the  
+                         t 
+                       trials ( Blythe et al., 2010 ).
+
+In order to avoid testing subjects on the meaning of words they never heard, most experimental studies on word-learning mechanisms use a deterministic word selection procedure which guarantees that all words are uttered before the testing stage, although some words may be spoken more frequently than others ( Kachergis et al., 2009, 2012; Yu & Smith, 2006, 2007 ). Hence we consider here, in addition to the random selection procedure, a deterministic selection procedure which guarantees that all  
+                         N 
+                       words are selected in  
+                         t 
+                         = 
+                         N 
+                       trials. For this procedure the case  
+                         C 
+                         = 
+                         0 
+                       is trivial and the learning error becomes zero at  
+                         t 
+                         = 
+                         N 
+                      . However, since encountering words whose meaning is unknown is not a rare event in the real world (hence the utility of dictionaries), a non-uniform Zipfian random selection of words is likely to be a more realistic sampling scheme for learning natural word-referent associations (see, e.g.,  Blythe et al., 2010 ).
+
+Here we consider one of the earliest mathematical learning models–the linear learning model ( Bush & Mosteller, 1955 ). The basic assumption of this model is that learning can be modeled as a change in the confidence with which the learner associates the target word to a certain object in the context. More to the point, this confidence is represented by a matrix whose non-negative integer entries  
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               i 
+                            
+                         
+                       yield a value for the confidence with which word  
+                         h 
+                       is associated to object  
+                         i 
+                      . We assume that at the outset ( 
+                         t 
+                         = 
+                         0 
+                      ) all confidences are set to zero, i.e.,  
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               i 
+                            
+                         
+                         = 
+                         0 
+                       with  
+                         i 
+                         , 
+                         h 
+                         = 
+                         1 
+                         , 
+                         … 
+                         , 
+                         N 
+                       and whenever object  
+                         
+                            
+                               i 
+                            
+                            
+                               ∗ 
+                            
+                         
+                       appear in a context in companion with target word  
+                         
+                            
+                               h 
+                            
+                            
+                               ∗ 
+                            
+                         
+                       the confidence  
+                         
+                            
+                               p 
+                            
+                            
+                               
+                                  
+                                     i 
+                                  
+                                  
+                                     ∗ 
+                                  
+                               
+                               
+                                  
+                                     h 
+                                  
+                                  
+                                     ∗ 
+                                  
+                               
+                            
+                         
+                       increases by one unit. Hence at each learning trial,  
+                         C 
+                         + 
+                         1 
+                       confidences are updated. Note that this learning algorithm considers reinforcement only.
+
+To determine which object corresponds to word  
+                         h 
+                       the learner simply chooses the object index  
+                         i 
+                       for which  
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               i 
+                            
+                         
+                       is maximum. In the case of ties, the learner selects one object at random among those that maximize the confidence  
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               i 
+                            
+                         
+                      . Recalling our definition of the correct word–object mapping in the previous section, the learning algorithm achieves a perfect performance when  
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               h 
+                            
+                         
+                         > 
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               i 
+                            
+                         
+                       for all  
+                         h 
+                       and  
+                         i 
+                         ≠ 
+                         h 
+                      . The learning error  
+                         E 
+                       at a given trial  
+                         t 
+                       is then given by the fraction of wrong word–object associations. Note that we have  
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               i 
+                            
+                         
+                         ≤ 
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               h 
+                            
+                         
+                       with  
+                         i 
+                         ≠ 
+                         h 
+                       since object  
+                         i 
+                         = 
+                         h 
+                       must appear in the contexts of all learning events in which the target word is  
+                         h 
+                       (see Section  2 ). In this case, the learning error of any single word, say  
+                         h 
+                      , which we denote by  
+                         
+                            
+                               ϵ 
+                            
+                            
+                               s 
+                               w 
+                            
+                         
+                      , is the reciprocal of the number of objects for which  
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               i 
+                            
+                         
+                         = 
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               h 
+                            
+                         
+                       with  
+                         i 
+                         ≠ 
+                         h 
+                      .
+
+Interestingly, it can easily be shown that this very simple and general learning algorithm is identical to the algorithm presented in  Smith et al. (2006)  which is based on detecting the intersections of context realizations in order to single out the set of confounder objects at a given trial  
+                         t 
+                      . This equivalence has already been noted in the literature ( Vogt & Smith, 2004 ) (see also  Smith et al., 2011 ). The minimal associative learning algorithm can be immediately adapted to incorporate more realistic features, such as finite memory and imprecision in the comparison of magnitudes, whereas the confounder reducing algorithm is restricted to an ideal learning scenario.
+
+A salient feature of the minimal associative learning algorithm which allows the analytical study of its performance is the fact that words are learned independently. This is easily seen by noting that the confidences  
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               i 
+                            
+                         
+                         , 
+                         i 
+                         = 
+                         1 
+                         , 
+                         … 
+                         , 
+                         N 
+                       are updated only when the target word  
+                         h 
+                       is selected. This means that, aside from a trivial rescaling of the learning time, our scenario is equivalent to the experimental settings (see Section  4 ) in which  
+                         C 
+                         + 
+                         1 
+                       target words are presented together with a context exhibiting  
+                         C 
+                         + 
+                         1 
+                       objects, with each object associated to one of the target words ( Kachergis et al., 2009, 2012; Yu & Smith, 2006, 2007 ). Taking advantage of this feature, we will first solve a simplified version of the cross-situational learning in which a given target word  
+                         h 
+                       (and its associated object  
+                         i 
+                         = 
+                         h 
+                      ) appears in all learning trials whereas the  
+                         C 
+                       other objects (the confounders) that make up the rest of the context vary in each learning trial. Once the problem of learning a single word is solved (see Section  3.1 ), we can easily work out the generalization to learning the whole lexicon (see. Sections  3.2 and 3.3 ). We will use  
+                         τ 
+                       to measure the time of the learning trials in the case of single-word learning and  
+                         t 
+                       in the whole lexicon learning case.
+
+Before any learning event has taken place, the target word may be associated to any one of the  
+                            N 
+                          objects, so the initial state of the learning error is always equal to  
+                            
+                               ( 
+                               N 
+                               − 
+                               1 
+                               ) 
+                            
+                            / 
+                            N 
+                         . When the first learning event takes place, the target word may be incorrectly assigned to the  
+                            C 
+                          other confounder objects shown in the context, so the probability of error at the first trial is always equal to  
+                            C 
+                            / 
+                            
+                               ( 
+                               C 
+                               + 
+                               1 
+                               ) 
+                            
+                         . In the second trial, there are two possibilities: the probability of error is unchanged because the same context is chosen or the probability of error decreases to the value  
+                            n 
+                            / 
+                            
+                               ( 
+                               n 
+                               + 
+                               1 
+                               ) 
+                            
+                          with  
+                            n 
+                            < 
+                            C 
+                          because  
+                            n 
+                          confounder objects of the first context appeared again in the second trial. The same reasoning allows us to describe the probability of error in any trial given that this probability is known in the previous trial as described next.
+
+As pointed out, the possible error values are  
+                            n 
+                            / 
+                            
+                               ( 
+                               n 
+                               + 
+                               1 
+                               ) 
+                            
+                          with  
+                            n 
+                            = 
+                            0 
+                            , 
+                            1 
+                            , 
+                            … 
+                            , 
+                            C 
+                         . Labeling these values by the index  
+                            n 
+                         , the probability of error at trial  
+                            τ 
+                          can be written as  
+                            
+                               (1) 
+                               
+                                  
+                                     W 
+                                  
+                                  
+                                     ( 
+                                     τ 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     ( 
+                                     
+                                        
+                                           w 
+                                        
+                                        
+                                           C 
+                                        
+                                     
+                                     
+                                        ( 
+                                        τ 
+                                        ) 
+                                     
+                                     , 
+                                     
+                                        
+                                           w 
+                                        
+                                        
+                                           C 
+                                           − 
+                                           1 
+                                        
+                                     
+                                     
+                                        ( 
+                                        τ 
+                                        ) 
+                                     
+                                     , 
+                                     … 
+                                     , 
+                                     
+                                        
+                                           w 
+                                        
+                                        
+                                           1 
+                                        
+                                     
+                                     
+                                        ( 
+                                        τ 
+                                        ) 
+                                     
+                                     , 
+                                     
+                                        
+                                           w 
+                                        
+                                        
+                                           0 
+                                        
+                                     
+                                     
+                                        ( 
+                                        τ 
+                                        ) 
+                                     
+                                     ) 
+                                  
+                                  . 
+                               
+                            
+                          The time evolution of  
+                            
+                               W 
+                            
+                            
+                               ( 
+                               τ 
+                               ) 
+                            
+                          is given by the Markov chain  
+                            
+                               (2) 
+                               
+                                  
+                                     W 
+                                  
+                                  
+                                     ( 
+                                     τ 
+                                     + 
+                                     1 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     W 
+                                  
+                                  
+                                     ( 
+                                     τ 
+                                     ) 
+                                  
+                                  T 
+                                  , 
+                               
+                            
+                          where  
+                            T 
+                          is a  
+                            
+                               ( 
+                               C 
+                               + 
+                               1 
+                               ) 
+                            
+                            × 
+                            
+                               ( 
+                               C 
+                               + 
+                               1 
+                               ) 
+                            
+                          transition matrix whose entries  
+                            
+                               
+                                  T 
+                               
+                               
+                                  m 
+                                  n 
+                               
+                            
+                          yield the probability that the error at a certain trial is  
+                            n 
+                            / 
+                            
+                               ( 
+                               n 
+                               + 
+                               1 
+                               ) 
+                            
+                          given that the error was  
+                            m 
+                            / 
+                            
+                               ( 
+                               m 
+                               + 
+                               1 
+                               ) 
+                            
+                          in the previous trial. Clearly,  
+                            
+                               
+                                  T 
+                               
+                               
+                                  m 
+                                  n 
+                               
+                            
+                            = 
+                            0 
+                          for  
+                            m 
+                            < 
+                            n 
+                          since the error cannot increase during the learning stage in the absence of noise.
+
+It is a simple matter to derive  
+                            
+                               
+                                  T 
+                               
+                               
+                                  m 
+                                  n 
+                               
+                            
+                          for  
+                            m 
+                            ≥ 
+                            n 
+                          ( Smith et al., 2006 ). In fact, it is given by the probability that in  
+                            C 
+                          choices one selects exactly  
+                            n 
+                          of the  
+                            m 
+                          confounder objects from the list of  
+                            N 
+                            − 
+                            1 
+                          objects. (We recall that the object associated to the target word is picked with certainty and so the list comprises  
+                            N 
+                            − 
+                            1 
+                          objects, rather than  
+                            N 
+                         , and the number of selections is  
+                            C 
+                          rather than  
+                            C 
+                            + 
+                            1 
+                         .) This is given by the hyper-geometric distribution ( Feller, 1968 )  
+                            
+                               (3) 
+                               
+                                  
+                                     
+                                        T 
+                                     
+                                     
+                                        m 
+                                        n 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        
+                                           
+                                              
+                                                 m 
+                                              
+                                              
+                                                 n 
+                                              
+                                           
+                                        
+                                        
+                                           
+                                              
+                                                 N 
+                                                 − 
+                                                 1 
+                                                 − 
+                                                 m 
+                                              
+                                              
+                                                 C 
+                                                 − 
+                                                 n 
+                                              
+                                           
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              
+                                                 N 
+                                                 − 
+                                                 1 
+                                              
+                                              
+                                                 C 
+                                              
+                                           
+                                        
+                                     
+                                  
+                               
+                            
+                          for  
+                            m 
+                            ≥ 
+                            n 
+                          and  
+                            
+                               
+                                  T 
+                               
+                               
+                                  m 
+                                  n 
+                               
+                            
+                            = 
+                            0 
+                          for  
+                            m 
+                            < 
+                            n 
+                         . Since the transition matrix is triangular, its eigenvalues  
+                            
+                               
+                                  λ 
+                               
+                               
+                                  n 
+                               
+                            
+                          with  
+                            n 
+                            = 
+                            0 
+                            , 
+                            1 
+                            , 
+                            … 
+                            , 
+                            C 
+                          are the elements of the main diagonal that correspond to transitions that leave the learning error unchanged, i.e.,  
+                            
+                               (4) 
+                               
+                                  
+                                     
+                                        λ 
+                                     
+                                     
+                                        n 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        T 
+                                     
+                                     
+                                        n 
+                                        n 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        
+                                           
+                                              
+                                                 N 
+                                                 − 
+                                                 1 
+                                                 − 
+                                                 n 
+                                              
+                                              
+                                                 C 
+                                                 − 
+                                                 n 
+                                              
+                                           
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              
+                                                 N 
+                                                 − 
+                                                 1 
+                                              
+                                              
+                                                 C 
+                                              
+                                           
+                                        
+                                     
+                                  
+                                  . 
+                               
+                            
+                          Note that  
+                            
+                               
+                                  λ 
+                               
+                               
+                                  0 
+                               
+                            
+                            = 
+                            1 
+                            > 
+                            
+                               
+                                  λ 
+                               
+                               
+                                  n 
+                                  ≠ 
+                                  1 
+                               
+                            
+                            > 
+                            0 
+                          as expected for eigenvalues of a transition matrix. In addition, since  
+                            
+                               
+                                  λ 
+                               
+                               
+                                  n 
+                               
+                            
+                            / 
+                            
+                               
+                                  λ 
+                               
+                               
+                                  n 
+                                  + 
+                                  1 
+                               
+                            
+                            = 
+                            
+                               ( 
+                               N 
+                               − 
+                               1 
+                               − 
+                               n 
+                               ) 
+                            
+                            / 
+                            
+                               ( 
+                               C 
+                               − 
+                               n 
+                               ) 
+                            
+                            > 
+                            1 
+                          the eigenvalues are ordered such that  
+                            
+                               
+                                  λ 
+                               
+                               
+                                  0 
+                               
+                            
+                            > 
+                            
+                               
+                                  λ 
+                               
+                               
+                                  1 
+                               
+                            
+                            > 
+                            ⋯ 
+                            > 
+                            
+                               
+                                  λ 
+                               
+                               
+                                  N 
+                                  − 
+                                  1 
+                               
+                            
+                         .
+
+Recalling that the probability vector is known at  
+                            τ 
+                            = 
+                            1 
+                         , namely,  
+                            
+                               
+                                  
+                                     W 
+                                  
+                               
+                               
+                                  1 
+                               
+                            
+                            = 
+                            
+                               ( 
+                               1 
+                               , 
+                               0 
+                               , 
+                               … 
+                               , 
+                               0 
+                               ) 
+                            
+                          we can write
+
+(5) 
+                               
+                                  
+                                     W 
+                                  
+                                  
+                                     ( 
+                                     τ 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     W 
+                                  
+                                  
+                                     ( 
+                                     τ 
+                                     = 
+                                     1 
+                                     ) 
+                                  
+                                  
+                                     
+                                        T 
+                                     
+                                     
+                                        τ 
+                                        − 
+                                        1 
+                                     
+                                  
+                                  . 
+                               
+                            
+                          Although it is a simple matter to write  
+                            
+                               
+                                  T 
+                               
+                               
+                                  τ 
+                                  − 
+                                  1 
+                               
+                            
+                          in terms of the right and left eigenvectors of  
+                            T 
+                         , this procedure does not produce an explicit analytical expression for  
+                            
+                               
+                                  W 
+                               
+                               
+                                  n 
+                               
+                            
+                            
+                               ( 
+                               τ 
+                               ) 
+                            
+                          in terms of the parameters  
+                            C 
+                          and  
+                            N 
+                         , since we are not able to find analytical expressions for the eigenvectors. However,  Smith et al. (2006)  have succeeded in deriving a closed analytical expression for  
+                            
+                               
+                                  W 
+                               
+                               
+                                  n 
+                               
+                            
+                            
+                               ( 
+                               τ 
+                               ) 
+                            
+                          using the inclusion–exclusion principle of combinatorics ( Cameron, 1994 ),  
+                            
+                               (6) 
+                               
+                                  
+                                     
+                                        W 
+                                     
+                                     
+                                        n 
+                                     
+                                  
+                                  
+                                     ( 
+                                     τ 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        
+                                           C 
+                                        
+                                        
+                                           n 
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        ∑ 
+                                     
+                                     
+                                        i 
+                                        = 
+                                        n 
+                                     
+                                     
+                                        C 
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           ( 
+                                           − 
+                                           1 
+                                           ) 
+                                        
+                                     
+                                     
+                                        i 
+                                        − 
+                                        n 
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           C 
+                                           − 
+                                           n 
+                                        
+                                        
+                                           i 
+                                           − 
+                                           n 
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        λ 
+                                     
+                                     
+                                        i 
+                                     
+                                     
+                                        τ 
+                                        − 
+                                        1 
+                                     
+                                  
+                                  , 
+                               
+                            
+                          where  
+                            
+                               
+                                  λ 
+                               
+                               
+                                  i 
+                               
+                            
+                         , given by Eq.  (4) , is the probability that a particular set of  
+                            i 
+                          members of the  
+                            C 
+                          confounders in the first learning episode  
+                            τ 
+                            = 
+                            1 
+                          appear in any subsequent episode. Although the spectral decomposition of  
+                            T 
+                          plays no role in the derivation of Eq.  (6)  we choose to maintain the notation  
+                            
+                               
+                                  λ 
+                               
+                               
+                                  i 
+                               
+                            
+                          for the above mentioned probability.
+
+Recalling that a situation described by  
+                            n 
+                          corresponds to the learning error  
+                            n 
+                            / 
+                            
+                               ( 
+                               n 
+                               + 
+                               1 
+                               ) 
+                            
+                          we can immediately write the expected learning error for a single word as  
+                            
+                               (7) 
+                               
+                                  
+                                     
+                                        ϵ 
+                                     
+                                     
+                                        s 
+                                        w 
+                                     
+                                  
+                                  
+                                     ( 
+                                     τ 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        ∑ 
+                                     
+                                     
+                                        n 
+                                        = 
+                                        0 
+                                     
+                                     
+                                        C 
+                                     
+                                  
+                                  
+                                     
+                                        n 
+                                     
+                                     
+                                        n 
+                                        + 
+                                        1 
+                                     
+                                  
+                                  
+                                     
+                                        W 
+                                     
+                                     
+                                        n 
+                                     
+                                  
+                                  
+                                     ( 
+                                     τ 
+                                     ) 
+                                  
+                                  , 
+                               
+                            
+                          which is valid for  
+                            τ 
+                            > 
+                            0 
+                          only. For  
+                            τ 
+                            = 
+                            0 
+                          one has  
+                            
+                               
+                                  ϵ 
+                               
+                               
+                                  s 
+                                  w 
+                               
+                            
+                            
+                               ( 
+                               0 
+                               ) 
+                            
+                            = 
+                            1 
+                            − 
+                            1 
+                            / 
+                            N 
+                         . The dependence of  
+                            
+                               
+                                  ϵ 
+                               
+                               
+                                  s 
+                                  w 
+                               
+                            
+                          on the number of learning trials  
+                            τ 
+                          for different values of  
+                            N 
+                          and  
+                            C 
+                          is illustrated in  Fig. 1 
+                          using a semi-logarithmic scale. Except for very small  
+                            τ 
+                         , the learning error exhibits a neat exponential decay which is revealed by considering only the leading non-vanishing contribution to  
+                            
+                               
+                                  W 
+                               
+                               
+                                  n 
+                               
+                            
+                          for large  
+                            τ 
+                         , namely,  
+                            
+                               (8) 
+                               
+                                  
+                                     
+                                        ϵ 
+                                     
+                                     
+                                        s 
+                                        w 
+                                     
+                                  
+                                  
+                                     ( 
+                                     τ 
+                                     ) 
+                                  
+                                  ∼ 
+                                  
+                                     
+                                        C 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                                  
+                                     
+                                        λ 
+                                     
+                                     
+                                        1 
+                                     
+                                     
+                                        τ 
+                                        − 
+                                        1 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        N 
+                                        − 
+                                        1 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                                  exp 
+                                  
+                                     [ 
+                                     − 
+                                     τ 
+                                     ln 
+                                     
+                                        ( 
+                                        
+                                           
+                                              N 
+                                              − 
+                                              1 
+                                           
+                                           
+                                              C 
+                                           
+                                        
+                                        ) 
+                                     
+                                     ] 
+                                  
+                                  . 
+                               
+                            
+                          Hence the learning rate for single-word learning is  
+                            
+                               (9) 
+                               
+                                  
+                                     
+                                        α 
+                                     
+                                     
+                                        s 
+                                        w 
+                                     
+                                  
+                                  = 
+                                  ln 
+                                  
+                                     [ 
+                                     
+                                        ( 
+                                        N 
+                                        − 
+                                        1 
+                                        ) 
+                                     
+                                     / 
+                                     C 
+                                     ] 
+                                  
+                               
+                            
+                          which is zero in the case  
+                            C 
+                            = 
+                            N 
+                            − 
+                            1 
+                         , i.e., all objects appear in the context and so learning is impossible. In the case  
+                            C 
+                            = 
+                            0 
+                         , the learning rate diverges so that  
+                            
+                               
+                                  ϵ 
+                               
+                               
+                                  s 
+                                  w 
+                               
+                            
+                            = 
+                            0 
+                          at the first learning trial  
+                            τ 
+                            = 
+                            1 
+                          already. Most interestingly, the learning rate increases with increasing  
+                            N 
+                          (see  Fig. 1 ) indicating that the larger the number of objects, the faster the learning of a single word. This apparently counterintuitive result has a simple explanation: a large list of objects to select from actually decreases the chances of choosing the same confounding object during the learning events.
+
+We turn now to the original learning problem in which the learner has to acquire the one-to-one mapping between the  
+                            N 
+                          words and the  
+                            N 
+                          objects. In this section we focus on the case the target word at each learning trial is chosen randomly from the list of  
+                            N 
+                          words. Since all words have the same probability of being chosen, the probability of choosing a particular word is  
+                            1 
+                            / 
+                            N 
+                         .
+
+At trial  
+                            t 
+                          we assume that word 1 appeared  
+                            
+                               
+                                  k 
+                               
+                               
+                                  1 
+                               
+                            
+                          times, word 2 appeared  
+                            
+                               
+                                  k 
+                               
+                               
+                                  2 
+                               
+                            
+                          times, and so on with  
+                            
+                               
+                                  k 
+                               
+                               
+                                  1 
+                               
+                            
+                            + 
+                            
+                               
+                                  k 
+                               
+                               
+                                  2 
+                               
+                            
+                            + 
+                            ⋯ 
+                            + 
+                            
+                               
+                                  k 
+                               
+                               
+                                  N 
+                               
+                            
+                            = 
+                            t 
+                         . The integers  
+                            
+                               
+                                  k 
+                               
+                               
+                                  i 
+                               
+                            
+                            = 
+                            0 
+                            , 
+                            … 
+                            , 
+                            t 
+                          are random variables distributed by the multinomial  
+                            
+                               (10) 
+                               
+                                  P 
+                                  
+                                     ( 
+                                     
+                                        
+                                           k 
+                                        
+                                        
+                                           1 
+                                        
+                                     
+                                     , 
+                                     … 
+                                     , 
+                                     
+                                        
+                                           k 
+                                        
+                                        
+                                           N 
+                                        
+                                     
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        N 
+                                     
+                                     
+                                        − 
+                                        t 
+                                     
+                                  
+                                  
+                                     
+                                        t 
+                                        ! 
+                                     
+                                     
+                                        
+                                           
+                                              k 
+                                           
+                                           
+                                              1 
+                                           
+                                        
+                                        ! 
+                                        ⋯ 
+                                        
+                                           
+                                              k 
+                                           
+                                           
+                                              N 
+                                           
+                                        
+                                        ! 
+                                     
+                                  
+                                  
+                                     
+                                        δ 
+                                     
+                                     
+                                        t 
+                                        , 
+                                        
+                                           
+                                              k 
+                                           
+                                           
+                                              1 
+                                           
+                                        
+                                        + 
+                                        ⋯ 
+                                        + 
+                                        
+                                           
+                                              k 
+                                           
+                                           
+                                              N 
+                                           
+                                        
+                                     
+                                  
+                                  .
+
+Clearly, if word  
+                            i 
+                          appeared  
+                            
+                               
+                                  k 
+                               
+                               
+                                  i 
+                               
+                            
+                          times in the course of  
+                            t 
+                          trials then the expected error associated to it is  
+                            
+                               
+                                  ϵ 
+                               
+                               
+                                  s 
+                                  w 
+                               
+                            
+                            
+                               ( 
+                               
+                                  
+                                     k 
+                                  
+                                  
+                                     i 
+                                  
+                               
+                               ) 
+                            
+                          with the (word independent) single-word error given by Eq.  (7)  for  
+                            
+                               
+                                  k 
+                               
+                               
+                                  i 
+                               
+                            
+                            > 
+                            0 
+                         . With this observation in mind, we can immediately write the expected learning error in the case the  
+                            N 
+                          words are sampled randomly,  
+                            
+                               (11) 
+                               
+                                  
+                                     
+                                        E 
+                                     
+                                     
+                                        r 
+                                     
+                                  
+                                  
+                                     ( 
+                                     t 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        ∑ 
+                                     
+                                     
+                                        
+                                           
+                                              k 
+                                           
+                                           
+                                              1 
+                                           
+                                        
+                                        , 
+                                        … 
+                                        , 
+                                        
+                                           
+                                              k 
+                                           
+                                           
+                                              N 
+                                           
+                                        
+                                     
+                                  
+                                  P 
+                                  
+                                     ( 
+                                     
+                                        
+                                           k 
+                                        
+                                        
+                                           1 
+                                        
+                                     
+                                     , 
+                                     … 
+                                     , 
+                                     
+                                        
+                                           k 
+                                        
+                                        
+                                           N 
+                                        
+                                     
+                                     ) 
+                                  
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        N 
+                                     
+                                  
+                                  
+                                     
+                                        ∑ 
+                                     
+                                     
+                                        i 
+                                        = 
+                                        1 
+                                     
+                                     
+                                        N 
+                                     
+                                  
+                                  
+                                     
+                                        ϵ 
+                                     
+                                     
+                                        s 
+                                        w 
+                                     
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           k 
+                                        
+                                        
+                                           i 
+                                        
+                                     
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        ∑ 
+                                     
+                                     
+                                        k 
+                                        = 
+                                        0 
+                                     
+                                     
+                                        t 
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           t 
+                                        
+                                        
+                                           k 
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           ( 
+                                           
+                                              
+                                                 1 
+                                              
+                                              
+                                                 N 
+                                              
+                                           
+                                           ) 
+                                        
+                                     
+                                     
+                                        k 
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           ( 
+                                           1 
+                                           − 
+                                           
+                                              
+                                                 1 
+                                              
+                                              
+                                                 N 
+                                              
+                                           
+                                           ) 
+                                        
+                                     
+                                     
+                                        t 
+                                        − 
+                                        k 
+                                     
+                                  
+                                  
+                                     
+                                        ϵ 
+                                     
+                                     
+                                        s 
+                                        w 
+                                     
+                                  
+                                  
+                                     ( 
+                                     k 
+                                     ) 
+                                  
+                                  . 
+                               
+                            
+                          The sum over  
+                            k 
+                          can be easily carried out provided we take into account the fact that  
+                            
+                               
+                                  ϵ 
+                               
+                               
+                                  s 
+                                  w 
+                               
+                            
+                            
+                               ( 
+                               k 
+                               ) 
+                            
+                          has different prescriptions for the cases  
+                            k 
+                            = 
+                            0 
+                          and  
+                            k 
+                            > 
+                            0 
+                         . We find  
+                            
+                               (12) 
+                               
+                                  
+                                     
+                                        E 
+                                     
+                                     
+                                        r 
+                                     
+                                  
+                                  
+                                     ( 
+                                     t 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        ∑ 
+                                     
+                                     
+                                        n 
+                                        = 
+                                        0 
+                                     
+                                     
+                                        C 
+                                     
+                                  
+                                  
+                                     
+                                        n 
+                                     
+                                     
+                                        n 
+                                        + 
+                                        1 
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           C 
+                                        
+                                        
+                                           n 
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        ∑ 
+                                     
+                                     
+                                        i 
+                                        = 
+                                        n 
+                                     
+                                     
+                                        C 
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           C 
+                                           − 
+                                           n 
+                                        
+                                        
+                                           i 
+                                           − 
+                                           n 
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           
+                                              
+                                                 ( 
+                                                 − 
+                                                 1 
+                                                 ) 
+                                              
+                                           
+                                           
+                                              i 
+                                              − 
+                                              n 
+                                           
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              λ 
+                                           
+                                           
+                                              i 
+                                           
+                                        
+                                     
+                                  
+                                  
+                                     [ 
+                                     
+                                        
+                                           
+                                              ( 
+                                              
+                                                 
+                                                    
+                                                       
+                                                          λ 
+                                                       
+                                                       
+                                                          i 
+                                                       
+                                                    
+                                                    + 
+                                                    N 
+                                                    − 
+                                                    1 
+                                                 
+                                                 
+                                                    N 
+                                                 
+                                              
+                                              ) 
+                                           
+                                        
+                                        
+                                           t 
+                                        
+                                     
+                                     − 
+                                     
+                                        
+                                           
+                                              ( 
+                                              
+                                                 
+                                                    N 
+                                                    − 
+                                                    1 
+                                                 
+                                                 
+                                                    N 
+                                                 
+                                              
+                                              ) 
+                                           
+                                        
+                                        
+                                           t 
+                                        
+                                     
+                                     ] 
+                                  
+                                  + 
+                                  
+                                     
+                                        
+                                           ( 
+                                           
+                                              
+                                                 N 
+                                                 − 
+                                                 1 
+                                              
+                                              
+                                                 N 
+                                              
+                                           
+                                           ) 
+                                        
+                                     
+                                     
+                                        t 
+                                        + 
+                                        1 
+                                     
+                                  
+                               
+                            
+                          with  
+                            
+                               
+                                  λ 
+                               
+                               
+                                  i 
+                               
+                            
+                          given by Eq.  (4) . This is a formidable expression which can be evaluated numerically for  
+                            C 
+                          not too large and in  Fig. 2 
+                          we exhibit the dependence of  
+                            
+                               
+                                  E 
+                               
+                               
+                                  r 
+                               
+                            
+                          on the number of learning trials for a selection of values of  
+                            N 
+                          and  
+                            C 
+                         .
+
+To obtain the asymptotic time dependence of  
+                            
+                               
+                                  E 
+                               
+                               
+                                  r 
+                               
+                            
+                          we need to keep in the double sum only the leading order term. Since the summand in Eq.  (12)  vanishes for  
+                            n 
+                            = 
+                            0 
+                         , the largest eigenvalue that appears in that expression is  
+                            
+                               
+                                  λ 
+                               
+                               
+                                  1 
+                               
+                            
+                         , corresponding to the term  
+                            i 
+                            = 
+                            n 
+                            = 
+                            1 
+                         , and so this is the term that dominates the sum in the limit  
+                            t 
+                            → 
+                            ∞ 
+                         . Hence  
+                            
+                               
+                                  E 
+                               
+                               
+                                  r 
+                               
+                            
+                          exhibits the exponential decay  
+                            
+                               (13) 
+                               
+                                  
+                                     
+                                        E 
+                                     
+                                     
+                                        r 
+                                     
+                                  
+                                  ∼ 
+                                  
+                                     
+                                        C 
+                                     
+                                     
+                                        2 
+                                        
+                                           
+                                              λ 
+                                           
+                                           
+                                              1 
+                                           
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           ( 
+                                           
+                                              
+                                                 
+                                                    
+                                                       λ 
+                                                    
+                                                    
+                                                       1 
+                                                    
+                                                 
+                                                 + 
+                                                 N 
+                                                 − 
+                                                 1 
+                                              
+                                              
+                                                 N 
+                                              
+                                           
+                                           ) 
+                                        
+                                     
+                                     
+                                        t 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        N 
+                                        − 
+                                        1 
+                                     
+                                     
+                                        2 
+                                     
+                                  
+                                  exp 
+                                  
+                                     [ 
+                                     − 
+                                     t 
+                                     
+                                        
+                                           α 
+                                        
+                                        
+                                           r 
+                                        
+                                     
+                                     
+                                        ( 
+                                        C 
+                                        , 
+                                        N 
+                                        ) 
+                                     
+                                     ] 
+                                  
+                               
+                            
+                          where  
+                            
+                               (14) 
+                               
+                                  
+                                     
+                                        α 
+                                     
+                                     
+                                        r 
+                                     
+                                  
+                                  
+                                     ( 
+                                     C 
+                                     , 
+                                     N 
+                                     ) 
+                                  
+                                  = 
+                                  ln 
+                                  
+                                     [ 
+                                     
+                                        
+                                           N 
+                                           
+                                              ( 
+                                              N 
+                                              − 
+                                              1 
+                                              ) 
+                                           
+                                        
+                                        
+                                           C 
+                                           + 
+                                           
+                                              
+                                                 
+                                                    ( 
+                                                    N 
+                                                    − 
+                                                    1 
+                                                    ) 
+                                                 
+                                              
+                                              
+                                                 2 
+                                              
+                                           
+                                        
+                                     
+                                     ] 
+                                  
+                               
+                            
+                          is the learning rate of our algorithm in the case the  
+                            N 
+                          words are sampled randomly. As already mentioned, the unambiguous learning scenario  
+                            C 
+                            = 
+                            0 
+                          results in the finite learning rate  
+                            − 
+                            ln 
+                            
+                               ( 
+                               1 
+                               − 
+                               1 
+                               / 
+                               N 
+                               ) 
+                            
+                          simply because some words may never be chosen in the course of the  
+                            t 
+                          learning trials. Interestingly, the learning rate  
+                            
+                               
+                                  α 
+                               
+                               
+                                  r 
+                               
+                            
+                          exhibits a non-monotone dependence on  
+                            N 
+                          for fixed  
+                            C 
+                         : for  
+                            N 
+                            > 
+                            2 
+                            C 
+                            + 
+                            1 
+                         , it decreases with increasing  
+                            N 
+                          (this is the parameter selection used to draw the left panel of  Fig. 2 ), and it increases with increasing  
+                            N 
+                          otherwise. Recalling that for fixed  
+                            C 
+                          the minimum value of  
+                            N 
+                          is  
+                            N 
+                            = 
+                            C 
+                            + 
+                            1 
+                          at which  
+                            
+                               
+                                  α 
+                               
+                               
+                                  r 
+                               
+                            
+                            = 
+                            0 
+                         , increasing  
+                            N 
+                          from this minimal value must result in an increase of  
+                            
+                               
+                                  α 
+                               
+                               
+                                  r 
+                               
+                            
+                         . The fact that  
+                            
+                               
+                                  α 
+                               
+                               
+                                  r 
+                               
+                            
+                          decreases for large  
+                            N 
+                         –an effect of sampling–implies that there is an optimal value  
+                            
+                               
+                                  N 
+                               
+                               
+                                  ∗ 
+                               
+                            
+                            = 
+                            2 
+                            C 
+                            + 
+                            1 
+                          that maximizes the learning speed for fixed  
+                            C 
+                         . Of course, for fixed  
+                            N 
+                          the learning speed is maximized by  
+                            C 
+                            = 
+                            0 
+                         .
+
+To better understand the effects of the random sampling of the  
+                            N 
+                          words we consider here a deterministic sampling scheme in which every word is guaranteed to be chosen in the course of  
+                            N 
+                          learning trials. Let us begin with the first  
+                            N 
+                          learning trials and recall that at time  
+                            t 
+                            = 
+                            0 
+                          all words have error  
+                            
+                               
+                                  ϵ 
+                               
+                               
+                                  s 
+                                  w 
+                               
+                            
+                            
+                               ( 
+                               0 
+                               ) 
+                            
+                            = 
+                            
+                               ( 
+                               N 
+                               − 
+                               1 
+                               ) 
+                            
+                            / 
+                            N 
+                         . Then during the learning process for  
+                            t 
+                            = 
+                            1 
+                            , 
+                            … 
+                            , 
+                            N 
+                          there will be  
+                            t 
+                          words with error  
+                            
+                               
+                                  ϵ 
+                               
+                               
+                                  s 
+                                  w 
+                               
+                            
+                            
+                               ( 
+                               1 
+                               ) 
+                            
+                            = 
+                            C 
+                            / 
+                            
+                               ( 
+                               C 
+                               + 
+                               1 
+                               ) 
+                            
+                          and  
+                            N 
+                            − 
+                            t 
+                          with error  
+                            
+                               
+                                  ϵ 
+                               
+                               
+                                  s 
+                                  w 
+                               
+                            
+                            
+                               ( 
+                               0 
+                               ) 
+                            
+                          so that the total learning error for the deterministic sampling is  
+                            
+                               (15) 
+                               
+                                  
+                                     
+                                        E 
+                                     
+                                     
+                                        d 
+                                     
+                                  
+                                  
+                                     ( 
+                                     t 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        N 
+                                     
+                                  
+                                  
+                                     [ 
+                                     t 
+                                     
+                                        
+                                           ϵ 
+                                        
+                                        
+                                           s 
+                                           w 
+                                        
+                                     
+                                     
+                                        ( 
+                                        1 
+                                        ) 
+                                     
+                                     + 
+                                     
+                                        ( 
+                                        N 
+                                        − 
+                                        t 
+                                        ) 
+                                     
+                                     
+                                        
+                                           ϵ 
+                                        
+                                        
+                                           s 
+                                           w 
+                                        
+                                     
+                                     
+                                        ( 
+                                        0 
+                                        ) 
+                                     
+                                     ] 
+                                  
+                                  , 
+                                  
+                                  t 
+                                  ≤ 
+                                  N 
+                                  . 
+                               
+                            
+                          This expression can be easily extended for general  
+                            t 
+                          by introducing the single-word learning time  
+                            τ 
+                            = 
+                            
+                               ⌊ 
+                               t 
+                               / 
+                               N 
+                               ⌋ 
+                            
+                         ,  
+                            
+                               (16) 
+                               
+                                  
+                                     
+                                        E 
+                                     
+                                     
+                                        d 
+                                     
+                                  
+                                  
+                                     ( 
+                                     t 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        N 
+                                     
+                                  
+                                  
+                                     [ 
+                                     
+                                        ( 
+                                        t 
+                                        − 
+                                        N 
+                                        τ 
+                                        ) 
+                                     
+                                     
+                                        
+                                           ϵ 
+                                        
+                                        
+                                           s 
+                                           w 
+                                        
+                                     
+                                     
+                                        ( 
+                                        τ 
+                                        + 
+                                        1 
+                                        ) 
+                                     
+                                     + 
+                                     
+                                        ( 
+                                        N 
+                                        τ 
+                                        + 
+                                        N 
+                                        − 
+                                        t 
+                                        ) 
+                                     
+                                     
+                                        
+                                           ϵ 
+                                        
+                                        
+                                           s 
+                                           w 
+                                        
+                                     
+                                     
+                                        ( 
+                                        τ 
+                                        ) 
+                                     
+                                     ] 
+                                  
+                               
+                            
+                          where  
+                            
+                               ⌊ 
+                               x 
+                               ⌋ 
+                            
+                          is the largest integer not greater than  
+                            x 
+                         . The time dependence of the learning error for the deterministic sampling of the  
+                            N 
+                          words is shown in  Fig. 3 
+                         . For  
+                            t 
+                            ≫ 
+                            N 
+                         ,  
+                            τ 
+                          becomes a continuous variable for any practical purpose, and then we can see that  
+                            
+                               
+                                  E 
+                               
+                               
+                                  d 
+                               
+                            
+                          decreases exponentially with increasing  
+                            t 
+                         . Clearly, the learning rate is determined by the single-word learning error [see Eq.  (8) ] and so replacing  
+                            τ 
+                          by  
+                            t 
+                            / 
+                            N 
+                          in that equation we obtain the learning rate for the deterministic sampling case  
+                            
+                               (17) 
+                               
+                                  
+                                     
+                                        α 
+                                     
+                                     
+                                        d 
+                                     
+                                  
+                                  
+                                     ( 
+                                     C 
+                                     , 
+                                     N 
+                                     ) 
+                                  
+                                  = 
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        N 
+                                     
+                                  
+                                  ln 
+                                  
+                                     [ 
+                                     
+                                        
+                                           N 
+                                           − 
+                                           1 
+                                        
+                                        
+                                           C 
+                                        
+                                     
+                                     ] 
+                                  
+                                  . 
+                               
+                            
+                          As in the single-word learning case, the learning rate diverges for  
+                            C 
+                            = 
+                            0 
+                          in accordance with our intuition that in the absence of ambiguity, the learning task should be completed in  
+                            N 
+                          steps. In fact, the learning error decreases linearly with  
+                            t 
+                          as given by Eq.  (15) . Similarly to our findings for the random sampling,  
+                            
+                               
+                                  α 
+                               
+                               
+                                  d 
+                               
+                            
+                          exhibits a non-monotonic dependence on  
+                            N 
+                         : beginning from  
+                            
+                               
+                                  α 
+                               
+                               
+                                  d 
+                               
+                            
+                            = 
+                            0 
+                          at  
+                            N 
+                            = 
+                            C 
+                            + 
+                            1 
+                         , it increases until reaching a maximum at  
+                            
+                               
+                                  N 
+                               
+                               
+                                  ∗ 
+                               
+                            
+                            ≈ 
+                            e 
+                            C 
+                          and then decreases towards zero again as the size of the lexicon further increases.
+
+It is interesting to compare the learning rates for the two sampling schemes, Eqs.  (14) and (17) . In the leading non-vanishing order for large  
+                            N 
+                          and  
+                            C 
+                            ≪ 
+                            N 
+                         , we find  
+                            
+                               
+                                  α 
+                               
+                               
+                                  r 
+                               
+                            
+                            ≈ 
+                            C 
+                            / 
+                            
+                               
+                                  N 
+                               
+                               
+                                  2 
+                               
+                            
+                          whereas  
+                            
+                               
+                                  α 
+                               
+                               
+                                  d 
+                               
+                            
+                            ≈ 
+                            
+                               ( 
+                               ln 
+                               N 
+                               ) 
+                            
+                            / 
+                            N 
+                         . In the more realistic situation in which the context size grows linearly with the lexicon size, i.e.,  
+                            C 
+                            = 
+                            γ 
+                            N 
+                          with  
+                            γ 
+                            ∈ 
+                            
+                               [ 
+                               0 
+                               , 
+                               1 
+                               ] 
+                            
+                         , for large  
+                            N 
+                          we find  
+                            
+                               
+                                  α 
+                               
+                               
+                                  r 
+                               
+                            
+                            ≈ 
+                            
+                               ( 
+                               1 
+                               − 
+                               γ 
+                               ) 
+                            
+                            / 
+                            N 
+                          and  
+                            
+                               
+                                  α 
+                               
+                               
+                                  d 
+                               
+                            
+                            ≈ 
+                            − 
+                            
+                               ( 
+                               ln 
+                               γ 
+                               ) 
+                            
+                            / 
+                            N 
+                         . Hence for small  
+                            C 
+                          or  
+                            γ 
+                            ≈ 
+                            0 
+                         , the deterministic sampling of words results in much faster learning than the random sampling. For large  
+                            C 
+                          or  
+                            γ 
+                            ≈ 
+                            1 
+                         , however, the two sampling schemes produce equivalent results.
+
+The simplicity of the minimal associative learning algorithm analyzed in the previous section is deceiving. In fact, the algorithm contains two assumptions that make it extremely powerful. The first assumption is unlimited memory, since the algorithm stores the confidence values from the very first to the last learning episode, regardless of the number of learning episodes. The second is perfect discriminability, since it always identifies the largest confidence regardless of the closeness to, say, the second-largest one.
+
+The scheme we use to relax the perfect discriminability assumption is inspired by Weber’s law, which asserts that the discriminability of two perceived magnitudes is determined by the ratio of the objective magnitudes. Accordingly, we assume that the probability that the algorithm selects object  
+                         i 
+                       as the referent of any given word  
+                         h 
+                       is simply  
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               i 
+                            
+                         
+                         / 
+                         
+                            
+                               ∑ 
+                            
+                            
+                               j 
+                            
+                         
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               j 
+                            
+                         
+                      , so that referents with similar confidence values have similar probabilities of being selected. This differs from the original minimal algorithm for which the referent selection probability is either one or zero, except in the case of ties when the probability is divided equally among the referents with identical confidence values.
+
+Forgetting or decaying of the confidence values is implemented by subtracting a fixed factor  
+                         β 
+                         ∈ 
+                         
+                            [ 
+                            0 
+                            , 
+                            1 
+                            ] 
+                         
+                       from the confidences  
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               i 
+                            
+                         
+                         , 
+                         i 
+                         = 
+                         1 
+                         , 
+                         … 
+                         , 
+                         N 
+                       whenever word  
+                         h 
+                       is absent from a learning episode. The problem with this procedure is that the confidence values may become negative and when this happens we reset them to zero. Another difficulty that may rise is when  
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               i 
+                            
+                         
+                         = 
+                         0 
+                       for all  
+                         i 
+                         = 
+                         1 
+                         , 
+                         … 
+                         , 
+                         N 
+                       and in this case we reset  
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               i 
+                            
+                         
+                         = 
+                         1 
+                         / 
+                         N 
+                       for all  
+                         i 
+                         = 
+                         1 
+                         , 
+                         … 
+                         , 
+                         N 
+                      . These resetting procedures are responsible for the discontinuities observed in the performance of the algorithm as we will see next. As in the minimal algorithm, we add 1 to the confidences associated to the target word and the objects exhibited in the context.
+
+Relaxation of the perfect memory assumption makes the forgetting parameter  
+                         β 
+                       dependent on the sampling scheme of words, which precludes an analytical approach to this problem. As we have to resort to simulations to study the performance of the modified algorithm anyway, in this section we consider a very specific sampling scheme used in experiments with adult subjects to test the effect of varying the frequency of presentation of the target words on their learning performances ( Kachergis et al., 2009 ). More importantly, use of this sampling scheme allows us to compare quantitatively the performance of the minimal as well as of the modified associative learning algorithms with the performances of the adult subjects.
+
+The experiment we consider here aims at evaluating the performance of the associative algorithms in learning a mapping between  
+                         N 
+                         = 
+                         18 
+                       words and  
+                         N 
+                         = 
+                         18 
+                       objects after 27 training episodes ( Kachergis et al., 2009 ). Each episode comprises the presentation of 4 objects together with their corresponding words. Following  Kachergis et al. (2009) , we investigate two conditions. In the two frequency condition, the 18 words are divided into two subsets of 9 words each. In the first subset the 9 words appear 9 times and in the second only 3 times (see  Fig. 4 
+                      ). In the three frequency condition, the 18 words are divided into three subsets of 6 words each. In the first subset, the 6 words appear 3 times, in the second, 6 times and in the third, 9 times (see  Fig. 5 
+                      ). In these two conditions, the same word was not allowed to appear in two consecutive learning episodes.
+
+Once the cross-situational learning scenario is defined, we carry out 10 4  runs of the modified associative learning algorithm for a fixed value of the forgetting parameter. The results are shown in terms of the average accuracy  
+                         1 
+                         − 
+                         
+                            〈 
+                            ϵ 
+                            〉 
+                         
+                       as a function of  
+                         β 
+                       in  Figs. 4 and 5 . The horizontal straight lines and the shaded zones around them represent the means and standard deviations of the results of experiments carried out with 33 adult subjects ( Kachergis et al., 2009 ).
+
+Before discussing the interesting dependence of the accuracy on the forgetting parameter exhibited in  Figs. 4 and 5 , a word is in order about the performance of the original minimal algorithm that is not shown in those figures. In the two frequency condition, the mean accuracy is 0.99 for words in the 9-repetition subset and 0.90 for those in the 3-repetition subset. In the three frequency condition, the mean accuracy is 0.99 for words in the 9- and 6-repetition subsets, and 0.91 for those in the 3-repetition subset. These accuracy values are well above those exhibited in  Figs. 4 and 5 .Moreover, adding the forgetting factor to the minimal associative algorithm does not affect its performance, since subtracting the same quantity from all confidence values  
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               i 
+                            
+                         
+                       for a fixed word  
+                         h 
+                       does not alter the rank order of these confidences.
+
+Although we intuitively expect that words that appear more frequently would be learned better, this outcome actually depends on the value of the forgetting parameter as shown in  Figs. 4 and 5 . This counterintuitive finding was first observed in the three frequency condition experiment on adult subjects ( Kachergis et al., 2009 ). In fact, the results of those experiments (i.e., the expected accuracies) can be described very well by choosing  
+                         β 
+                         = 
+                         0.16 
+                       in the two frequency condition and  
+                         β 
+                         = 
+                         0.08 
+                       in the three frequency condition.
+
+It is interesting that the choice of a moderate value for the forgetting parameter  
+                         β 
+                       may result in a considerable improvement of the performance of the algorithm. This is a direct consequence of Weber’s law prescription for the discrimination of the confidence values and so there is a synergy between discrimination and memory in our algorithm. To see this we note that at a given learning trial the ratio between the probabilities of selecting referent  
+                         i 
+                         = 
+                         1 
+                       and referent  
+                         i 
+                         = 
+                         2 
+                       for a word  
+                         h 
+                       is  
+                         r 
+                         = 
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               1 
+                            
+                         
+                         / 
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               2 
+                            
+                         
+                      . If word  
+                         h 
+                       does not appear in the next trial then this ratio becomes  
+                         
+                            (18) 
+                            
+                               
+                                  
+                                     r 
+                                  
+                                  
+                                     ′ 
+                                  
+                               
+                               = 
+                               
+                                  
+                                     
+                                        
+                                           p 
+                                        
+                                        
+                                           h 
+                                           1 
+                                        
+                                     
+                                     − 
+                                     β 
+                                  
+                                  
+                                     
+                                        
+                                           p 
+                                        
+                                        
+                                           h 
+                                           2 
+                                        
+                                     
+                                     − 
+                                     β 
+                                  
+                               
+                               ≈ 
+                               r 
+                               
+                                  [ 
+                                  1 
+                                  + 
+                                  
+                                     
+                                        β 
+                                     
+                                     
+                                        
+                                           
+                                              p 
+                                           
+                                           
+                                              h 
+                                              1 
+                                           
+                                        
+                                        
+                                           
+                                              p 
+                                           
+                                           
+                                              h 
+                                              2 
+                                           
+                                        
+                                     
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           p 
+                                        
+                                        
+                                           h 
+                                           1 
+                                        
+                                     
+                                     − 
+                                     
+                                        
+                                           p 
+                                        
+                                        
+                                           h 
+                                           2 
+                                        
+                                     
+                                     ) 
+                                  
+                                  ] 
+                               
+                            
+                         
+                       so that  
+                         
+                            
+                               r 
+                            
+                            
+                               ′ 
+                            
+                         
+                         > 
+                         r 
+                       if  
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               1 
+                            
+                         
+                         > 
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               2 
+                            
+                         
+                      , thus implying that the forgetting parameter helps the discrimination of the largest confidence. Of course, too large values of  
+                         β 
+                       deteriorate the performance of the algorithm as shown in the figures. We note that the dents and jumps in the learning curves are not statistical fluctuations but consequences of the discontinuities introduced by the ad hoc regularization procedures discussed before.
+
+The above analysis, summarized in part by  Figs. 4 and 5 , evinces the better performance of the associative algorithm with perfect storage and discrimination capabilities when compared with humans’ performance for a finite number of learning trials ( 
+                         t 
+                         = 
+                         27 
+                      , in the case). In addition, it shows that introduction of imprecision in the discrimination of confidence values following Weber’s law prescription together with forgetting brings that performance down to the human level.
+
+For the sake of completeness, it would be interesting to compare the performance of the minimal associative algorithm with humans’ performance in the limit of very long learning times, which was in fact the main focus of Section  3 . As there are no such experiments–we guess it would be nearly impossible to keep the subjects’ attention focused on such boring tasks for too long–next we compare the performance of the minimal algorithm with the performance of a rather sophisticated learning algorithm which, among other things, models the attention of the learners to regular and novel words ( Kachergis et al., 2012 ). The algorithm is described briefly as follows. At any given trial, the confidence values  
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               i 
+                            
+                         
+                       are adjusted according to the update rule  
+                         
+                            (19) 
+                            
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     h 
+                                     i 
+                                  
+                                  
+                                     ′ 
+                                  
+                               
+                               = 
+                               
+                                  
+                                     β 
+                                  
+                                  
+                                     ˆ 
+                                  
+                               
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     h 
+                                     i 
+                                  
+                               
+                               + 
+                               χ 
+                               
+                                  
+                                     
+                                        
+                                           p 
+                                        
+                                        
+                                           h 
+                                           i 
+                                        
+                                     
+                                     exp 
+                                     
+                                        [ 
+                                        λ 
+                                        
+                                           ( 
+                                           
+                                              
+                                                 H 
+                                              
+                                              
+                                                 h 
+                                              
+                                           
+                                           + 
+                                           
+                                              
+                                                 H 
+                                              
+                                              
+                                                 i 
+                                              
+                                           
+                                           ) 
+                                        
+                                        ] 
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           ∑ 
+                                        
+                                        
+                                           h 
+                                           i 
+                                        
+                                     
+                                     
+                                        
+                                           p 
+                                        
+                                        
+                                           h 
+                                           i 
+                                        
+                                     
+                                     exp 
+                                     
+                                        [ 
+                                        λ 
+                                        
+                                           ( 
+                                           
+                                              
+                                                 H 
+                                              
+                                              
+                                                 h 
+                                              
+                                           
+                                           + 
+                                           
+                                              
+                                                 H 
+                                              
+                                              
+                                                 i 
+                                              
+                                           
+                                           ) 
+                                        
+                                        ] 
+                                     
+                                  
+                               
+                            
+                         
+                       where  
+                         
+                            (20) 
+                            
+                               
+                                  
+                                     H 
+                                  
+                                  
+                                     h 
+                                  
+                               
+                               = 
+                               − 
+                               
+                                  
+                                     ∑ 
+                                  
+                                  
+                                     i 
+                                  
+                               
+                               
+                                  
+                                     Λ 
+                                  
+                                  
+                                     h 
+                                     i 
+                                  
+                               
+                               ln 
+                               
+                                  
+                                     Λ 
+                                  
+                                  
+                                     h 
+                                     i 
+                                  
+                               
+                            
+                         
+                       with  
+                         
+                            
+                               Λ 
+                            
+                            
+                               h 
+                               i 
+                            
+                         
+                         = 
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               i 
+                            
+                         
+                         / 
+                         
+                            
+                               ∑ 
+                            
+                            
+                               i 
+                            
+                         
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               i 
+                            
+                         
+                      , and similarly for  
+                         
+                            
+                               H 
+                            
+                            
+                               i 
+                            
+                         
+                       with the indexes of the sums running over the set of words ( Kachergis et al., 2012 ). In this equation the entropies  
+                         
+                            
+                               H 
+                            
+                            
+                               h 
+                            
+                         
+                       and  
+                         
+                            
+                               H 
+                            
+                            
+                               i 
+                            
+                         
+                       are used as measures of the novelty of word  
+                         h 
+                       and object  
+                         i 
+                       at the current learning episode. The parameter  
+                         
+                            
+                               β 
+                            
+                            
+                               ˆ 
+                            
+                         
+                       governs forgetting,  
+                         χ 
+                       is the weight distributed among the potential associations in the trial, and  
+                         λ 
+                       weights the uncertainty (entropies) and prior knowledge ( 
+                         
+                            
+                               p 
+                            
+                            
+                               h 
+                               i 
+                            
+                         
+                      ). We refer the reader to  Kachergis et al. (2012)  for a detailed explanation of the algorithm as well as for a comparison with experimental results for short learning times. Here we present its performance in acquiring the word–object mapping in the simplified scenario of Section  3  (i.e., one target word and  
+                         C 
+                         + 
+                         1 
+                       objects in the context) for randomly sampled words.
+
+Fig. 6 
+                       summarizes our findings for  
+                         N 
+                         = 
+                         10 
+                      ,  
+                         C 
+                         = 
+                         2 
+                       and three selections of the parameter set ( 
+                         χ 
+                         , 
+                         λ 
+                         , 
+                         
+                            
+                               β 
+                            
+                            
+                               ˆ 
+                            
+                         
+                      ) used by Karchergis et al. to reproduce the experimental results ( Kachergis et al., 2012 ). The symbols in this figure represent an average over 10 4  independent samples. The expected learning error decreases exponentially with increasing  
+                         t 
+                       and the rate of learning (the slope of the learning curves for large  
+                         t 
+                       in the semi-log scale) is roughly insensitive to the choice of the parameters of the algorithm. As expected from our previous analysis of short learning times, the minimal associative learning algorithm performs much better than the more realistic algorithm. These conclusions hold true for a vast variety of different selections of  
+                         N 
+                       and  
+                         C 
+                      , as well as for the deterministic word sampling scheme.
+
+As the problem of learning a lexicon within a cross-situational scenario was studied rather extensively by  Smith et al. (2006) , it is appropriate that we highlight our original contributions to the subject in this concluding section. Although we have borrowed from that work a key result for the problem of learning a single word, namely, Eq.  (6) , even in this case the focal points of our studies deviate substantially. In fact, throughout the paper our main goal was the determination of the learning rates in several learning scenarios, whereas the main interest of Smith et al. was in quantifying the number of learning trials required to learn a word with a fixed given probability ( Smith et al., 2006 ). In addition, those authors addressed the problem of the random sampling of words using various approximations, leading to inexact results from where the learning rate  
+                         
+                            
+                               α 
+                            
+                            
+                               r 
+                            
+                         
+                      , see Eq.  (14) , cannot be recovered. As a result, the interesting non-monotonic dependence of  
+                         
+                            
+                               α 
+                            
+                            
+                               r 
+                            
+                         
+                       (and  
+                         
+                            
+                               α 
+                            
+                            
+                               d 
+                            
+                         
+                      , as well) on the size  
+                         N 
+                       of the lexicon passed unnoticed. The study of the deterministic sampling of words and the introduction and analysis of the effects of limited storage and discrimination capabilities on the original minimal associative algorithm are original contributions of our paper.
+
+We note that in the cross-situational scenarios studied previously ( Blythe et al., 2010; Smith et al., 2006 ) the set of objects that can be associated to a given word is word-dependent, rather than constant as considered here. In other words, if the target word is  
+                         h 
+                       then the elements of the context in a learning episode are drawn from a fixed subset of  
+                         
+                            
+                               N 
+                            
+                            
+                               h 
+                            
+                         
+                         ≤ 
+                         N 
+                       objects. These subsets can freely overlap with each other. Here we have assumed  
+                         
+                            
+                               N 
+                            
+                            
+                               h 
+                            
+                         
+                         = 
+                         N 
+                       for  
+                         h 
+                         = 
+                         1 
+                         , 
+                         … 
+                         , 
+                         N 
+                      . Of course, this generalization does not affect the analysis of the single-word learning, except that  
+                         
+                            
+                               ϵ 
+                            
+                            
+                               s 
+                               w 
+                            
+                         
+                       becomes word-dependent since the parameter  
+                         N 
+                       is replaced by  
+                         
+                            
+                               N 
+                            
+                            
+                               h 
+                            
+                         
+                       [see Eq.  (8) ] and similarly for the learning rate  
+                         
+                            
+                               α 
+                            
+                            
+                               s 
+                               w 
+                            
+                         
+                       [see Eq.  (9) ]. More importantly, since words are learned independently by the minimal associative algorithm, the single-word learning errors contribute additively to the total lexicon learning error regardless of the sampling procedure [see Eqs.  (11) and (16) ]. Hence the asymptotic behavior of the total error is determined by the word that takes the longest to be acquired, i.e., the word with the lowest learning rate or equivalently with the smallest subset cardinality  
+                         
+                            
+                               N 
+                            
+                            
+                               h 
+                            
+                         
+                      . With this in mind we can easily obtain the learning rates for this more general situation, namely,  
+                         
+                            
+                               α 
+                            
+                            
+                               r 
+                            
+                         
+                         = 
+                         ln 
+                         
+                            { 
+                            N 
+                            
+                               ( 
+                               
+                                  
+                                     N 
+                                  
+                                  
+                                     m 
+                                  
+                               
+                               − 
+                               1 
+                               ) 
+                            
+                            / 
+                            
+                               [ 
+                               C 
+                               + 
+                               
+                                  ( 
+                                  
+                                     
+                                        N 
+                                     
+                                     
+                                        m 
+                                     
+                                  
+                                  − 
+                                  1 
+                                  ) 
+                               
+                               
+                                  ( 
+                                  N 
+                                  − 
+                                  1 
+                                  ) 
+                               
+                               ] 
+                            
+                            } 
+                         
+                       and  
+                         
+                            
+                               α 
+                            
+                            
+                               d 
+                            
+                         
+                         = 
+                         ln 
+                         
+                            [ 
+                            
+                               ( 
+                               
+                                  
+                                     N 
+                                  
+                                  
+                                     m 
+                                  
+                               
+                               − 
+                               1 
+                               ) 
+                            
+                            / 
+                            C 
+                            ] 
+                         
+                         / 
+                         N 
+                       where  
+                         
+                            
+                               N 
+                            
+                            
+                               m 
+                            
+                         
+                         = 
+                         
+                            
+                               min 
+                            
+                            
+                               h 
+                            
+                         
+                         
+                            { 
+                            
+                               
+                                  N 
+                               
+                               
+                                  h 
+                               
+                            
+                            , 
+                            h 
+                            = 
+                            1 
+                            , 
+                            … 
+                            , 
+                            N 
+                            } 
+                         
+                      . As expected, in the case  
+                         
+                            
+                               N 
+                            
+                            
+                               m 
+                            
+                         
+                         = 
+                         N 
+                       these expressions reduce to Eqs.  (14) and (17) .
+
+The cross-situational learning scenario considered here, as well as those used in experimental studies, does not account for the presence of external noise, such as the effect of out-of-context target words. This situation can be modeled by introducing a probability  
+                         γ 
+                         ∈ 
+                         
+                            [ 
+                            0 
+                            , 
+                            1 
+                            ] 
+                         
+                       that the correct object is not part of the context so the target word can be said to be out of context. Since we have assumed that learning is based on the perception of differences in the co-occurrence of objects and target words, in the case all  
+                         N 
+                       objects have the same probability of being selected to form the contexts regardless of the target word, such a purely observational learning is clearly unattainable. To determine the critical value of the noise parameter  
+                         
+                            
+                               γ 
+                            
+                            
+                               c 
+                            
+                         
+                       at which this situation occurs we simply equate the probability of selecting the correct object with the probability of selecting any given confounding object to compose the context in a learning episode,  
+                         
+                            (21) 
+                            
+                               1 
+                               − 
+                               
+                                  
+                                     γ 
+                                  
+                                  
+                                     c 
+                                  
+                               
+                               = 
+                               
+                                  
+                                     
+                                        ( 
+                                        1 
+                                        − 
+                                        
+                                           
+                                              γ 
+                                           
+                                           
+                                              c 
+                                           
+                                        
+                                        ) 
+                                     
+                                     C 
+                                  
+                                  
+                                     N 
+                                     − 
+                                     1 
+                                  
+                               
+                               + 
+                               
+                                  
+                                     
+                                        
+                                           γ 
+                                        
+                                        
+                                           c 
+                                        
+                                     
+                                     
+                                        ( 
+                                        C 
+                                        + 
+                                        1 
+                                        ) 
+                                     
+                                  
+                                  
+                                     N 
+                                     − 
+                                     1 
+                                  
+                               
+                               , 
+                            
+                         
+                       from where we get  
+                         
+                            (22) 
+                            
+                               
+                                  
+                                     γ 
+                                  
+                                  
+                                     c 
+                                  
+                               
+                               = 
+                               1 
+                               − 
+                               
+                                  
+                                     C 
+                                     + 
+                                     1 
+                                  
+                                  
+                                     N 
+                                  
+                               
+                               . 
+                            
+                         
+                       Since in this case all objects and all words are equivalent, in the sense they have the same probability of co-occurrence, the average single-word learning error, as well as the total error regardless of the sampling scheme, is simply  
+                         
+                            
+                               ϵ 
+                            
+                            
+                               s 
+                               w 
+                            
+                         
+                         = 
+                         1 
+                         − 
+                         1 
+                         / 
+                         N 
+                      . We refer the reader to  Tilles and Fontanari (2012)  for a detailed study of the behavior of the minimal associative learning algorithm near the critical noise parameter using statistical mechanics techniques. Here we emphasize that the existence of  
+                         
+                            
+                               γ 
+                            
+                            
+                               c 
+                            
+                         
+                       is not dependent on the algorithm used to learn the word–object mapping. Rather, it is a limitation of cross-situational learning in general.
+
+The simplifying feature of our model that allowed an analytical approach, as well as extremely efficient Monte Carlo simulations (in all graphs the error bars were smaller than the symbol sizes), is the fact that words are learned independently from each other. In this context, the minimal associative algorithm considered here corresponds to the optimal learning strategy. Moreover, the fact that the minimal associative algorithm exhibits effectively unlimited storage and discrimination capabilities makes its learning performance much superior to that of adult subjects in controlled experiments ( Kachergis et al., 2009 ) and to that of sophisticated algorithms designed to capture the strategies used by humans in the observational learning task ( Kachergis et al., 2012 ). Interestingly, introduction of errors in the discrimination of the confidence values using Weber’s law reduced the performance of the minimal algorithm to the level reported in the experiments. Perhaps, sophisticated learning strategies such as the mutual exclusivity constraint ( Markman, 1990 ), which directs children to map novel words to unnamed referents, have evolved to compensate the limitations imposed by Weber’s law to evaluate the frequency of co-occurrence of words and referents.
+
+This research was supported by  The Southern Office of Aerospace Research and Development (SOARD) , Grant No.  FA9550-10-1-0006 , and  Conselho Nacional de Desenvolvimento Científico e Tecnológico (CNPq) . PFCT was supported by  Fundação de Amparo à Pesquisa do Estado de São Paulo (FAPESP) .

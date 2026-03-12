@@ -1,0 +1,3312 @@
+10.1016/j.jmp.2008.02.004
+People use lexicographic rules when they value some things so highly that they are not willing to make tradeoffs. For example, one might believe that no cost is too high to save the life of a sick child, or that nothing can ever justify human cloning. Such protected values appertain to deontological ethics — the rightness or wrongness of actions, rather than their consequences (see  Baron and Spranca (1997) ,  Fiske and Tetlock (1997)  and  Tetlock, Kristel, Elson, Green, and Lerner (2000) ).
+
+In some situations, people may not explicitly set out to avoid tradeoffs, yet their choices suggest the use of a lexicographic rule. Research suggests that we cope with emotion-laden choices by avoiding tradeoffs among attributes ( Drolet & Luce, 2004 ). We also simplify complex choices, or too many choices, by using lexicographic rules.  Perry (1991)  examines the selection of cases by the justices of the US Supreme Court and reports that these strongly suggest the use of a lexicographic rule. Most of us have so many choices when buying a product — say a car or a cell phone — that we simplify the decision by lexicographically screening the alternatives. Related evidence is provided by  Kohli and Jedidi (2007)  and  Yee, Dahan, Hauser, and Orlin (2007) , who report that a substantial fraction of their subjects used lexicographic rules to evaluate personal computers and smart phones, respectively.
+
+People can use lexicographic rules even when tradeoffs are not difficult to make. Experiments by  Tversky, Sattah, and Slovic (1988)  suggest that people use lexicographic rules although their alternatives are described using only two attributes.  Slovic (1975)  reports that people use lexicographic rules to break ties among equally-valued alternatives, much like the rules we use to break ties in sporting events — tie-breakers in tennis, extra innings in baseball, overtime in football and soccer. Other research concerning the use of lexicographic rules in decision making is described by  Buchanan (1994) ,  Colman and Stirk (1999) ,  Ford, Schmitt, Schechtman, Hults, and Doherty (1989) ,  Gonzalez-Vallejo, Bonazzi, and Shapiro (1996) ,  Jensen (1990) , and  Westenberg and Koele (1994) . Finally, recent research suggests that people use lexicographic rules not only for evaluating alternatives but also for forming perceptions; for details, see  Broder (2000) ,  Gigerenzer, Hoffrage, and Kleinbölting (1991)  and  Martignon and Hoffrage (1999, 2002) .
+
+Collectively, these various lines of research suggest the significance of lexicographic rules and indicate that models for their representation and inference can be useful in the study of decision making. Regarding representation, it is well known that no utility function can represent lexicographic preferences over two or more real-valued attributes. This result is known at least since it was brought to notice by  Debreu (1954) . However, it is possible to obtain a representation using a two-function order homomorphism; i.e., a pair of real-valued functions  
+                         u 
+                       and  
+                         v 
+                       satisfying  
+                         u 
+                         
+                            ( 
+                            x 
+                            ) 
+                         
+                         > 
+                         v 
+                         
+                            ( 
+                            y 
+                            ) 
+                         
+                       if and only if  
+                         x 
+                       is preferred to  
+                         y 
+                       ( Bridges, 1983; Chateauneuf, 1987; Fishburn, 1974 ).  Wakker (1988)  obtains the necessary and sufficient conditions for the existence of an order homomorphism from a given binary relation to the lexicographic order on  
+                         R 
+                         × 
+                         
+                            { 
+                            0 
+                            , 
+                            1 
+                            } 
+                         
+                      .  Knoblauch (2000)  describes preference representation via order homomorphisms to the lexicographic order on Euclidean  
+                         n 
+                      -space.
+
+Lexicographic preference relations over discrete attributes can be represented using directed graphs. The vertices of the graph represent attribute levels, and the directed edges represent the preference ordering of the levels across attributes. This representation is a special case of CP-Nets, which also allow for the conditioning of preferences, for example on the levels of other attributes; see, e.g.,  Boutilier, Brafman, Domshlak, Hoos, and Poole (2004a,b) . Standard lexicographic models do not consider such preference dependence; but they can be represented by linear models in which the parameter values are suitably constrained. A linear model is thus general enough to represent lexicographic preferences, but its parameter values no longer have the usual metric properties.  Kohli and Jedidi (2007)  obtain the necessary and sufficient conditions under which a linear utility function over discrete attributes represents lexicographic preferences.  Kohli (1999)  shows that a number system in which the radix changes from one digit to another is sufficient for representing lexicographic rules.  Martignon and Hoffrage (1999, 2002)  describe a related representation of lexicographic structures over binary cues. Both  Kohli and Jedidi (2007)  and  Yee et al. (2007)  describe algorithms for inferring lexicographic rules over discrete attributes using ordinal data.
+
+Objective and contribution.  The purpose of this paper is to describe a method for inferring lexicographic rules for each of a number of unobserved groups of subjects using data from choice experiments. The main difficulty in using such data is that the number of observations is typically insufficient for estimating individual- level preference functions. The extent of the difficulty increases for problems in which the alternatives are described using a large numbers of attributes and attribute levels. Pooling data across subjects allows inference of choice rules, and the simultaneous clustering restricts the pooling to subjects with similar choice rules. We assume that the sample is drawn from a population in which individuals are partitioned into subgroups, that all members of a subgroup have the same lexicographic preference structure, and that the subgroups have different preference structures. The observed preferences of individuals in a subgroup may differ from the underlying lexicographic preference structure of the subgroup due to an unanalyzed random process.
+
+We use a non-parametric approach to rule inference, maximizing a goodness-of-fit that is equivalent to Kendall’s tau measure of association between input and predicted preferences. The associated inference problem is NP- Hard ( Schmitt & Martignon, 1999 ). Polynomial-time algorithms are thus unlikely to be found for solving the problem. We use a greedy heuristic to identify both clusters and the associated lexicographic rules. The algorithm extends the method proposed by  Kohli and Jedidi (2007)  to allow the inference of latent clusters, and allows the use of choice instead of preference data for the inference of lexicographic rules. These inferred rules reflect a combination of individual uncertainty, response error and within-cluster heterogeneity.
+
+Organization.  Section  2  summarizes the key aspects of lexicographic representations over discrete attributes. Section  3  describes the proposed procedure for inferring latent clusters and lexicographic rules from choice data. Section  4  gives an illustration of the proposed method using data from an experiment concerning the choices of television sets. We compare the predictive performance of the cluster-level lexicographic model with that of a finite-mixture multinomial-logit model.
+
+Let  
+                         m 
+                       denote the number of attributes. We assign the integers  
+                         k 
+                         = 
+                         1 
+                         , 
+                         2 
+                         , 
+                         3 
+                         , 
+                         … 
+                         , 
+                         m 
+                      , in  decreasing order  of importance to the attributes. We arrange the  
+                         
+                            
+                               n 
+                            
+                            
+                               k 
+                            
+                         
+                       levels of attribute  
+                         k 
+                       in  increasing  preference order, and assign to them an increasing sequence of non-negative, real numbers,  
+                         
+                            
+                               x 
+                            
+                            
+                               k 
+                            
+                         
+                      . We represent a multi- attribute alternative by a vector  
+                         
+                            x 
+                         
+                         ≡ 
+                         
+                            ( 
+                            
+                               
+                                  x 
+                               
+                               
+                                  1 
+                               
+                            
+                            , 
+                            … 
+                            , 
+                            
+                               
+                                  x 
+                               
+                               
+                                  m 
+                               
+                            
+                            ) 
+                         
+                      . We say that  
+                         
+                            x 
+                         
+                       is lexicographically preferred to  
+                         
+                            y 
+                         
+                       if there is some  
+                         k 
+                         , 
+                         
+                         1 
+                         ≤ 
+                         k 
+                         ≤ 
+                         m 
+                      , such that  
+                         
+                            
+                               x 
+                            
+                            
+                               k 
+                            
+                         
+                         > 
+                         
+                            
+                               y 
+                            
+                            
+                               k 
+                            
+                         
+                      , and  
+                         
+                            
+                               x 
+                            
+                            
+                               ℓ 
+                            
+                         
+                         = 
+                         
+                            
+                               y 
+                            
+                            
+                               ℓ 
+                            
+                         
+                       for all  
+                         1 
+                         ≤ 
+                         ℓ 
+                         ≤ 
+                         k 
+                         − 
+                         1 
+                      .
+
+Let  
+                         
+                            
+                               X 
+                            
+                            
+                               k 
+                            
+                         
+                         = 
+                         
+                            { 
+                            
+                               
+                                  x 
+                               
+                               
+                                  k 
+                               
+                            
+                            } 
+                         
+                       denote the set of values associated with the levels of attribute  
+                         k 
+                      . Let  
+                         Δ 
+                         
+                            
+                               x 
+                            
+                            
+                               k 
+                            
+                         
+                       be the smallest positive difference between any pair of values  
+                         
+                            
+                               x 
+                            
+                            
+                               k 
+                            
+                         
+                         ∈ 
+                         
+                            
+                               X 
+                            
+                            
+                               k 
+                            
+                         
+                      . For example, if attribute  
+                         k 
+                       has  
+                         
+                            
+                               n 
+                            
+                            
+                               k 
+                            
+                         
+                         = 
+                         3 
+                       levels, and if we assign the values  
+                         
+                            
+                               x 
+                            
+                            
+                               k 
+                            
+                         
+                         = 
+                         0 
+                         , 
+                         0.5 
+                         , 
+                         0.6 
+                      , to the successively-preferred levels of attribute  
+                         k 
+                      , then  
+                         Δ 
+                         
+                            
+                               x 
+                            
+                            
+                               k 
+                            
+                         
+                         = 
+                         min 
+                         
+                            { 
+                            0.5 
+                            − 
+                            0 
+                            , 
+                            0.6 
+                            − 
+                            0 
+                            , 
+                            0.6 
+                            − 
+                            0.5 
+                            } 
+                         
+                         = 
+                         0.1 
+                      . Consider the linear utility function  
+                         
+                            (1) 
+                            
+                               u 
+                               
+                                  ( 
+                                  
+                                     x 
+                                  
+                                  ) 
+                               
+                               = 
+                               
+                                  
+                                     ∑ 
+                                  
+                                  
+                                     k 
+                                     = 
+                                     1 
+                                  
+                                  
+                                     m 
+                                  
+                               
+                               
+                                  
+                                     β 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                               
+                                  
+                                     x 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                               , 
+                            
+                         
+                       where  
+                         
+                            
+                               x 
+                            
+                            
+                               k 
+                            
+                         
+                       is the  
+                         k 
+                      th-most important attribute. Then  (1)  represents lexicographic preferences if, and only if, 
+                         1 
+                      
+                      
+                         1 
+                         We omit the proof, which is straightforward. 
+                      
+                      
+                         
+                            (2) 
+                            
+                               
+                                  
+                                     β 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                               Δ 
+                               
+                                  
+                                     x 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                               > 
+                               
+                                  
+                                     ∑ 
+                                  
+                                  
+                                     ℓ 
+                                     = 
+                                     k 
+                                     + 
+                                     1 
+                                  
+                                  
+                                     m 
+                                  
+                               
+                               
+                                  
+                                     β 
+                                  
+                                  
+                                     ℓ 
+                                  
+                               
+                               
+                                  ( 
+                                  max 
+                                  
+                                     { 
+                                     
+                                        
+                                           x 
+                                        
+                                        
+                                           ℓ 
+                                        
+                                     
+                                     } 
+                                  
+                                  − 
+                                  min 
+                                  
+                                     { 
+                                     
+                                        
+                                           x 
+                                        
+                                        
+                                           ℓ 
+                                        
+                                     
+                                     } 
+                                  
+                                  ) 
+                               
+                               , 
+                               
+                               for all  
+                               1 
+                               ≤ 
+                               k 
+                               ≤ 
+                               m 
+                               − 
+                               1 
+                               . 
+                            
+                         
+                       We can write the condition in  (2)  as  
+                         
+                            (3) 
+                            
+                               
+                                  
+                                     β 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                               > 
+                               
+                                  
+                                     ∑ 
+                                  
+                                  
+                                     ℓ 
+                                     = 
+                                     k 
+                                     + 
+                                     1 
+                                  
+                                  
+                                     m 
+                                  
+                               
+                               
+                                  
+                                     max 
+                                     
+                                        { 
+                                        
+                                           
+                                              x 
+                                           
+                                           
+                                              ℓ 
+                                           
+                                        
+                                        } 
+                                     
+                                     − 
+                                     min 
+                                     
+                                        { 
+                                        
+                                           
+                                              x 
+                                           
+                                           
+                                              ℓ 
+                                           
+                                        
+                                        } 
+                                     
+                                  
+                                  
+                                     Δ 
+                                     
+                                        
+                                           x 
+                                        
+                                        
+                                           k 
+                                        
+                                     
+                                  
+                               
+                               
+                                  
+                                     β 
+                                  
+                                  
+                                     ℓ 
+                                  
+                               
+                               , 
+                               
+                               for all  
+                               1 
+                               ≤ 
+                               k 
+                               ≤ 
+                               m 
+                               − 
+                               1 
+                               . 
+                            
+                         
+                       Eq.  (3)  gives the invariance conditions for a lexicographic preference representation using a linear model  (1) . That is, it specifies the set of transformations for the parameter values that leave the rank order of the  
+                         u 
+                         
+                            ( 
+                            
+                               x 
+                            
+                            ) 
+                         
+                       values unchanged.
+
+Consider the integer sequence  
+                         
+                            
+                               x 
+                            
+                            
+                               k 
+                            
+                         
+                         = 
+                         0 
+                         , 
+                         … 
+                         , 
+                         
+                            
+                               n 
+                            
+                            
+                               k 
+                            
+                         
+                         − 
+                         1 
+                      , a larger value of  
+                         
+                            
+                               x 
+                            
+                            
+                               k 
+                            
+                         
+                       being associated with a preferred level of attribute  
+                         k 
+                      . Then  
+                         min 
+                         
+                            { 
+                            
+                               
+                                  x 
+                               
+                               
+                                  k 
+                               
+                            
+                            } 
+                         
+                         = 
+                         0 
+                         , 
+                         max 
+                         
+                            { 
+                            
+                               
+                                  x 
+                               
+                               
+                                  k 
+                               
+                            
+                            } 
+                         
+                         = 
+                         
+                            
+                               n 
+                            
+                            
+                               k 
+                            
+                         
+                         − 
+                         1 
+                      ,  
+                         Δ 
+                         
+                            
+                               x 
+                            
+                            
+                               k 
+                            
+                         
+                         = 
+                         1 
+                      , and  (2)  becomes  
+                         
+                            (4) 
+                            
+                               
+                                  
+                                     β 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                               > 
+                               
+                                  
+                                     ∑ 
+                                  
+                                  
+                                     ℓ 
+                                     = 
+                                     k 
+                                     + 
+                                     1 
+                                  
+                                  
+                                     m 
+                                  
+                               
+                               
+                                  
+                                     β 
+                                  
+                                  
+                                     ℓ 
+                                  
+                               
+                               
+                                  ( 
+                                  
+                                     
+                                        n 
+                                     
+                                     
+                                        ℓ 
+                                     
+                                  
+                                  − 
+                                  1 
+                                  ) 
+                               
+                               , 
+                               
+                               for all  
+                               1 
+                               ≤ 
+                               k 
+                               ≤ 
+                               m 
+                               − 
+                               1 
+                               . 
+                            
+                         
+                       For example, Eq.  (4)  is satisfied if  
+                         
+                            (5) 
+                            
+                               
+                                  
+                                     β 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                               = 
+                               
+                                  
+                                     1 
+                                  
+                                  
+                                     
+                                        
+                                           n 
+                                        
+                                        
+                                           1 
+                                        
+                                     
+                                     
+                                        
+                                           n 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     
+                                        
+                                           n 
+                                        
+                                        
+                                           3 
+                                        
+                                     
+                                     … 
+                                     
+                                        
+                                           n 
+                                        
+                                        
+                                           k 
+                                        
+                                     
+                                  
+                               
+                               
+                               for all  
+                               1 
+                               ≤ 
+                               k 
+                               ≤ 
+                               m 
+                               . 
+                            
+                         
+                      
+                      Kohli (1999)  describes this particular parameterization and notes that if  
+                         
+                            
+                               n 
+                            
+                            
+                               k 
+                            
+                         
+                         = 
+                         n 
+                       for all attributes  
+                         1 
+                         ≤ 
+                         k 
+                         ≤ 
+                         m 
+                      , then  (1)  describes a  
+                         m 
+                      -digit number in base  
+                         n 
+                      : 
+                         
+                            (6) 
+                            
+                               u 
+                               
+                                  ( 
+                                  
+                                     x 
+                                  
+                                  ) 
+                               
+                               = 
+                               
+                                  
+                                     ∑ 
+                                  
+                                  
+                                     k 
+                                     = 
+                                     1 
+                                  
+                                  
+                                     m 
+                                  
+                               
+                               
+                                  
+                                     
+                                        
+                                           x 
+                                        
+                                        
+                                           k 
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        
+                                           n 
+                                        
+                                        
+                                           k 
+                                        
+                                     
+                                  
+                               
+                               = 
+                               
+                                  
+                                     
+                                        ( 
+                                        
+                                           
+                                              x 
+                                           
+                                           
+                                              1 
+                                           
+                                        
+                                        
+                                           
+                                              x 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                        
+                                           
+                                              x 
+                                           
+                                           
+                                              3 
+                                           
+                                        
+                                        … 
+                                        
+                                           
+                                              x 
+                                           
+                                           
+                                              m 
+                                           
+                                        
+                                        ) 
+                                     
+                                  
+                                  
+                                     n 
+                                  
+                               
+                               , 
+                               
+                               
+                                  
+                                     x 
+                                  
+                                  
+                                     k 
+                                  
+                               
+                               = 
+                               0 
+                               , 
+                               … 
+                               , 
+                               n 
+                               − 
+                               1 
+                               , 
+                               1 
+                               ≤ 
+                               k 
+                               ≤ 
+                               m 
+                               . 
+                            
+                         
+                      
+                      Martignon and Schmitt (1999)  give an equivalent representation for  
+                         n 
+                         = 
+                         2 
+                      . There are of course other possible parameterizations that satisfy  (4) . Our estimation procedure, described later in the paper, uses only information concerning the ordering of alternatives, and can use any of these representations. For convenience, we will use the representation in  (5) .
+
+If the number of attributes is infinite and countable, the set of utility values given by  (6)  — or, more generally, the set of utility values given by  (1) and (2)  — corresponds to the set of real numbers. If the number of attributes is infinite and uncountable, one cannot represent the preferences with real numbers. But the parameters of the linear model  (1)  are not identified if we incorrectly assume that there is a cardinal utility function underlying preferences when in fact a person has lexicographic preferences over a finite number of discrete attributes. Such methods as logit and probit, in which the error structure is consistent with a cardinal utility function, will not obtain unique parameter estimates. 
+                         2 
+                      
+                      
+                         2 
+                         The inclusion of error complicates the discussion, and it is no longer evident if and when the linear model will be identified.  Kohli and Jedidi (2007)  consider this issue in the context of a simulation with individual-level lexicographic models, estimated using rank-order data. Their simulation results suggest that the addition of even a substantial amount of error does not make the parameters estimable using a non-metric scaling algorithm. 
+                       We therefore need to develop a method for inferring lexicographic structures from choice data. We describe such a method in Section  3 .
+
+Nominal attributes and indifference among attribute levels.  The assumption of an  a priori  preference ordering over attribute levels is appropriate for ordered attributes like computer memory, but not for nominal attributes like brand name and color. In addition, it is possible for a subject to be indifferent among two or more levels of an attribute — for example, between two colors of a car, or two wireless service providers. Subjects may also have minimum cutoffs on an ordered attribute — for example, all hard disks of 1 GB or less may not be acceptable. Similarly, they might obtain no additional value once an ordered attribute reaches a certain threshold — for example, a person might consider all personal computers with more than 512 MB of random access memory as being equivalent. The following inference procedure allows for preferences over nominal attributes and indifference among attribute levels.
+
+We approach the inference of lexicographic rules in a way similar to  Krantz, Luce, Suppes, and Tversky (1971) , who observe that many measurement problems reduce the search for solutions to a set of linear inequalities.  Lehner and Noma (1980)  and  McClelland and Coombs (1975)  note that the uniqueness of solutions to such systems of linear inequalities is stronger than an ordinal scale but weaker than an interval scale. This is also the case for lexicographic preferences. We seek a solution to a system of linear inequalities arising from the comparison of selected and unselected items in each choice set for which we obtain data. The parameter space is constrained to ensure that only those parameterizations representing lexicographic preferences over a set of attributes are evaluated.
+
+We assume that an individual is given a series of choice sets of multi-attribute alternatives and asked to select one alternative from each set. Each alternative  
+                         
+                            x 
+                         
+                         ≡ 
+                         
+                            ( 
+                            
+                               
+                                  x 
+                               
+                               
+                                  1 
+                               
+                            
+                            , 
+                            … 
+                            , 
+                            
+                               
+                                  x 
+                               
+                               
+                                  m 
+                               
+                            
+                            ) 
+                         
+                       is defined over the same  
+                         m 
+                       discrete attributes and levels. Without loss of generality, let  
+                         
+                            
+                               x 
+                            
+                            
+                               k 
+                            
+                         
+                         = 
+                         0 
+                         , 
+                         … 
+                         , 
+                         
+                            
+                               n 
+                            
+                            
+                               k 
+                            
+                         
+                         − 
+                         1 
+                      , for all  
+                         k 
+                         = 
+                         1 
+                         , 
+                         … 
+                         , 
+                         m 
+                      , where  
+                         
+                            
+                               n 
+                            
+                            
+                               k 
+                            
+                         
+                       denotes the number of levels for attribute  
+                         k 
+                      . The question we ask is: what is the lexicographic ordering of attributes and attribute levels that “best” reproduces the individual’s choices — or equivalently, that best satisfies the set of linear inequalities implied by comparing the preferences for chosen alternatives over all other alternatives in their respective choice sets?
+
+An alternative selected from a choice set can be considered to be implicitly preferred to each of the remaining alternatives in the set, provided we assume transitivity and independence of irrelevant alternatives. We use the term  binary pair  to refer to a pair of alternatives in a choice set, one of which (by definition) is the alternative chosen by a subject. Similarly, we use the term  binary preference  to refer to the implicit preference for the chosen alternative in a binary pair. The simplest measure of fit between the actual and predicted binary preferences is the number of concordant pairs — that is, the number of binary pairs for which the actual and predicted preferences are the same. We seek an attribute ordering that maximizes this measure; it is equivalent to maximizing Kendall’s tau. 
+                         3 
+                      
+                      
+                         3 
+                         Kendall’s tau =  
+                               1 
+                               − 
+                               
+                                  ( 
+                                  2 
+                                  Z 
+                                  / 
+                                  
+                                     NC 
+                                  
+                                  ) 
+                               
+                            , where  
+                               Z 
+                             is the number of reversals and NC is the total number of pairs over which the binary preferences are available. 
+                       Typically, we are not likely to collect enough data from a person to estimate individual-level choice models. We therefore examine methods for inferring cluster-level lexicographic choice rules. The clusters are  a priori  unknown. We assume that each person deterministically belongs to a single cluster and that there is one, common, lexicographic rule for each subject in a cluster.
+
+Finding a solution, by enumerating of all possible attribute orderings, is not feasible except for the smallest problems. For example, a relatively small problem with  
+                         m 
+                         = 
+                         10 
+                       attributes requires evaluating more than three million orderings.  Schmitt and Martignon (1999)  show that the problem of inferring a lexicographic preference ordering from binary preferences data is NP-Hard; a polynomial-time algorithm for the problem is therefore unlikely to be found.
+
+We propose an approximation algorithm for obtaining solutions to the problem of inferring cluster-level lexicographic rules. The proposed algorithm has two steps. In the first step, subjects are assigned to a pre- specified number of clusters with arbitrary cluster memberships, which might be obtained from a finite-mixture, multinomial logit model. In the second step, we use the greedy algorithm described below to obtain a lexicographic rule for each cluster. We then re-assign each subject to a cluster (rule) that correctly predicts his/her choices in the maximum number of cases. We iterate between the two steps — assignment of subjects to clusters, and selection of a lexicographic rule for each cluster — until there is no further improvement in the overall value of the Kendall’s tau across clusters. We implement the algorithm for various numbers of clusters, and select the smallest number of clusters beyond which the improvement in the fit is minimal. This two-step procedure is similar to the E–M algorithm, except that we use the Kendall’s tau value, instead of a likelihood value, as the criterion.
+
+Inference for known clusters.  Let  
+                         S 
+                       denote a choice set, and  
+                         Γ 
+                         = 
+                         
+                            { 
+                            S 
+                            } 
+                         
+                       the set of choice sets for a given cluster of subjects. Let  
+                         
+                            x 
+                         
+                         ∈ 
+                         S 
+                       denote the alternative chosen by a subject from the set  
+                         S 
+                      . Then there are  
+                         
+                            | 
+                            S 
+                            | 
+                         
+                         − 
+                         1 
+                       implied binary pairs in which  
+                         
+                            x 
+                         
+                         ∈ 
+                         S 
+                       is preferred to  
+                         
+                            y 
+                         
+                         ∈ 
+                         S 
+                      ,  
+                         
+                            x 
+                         
+                         ≠ 
+                         
+                            y 
+                         
+                      . We denote the binary preference for each such pair as  
+                         
+                            ( 
+                            
+                               x 
+                            
+                            , 
+                            
+                               y 
+                            
+                            ; 
+                            S 
+                            ) 
+                         
+                      , and write the set of binary preferences associated with choice set  
+                         S 
+                       as  
+                         
+                            { 
+                            
+                               ( 
+                               
+                                  x 
+                               
+                               , 
+                               
+                                  y 
+                               
+                               ; 
+                               S 
+                               ) 
+                            
+                            } 
+                         
+                      . Let  
+                         
+                            
+                               Ω 
+                               = 
+                               
+                                  { 
+                                  
+                                     ( 
+                                     
+                                        x 
+                                     
+                                     , 
+                                     
+                                        y 
+                                     
+                                     ; 
+                                     S 
+                                     ) 
+                                  
+                                  ∣ 
+                                  
+                                     x 
+                                  
+                                  , 
+                                  
+                                     y 
+                                  
+                                  ∈ 
+                                  S 
+                                  , 
+                                  S 
+                                  ∈ 
+                                  Γ 
+                                  } 
+                               
+                            
+                         
+                       denote the set of all  
+                         
+                            | 
+                            Γ 
+                            | 
+                         
+                         
+                            | 
+                            S 
+                            | 
+                         
+                       binary pairs generated across the choice sets  
+                         S 
+                         ∈ 
+                         Γ 
+                      .
+
+We use the following greedy algorithm to identify a lexicographic ordering of the attributes, assuming that (i) the preference ordering of each attribute is  a priori  known, and (ii) there is no indifference among levels of an attribute. After that, we describe how these assumptions are relaxed.
+
+Greedy Algorithm 
+                      
+                         
+                            Initialization : 
+                         
+                            Compute  
+                                  
+                                     
+                                        
+                                           
+                                              
+                                                 u 
+                                              
+                                              
+                                                 1 
+                                                 k 
+                                              
+                                           
+                                           
+                                              ( 
+                                              
+                                                 x 
+                                              
+                                              ) 
+                                           
+                                           = 
+                                           
+                                              
+                                                 
+                                                    
+                                                       x 
+                                                    
+                                                    
+                                                       k 
+                                                    
+                                                 
+                                              
+                                              
+                                                 
+                                                    
+                                                       n 
+                                                    
+                                                    
+                                                       k 
+                                                    
+                                                 
+                                              
+                                           
+                                           , 
+                                           
+                                           for all  
+                                           k 
+                                           = 
+                                           1 
+                                           , 
+                                           … 
+                                           , 
+                                           m 
+                                           ; 
+                                           
+                                           and  
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              
+                                                 Z 
+                                              
+                                              
+                                                 1 
+                                                 k 
+                                              
+                                           
+                                           = 
+                                           
+                                              
+                                                 ∑ 
+                                              
+                                              
+                                                 
+                                                    ( 
+                                                    
+                                                       x,y 
+                                                    
+                                                    ; 
+                                                    S 
+                                                    ) 
+                                                 
+                                                 ∈ 
+                                                 Ω 
+                                              
+                                           
+                                           
+                                              
+                                                 d 
+                                              
+                                              
+                                                 1 
+                                                 k 
+                                              
+                                           
+                                           
+                                              ( 
+                                              
+                                                 x 
+                                              
+                                              , 
+                                              
+                                                 y 
+                                              
+                                              ; 
+                                              S 
+                                              ) 
+                                           
+                                           , 
+                                        
+                                     
+                                  
+                                where  
+                                  
+                                     
+                                        
+                                           
+                                              d 
+                                           
+                                           
+                                              1 
+                                              k 
+                                           
+                                        
+                                        
+                                           ( 
+                                           
+                                              x 
+                                           
+                                           , 
+                                           
+                                              y 
+                                           
+                                           ; 
+                                           S 
+                                           ) 
+                                        
+                                        = 
+                                        
+                                           { 
+                                           
+                                              
+                                                 
+                                                    1 
+                                                 
+                                                 
+                                                    if  
+                                                    
+                                                       
+                                                          u 
+                                                       
+                                                       
+                                                          1 
+                                                          k 
+                                                       
+                                                    
+                                                    
+                                                       ( 
+                                                       
+                                                          x 
+                                                       
+                                                       ) 
+                                                    
+                                                    < 
+                                                    
+                                                       
+                                                          u 
+                                                       
+                                                       
+                                                          1 
+                                                          k 
+                                                       
+                                                    
+                                                    
+                                                       ( 
+                                                       
+                                                          y 
+                                                       
+                                                       ) 
+                                                    
+                                                 
+                                              
+                                              
+                                                 
+                                                    0 
+                                                 
+                                                 
+                                                    otherwise 
+                                                 
+                                              
+                                           
+                                        
+                                     
+                                  
+                                for all  
+                                  
+                                     ( 
+                                     
+                                        x 
+                                     
+                                     , 
+                                     
+                                        y 
+                                     
+                                     ; 
+                                     S 
+                                     ) 
+                                  
+                                  ∈ 
+                                  Ω 
+                               . Let  
+                                  
+                                     
+                                        k 
+                                     
+                                     
+                                        1 
+                                     
+                                     
+                                        ∗ 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        
+                                           argmin 
+                                        
+                                     
+                                     
+                                        k 
+                                     
+                                  
+                                  
+                                     
+                                        Z 
+                                     
+                                     
+                                        1 
+                                        k 
+                                     
+                                  
+                               . 
+                                  4 
+                               
+                               
+                                  4 
+                                  That is,  
+                                        k 
+                                        = 
+                                        
+                                           
+                                              k 
+                                           
+                                           
+                                              1 
+                                           
+                                           
+                                              ∗ 
+                                           
+                                        
+                                      obtains the smallest value of  
+                                        
+                                           
+                                              Z 
+                                           
+                                           
+                                              1 
+                                              k 
+                                           
+                                        
+                                      across  
+                                        k 
+                                        = 
+                                        1 
+                                        , 
+                                        … 
+                                        , 
+                                        m 
+                                     . In the case of ties, we select  
+                                        
+                                           
+                                              k 
+                                           
+                                           
+                                              1 
+                                           
+                                           
+                                              ∗ 
+                                           
+                                        
+                                      to be the lowest-indexed attribute with the smallest value of  
+                                        
+                                           
+                                              Z 
+                                           
+                                           
+                                              1 
+                                              k 
+                                           
+                                        
+                                     . 
+                                Select attribute  
+                                  
+                                     
+                                        k 
+                                     
+                                     
+                                        1 
+                                     
+                                     
+                                        ∗ 
+                                     
+                                  
+                                as the most important attribute for the cluster of subjects. For each alternative  
+                                  
+                                     x 
+                                  
+                               , set  
+                                  
+                                     
+                                        
+                                           
+                                              u 
+                                           
+                                           
+                                              1 
+                                           
+                                           
+                                              ∗ 
+                                           
+                                        
+                                        
+                                           ( 
+                                           
+                                              x 
+                                           
+                                           ) 
+                                        
+                                        = 
+                                        
+                                           
+                                              
+                                                 
+                                                    x 
+                                                 
+                                                 
+                                                    
+                                                       
+                                                          k 
+                                                       
+                                                       
+                                                          1 
+                                                       
+                                                       
+                                                          ∗ 
+                                                       
+                                                    
+                                                 
+                                              
+                                           
+                                           
+                                              
+                                                 
+                                                    n 
+                                                 
+                                                 
+                                                    
+                                                       
+                                                          k 
+                                                       
+                                                       
+                                                          1 
+                                                       
+                                                       
+                                                          ∗ 
+                                                       
+                                                    
+                                                 
+                                              
+                                           
+                                        
+                                        . 
+                                     
+                                  
+                               
+                            
+                         
+                         
+                            Iteration : 
+                         
+                            At each step  
+                                  t 
+                                  = 
+                                  2 
+                                  , 
+                                  … 
+                                  , 
+                                  m 
+                               , compute  
+                                  
+                                     
+                                        
+                                           
+                                              
+                                                 u 
+                                              
+                                              
+                                                 t 
+                                                 k 
+                                              
+                                           
+                                           
+                                              ( 
+                                              
+                                                 x 
+                                              
+                                              ) 
+                                           
+                                           = 
+                                           
+                                              
+                                                 u 
+                                              
+                                              
+                                                 t 
+                                                 − 
+                                                 1 
+                                              
+                                              
+                                                 ∗ 
+                                              
+                                           
+                                           
+                                              ( 
+                                              
+                                                 x 
+                                              
+                                              ) 
+                                           
+                                           + 
+                                           
+                                              
+                                                 
+                                                    
+                                                       x 
+                                                    
+                                                    
+                                                       k 
+                                                    
+                                                 
+                                              
+                                              
+                                                 
+                                                    
+                                                       n 
+                                                    
+                                                    
+                                                       
+                                                          
+                                                             k 
+                                                          
+                                                          
+                                                             1 
+                                                          
+                                                          
+                                                             ∗ 
+                                                          
+                                                       
+                                                    
+                                                 
+                                                 … 
+                                                 
+                                                    
+                                                       n 
+                                                    
+                                                    
+                                                       
+                                                          
+                                                             k 
+                                                          
+                                                          
+                                                             t 
+                                                             − 
+                                                             1 
+                                                          
+                                                          
+                                                             ∗ 
+                                                          
+                                                       
+                                                    
+                                                 
+                                                 
+                                                    
+                                                       n 
+                                                    
+                                                    
+                                                       k 
+                                                    
+                                                 
+                                              
+                                           
+                                           , 
+                                           
+                                           for all  
+                                           k 
+                                           = 
+                                           1 
+                                           , 
+                                           … 
+                                           , 
+                                           m 
+                                           , 
+                                           
+                                           k 
+                                           ≠ 
+                                           
+                                              
+                                                 k 
+                                              
+                                              
+                                                 1 
+                                              
+                                              
+                                                 ∗ 
+                                              
+                                           
+                                           , 
+                                           … 
+                                           , 
+                                           
+                                              
+                                                 k 
+                                              
+                                              
+                                                 t 
+                                                 − 
+                                                 1 
+                                              
+                                              
+                                                 ∗ 
+                                              
+                                           
+                                           , 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              
+                                                 Z 
+                                              
+                                              
+                                                 t 
+                                                 k 
+                                              
+                                           
+                                           = 
+                                           
+                                              
+                                                 ∑ 
+                                              
+                                              
+                                                 
+                                                    ( 
+                                                    
+                                                       x,y 
+                                                    
+                                                    ; 
+                                                    S 
+                                                    ) 
+                                                 
+                                                 ∈ 
+                                                 Ω 
+                                              
+                                           
+                                           
+                                              
+                                                 d 
+                                              
+                                              
+                                                 t 
+                                                 k 
+                                              
+                                           
+                                           
+                                              ( 
+                                              
+                                                 x 
+                                              
+                                              , 
+                                              
+                                                 y 
+                                              
+                                              ; 
+                                              S 
+                                              ) 
+                                           
+                                           , 
+                                        
+                                     
+                                  
+                                where  
+                                  
+                                     
+                                        
+                                           
+                                              d 
+                                           
+                                           
+                                              t 
+                                              k 
+                                           
+                                        
+                                        
+                                           ( 
+                                           
+                                              x 
+                                           
+                                           , 
+                                           
+                                              y 
+                                           
+                                           ; 
+                                           S 
+                                           ) 
+                                        
+                                        = 
+                                        
+                                           { 
+                                           
+                                              
+                                                 
+                                                    1 
+                                                 
+                                                 
+                                                    if  
+                                                    
+                                                       
+                                                          u 
+                                                       
+                                                       
+                                                          t 
+                                                          k 
+                                                       
+                                                    
+                                                    
+                                                       ( 
+                                                       
+                                                          x 
+                                                       
+                                                       ) 
+                                                    
+                                                    < 
+                                                    
+                                                       
+                                                          u 
+                                                       
+                                                       
+                                                          t 
+                                                          k 
+                                                       
+                                                    
+                                                    
+                                                       ( 
+                                                       
+                                                          y 
+                                                       
+                                                       ) 
+                                                    
+                                                 
+                                              
+                                              
+                                                 
+                                                    0 
+                                                 
+                                                 
+                                                    otherwise 
+                                                 
+                                              
+                                           
+                                        
+                                     
+                                  
+                                for all  
+                                  
+                                     ( 
+                                     
+                                        x 
+                                     
+                                     , 
+                                     
+                                        y 
+                                     
+                                     ; 
+                                     S 
+                                     ) 
+                                  
+                                  ∈ 
+                                  Ω 
+                               . Let  
+                                  
+                                     
+                                        k 
+                                     
+                                     
+                                        t 
+                                     
+                                     
+                                        ∗ 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        
+                                           argmin 
+                                        
+                                     
+                                     
+                                        k 
+                                     
+                                  
+                                  
+                                     
+                                        Z 
+                                     
+                                     
+                                        t 
+                                        k 
+                                     
+                                  
+                               . Select attribute  
+                                  
+                                     
+                                        k 
+                                     
+                                     
+                                        t 
+                                     
+                                     
+                                        ∗ 
+                                     
+                                  
+                                as the  
+                                  t 
+                               -th most important attribute for the cluster of subjects. For each alternative  
+                                  
+                                     x 
+                                  
+                               , set  
+                                  
+                                     
+                                        
+                                           
+                                              u 
+                                           
+                                           
+                                              t 
+                                           
+                                           
+                                              ∗ 
+                                           
+                                        
+                                        
+                                           ( 
+                                           
+                                              x 
+                                           
+                                           ) 
+                                        
+                                        = 
+                                        
+                                           
+                                              u 
+                                           
+                                           
+                                              t 
+                                              − 
+                                              1 
+                                           
+                                           
+                                              ∗ 
+                                           
+                                        
+                                        
+                                           ( 
+                                           
+                                              x 
+                                           
+                                           ) 
+                                        
+                                        + 
+                                        
+                                           
+                                              
+                                                 
+                                                    x 
+                                                 
+                                                 
+                                                    
+                                                       
+                                                          k 
+                                                       
+                                                       
+                                                          t 
+                                                       
+                                                       
+                                                          ∗ 
+                                                       
+                                                    
+                                                 
+                                              
+                                           
+                                           
+                                              
+                                                 
+                                                    n 
+                                                 
+                                                 
+                                                    
+                                                       
+                                                          k 
+                                                       
+                                                       
+                                                          1 
+                                                       
+                                                       
+                                                          ∗ 
+                                                       
+                                                    
+                                                 
+                                              
+                                              
+                                                 
+                                                    n 
+                                                 
+                                                 
+                                                    
+                                                       
+                                                          k 
+                                                       
+                                                       
+                                                          2 
+                                                       
+                                                       
+                                                          ∗ 
+                                                       
+                                                    
+                                                 
+                                              
+                                              … 
+                                              
+                                                 
+                                                    n 
+                                                 
+                                                 
+                                                    
+                                                       
+                                                          k 
+                                                       
+                                                       
+                                                          t 
+                                                       
+                                                       
+                                                          ∗ 
+                                                       
+                                                    
+                                                 
+                                              
+                                           
+                                        
+                                        . 
+                                     
+                                  
+                               
+                            
+                         
+                         Termination: 
+                         
+                            Stop if  
+                                  t 
+                                  = 
+                                  m 
+                               .
+
+Compute  
+                                  
+                                     
+                                        
+                                           
+                                              
+                                                 u 
+                                              
+                                              
+                                                 1 
+                                                 k 
+                                              
+                                           
+                                           
+                                              ( 
+                                              
+                                                 x 
+                                              
+                                              ) 
+                                           
+                                           = 
+                                           
+                                              
+                                                 
+                                                    
+                                                       x 
+                                                    
+                                                    
+                                                       k 
+                                                    
+                                                 
+                                              
+                                              
+                                                 
+                                                    
+                                                       n 
+                                                    
+                                                    
+                                                       k 
+                                                    
+                                                 
+                                              
+                                           
+                                           , 
+                                           
+                                           for all  
+                                           k 
+                                           = 
+                                           1 
+                                           , 
+                                           … 
+                                           , 
+                                           m 
+                                           ; 
+                                           
+                                           and  
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              
+                                                 Z 
+                                              
+                                              
+                                                 1 
+                                                 k 
+                                              
+                                           
+                                           = 
+                                           
+                                              
+                                                 ∑ 
+                                              
+                                              
+                                                 
+                                                    ( 
+                                                    
+                                                       x,y 
+                                                    
+                                                    ; 
+                                                    S 
+                                                    ) 
+                                                 
+                                                 ∈ 
+                                                 Ω 
+                                              
+                                           
+                                           
+                                              
+                                                 d 
+                                              
+                                              
+                                                 1 
+                                                 k 
+                                              
+                                           
+                                           
+                                              ( 
+                                              
+                                                 x 
+                                              
+                                              , 
+                                              
+                                                 y 
+                                              
+                                              ; 
+                                              S 
+                                              ) 
+                                           
+                                           , 
+                                        
+                                     
+                                  
+                                where  
+                                  
+                                     
+                                        
+                                           
+                                              d 
+                                           
+                                           
+                                              1 
+                                              k 
+                                           
+                                        
+                                        
+                                           ( 
+                                           
+                                              x 
+                                           
+                                           , 
+                                           
+                                              y 
+                                           
+                                           ; 
+                                           S 
+                                           ) 
+                                        
+                                        = 
+                                        
+                                           { 
+                                           
+                                              
+                                                 
+                                                    1 
+                                                 
+                                                 
+                                                    if  
+                                                    
+                                                       
+                                                          u 
+                                                       
+                                                       
+                                                          1 
+                                                          k 
+                                                       
+                                                    
+                                                    
+                                                       ( 
+                                                       
+                                                          x 
+                                                       
+                                                       ) 
+                                                    
+                                                    < 
+                                                    
+                                                       
+                                                          u 
+                                                       
+                                                       
+                                                          1 
+                                                          k 
+                                                       
+                                                    
+                                                    
+                                                       ( 
+                                                       
+                                                          y 
+                                                       
+                                                       ) 
+                                                    
+                                                 
+                                              
+                                              
+                                                 
+                                                    0 
+                                                 
+                                                 
+                                                    otherwise 
+                                                 
+                                              
+                                           
+                                        
+                                     
+                                  
+                                for all  
+                                  
+                                     ( 
+                                     
+                                        x 
+                                     
+                                     , 
+                                     
+                                        y 
+                                     
+                                     ; 
+                                     S 
+                                     ) 
+                                  
+                                  ∈ 
+                                  Ω 
+                               . Let  
+                                  
+                                     
+                                        k 
+                                     
+                                     
+                                        1 
+                                     
+                                     
+                                        ∗ 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        
+                                           argmin 
+                                        
+                                     
+                                     
+                                        k 
+                                     
+                                  
+                                  
+                                     
+                                        Z 
+                                     
+                                     
+                                        1 
+                                        k 
+                                     
+                                  
+                               . 
+                                  4 
+                               
+                               
+                                  4 
+                                  That is,  
+                                        k 
+                                        = 
+                                        
+                                           
+                                              k 
+                                           
+                                           
+                                              1 
+                                           
+                                           
+                                              ∗ 
+                                           
+                                        
+                                      obtains the smallest value of  
+                                        
+                                           
+                                              Z 
+                                           
+                                           
+                                              1 
+                                              k 
+                                           
+                                        
+                                      across  
+                                        k 
+                                        = 
+                                        1 
+                                        , 
+                                        … 
+                                        , 
+                                        m 
+                                     . In the case of ties, we select  
+                                        
+                                           
+                                              k 
+                                           
+                                           
+                                              1 
+                                           
+                                           
+                                              ∗ 
+                                           
+                                        
+                                      to be the lowest-indexed attribute with the smallest value of  
+                                        
+                                           
+                                              Z 
+                                           
+                                           
+                                              1 
+                                              k 
+                                           
+                                        
+                                     . 
+                                Select attribute  
+                                  
+                                     
+                                        k 
+                                     
+                                     
+                                        1 
+                                     
+                                     
+                                        ∗ 
+                                     
+                                  
+                                as the most important attribute for the cluster of subjects. For each alternative  
+                                  
+                                     x 
+                                  
+                               , set  
+                                  
+                                     
+                                        
+                                           
+                                              u 
+                                           
+                                           
+                                              1 
+                                           
+                                           
+                                              ∗ 
+                                           
+                                        
+                                        
+                                           ( 
+                                           
+                                              x 
+                                           
+                                           ) 
+                                        
+                                        = 
+                                        
+                                           
+                                              
+                                                 
+                                                    x 
+                                                 
+                                                 
+                                                    
+                                                       
+                                                          k 
+                                                       
+                                                       
+                                                          1 
+                                                       
+                                                       
+                                                          ∗ 
+                                                       
+                                                    
+                                                 
+                                              
+                                           
+                                           
+                                              
+                                                 
+                                                    n 
+                                                 
+                                                 
+                                                    
+                                                       
+                                                          k 
+                                                       
+                                                       
+                                                          1 
+                                                       
+                                                       
+                                                          ∗ 
+                                                       
+                                                    
+                                                 
+                                              
+                                           
+                                        
+                                        .
+
+At each step  
+                                  t 
+                                  = 
+                                  2 
+                                  , 
+                                  … 
+                                  , 
+                                  m 
+                               , compute  
+                                  
+                                     
+                                        
+                                           
+                                              
+                                                 u 
+                                              
+                                              
+                                                 t 
+                                                 k 
+                                              
+                                           
+                                           
+                                              ( 
+                                              
+                                                 x 
+                                              
+                                              ) 
+                                           
+                                           = 
+                                           
+                                              
+                                                 u 
+                                              
+                                              
+                                                 t 
+                                                 − 
+                                                 1 
+                                              
+                                              
+                                                 ∗ 
+                                              
+                                           
+                                           
+                                              ( 
+                                              
+                                                 x 
+                                              
+                                              ) 
+                                           
+                                           + 
+                                           
+                                              
+                                                 
+                                                    
+                                                       x 
+                                                    
+                                                    
+                                                       k 
+                                                    
+                                                 
+                                              
+                                              
+                                                 
+                                                    
+                                                       n 
+                                                    
+                                                    
+                                                       
+                                                          
+                                                             k 
+                                                          
+                                                          
+                                                             1 
+                                                          
+                                                          
+                                                             ∗ 
+                                                          
+                                                       
+                                                    
+                                                 
+                                                 … 
+                                                 
+                                                    
+                                                       n 
+                                                    
+                                                    
+                                                       
+                                                          
+                                                             k 
+                                                          
+                                                          
+                                                             t 
+                                                             − 
+                                                             1 
+                                                          
+                                                          
+                                                             ∗ 
+                                                          
+                                                       
+                                                    
+                                                 
+                                                 
+                                                    
+                                                       n 
+                                                    
+                                                    
+                                                       k 
+                                                    
+                                                 
+                                              
+                                           
+                                           , 
+                                           
+                                           for all  
+                                           k 
+                                           = 
+                                           1 
+                                           , 
+                                           … 
+                                           , 
+                                           m 
+                                           , 
+                                           
+                                           k 
+                                           ≠ 
+                                           
+                                              
+                                                 k 
+                                              
+                                              
+                                                 1 
+                                              
+                                              
+                                                 ∗ 
+                                              
+                                           
+                                           , 
+                                           … 
+                                           , 
+                                           
+                                              
+                                                 k 
+                                              
+                                              
+                                                 t 
+                                                 − 
+                                                 1 
+                                              
+                                              
+                                                 ∗ 
+                                              
+                                           
+                                           , 
+                                        
+                                     
+                                     
+                                        
+                                           
+                                              
+                                                 Z 
+                                              
+                                              
+                                                 t 
+                                                 k 
+                                              
+                                           
+                                           = 
+                                           
+                                              
+                                                 ∑ 
+                                              
+                                              
+                                                 
+                                                    ( 
+                                                    
+                                                       x,y 
+                                                    
+                                                    ; 
+                                                    S 
+                                                    ) 
+                                                 
+                                                 ∈ 
+                                                 Ω 
+                                              
+                                           
+                                           
+                                              
+                                                 d 
+                                              
+                                              
+                                                 t 
+                                                 k 
+                                              
+                                           
+                                           
+                                              ( 
+                                              
+                                                 x 
+                                              
+                                              , 
+                                              
+                                                 y 
+                                              
+                                              ; 
+                                              S 
+                                              ) 
+                                           
+                                           , 
+                                        
+                                     
+                                  
+                                where  
+                                  
+                                     
+                                        
+                                           
+                                              d 
+                                           
+                                           
+                                              t 
+                                              k 
+                                           
+                                        
+                                        
+                                           ( 
+                                           
+                                              x 
+                                           
+                                           , 
+                                           
+                                              y 
+                                           
+                                           ; 
+                                           S 
+                                           ) 
+                                        
+                                        = 
+                                        
+                                           { 
+                                           
+                                              
+                                                 
+                                                    1 
+                                                 
+                                                 
+                                                    if  
+                                                    
+                                                       
+                                                          u 
+                                                       
+                                                       
+                                                          t 
+                                                          k 
+                                                       
+                                                    
+                                                    
+                                                       ( 
+                                                       
+                                                          x 
+                                                       
+                                                       ) 
+                                                    
+                                                    < 
+                                                    
+                                                       
+                                                          u 
+                                                       
+                                                       
+                                                          t 
+                                                          k 
+                                                       
+                                                    
+                                                    
+                                                       ( 
+                                                       
+                                                          y 
+                                                       
+                                                       ) 
+                                                    
+                                                 
+                                              
+                                              
+                                                 
+                                                    0 
+                                                 
+                                                 
+                                                    otherwise 
+                                                 
+                                              
+                                           
+                                        
+                                     
+                                  
+                                for all  
+                                  
+                                     ( 
+                                     
+                                        x 
+                                     
+                                     , 
+                                     
+                                        y 
+                                     
+                                     ; 
+                                     S 
+                                     ) 
+                                  
+                                  ∈ 
+                                  Ω 
+                               . Let  
+                                  
+                                     
+                                        k 
+                                     
+                                     
+                                        t 
+                                     
+                                     
+                                        ∗ 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        
+                                           argmin 
+                                        
+                                     
+                                     
+                                        k 
+                                     
+                                  
+                                  
+                                     
+                                        Z 
+                                     
+                                     
+                                        t 
+                                        k 
+                                     
+                                  
+                               . Select attribute  
+                                  
+                                     
+                                        k 
+                                     
+                                     
+                                        t 
+                                     
+                                     
+                                        ∗ 
+                                     
+                                  
+                                as the  
+                                  t 
+                               -th most important attribute for the cluster of subjects. For each alternative  
+                                  
+                                     x 
+                                  
+                               , set  
+                                  
+                                     
+                                        
+                                           
+                                              u 
+                                           
+                                           
+                                              t 
+                                           
+                                           
+                                              ∗ 
+                                           
+                                        
+                                        
+                                           ( 
+                                           
+                                              x 
+                                           
+                                           ) 
+                                        
+                                        = 
+                                        
+                                           
+                                              u 
+                                           
+                                           
+                                              t 
+                                              − 
+                                              1 
+                                           
+                                           
+                                              ∗ 
+                                           
+                                        
+                                        
+                                           ( 
+                                           
+                                              x 
+                                           
+                                           ) 
+                                        
+                                        + 
+                                        
+                                           
+                                              
+                                                 
+                                                    x 
+                                                 
+                                                 
+                                                    
+                                                       
+                                                          k 
+                                                       
+                                                       
+                                                          t 
+                                                       
+                                                       
+                                                          ∗ 
+                                                       
+                                                    
+                                                 
+                                              
+                                           
+                                           
+                                              
+                                                 
+                                                    n 
+                                                 
+                                                 
+                                                    
+                                                       
+                                                          k 
+                                                       
+                                                       
+                                                          1 
+                                                       
+                                                       
+                                                          ∗ 
+                                                       
+                                                    
+                                                 
+                                              
+                                              
+                                                 
+                                                    n 
+                                                 
+                                                 
+                                                    
+                                                       
+                                                          k 
+                                                       
+                                                       
+                                                          2 
+                                                       
+                                                       
+                                                          ∗ 
+                                                       
+                                                    
+                                                 
+                                              
+                                              … 
+                                              
+                                                 
+                                                    n 
+                                                 
+                                                 
+                                                    
+                                                       
+                                                          k 
+                                                       
+                                                       
+                                                          t 
+                                                       
+                                                       
+                                                          ∗ 
+                                                       
+                                                    
+                                                 
+                                              
+                                           
+                                        
+                                        .
+
+Stop if  
+                                  t 
+                                  = 
+                                  m 
+                               .
+
+A single run of the above algorithm produces a rule for a given cluster of subjects. We use the algorithm to infer a rule separately for each cluster. We then re-assign each subject to the “best” of these rules (i.e., we assign the subject to the cluster that produces the maximum value of Kendall’s tau for the subject). We iterate between the assignment of subjects to clusters, and the selection of a lexicographic rule for each cluster, until there is no further improvement in the value of Kendall’s tau across clusters. We repeat the procedure for different numbers of clusters. We choose the number of clusters beyond which the marginal improvement in the fit value is minimal.
+
+It is possible to begin the algorithm with a random partition of the subjects into clusters. However, this can result in similar rules being obtained at the first step of the greedy algorithm, and the iteration between rules and clusters can converge to a local optimum. Either or both of two approaches can be used to overcome this problem. First, one can implement the algorithm multiple times using different (not necessarily random) partitions of subjects, and then select the solution with the best value for the objective function. For example, one can use the results of a finite-mixture multinomial logit model to guide the initial clustering of subjects. Second, one can begin with as many different and arbitrary lexicographic rules as the number of clusters under consideration. Assigning each subject to the best of these rules produces an initial clustering of the subjects, after which the greedy heuristic can be used to identify a new set of lexicographic rules. In the application reported in the next section, we use both 10 restarts using each of these methods, and then select the best solution across the 20 runs of the greedy algorithm.
+
+Nominal attributes.  If an attribute has a small number of levels, we enumerate all possible orderings of its levels and then select the one that yields the best solution value. For example, the application described in Section  4  has no more than four levels for any attribute. In this case, enumerating all  
+                         4 
+                         ! 
+                         = 
+                         24 
+                       possible orderings of attribute levels is computationally easy. But if an attribute has a large number of levels, then we need a more efficient procedure for determining a preference ordering over the attribute levels. One simple approach is to break the nominal attribute into  
+                         
+                            
+                               n 
+                            
+                            
+                               k 
+                            
+                         
+                       binary indicators and use another (nested) greedy procedure, akin to the above method, to find the preference ordering of its nominal levels. We first compute  
+                         
+                            
+                               Z 
+                            
+                            
+                               T 
+                               k 
+                            
+                         
+                       for each binary indicator  
+                         
+                            
+                               x 
+                            
+                            
+                               
+                                  
+                                     k 
+                                  
+                                  
+                                     ℓ 
+                                  
+                               
+                            
+                         
+                         
+                            ( 
+                            ℓ 
+                            = 
+                            1 
+                            , 
+                            … 
+                            , 
+                            
+                               
+                                  n 
+                               
+                               
+                                  k 
+                               
+                            
+                            ) 
+                         
+                       and select the level  
+                         
+                            
+                               ℓ 
+                            
+                            
+                               1 
+                            
+                            
+                               ∗ 
+                            
+                         
+                       that minimizes the number of reversals  
+                         
+                            
+                               Z 
+                            
+                            
+                               T 
+                               k 
+                            
+                         
+                      . This level corresponds to the most preferred level. We continue in this manner, introducing the next most preferred level until only one level, the least preferred level, remains.
+
+Pooling attribute levels.  To allow for indifference among attribute levels, we compute  
+                         
+                            
+                               Z 
+                            
+                            
+                               T 
+                               k 
+                            
+                         
+                       for all possible poolings of attribute levels, with the proviso that we maintain at least two pooled levels for each attribute. This requires less computational effort for ordered attributes than it does for nominal attributes, because one can then restrict the pooling to a sequence of successively preferred attribute levels. For nominal attributes, one can enumerate all possible groupings if the number of levels  
+                         
+                            
+                               n 
+                            
+                            
+                               k 
+                            
+                         
+                       is small. This is typically possible, because the number of attribute levels is typically small. Otherwise, one can use the following procedure to group attribute levels. First, select  
+                         
+                            
+                               n 
+                            
+                            
+                               k 
+                            
+                         
+                       groupings, each with a single attribute level. Then eliminate one grouping, placing two levels in one common subset; to do so, evaluate all possible  
+                         
+                            
+                               n 
+                            
+                            
+                               k 
+                            
+                         
+                         
+                            ( 
+                            
+                               
+                                  n 
+                               
+                               
+                                  k 
+                               
+                            
+                            − 
+                            1 
+                            ) 
+                         
+                       pairs of attribute-level groupings. This successive, greedy merging of levels continues until only two groupings remain. The partition for which the number of reversals is minimized is then selected.
+
+We illustrate the inference procedure using data from an experiment involving consumer choice of mid-sized television sets. Three hundred and fifty two subjects were recruited using mall intercepts. To qualify for the study, a respondent had to be (i) over 18 years old; and (ii) either an owner, or considering the purchase, of a mid-size TV set in the next 12 months. Each respondent received a $4.00 incentive for participation in the study, which was sponsored by Sawtooth Software.
+
+Each subject was first told about the following six attributes and attribute levels that were used to describe the television sets: (1) brand name (JVC, RCA, Sony); (2) screen size (25 ″ ,26 ″ ,27 ″ ); (3) sound quality (mono, stereo, surround); (4) channel blockout (yes, no); (5) picture-in-picture (yes, no); and (6) price ($300, $350, $400, $450). The subject was then presented a sequence of eighteen customized choice sets using an interactive, PC-based program that randomized the presentation of the choice sets and recorded his or her response. 
+                         5 
+                      
+                      
+                         5 
+                         Details of the software, developed by Sawtooth Software, can be obtained from  http://www.sawtoothsoftware.com/ . The number of attributes in the present instance is typical for commercial conjoint studies. A survey conducted by  Cattin and Wittink (1982)  reported that the median number of attributes used in conjoint studies was 6 or 7 in the early 1980’s. This number has likely increased over the years. 
+                       All choice sets contained five alternative television sets, described using the six attributes noted above. The task of a subject was to choose one alternative from each choice set that was shown.  Fig. 1 
+                       presents an example of a choice task.
+
+There are 4×3 3 ×2 2 =432 possible TV sets. Thus, one can construct up to  
+                         
+                            
+                               
+                                  432 
+                               
+                               
+                                  5 
+                               
+                            
+                         
+                         > 
+                         1.2 
+                         × 
+                         
+                            
+                               10 
+                            
+                            
+                               11 
+                            
+                         
+                       choice sets of five TV alternatives each. The software generated the eighteen choice sets randomly for each respondent, subject to the constraint that all main effects were estimable and at least nearly orthogonal. We analyze the data using the clusterwise lexicographic choice model. We compare the results with those obtained from a finite-mixture, multinomial logit model.
+
+We use the greedy algorithm to derive clusters of homogeneous subjects and infer the lexicographic orderings of attributes and attribute levels for each cluster. 
+                            6 
+                         
+                         
+                            6 
+                            We have programmed the greedy algorithm in the C language on a 2 GHz Dell PC. The C code is available from the authors upon request. For this application, the average run time is about 5 min for  
+                                  G 
+                                  = 
+                                  1 
+                                group, and about 12 min for  
+                                  G 
+                                  = 
+                                  9 
+                                groups. 
+                          We estimate both the standard lexicographic model and a variant that allows indifference among attribute levels (see Section  2 ). We vary the number of clusters from  
+                            G 
+                            = 
+                            1 
+                          to  
+                            G 
+                            = 
+                            9 
+                         . In each case, we obtain the initial assignment of subjects to clusters by using the solution from a finite-mixture multinomial logit model, which is described in Section  4.2 . As noted in Section  3 , we retain the best solution across 20 restarts for each value of  
+                            G 
+                         . Each restart was generated by randomly perturbing the initial finite mixture assignment for 5% of subjects. Typically, the best solution was obtained from several starting solutions. As an example, for  
+                            G 
+                            = 
+                            8 
+                          clusters, eight of the twenty random restarts produced the highest Kendall’s tau value and identified the same lexicographic rules and cluster memberships.
+
+Fig. 2 
+                          shows the Kendall’s tau values for each lexicographic model. The fit improves with the number of clusters, and is better for the variant model permitting indifference than for the standard lexicographic model. The improvement in fit beyond  
+                            G 
+                            = 
+                            8 
+                          clusters is at best marginal. We therefore discuss the eight-cluster solution below. The substantial difference in the Kendall’s tau values for the aggregate and eight-cluster solutions suggests that there is heterogeneity in preferences (see  Fig. 2 ). This conclusion is supported by a comparison of the “in-sample” hit rates of the aggregate (Hit=0.422) and the eight-cluster (Hit=0.624) solutions. 
+                            7 
+                         
+                         
+                            7 
+                            The “hit rate” is the average value (across clusters) of the percentage of correct choices predicted by the cluster-specific lexicographic models allowing indifference. The hit rate for the aggregate ( 
+                                  G 
+                                  = 
+                                  1 
+                               ) model exceeds the expected hit rate of 0.20 from a maximum chance criterion, but it is substantially lower than the hit rate for the  
+                                  G 
+                                  = 
+                                  8 
+                                solution.
+
+Table 1 
+                          summarizes the lexicographic rules for each of the eight clusters. Each column lists the attributes in descending order of importance, the proportion of subjects, and the corresponding values of Kendall’s tau and hit rate for a cluster of subjects. For example, cluster 1 has 19% of the subjects, and the following attribute ordering in decreasing preference order: sound quality–price–screen size–picture-in-picture–brand–channel blockout. The Kendall’s tau value for cluster 1 is 0.74. The estimated lexicographic rule correctly predicts the preference ordering for 64% of the binary preferences implied by the choice data. The fit statistics, reported in the last two rows of  Table 1 , are satisfactory and show little variation across clusters. The key conclusions are as follows:  
+                            
+                               (i) 
+                               There are substantial differences in the rules used by different clusters. For example, cluster 2 considers channel blockout as the most important attribute; cluster 5 considers it the least important attribute. While both clusters 1 and 4 consider sound quality as the most important attribute, and channel blockout as the least important attribute, they differ substantially in their orderings of the remaining attributes. The importance of capturing subject heterogeneity is also reflected in the substantial differences between each of these solutions and the aggregated (single cluster) solution, for which the attribute ordering is sound quality–price–picture-in- picture–channel blockout–screen size–brand. 
+                            
+                            
+                               (ii) 
+                               Across the eight clusters, sound quality is the most important attribute for 33% of subjects, followed by brand name (20%), picture-in-picture (19%), price (11%), channel blockout (10%), and screen size (6%). 
+                            
+                            
+                               (iii) 
+                               Price is the most important attribute for cluster 3, and the second-most important attribute for cluster 1. These two clusters have 11% and 19% of the subjects, respectively. Thus, seventy percent of the subjects do not consider price as the most or second-most important factor when choosing a television set. This result should be interpreted in the context of the price range ($300–$450) used in the study — often, the importance of an attribute depends on the range of values across its levels. 
+                            
+                            
+                               (iv) 
+                               Thirty percent of all subjects are in the two clusters (clusters 6 and 8) that consider brand name as the most important attribute (and sound quality as the second-most important attribute). On the other hand, 58% of all subjects, comprising clusters 1, 4, 5 and 7, do not consider brand name among the top-three factors when choosing a television set. 
+                            
+                            
+                               (v) 
+                               Picture-in-picture is the most important attribute for the 20% subjects in cluster 7, but it is among the three least-important attributes for subjects in the other clusters. 
+                            
+                            
+                               (vi) 
+                               Channel blockout is the most important attribute for the 10% subjects in cluster 2, and the second-most important factor for the 19% subjects in cluster 7. It is also the least important attribute for clusters 1, 3, 4, 5 and 6, which account for 59% of all subjects.
+
+There are substantial differences in the rules used by different clusters. For example, cluster 2 considers channel blockout as the most important attribute; cluster 5 considers it the least important attribute. While both clusters 1 and 4 consider sound quality as the most important attribute, and channel blockout as the least important attribute, they differ substantially in their orderings of the remaining attributes. The importance of capturing subject heterogeneity is also reflected in the substantial differences between each of these solutions and the aggregated (single cluster) solution, for which the attribute ordering is sound quality–price–picture-in- picture–channel blockout–screen size–brand.
+
+Across the eight clusters, sound quality is the most important attribute for 33% of subjects, followed by brand name (20%), picture-in-picture (19%), price (11%), channel blockout (10%), and screen size (6%).
+
+Price is the most important attribute for cluster 3, and the second-most important attribute for cluster 1. These two clusters have 11% and 19% of the subjects, respectively. Thus, seventy percent of the subjects do not consider price as the most or second-most important factor when choosing a television set. This result should be interpreted in the context of the price range ($300–$450) used in the study — often, the importance of an attribute depends on the range of values across its levels.
+
+Thirty percent of all subjects are in the two clusters (clusters 6 and 8) that consider brand name as the most important attribute (and sound quality as the second-most important attribute). On the other hand, 58% of all subjects, comprising clusters 1, 4, 5 and 7, do not consider brand name among the top-three factors when choosing a television set.
+
+Picture-in-picture is the most important attribute for the 20% subjects in cluster 7, but it is among the three least-important attributes for subjects in the other clusters.
+
+Channel blockout is the most important attribute for the 10% subjects in cluster 2, and the second-most important factor for the 19% subjects in cluster 7. It is also the least important attribute for clusters 1, 3, 4, 5 and 6, which account for 59% of all subjects.
+
+Table 2 
+                          shows the lexicographic ordering and pooling of the attribute levels for each cluster. The preference ordering over the “brand name” attribute is obtained using the greedy algorithm for nominal attributes described in Section  3 . The key results are as follows.  
+                            
+                               (i) 
+                               Sony is the most preferred brand for all but 9% of the subjects in cluster 6, who prefer RCA to Sony. 
+                            
+                            
+                               (ii) 
+                               Subjects in clusters 1, 2, 3, and 4 are indifferent between the JVC and RCA brands (both brands are pooled into a single category) whereas subjects in cluster 7 are indifferent between RCA and Sony. The remaining three clusters have distinct preferences for all three brands. 
+                            
+                            
+                               (iii) 
+                               Clusters 2, 4, 7, and 8 collapse the price attribute into two levels “low” and “high,” albeit with a different price cutoff for cluster 8. Clusters 1, 5 and 6 categorize price into three levels, “low,” “medium” and “high.” Only cluster 3 displays no pooling of price levels. This is not surprising given that price is the most important attribute for this cluster. 
+                            
+                            
+                               (iv) 
+                               Subjects in cluster 1 are indifferent to the 25 ″  and 26 ″  screen sizes. Subjects in clusters 2, 7, and 8 are indifferent to the 26 ″  and 27 ″  screen sizes. 
+                            
+                            
+                               (v) 
+                               Five of the eight clusters pool the stereo and surround sound levels into a single category. There is no pooling of the levels of sound quality in the remaining three clusters, which differ in their orderings of the attribute levels. The ordering of the sound-quality levels in clusters 3 and 5 is unexpected. This could be due to two reasons: (1) the subjects in these clusters are novice and (2) sound quality is the fifth most important attribute in these clusters and therefore its contribution to choice is insignificant.
+
+Sony is the most preferred brand for all but 9% of the subjects in cluster 6, who prefer RCA to Sony.
+
+Subjects in clusters 1, 2, 3, and 4 are indifferent between the JVC and RCA brands (both brands are pooled into a single category) whereas subjects in cluster 7 are indifferent between RCA and Sony. The remaining three clusters have distinct preferences for all three brands.
+
+Clusters 2, 4, 7, and 8 collapse the price attribute into two levels “low” and “high,” albeit with a different price cutoff for cluster 8. Clusters 1, 5 and 6 categorize price into three levels, “low,” “medium” and “high.” Only cluster 3 displays no pooling of price levels. This is not surprising given that price is the most important attribute for this cluster.
+
+Subjects in cluster 1 are indifferent to the 25 ″  and 26 ″  screen sizes. Subjects in clusters 2, 7, and 8 are indifferent to the 26 ″  and 27 ″  screen sizes.
+
+Five of the eight clusters pool the stereo and surround sound levels into a single category. There is no pooling of the levels of sound quality in the remaining three clusters, which differ in their orderings of the attribute levels. The ordering of the sound-quality levels in clusters 3 and 5 is unexpected. This could be due to two reasons: (1) the subjects in these clusters are novice and (2) sound quality is the fifth most important attribute in these clusters and therefore its contribution to choice is insignificant.
+
+For comparison with the lexicographic model, we also estimate a main-effects, finite-mixture multinomial logit (MNL) model while varying the number of clusters from 1 to 9. The minimum CAIC information criterion ( Bozdogan, 1987 ) also suggests an eight-cluster solution.  
+                            8 
+                         
+                         
+                            8 
+                            The CAIC values for the  
+                                  G 
+                                  = 
+                                  1 
+                                  , 
+                                  … 
+                                  , 
+                                  9 
+                                cluster solutions are 16826.77, 16247.38, 15752.79, 15292.48, 15306.11, 14902.85, 14877.02, 14710.61, 14709.92. Notice how close the CAIC value are for the  
+                                  G 
+                                  = 
+                                  8 
+                                and  
+                                  G 
+                                  = 
+                                  9 
+                                cluster solutions. 
+                          A cross tabulation between the cluster memberships from the finite- mixture MNL model and those from the lexicographic choice model gives a matching coefficient of 0.77. Thus, there is good overlap between the two clusterings. The in-sample Kendall’s tau value for the  
+                            G 
+                            = 
+                            8 
+                          cluster, logit solution is 0.679; the hit rate is 0.607. Both values are slightly lower than the corresponding values of 0.689 and 0.623 obtained from the lexicographic choice model.
+
+Table 3 
+                          shows the parameter estimates for the eight-cluster multinomial logit model. The parameters are straightforward to interpret and do not appear to suggest a lexicographic choice process. It is useful to compare the lexicographic attribute orderings in  Table 1  with the importance ordering of the attributes that is implied by the logit model. Following standard practice, we assess the latter in two steps. First, we compute the range of the coefficient estimates across the levels of an attribute. For example, referring to the results for cluster 1 in  Table 3 , the range of the brand attribute is 0.65 (=0.34−(−0.31)) and for the screen size attribute is 1.16(=1.16−0). Second, we normalize these ranges so that the sum of their values across attributes is unity.
+
+Table 4 
+                          shows the normalized importance weights across attributes and clusters. The ordering of attributes by the values of these importance weights are generally consistent with the lexicographic orderings shown for the various clusters in  Table 1 , especially among the three most important attributes. There are, however, some differences. For example, the logit results for cluster 1 imply that price and sound quality are equally important, whereas the lexicographic rule gives primacy to the latter attribute. We examine the stability of the attribute orderings on holdout sets below. Here we note that the results of the logit model are useful to obtain starting solutions for both clustering and attribute orderings. The clusterwise greedy algorithm that we present in this paper provides further refinements to this solution, reassigning subjects to clusters and reassessing the ordering and pooling of attributes.
+
+Note that while the lexicographic model and cluster assignments are deterministic, the goodness of fit for this model is as good as the fit value obtained by the probabilistic linear (logit) model, of which the lexicographic model is a special case. This is not only true for the overall fit across clusters, but also within each cluster (see  Tables 1 and 3 ). The only instance in which the two models differ is for cluster 5, where the lexicographic rule does significantly better in terms of Kendall’s tau value (0.60 vs. 0.31) and the hit rate (0.54 vs. 0.36). These results suggest that the choice data are consistent with the use of a lexicographic rule by the subjects in this study.
+
+We use the following method to assess the predictive accuracy of the lexicographic choice model relative to that of the MNL model. From each subject, we randomly select 16 choice sets for model estimation and use the remaining 2 for prediction. We repeat this analysis 100 times. For the lexicographic model, the mean hit rate (Kendall-tau) across randomly-drawn holdout samples is 56% (0.63); the 95% confidence interval is  
+                            
+                               [ 
+                               53 
+                               % 
+                               , 
+                               59 
+                               % 
+                               ] 
+                            
+                            
+                            
+                               ( 
+                               
+                                  [ 
+                                  0.60 
+                                  , 
+                                  0.66 
+                                  ] 
+                               
+                               ) 
+                            
+                         . For comparison, the mean hit rate (Kendall-tau) from MNL is 57% (0.63) and the 95% confidence interval is  
+                            
+                               [ 
+                               54 
+                               % 
+                               , 
+                               60 
+                               % 
+                               ] 
+                            
+                            
+                            
+                               ( 
+                               
+                                  [ 
+                                  0.60 
+                                  , 
+                                  0.66 
+                                  ] 
+                               
+                               ) 
+                            
+                         . Thus, both models are equivalent in terms of predictive validity. As the lexicographic model is obtained as a special case of a linear model, these results further suggest that the choices made by the subjects in the study are consistent with the use of a lexicographic rule.
+
+We used this cross-validation study to also examine the stability of the cluster memberships and parameter estimates across the hundred runs. The percent of times subjects are classified to the same cluster (average hit rate) is 92% for the lexicographic model and 91% for the MNL choice model. To assess the stability of the eight-cluster solution, we computed the fraction of the one hundred runs in which the most important attribute is the same for the full sample and the validation sample. We repeated this analysis for the second- and third-most important attributes. Across clusters, we found a perfect match for the most and second-most important attributes, and an 86% match for the third-most important attribute. For example, for cluster one, we found that sound quality is the most important attribute (see  Table 1 ) in both analyses, using the full dataset and the 100 randomly generated validation datasets. For comparison, we used the magnitude of the range of the MNL coefficients within a particular attribute to determine its order of importance. Using this measure, we found a 93%, 71%, and 69% match, respectively, for the most, second-most, and third most important attribute. These results suggest that the lexicographic rules we obtained are at least, if not more, robust than the measures of attribute importance we obtain from a MNL model.
+
+A number of psychological studies emphasize the possibility that in some domains, people may have exclusively lexicographic preferences. In other domains, people are known to use lexicographic rules to simplify complex choices, or to efficiently evaluate a large set of alternatives. The purpose of this paper is to propose a novel form of lexicographic preference structure and to describe a method for its inference using choice data. The proposed model assumes that the sample is drawn from a population in which individuals are partitioned into subgroups. All members of a subgroup have the same lexicographic preference structure. Different subgroups have different preference structures. Due to an unanalyzed random process, the observed preferences of individuals in a subgroup may differ from the underlying lexicographic preference structure of the subgroup. The present paper presents a method for inferring the subgroups and their respective lexicographic preference structures from choice data. The inference problem is NP-Hard. We therefore use a (greedy) heuristic for its solution. We describe an application of the proposed method using data from a choice experiment involving television sets. We find that the proposed model predicts as well as a finite-mixture, multinomial logit model, both for estimation and holdout data. This suggests that the data are consistent with the use of lexicographic rules by subjects, because a lexicographic model is obtained as a special case of a linear model.
+
+The present research should advance the study of group preference structures, especially where researchers have hypothesized lexicographic preference structures. Alternatively, if the objective is to disprove hypothesized lexicographic preference structures, one will need a best-fitting lexicographic model be estimated and compared to the fits of alternative, non-lexicographic models. The present research suggests how such a lexicographic model might be estimated for unobserved clusters of subjects.
+
+An important area for future research is the development of an error model for lexicographic preferences. The use of a standard error model, as for example in logit or probit models, is not appropriate because these require that the unobserved utility function has cardinal (interval-scaled) properties. In contrast, a linear-model representation of lexicographic rules allows a larger set of transformations than are permitted for cardinal utility functions. Another area of research is to examine if and when people switch to and from lexicographic and compensatory models. As  Luce (1978)  observes, it is possible that for an attribute like price, a person might use a lexicographic rule to order alternatives that are widely different on an attribute; but for smaller ranges of the attribute, he might use a compensatory strategy. Part of the problem in modeling such processes is that the measurement scale for such preference structures is not simply ordinal (as it is when preferences are lexicographic) or cardinal, but some combination of the two. It should be useful to examine how one might represent such preferences, and infer their use from choices or stated preferences.
+
+The authors thank Professor John Miyamoto for his helpful comments and Sawtooth Software for providing the TV choice data.

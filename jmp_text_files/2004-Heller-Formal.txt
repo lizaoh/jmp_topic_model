@@ -1,0 +1,1642 @@
+10.1016/j.jmp.2003.10.003
+In a seminal paper  Doignon and Falmagne (1985)  suggested a set-theoretical framework for designing efficient procedures for knowledge assessment (see also  Müller, 1989 ). In this theory a  knowledge domain  is formalized by a nonempty set  Q  of problems or items. The set  Q  will be considered finite throughout this paper. A  knowledge state  is identified with the subset of items a person is capable of solving, and a set of possible knowledge states for a given domain  Q  is called a  knowledge structure  whenever it contains the emptyset ∅ and  Q . A knowledge structure is called a  knowledge space  if the set of states is closed for union. This notion is at the core of the theory of knowledge spaces that was developed and successfully applied over nearly two decades. A state-of-the art report is provided by  Doignon and Falmagne (1999) .
+
+The querying of experts is one of the major sources of information for constructing a knowledge space. For some nonempty subsets  A ,  B  of the domain  Q  the expert is offered an assertion of the type 
+                         “Failing all the items in  A  entails failing all the items in  B ”. 
+                      The expert's task is to decide whether such an assertion can be accepted, or is to be rejected. The problem associated with such a querying procedure is that the number of possible assertions increases exponentially with the number of items in the domain. A reduction of the number of queries can be achieved by inferring an expert's responses from previously collected answers, which, however, requires to assume that decisions are completely reliable and consistent with a knowledge space. Various algorithmic procedures have been devised for implementing such an interactive questioning routine.  Müller (1989 ; see also  Dowling, 1993)  proposed a querying procedure based on a so-called implication relation, and  Koppen and Doignon (1990; see also Koppen, 1993)  suggested the QUERY-routine, which refers to the similar notion of an entail relation (see  Definition 1  below).  Düntsch and Gediga (1996)  also used entail relations to develop querying procedures for identifying knowledge structures that are more general than knowledge spaces. Practical applications, however, were not fully successful. The procedures turned out to be very sensitive to errors and inconsistencies in the expert's judgments ( Kambouri, Koppen, Villano, & Falmagne, 1994 ;  Schrepp & Held, 1995) . Simulation studies conducted by  Schrepp and Held (1995)  revealed that even small error rates in the expert's answers may induce large variations among the resulting knowledge spaces.  Cosyn and Thiéry (2000)  thus modified the QUERY-routine by introducing an error-handling mechanism. Their Pending Status QUERY (PS-QUERY) is designed to draw inferences on reliable judgments only.
+
+The present paper is a follow-up on  Cosyn and Thiéry (2000) , where associating an entail relation to a set of given responses is captured by the notion of a closure on the set of all assertions.  Section 3  generalizes this approach by formalizing an inference mechanism as an extension of this closure to a set containing for each assertion  x  a positive instance  x 
+                      +  and a negative instance  x 
+                      − , representing acceptance and rejection, respectively. The extended closure has to meet several consistency constraints, one of which is closely related to consistent aggregations of information as treated by  Davey and Priestley (1990) . In  Section 4  it is shown that these constraints uniquely determine the form of the extended closure, which then actually corresponds to the inference mechanism of the QUERY and PS-QUERY routines. The implications of this result are discussed in  Section 5 .
+
+The set of accepted assertions resulting from a querying procedure as outlined above defines a binary relation on 2 
+                         Q 
+                      ⧹{∅}. If an expert's responses are consistent with a knowledge space then this relation satisfies certain properties, which are introduced in the following definition of an entail relation. Moreover, it has been shown that there is a one-to-one correspondence between the family of all knowledge spaces on a domain  Q  and the family of all entail relations  
+                         P 
+                       for  Q  ( Koppen and Doignon, 1990 ). 
+                         Definition 1 
+                         An  entail relation  
+                            
+                               P 
+                             for the (finite) domain  Q  is a binary relation on 2 
+                               Q 
+                            ⧹{∅}, such that for all subsets  A , B , C ∈2 
+                               Q 
+                            ⧹{∅} 
+                               
+                                  1. 
+                                  
+                                     B ⊆ A  implies  A P B ; 
+                               
+                               
+                                  2. 
+                                  
+                                     A P B  and  B P C  imply  A P C ; 
+                               
+                               
+                                  3. 
+                                  
+                                     A P B  implies  A P (A∪B) .
+
+An  entail relation  
+                            
+                               P 
+                             for the (finite) domain  Q  is a binary relation on 2 
+                               Q 
+                            ⧹{∅}, such that for all subsets  A , B , C ∈2 
+                               Q 
+                            ⧹{∅} 
+                               
+                                  1. 
+                                  
+                                     B ⊆ A  implies  A P B ; 
+                               
+                               
+                                  2. 
+                                  
+                                     A P B  and  B P C  imply  A P C ; 
+                               
+                               
+                                  3. 
+                                  
+                                     A P B  implies  A P (A∪B) .
+
+B ⊆ A  implies  A P B ;
+
+A P B  and  B P C  imply  A P C ;
+
+A P B  implies  A P (A∪B) .
+
+By assuming that an expert's answers are consistent, i.e. the set of accepted assertions forms an entail relation, the query procedure may exploit the properties stated in  Definition 1  to draw inferences from previously collected answers. Details on the derivation of valid inferences can be found in  Koppen and Doignon (1990)  and  Koppen (1993) . In the sequel we want to exemplify the involved arguments by systematically constructing answers that may be inferred by means of transitivity (property 2 in  Definition 1 ) if the assertion ( A , B )∈(2 
+                         Q 
+                      ⧹{∅}) 2  is known to be accepted or rejected, respectively. Given the subsets  A , B , C ∈2 
+                         Q 
+                      ⧹{∅}, all formulations of transitivity that contain the pair ( A , B ) are generated by the permutations  ABC ,  ACB , and  CAB . In addition to the corresponding formulations of transitivity their logical equivalents have to be considered, too. Contraposition of property 2 of  Definition 1 , for example, provides the implication 
+                         
+                            A 
+                                  P 
+                               C 
+                               implies 
+                               A 
+                                  P 
+                               B 
+                               or 
+                               B 
+                                  P 
+                               C. 
+                         
+                      From this implication Rule II is derived, which, together with the other inference rules that can be constructed in this way, is listed in  Table 1 .
+
+The inference rules are illustrated in  Fig. 1 .  Solid and dashed arrows represent the entail relation  
+                         P 
+                       and its negation  
+                         
+                            P 
+                         
+                      , respectively, while black arrows indicate inferred relations. Notice that there is an asymmetry inherent in these rules. Positive responses may only be inferred from accepted assertions (Rules I and V), whereas negative responses are inferred from both accepted and rejected assertions (Rules II, III, IV, and VI). The same kind of asymmetry is exhibited by the more general inference rules presented by  Koppen (1993, Eqs. (13a–d), p. 8; see also Koppen and Doignon, 1990) , which incorporate all the properties of an entail relation.
+
+If we assume that an expert's answers correspond to a knowledge space then for any subset  P ⊆(2 
+                         Q 
+                      ⧹{∅}) 2  of accepted assertions we may consider the smallest entail relation containing it. This formally establishes a closure on the set (2 
+                         Q 
+                      ⧹{∅}) 2  of all queries, i.e. the set of all assertions that the expert may be presented with. 
+                         Definition 2 
+                         Let  X  be a nonempty set. A  closure  
+                            〈 〉  on  X  is a mapping  Y ↦〈 Y 〉 from 2 
+                               X 
+                             to 2 
+                               X 
+                             such that for all  Y ,  Z ⊆ X 
+                            
+                               
+                                  1. 
+                                  
+                                     Y ⊆〈 Y 〉; 
+                               
+                               
+                                  2. 
+                                  
+                                     Y ⊆ Z  implies 〈 Y 〉⊆〈 Z 〉; 
+                               
+                               
+                                  3. 
+                                  〈 Y 〉=〈〈 Y 〉〉. 
+                               
+                            
+A subset  Y ⊆ X  is said to be  closed with respect to  
+                            〈 〉  (or  〈 〉 -closed) if  Y =〈 Y 〉 holds.
+
+Let  X  be a nonempty set. A  closure  
+                            〈 〉  on  X  is a mapping  Y ↦〈 Y 〉 from 2 
+                               X 
+                             to 2 
+                               X 
+                             such that for all  Y ,  Z ⊆ X 
+                            
+                               
+                                  1. 
+                                  
+                                     Y ⊆〈 Y 〉; 
+                               
+                               
+                                  2. 
+                                  
+                                     Y ⊆ Z  implies 〈 Y 〉⊆〈 Z 〉; 
+                               
+                               
+                                  3. 
+                                  〈 Y 〉=〈〈 Y 〉〉. 
+                               
+                            
+A subset  Y ⊆ X  is said to be  closed with respect to  
+                            〈 〉  (or  〈 〉 -closed) if  Y =〈 Y 〉 holds.
+
+Y ⊆〈 Y 〉;
+
+Y ⊆ Z  implies 〈 Y 〉⊆〈 Z 〉;
+
+〈 Y 〉=〈〈 Y 〉〉.
+
+Cosyn and Thiéry (2000)  based their consideration of the QUERY inference algorithm on the notion of a closure on the set of all (accepted) assertions. The PS-QUERY procedure was then developed as a generalization that retains some basic consistency properties of the QUERY procedure. The present paper takes a still more abstract point of view. As  Table 1  demonstrates, both accepted and rejected assertions play an essential role for drawing inferences. It thus seems to be straightforward to identify the inference algorithm with a closure on an extended set of assertions that not only comprises all accepted assertions, but also all rejected assertions. We then consider natural constraints on how the closure on this extended set is related to the closure of associating the least entail relation to any set of accepted assertions. We will investigate the restrictions that these constraints impose on the possible form of the closure on the extended set, and thereby characterize all possible inference algorithms.
+
+Consider the set  X =(2 
+                         Q 
+                      ⧹{∅}) 2  of all queries. As any particular assertion  x ∈ X  may be accepted or rejected, both alternatives will be taken into account. Let  X 
+                      ± = X ×{+,−} denote the disjoint union of  X  with itself. In the sequel, we will write  x 
+                      +  instead of ( x ,+) and  x 
+                      −  instead of ( x ,−) for all  x ∈ X . Then the set  X 
+                      ±  contains a positive instance  x 
+                      +  and a negative instance  x 
+                      −  for each assertion  x ∈ X , representing acceptance and rejection, respectively. For any subset  Y ⊆ X  we set  Y + ={x + 
+                         | x∈Y}  and  Y − ={x − 
+                         | x∈Y} . Thus, we have  X 
+                      ± = X 
+                      + ∪ X 
+                      − . Let  π  denote the projection of  X 
+                      ± = X ×{+,−} onto its first component  X .
+
+As in  Cosyn and Thiéry (2000) , the closure  〈 〉  on  X  may be thought of as associating the smallest entail relation to any given subset of accepted assertions. The theory, however, is developed independent of any such interpretation. Formal characterizations of a selection mechanism for choosing the next query, a decision mechanism representing an expert's behavior, and an inference mechanism will be based on the set  X 
+                      ± . Within this context the closure  〈 〉  will also be considered a closure on  X 
+                      +  by canonically identifying  X  with  X 
+                      + . We will start with some concepts and results concerning the assumed decision mechanism, and subsequently will introduce the notion of a consistent extension of the closure  〈 〉  on  X 
+                      +  to the set  X 
+                      ± , which is at the core of the suggested formalization of an inference algorithm. 
+                         Definition 3 
+                         A mapping  δ : X → X 
+                            ±  is called a  decision mechanism on  
+                            X  if  π ( δ ( x ))= x  for all  x ∈ X . Given a closure  〈 〉  on  X , a decision mechanism  δ  on  X  is said to be  〈 〉 - consistent  if there is a subset  C ⊆ X  which is  〈 〉 -closed such that for all  x ∈ X 
+                            
+                               
+                                  δ(x)= 
+                                        
+                                        
+                                           
+                                              x + 
+                                              
+                                              
+                                                 if 
+                                                 x∈C, 
+                                           
+                                           
+                                              x − 
+                                              
+                                              
+                                                 if 
+                                                 x∉C.
+
+A mapping  δ : X → X 
+                            ±  is called a  decision mechanism on  
+                            X  if  π ( δ ( x ))= x  for all  x ∈ X . Given a closure  〈 〉  on  X , a decision mechanism  δ  on  X  is said to be  〈 〉 - consistent  if there is a subset  C ⊆ X  which is  〈 〉 -closed such that for all  x ∈ X 
+                            
+                               
+                                  δ(x)= 
+                                        
+                                        
+                                           
+                                              x + 
+                                              
+                                              
+                                                 if 
+                                                 x∈C, 
+                                           
+                                           
+                                              x − 
+                                              
+                                              
+                                                 if 
+                                                 x∉C.
+
+The notion of a  〈 〉 -consistent decision mechanism formalizes the idea that an expert's answers are in correspondence with a closure  〈 〉  on  X  (e.g. correspond to an entail relation). A decision mechanism  δ  on  X  may be completely specified by presenting an expert with all assertions  x ∈ X  and by defining  δ ( x )= x 
+                      +  if  x  is accepted, and  δ ( x )= x 
+                      −  if  x  is rejected. It is uniquely characterized by the image  δ ( X ), which for any assertion  x ∈ X  contains either the positive instance  x 
+                      + , or the negative instance  x 
+                      − . The image  δ ( X ) thus is complete in the sense that  π ( δ ( X ))= X . Moreover, it is a consistent subset of  X 
+                      ±  in the following sense. 
+                         Definition 4 
+                         Let  T  be a subset of  X 
+                            ± , and let  〈 〉  be a closure on  X 
+                            + ⊆ X 
+                            ± . Then  T  is said to be  consistent  if  π ( T ∩ X 
+                            + )∩ π ( T ∩ X 
+                            − )=∅. The set  T  is said to be  〈 〉  - consistent  if  π (〈 T ∩ X 
+                            + 〉)∩ π ( T ∩ X 
+                            − )=∅. Let  
+                               C 
+                             denote the set of all  〈 〉 -consistent subsets of  X 
+                            ± .
+
+Let  T  be a subset of  X 
+                            ± , and let  〈 〉  be a closure on  X 
+                            + ⊆ X 
+                            ± . Then  T  is said to be  consistent  if  π ( T ∩ X 
+                            + )∩ π ( T ∩ X 
+                            − )=∅. The set  T  is said to be  〈 〉  - consistent  if  π (〈 T ∩ X 
+                            + 〉)∩ π ( T ∩ X 
+                            − )=∅. Let  
+                               C 
+                             denote the set of all  〈 〉 -consistent subsets of  X 
+                            ± .
+
+A subset of  X 
+                      ±  is consistent if it is noncontradictory, i.e. for any assertion  x ∈ X  it does not contain both the positive instance  x 
+                      + , and the negative instance  x 
+                      − . Within the intended application we also want to know whether or not a contradiction occurs under the additional assumption that the set of accepted assertions actually forms an entail relation. The notion of a  〈 〉 -consistent subset refers to this situation.  Lemma 1  shows that the consistent ( 〈 〉 -consistent) decision mechanisms on  X  can be identified with the consistent subsets ( 〈 〉 -consistent subsets) of  X 
+                      ± . The easy proof is omitted. 
+                         Lemma 1 
+                         
+                            Let  
+                            T  
+                            be a subset of  
+                            X 
+                            ± ,  and let  
+                            〈 〉  
+                            be a closure on  
+                            X 
+                            + .  Then 
+                            
+                               
+                                  1. 
+                                  
+                                     T  
+                                     is consistent if and only if there exists a decision mechanism  
+                                     δ  
+                                     on  
+                                     X  
+                                     such that  
+                                     δ ( π ( T ))= T ; 
+                               
+                               
+                                  2. 
+                                  
+                                     T∈ C 
+                                      ( i.e .  T  
+                                     is  
+                                     〈 〉 - consistent )  if and only if there exists a  
+                                     〈 〉 - consistent decision mechanism  
+                                     δ  
+                                     on  
+                                     X  
+                                     such that  
+                                     δ ( π ( T ))= T ; 
+                               
+                               
+                                  3. 
+                                  
+                                     there is at most one decision mechanism  
+                                     δ  
+                                     on  
+                                     X  
+                                     such that  
+                                     δ ( π ( T ))= T  
+                                     whenever  
+                                     π ( T )= X .
+
+Let  
+                            T  
+                            be a subset of  
+                            X 
+                            ± ,  and let  
+                            〈 〉  
+                            be a closure on  
+                            X 
+                            + .  Then 
+                            
+                               
+                                  1. 
+                                  
+                                     T  
+                                     is consistent if and only if there exists a decision mechanism  
+                                     δ  
+                                     on  
+                                     X  
+                                     such that  
+                                     δ ( π ( T ))= T ; 
+                               
+                               
+                                  2. 
+                                  
+                                     T∈ C 
+                                      ( i.e .  T  
+                                     is  
+                                     〈 〉 - consistent )  if and only if there exists a  
+                                     〈 〉 - consistent decision mechanism  
+                                     δ  
+                                     on  
+                                     X  
+                                     such that  
+                                     δ ( π ( T ))= T ; 
+                               
+                               
+                                  3. 
+                                  
+                                     there is at most one decision mechanism  
+                                     δ  
+                                     on  
+                                     X  
+                                     such that  
+                                     δ ( π ( T ))= T  
+                                     whenever  
+                                     π ( T )= X .
+
+T  
+                                     is consistent if and only if there exists a decision mechanism  
+                                     δ  
+                                     on  
+                                     X  
+                                     such that  
+                                     δ ( π ( T ))= T ;
+
+T∈ C 
+                                      ( i.e .  T  
+                                     is  
+                                     〈 〉 - consistent )  if and only if there exists a  
+                                     〈 〉 - consistent decision mechanism  
+                                     δ  
+                                     on  
+                                     X  
+                                     such that  
+                                     δ ( π ( T ))= T ;
+
+there is at most one decision mechanism  
+                                     δ  
+                                     on  
+                                     X  
+                                     such that  
+                                     δ ( π ( T ))= T  
+                                     whenever  
+                                     π ( T )= X .
+
+Obviously, if  T ⊆ X 
+                      ±  is  〈 〉 -consistent for some closure  〈 〉  on  X 
+                      +  then it is consistent, but the converse implication does not hold in general. The set  T  is consistent if and only if it is  〈 〉 -consistent for the (trivial) closure  〈 〉  defined by 〈 A 〉= A  for all  A ∈ X 
+                      + . 
+                         Example 1 
+                         Let  T ={( A , B ) + ,( B , C ) + ,( A , C ) − }⊆ X 
+                            ± , and let  〈 〉  be the closure on  X  (identified with  X 
+                            + ) that associates to each subset the least entail relation containing it. Then  T  is consistent, because 
+                               
+                                  π(T∩X + )∩π(T∩X − )={(A,B),(B,C)}∩{(A,C)}=∅. 
+                               
+                            However,  T  is  not  
+                            〈 〉 -consistent, because 
+                               
+                                  π(〈T∩X + 〉)∩π(T∩X − )={(A,C)}≠∅. 
+                               
+                            
+                         
+                      
+                      
+                         Remark 1 
+                         It is a self-evident, but important property of the above-defined notions of consistency that if  T ⊆ X 
+                            ±  is consistent ( 〈 〉 -consistent) then all subsets  U ⊆ T  are consistent ( 〈 〉 -consistent), too. In particular, this means that  
+                               C 
+                             is a down-set, or order ideal (e.g.  Davey and Priestley, 1990 ) with respect to set-inclusion.
+
+Let  T ={( A , B ) + ,( B , C ) + ,( A , C ) − }⊆ X 
+                            ± , and let  〈 〉  be the closure on  X  (identified with  X 
+                            + ) that associates to each subset the least entail relation containing it. Then  T  is consistent, because 
+                               
+                                  π(T∩X + )∩π(T∩X − )={(A,B),(B,C)}∩{(A,C)}=∅. 
+                               
+                            However,  T  is  not  
+                            〈 〉 -consistent, because 
+                               
+                                  π(〈T∩X + 〉)∩π(T∩X − )={(A,C)}≠∅.
+
+It is a self-evident, but important property of the above-defined notions of consistency that if  T ⊆ X 
+                            ±  is consistent ( 〈 〉 -consistent) then all subsets  U ⊆ T  are consistent ( 〈 〉 -consistent), too. In particular, this means that  
+                               C 
+                             is a down-set, or order ideal (e.g.  Davey and Priestley, 1990 ) with respect to set-inclusion.
+
+In order to provide a formalization of an inference algorithm which respects both accepted and rejected assertions, we will have to extend the closure  〈 〉  on the set of accepted assertions  X 
+                      +  to a closure  《 》  on  X 
+                      ±  in a proper way. 
+                         Definition 5 
+                         The closure  《 》  on  X 
+                            ±  is said to be an  extension  of the closure  〈 〉  on  X 
+                            + ⊆ X 
+                            ±  if for all  T ⊆ X 
+                            ± 
+                            
+                               
+                                  〈T∩X + 〉=《T∩X + 》∩X + .
+
+The closure  《 》  on  X 
+                            ±  is said to be an  extension  of the closure  〈 〉  on  X 
+                            + ⊆ X 
+                            ±  if for all  T ⊆ X 
+                            ± 
+                            
+                               
+                                  〈T∩X + 〉=《T∩X + 》∩X + .
+
+Definition 5  states that, if restricted to the subset of accepted assertions  X 
+                      + ⊆ X 
+                      ± , the closures  《 》  and  〈 〉  coincide. This implies that for all subsets  T ⊆ X 
+                      ±  we have  〈T∩X + 〉⊆《T》∩X + 
+                      . The reverse inclusion does not hold in general, as the following example demonstrates. In this case the rejected assertions may contribute to inferring accepted assertions. 
+                         Example 2 
+                         Let  〈 〉  be a closure on  X 
+                            + ⊆ X 
+                            ± . Defining the closure  《 》  on  X 
+                            ±  by 
+                               
+                                  《T》= 
+                                        
+                                        
+                                           
+                                              〈T〉 
+                                              
+                                                 if 
+                                                 T⊆X + , 
+                                           
+                                           
+                                              X ± 
+                                              
+                                              
+                                                 otherwise 
+                                              
+                                           
+                                        
+                                     
+                                  
+                               
+                            for all  T ⊆ X 
+                            ±  provides an extension of the closure  〈 〉 , and the inclusion  〈T∩X + 〉⊆《T》∩X + 
+                             is strict whenever  T ∩ X 
+                            − ≠∅ and  〈T∩X + 〉⊊X + 
+                            .
+
+Let  〈 〉  be a closure on  X 
+                            + ⊆ X 
+                            ± . Defining the closure  《 》  on  X 
+                            ±  by 
+                               
+                                  《T》= 
+                                        
+                                        
+                                           
+                                              〈T〉 
+                                              
+                                                 if 
+                                                 T⊆X + , 
+                                           
+                                           
+                                              X ± 
+                                              
+                                              
+                                                 otherwise 
+                                              
+                                           
+                                        
+                                     
+                                  
+                               
+                            for all  T ⊆ X 
+                            ±  provides an extension of the closure  〈 〉 , and the inclusion  〈T∩X + 〉⊆《T》∩X + 
+                             is strict whenever  T ∩ X 
+                            − ≠∅ and  〈T∩X + 〉⊊X + 
+                            .
+
+A fundamental feature of any inference algorithm is to preserve consistency. In particular we consider the following notion. 
+                         Definition 6 
+                         The extension  《 》  on  X 
+                            ±  of the closure  〈 〉  on  X 
+                            + ⊆ X 
+                            ±  is called a  consistent extension  if for all  T ⊆ X 
+                            ±  the set  《T》  is  〈 〉 -consistent whenever  T  is  〈 〉 -consistent.
+
+The extension  《 》  on  X 
+                            ±  of the closure  〈 〉  on  X 
+                            + ⊆ X 
+                            ±  is called a  consistent extension  if for all  T ⊆ X 
+                            ±  the set  《T》  is  〈 〉 -consistent whenever  T  is  〈 〉 -consistent.
+
+Representing an inference mechanism by a consistent extension according to  Definition 6  assures that the set of assertions inferred from a subset  T ⊆ X 
+                      ±  corresponds to a  〈 〉 -consistent decision mechanism whenever  T  is  〈 〉 -consistent. The proof of the subsequently stated proposition will draw upon  Lemma 2 . 
+                         Lemma 2 
+                         
+                            Let the closure  
+                            《 》  
+                            on  
+                            X 
+                            ±  
+                            be a consistent extension of the closure  
+                            〈 〉  
+                            on  
+                            X 
+                            + ⊆ X 
+                            ± ,  and for any  
+                            T ⊆ X 
+                            ±  
+                            define 
+                            
+                               
+                                  T ∗ =〈T∩X + 〉∪{x − ∈X − 
+                                     | x + ∉〈T∩X + 〉}. 
+                               
+                            
+                            Let  
+                            
+                               C 
+                             
+                            be as introduced in Definition  4.  Then for all  
+                            T ⊆ X 
+                            ±  
+                            the set  
+                            T ∗ 
+                             
+                            is  
+                            《 》 - closed ,  and  
+                            T∈ C 
+                             
+                            if and only if  
+                            T⊆T ∗ 
+                            . 
+                      
+                      
+                         Proof 
+                         By definition  T ∗ 
+                             is consistent, and we have 
+                               
+                                  〈T ∗ ∩X + 〉=〈〈T∩X + 〉〉=〈T∩X + 〉=T ∗ ∩X + . 
+                               
+                            This means that  T ∗ 
+                             is  〈 〉 -consistent. Since  《 》  is a consistent extension of  〈 〉  we infer that  《T ∗ 》  is  〈 〉 -consistent. However, by definition  T ∗ 
+                             is a maximal  〈 〉 -consistent subset of  X 
+                            ±  (with respect to set-inclusion), so that  T ∗ ⊆《T ∗ 》  implies  T ∗ =《T ∗ 》 . 
+                         If  T∈ C 
+                             then  T∩X − ⊆{x − ∈X − 
+                               | x + ∉〈T∩X + 〉} , and so  T⊆T ∗ 
+                            . Conversely, since  T ∗ ∈ C 
+                             by definition, the inclusion  T⊆T ∗ 
+                             implies that  T∈ C 
+                             (see  Remark 1 ). □
+
+Let the closure  
+                            《 》  
+                            on  
+                            X 
+                            ±  
+                            be a consistent extension of the closure  
+                            〈 〉  
+                            on  
+                            X 
+                            + ⊆ X 
+                            ± ,  and for any  
+                            T ⊆ X 
+                            ±  
+                            define 
+                            
+                               
+                                  T ∗ =〈T∩X + 〉∪{x − ∈X − 
+                                     | x + ∉〈T∩X + 〉}. 
+                               
+                            
+                            Let  
+                            
+                               C 
+                             
+                            be as introduced in Definition  4.  Then for all  
+                            T ⊆ X 
+                            ±  
+                            the set  
+                            T ∗ 
+                             
+                            is  
+                            《 》 - closed ,  and  
+                            T∈ C 
+                             
+                            if and only if  
+                            T⊆T ∗ 
+                            .
+
+By definition  T ∗ 
+                             is consistent, and we have 
+                               
+                                  〈T ∗ ∩X + 〉=〈〈T∩X + 〉〉=〈T∩X + 〉=T ∗ ∩X + . 
+                               
+                            This means that  T ∗ 
+                             is  〈 〉 -consistent. Since  《 》  is a consistent extension of  〈 〉  we infer that  《T ∗ 》  is  〈 〉 -consistent. However, by definition  T ∗ 
+                             is a maximal  〈 〉 -consistent subset of  X 
+                            ±  (with respect to set-inclusion), so that  T ∗ ⊆《T ∗ 》  implies  T ∗ =《T ∗ 》 .
+
+If  T∈ C 
+                             then  T∩X − ⊆{x − ∈X − 
+                               | x + ∉〈T∩X + 〉} , and so  T⊆T ∗ 
+                            . Conversely, since  T ∗ ∈ C 
+                             by definition, the inclusion  T⊆T ∗ 
+                             implies that  T∈ C 
+                             (see  Remark 1 ). □
+
+We are now ready to state the main result of this section.  Proposition 1  provides a full description of the consistent extensions of a closure by specifying the general form of their restrictions to  
+                         C 
+                      . 
+                         Proposition 1 
+                         
+                            Let the closure  
+                            《 》  
+                            on  
+                            X 
+                            ±  
+                            be an extension of the closure  
+                            〈 〉  
+                            on  
+                            X 
+                            + ⊆ X 
+                            ± .  Then the following statements are equivalent : 
+                               
+                                  1. 
+                                  
+                                     The closure  
+                                     《 》  
+                                     is a consistent extension of the closure  
+                                     〈 〉 . 
+                               
+                               
+                                  2. 
+                                  
+                                     For all subsets  
+                                     T∈ C 
+                                      
+                                     we have 
+                                     
+                                        
+                                           《T》=〈T∩X + 〉∪[T], 
+                                        
+                                     
+                                     where  
+                                     [ ]  
+                                     is a mapping from  
+                                     
+                                        C 
+                                      
+                                     to  2 
+                                        X 
+                                        − 
+                                      
+                                     such that for all  
+                                     U∈ C 
+                                     
+                                     
+                                        
+                                           (a) 
+                                           
+                                              U∩X − ⊆[U]⊆{x − ∈X − 
+                                                 | U∪{x + }∉ C } ; 
+                                        
+                                        
+                                           (b) 
+                                           
+                                              V ⊆ U  
+                                              implies  [ V ]⊆[ U ]; 
+                                        
+                                        
+                                           (c) 
+                                           [[ U ]]=[ U ]. 
+                                        
+                                     
+                                  
+                               
+                            
+                         
+                      
+                      
+                         Proof 
+                         For proving the implication from Statement 1 to Statement 2 let  T∈ C 
+                            . By  Lemma 2  we obtain 
+                               
+                                  《T》∩X + ⊆《T ∗ 》∩X + =T ∗ ∩X + =〈T∩X + 〉. 
+                               
+                            Since the reverse inclusion is an immediate consequence of  Definition 5 , we obtain  《T》∩X + =〈T∩X + 〉 . Defining  [T]=《T》∩X − 
+                             then provides the decomposition  《T》=〈T∩X + 〉∪[T] . Except for the inclusion  [U]⊆{x − ∈X − 
+                               | U∪{x + }∉ C } , the asserted properties of  [ ]  follow immediately from its definition and the fact that  《 》  is a closure. For proving this inclusion assume that  U∪{x + }∈ C 
+                            . Because  《 》  is a consistent extension, we obtain  《U∪x + 》=〈(U∪x + )∩X + 〉∪[U]∈ C 
+                            , which implies that  x 
+                            − ∉[ U ]. 
+                         Conversely, the properties of Statement 2 are sufficient to define a consistent extension. Let  T∈ C 
+                            . We then have to show that  《T》∈ C 
+                            , which holds if and only if  π(〈《T》∩X + 〉)∩π(《T》∩X − )=∅ . Plugging in the given decomposition  《T》=〈T∩X + 〉∪[T]  results in the equation  π (〈 T ∩ X 
+                            + 〉)∩ π ([ T ])=∅, which fails to hold whenever there is an element  x ∈ X  such that  x 
+                            + ∈〈 T ∩ X 
+                            + 〉 and  x 
+                            − ∈[ T ]. However, if we assume that  x 
+                            + ∈〈 T ∩ X 
+                            + 〉 then  T∪{x + }∈ C 
+                            , and the inclusion  [T]⊆{x − ∈X − 
+                               | T∪{x + }∉ C }  implies that  x 
+                            − ∉[ T ]. □
+
+Let the closure  
+                            《 》  
+                            on  
+                            X 
+                            ±  
+                            be an extension of the closure  
+                            〈 〉  
+                            on  
+                            X 
+                            + ⊆ X 
+                            ± .  Then the following statements are equivalent : 
+                               
+                                  1. 
+                                  
+                                     The closure  
+                                     《 》  
+                                     is a consistent extension of the closure  
+                                     〈 〉 . 
+                               
+                               
+                                  2. 
+                                  
+                                     For all subsets  
+                                     T∈ C 
+                                      
+                                     we have 
+                                     
+                                        
+                                           《T》=〈T∩X + 〉∪[T], 
+                                        
+                                     
+                                     where  
+                                     [ ]  
+                                     is a mapping from  
+                                     
+                                        C 
+                                      
+                                     to  2 
+                                        X 
+                                        − 
+                                      
+                                     such that for all  
+                                     U∈ C 
+                                     
+                                     
+                                        
+                                           (a) 
+                                           
+                                              U∩X − ⊆[U]⊆{x − ∈X − 
+                                                 | U∪{x + }∉ C } ; 
+                                        
+                                        
+                                           (b) 
+                                           
+                                              V ⊆ U  
+                                              implies  [ V ]⊆[ U ]; 
+                                        
+                                        
+                                           (c) 
+                                           [[ U ]]=[ U ].
+
+The closure  
+                                     《 》  
+                                     is a consistent extension of the closure  
+                                     〈 〉 .
+
+For all subsets  
+                                     T∈ C 
+                                      
+                                     we have 
+                                     
+                                        
+                                           《T》=〈T∩X + 〉∪[T], 
+                                        
+                                     
+                                     where  
+                                     [ ]  
+                                     is a mapping from  
+                                     
+                                        C 
+                                      
+                                     to  2 
+                                        X 
+                                        − 
+                                      
+                                     such that for all  
+                                     U∈ C 
+                                     
+                                     
+                                        
+                                           (a) 
+                                           
+                                              U∩X − ⊆[U]⊆{x − ∈X − 
+                                                 | U∪{x + }∉ C } ; 
+                                        
+                                        
+                                           (b) 
+                                           
+                                              V ⊆ U  
+                                              implies  [ V ]⊆[ U ]; 
+                                        
+                                        
+                                           (c) 
+                                           [[ U ]]=[ U ].
+
+U∩X − ⊆[U]⊆{x − ∈X − 
+                                                 | U∪{x + }∉ C } ;
+
+V ⊆ U  
+                                              implies  [ V ]⊆[ U ];
+
+[[ U ]]=[ U ].
+
+For proving the implication from Statement 1 to Statement 2 let  T∈ C 
+                            . By  Lemma 2  we obtain 
+                               
+                                  《T》∩X + ⊆《T ∗ 》∩X + =T ∗ ∩X + =〈T∩X + 〉. 
+                               
+                            Since the reverse inclusion is an immediate consequence of  Definition 5 , we obtain  《T》∩X + =〈T∩X + 〉 . Defining  [T]=《T》∩X − 
+                             then provides the decomposition  《T》=〈T∩X + 〉∪[T] . Except for the inclusion  [U]⊆{x − ∈X − 
+                               | U∪{x + }∉ C } , the asserted properties of  [ ]  follow immediately from its definition and the fact that  《 》  is a closure. For proving this inclusion assume that  U∪{x + }∈ C 
+                            . Because  《 》  is a consistent extension, we obtain  《U∪x + 》=〈(U∪x + )∩X + 〉∪[U]∈ C 
+                            , which implies that  x 
+                            − ∉[ U ].
+
+Conversely, the properties of Statement 2 are sufficient to define a consistent extension. Let  T∈ C 
+                            . We then have to show that  《T》∈ C 
+                            , which holds if and only if  π(〈《T》∩X + 〉)∩π(《T》∩X − )=∅ . Plugging in the given decomposition  《T》=〈T∩X + 〉∪[T]  results in the equation  π (〈 T ∩ X 
+                            + 〉)∩ π ([ T ])=∅, which fails to hold whenever there is an element  x ∈ X  such that  x 
+                            + ∈〈 T ∩ X 
+                            + 〉 and  x 
+                            − ∈[ T ]. However, if we assume that  x 
+                            + ∈〈 T ∩ X 
+                            + 〉 then  T∪{x + }∈ C 
+                            , and the inclusion  [T]⊆{x − ∈X − 
+                               | T∪{x + }∉ C }  implies that  x 
+                            − ∉[ T ]. □
+
+As a consequence of the equation  《T》∩X + =〈T∩X + 〉 , which is derived in the proof of  Proposition 1 , rejected assertions do not contribute to inferring accepted assertions. This reflects the above-mentioned asymmetry of the inference rules listed in  Table 1 . The limitation of the result to the set  
+                         C 
+                       of  〈 〉 -consistent subsets of  X 
+                      ±  follows from the fact that the equation  《T》∩X + =〈T∩X + 〉  need not hold in general. This is demonstrated by the following example. 
+                         Example 3 
+                         Let  〈 〉  be a closure on  X 
+                            + ⊆ X 
+                            ± . Defining the closure  《 》  on  X 
+                            ±  by 
+                               
+                                  《T》= 
+                                        
+                                        
+                                           
+                                              〈T∩X + 〉∪(T∩X − ) 
+                                              
+                                                 if 
+                                                 T∈ C , 
+                                           
+                                           
+                                              X ± 
+                                              
+                                              
+                                                 if 
+                                                 T∉ C 
+                                              
+                                           
+                                        
+                                     
+                                  
+                               
+                            for all  T ⊆ X 
+                            ±  provides a consistent extension of the closure  〈 〉 . However, in case of  T∉ C 
+                             the inclusion  〈T∩X + 〉⊆《T》∩X + 
+                             may be strict. Let, for instance,  〈 〉  be the trivial closure satisfying 〈 A 〉= A  for all  A ⊆ X 
+                            + , and choose any  T∉ C 
+                             such that  T ∩ X 
+                            + ≠ X 
+                            + .
+
+Let  〈 〉  be a closure on  X 
+                            + ⊆ X 
+                            ± . Defining the closure  《 》  on  X 
+                            ±  by 
+                               
+                                  《T》= 
+                                        
+                                        
+                                           
+                                              〈T∩X + 〉∪(T∩X − ) 
+                                              
+                                                 if 
+                                                 T∈ C , 
+                                           
+                                           
+                                              X ± 
+                                              
+                                              
+                                                 if 
+                                                 T∉ C 
+                                              
+                                           
+                                        
+                                     
+                                  
+                               
+                            for all  T ⊆ X 
+                            ±  provides a consistent extension of the closure  〈 〉 . However, in case of  T∉ C 
+                             the inclusion  〈T∩X + 〉⊆《T》∩X + 
+                             may be strict. Let, for instance,  〈 〉  be the trivial closure satisfying 〈 A 〉= A  for all  A ⊆ X 
+                            + , and choose any  T∉ C 
+                             such that  T ∩ X 
+                            + ≠ X 
+                            + .
+
+Moreover, due to the fact that no constraints (other than those of  Definition 2 ) are imposed on  《T》  in case of  T∉ C 
+                      , fixing the mapping  [ ]  in the equation  《T》=〈T∩X + 〉∪[T]  for  T∈ C 
+                       characterizes a whole class of consistent extensions.  Proposition 1  thus leads to a classification of the consistent extensions of a given closure on the basis of their restrictions to  
+                         C 
+                      . The resulting equivalence classes differ to the extent to which inferences are drawn from rejected assertions if focussing on the  〈 〉 -consistent subsets. In case of [ T ]= T ∩ X 
+                      −  no such inferences are drawn at all. The definition  [T]={x − ∈X − 
+                         | T∪{x + }∉ C }  corresponds to the algorithm of the QUERY procedure. It specifies the maximal set of rejected assertions that may be inferred without inducing contradictions, i.e. with  《T》  still being  〈 〉 -consistent.
+
+There is a close correspondence between the notion of a consistent extension and that of an information system, which was introduced by  Davey and Priestley (1990, Definition 3.32)  to characterize aggregations of tokens of consistent information.  Definition 7  below treats the finite case. A number of structural requirements are formulated for a set  A  of tokens, a family  Con  of subsets of  A  representing consistent gobbets of information, and an entailment relation ⊢ that identifies implied, or redundant, information. 
+                         Definition 7 
+                         Let  A  be a finite set,  Con  a nonempty family of subsets of  A , and ⊢ a binary relation from  Con  to  A . The triple ( A , Con ,⊢) is called an  information system  whenever the following conditions hold. 
+                               
+                                  1. 
+                                  
+                                     Y∈ Con  and  Z ⊆ Y  implies  Z∈ Con ; 
+                               
+                               
+                                  2. 
+                                  
+                                     a ∈ A  implies  {a}∈ Con ; 
+                               
+                               
+                                  3. 
+                                  
+                                     Y∪{a}∈ Con  whenever  Y∈ Con ,  a ∈ A  and  Y ⊢ a ; 
+                               
+                               
+                                  4. 
+                                  
+                                     Y∈ Con  and  a ∈ Y  implies  Y ⊢ a ; 
+                               
+                               
+                                  5. 
+                                  If  Y ,  Z ∈ Con  and  a ∈ A  are such that  Y ⊢ b  for all  b ∈ Z  and  Z ⊢ a , then  Y ⊢ a .
+
+Let  A  be a finite set,  Con  a nonempty family of subsets of  A , and ⊢ a binary relation from  Con  to  A . The triple ( A , Con ,⊢) is called an  information system  whenever the following conditions hold. 
+                               
+                                  1. 
+                                  
+                                     Y∈ Con  and  Z ⊆ Y  implies  Z∈ Con ; 
+                               
+                               
+                                  2. 
+                                  
+                                     a ∈ A  implies  {a}∈ Con ; 
+                               
+                               
+                                  3. 
+                                  
+                                     Y∪{a}∈ Con  whenever  Y∈ Con ,  a ∈ A  and  Y ⊢ a ; 
+                               
+                               
+                                  4. 
+                                  
+                                     Y∈ Con  and  a ∈ Y  implies  Y ⊢ a ; 
+                               
+                               
+                                  5. 
+                                  If  Y ,  Z ∈ Con  and  a ∈ A  are such that  Y ⊢ b  for all  b ∈ Z  and  Z ⊢ a , then  Y ⊢ a .
+
+Y∈ Con  and  Z ⊆ Y  implies  Z∈ Con ;
+
+a ∈ A  implies  {a}∈ Con ;
+
+Y∪{a}∈ Con  whenever  Y∈ Con ,  a ∈ A  and  Y ⊢ a ;
+
+Y∈ Con  and  a ∈ Y  implies  Y ⊢ a ;
+
+If  Y ,  Z ∈ Con  and  a ∈ A  are such that  Y ⊢ b  for all  b ∈ Z  and  Z ⊢ a , then  Y ⊢ a .
+
+The properties listed in  Definition 7  formalize commonsense features of consistency. Property 2, for example, guarantees that every token contributes some information, while Property 5 is a transitivity condition. It is routine to verify the following proposition. 
+                         Proposition 2 
+                         
+                            Let the closure  
+                            《 》  
+                            on  
+                            X 
+                            ±  
+                            be a consistent extension of the closure  
+                            〈 〉  
+                            on  
+                            X 
+                            + ⊆ X 
+                            ± ,  and define the binary relation  ⊢  from  
+                            
+                               C 
+                             
+                            to  
+                            X 
+                            ±  
+                            by  
+                            T ⊢ s  
+                            if and only if  
+                            s∈《T》 .  Then the triple  
+                            (X ± , C ,⊢)  
+                            is an information system .
+
+Let the closure  
+                            《 》  
+                            on  
+                            X 
+                            ±  
+                            be a consistent extension of the closure  
+                            〈 〉  
+                            on  
+                            X 
+                            + ⊆ X 
+                            ± ,  and define the binary relation  ⊢  from  
+                            
+                               C 
+                             
+                            to  
+                            X 
+                            ±  
+                            by  
+                            T ⊢ s  
+                            if and only if  
+                            s∈《T》 .  Then the triple  
+                            (X ± , C ,⊢)  
+                            is an information system .
+
+Notice that the relational structure  (X ± , C ,⊢)  defined according to  Proposition 2  satisfies Property 3 of  Definition 7  if and only if the extended closure  《 》  is a consistent extension.
+
+In the preceding section we have developed a framework for characterizing an expert's decisions, and the inferences that may be drawn from previously given answers. Now, we will treat the problem of how to select a query that may be submitted to the expert. We will not provide detailed instructions on how to implement such a selection mechanism in an efficient way (cf.  Koppen, 1993 ), but merely consider the formal requirements that are to be met.
+
+To avoid contradictions an assertion should be selected only when the respective decision of the expert cannot be inferred from previously collected answers. If formalized within the proposed framework, it is seen that this requirement imposes further constraints on the inference mechanism. Let the subset  T ⊆ X 
+                      ±  represent the already given answers, and let  《T》  correspond to the set of all inferences that may be drawn. Here  《 》  may be thought of as a consistent extension of the closure  〈 〉  that associates the least entail relation to a set of accepted assertions. Presenting the expert with any assertion  x ∈ X  satisfying  x∉π(《T》)  implies that  《T》∪δ(x)  is consistent, irrespective of the expert's decision  δ ( x ). For recovering a  〈 〉 -consistent decision mechanism, however, we have to assure that  《T》∪δ(x)  is also  〈 〉 -consistent.  Proposition 3  shows that this holds if and only if the restriction of the closure  《 》  to  
+                         C 
+                       is defined as in the QUERY algorithm. The scope of this result, however, is not confined to the considered application, because  〈 〉  may be any arbitrary closure. 
+                         Proposition 3 
+                         
+                            Let the closure  
+                            《 》  
+                            on  
+                            X 
+                            ±  
+                            be a consistent extension of the closure  
+                            〈 〉  
+                            on  
+                            X 
+                            + ⊆ X 
+                            ± .  Then the following statements are equivalent : 
+                               
+                                  1. 
+                                  
+                                     For all subsets  
+                                     T∈ C 
+                                      
+                                     we have  
+                                     《T》∩X − ={x − ∈X − 
+                                        | T∪{x + }∉ C } ; 
+                               
+                               
+                                  2. 
+                                  
+                                     For all  
+                                     《 》 - closed subsets  
+                                     S ⊆ X 
+                                     ±  
+                                     and  
+                                     s ∈ X 
+                                     ± ,  we have  
+                                     S∪{s}∈ C 
+                                      
+                                     whenever  
+                                     S∈ C 
+                                      
+                                     and  
+                                     S ∪{ s }  is consistent . 
+                               
+                            
+                         
+                      
+                      
+                         Proof 
+                         To prove the implication from Statement 1 to Statement 2 we consider two cases. First, if  s = x 
+                            + ∈ X 
+                            +  then there must be  S∪{x + }∈ C 
+                            , because otherwise we could infer by hypothesis  x − ∈《S》∩X − =S∩X − 
+                            , which contradicts the assumption that  S ∪{ x 
+                            + } is consistent. Second, let  s = x 
+                            − ∈ X 
+                            − . Since  S ∪{ x 
+                            − } is assumed to be consistent, it follows that  x 
+                            + ∉ S ∩ X 
+                            + =〈 S ∩ X 
+                            + 〉=〈( S ∪{ x 
+                            − })∩ X 
+                            + 〉, and thus  S∪{x − }∈ C 
+                            . 
+                         For proving the implication from Statement 2 to Statement 1 we only have to show that  {x − ∈X − 
+                               | T∪{x + }∉ C }⊆《T》∩X − 
+                             for all  T∈ C 
+                            , because the reverse inclusion holds according to Prop. 1. Let  T∈ C 
+                            . If  x − ∉《T》∩X − 
+                             then  《T》∪{x + }  is consistent and thus by assumption  《T》∪{x + }∈ C 
+                            , which in turn implies  T∪{x + }∈ C 
+                             ( Remark 1 ). □
+
+Let the closure  
+                            《 》  
+                            on  
+                            X 
+                            ±  
+                            be a consistent extension of the closure  
+                            〈 〉  
+                            on  
+                            X 
+                            + ⊆ X 
+                            ± .  Then the following statements are equivalent : 
+                               
+                                  1. 
+                                  
+                                     For all subsets  
+                                     T∈ C 
+                                      
+                                     we have  
+                                     《T》∩X − ={x − ∈X − 
+                                        | T∪{x + }∉ C } ; 
+                               
+                               
+                                  2. 
+                                  
+                                     For all  
+                                     《 》 - closed subsets  
+                                     S ⊆ X 
+                                     ±  
+                                     and  
+                                     s ∈ X 
+                                     ± ,  we have  
+                                     S∪{s}∈ C 
+                                      
+                                     whenever  
+                                     S∈ C 
+                                      
+                                     and  
+                                     S ∪{ s }  is consistent .
+
+For all subsets  
+                                     T∈ C 
+                                      
+                                     we have  
+                                     《T》∩X − ={x − ∈X − 
+                                        | T∪{x + }∉ C } ;
+
+For all  
+                                     《 》 - closed subsets  
+                                     S ⊆ X 
+                                     ±  
+                                     and  
+                                     s ∈ X 
+                                     ± ,  we have  
+                                     S∪{s}∈ C 
+                                      
+                                     whenever  
+                                     S∈ C 
+                                      
+                                     and  
+                                     S ∪{ s }  is consistent .
+
+To prove the implication from Statement 1 to Statement 2 we consider two cases. First, if  s = x 
+                            + ∈ X 
+                            +  then there must be  S∪{x + }∈ C 
+                            , because otherwise we could infer by hypothesis  x − ∈《S》∩X − =S∩X − 
+                            , which contradicts the assumption that  S ∪{ x 
+                            + } is consistent. Second, let  s = x 
+                            − ∈ X 
+                            − . Since  S ∪{ x 
+                            − } is assumed to be consistent, it follows that  x 
+                            + ∉ S ∩ X 
+                            + =〈 S ∩ X 
+                            + 〉=〈( S ∪{ x 
+                            − })∩ X 
+                            + 〉, and thus  S∪{x − }∈ C 
+                            .
+
+For proving the implication from Statement 2 to Statement 1 we only have to show that  {x − ∈X − 
+                               | T∪{x + }∉ C }⊆《T》∩X − 
+                             for all  T∈ C 
+                            , because the reverse inclusion holds according to Prop. 1. Let  T∈ C 
+                            . If  x − ∉《T》∩X − 
+                             then  《T》∪{x + }  is consistent and thus by assumption  《T》∪{x + }∈ C 
+                            , which in turn implies  T∪{x + }∈ C 
+                             ( Remark 1 ). □
+
+The querying algorithm now should proceed as follows. Starting with a  〈 〉 -closed and  〈 〉 -consistent subset  S 
+                      0 ⊆ X 
+                      ±  (e.g.  S 0 =《∅》 ) we will have  π ( S 
+                      0 )≠ X , so we enter into a first loop of the querying procedure. An assertion  x 
+                      1 ∈ X  is chosen such that  x 
+                      1 ∉ π ( S 
+                      0 ), and the expert's decision  δ ( x 
+                      1 ) is observed. The inferences are computed according to the updating rule 
+                         
+                            S 1 =《S 0 ∪δ(x 1 )》, 
+                         
+                      where  《 》  is a consistent extension of the closure  〈 〉  that satisfies 
+                         
+                            《T》=〈T∩X + 〉∪{x − ∈X − 
+                               | T∪{x + }∉ C } 
+                         
+                      for all  T∈ C 
+                      . This is exactly the QUERY algorithm as suggested by  Koppen and Doignon (1990) . If we still have  π ( S 
+                      1 )≠ X  then a second loop of the querying procedure follows, and so on. The procedure is stopped whenever we reach some index  n  such that  π ( S 
+                      
+                         n 
+                      )= X . The set  S 
+                      
+                         n 
+                       then identifies the recovered decision mechanism.  Fig. 2 
+                       illustrates this procedure, which is noncontradictory according to  Proposition 4 . 
+                         Proposition 4 
+                         
+                            Let the closure  
+                            《 》  
+                            on  
+                            X 
+                            ±  
+                            be a consistent extension of the closure  
+                            〈 〉  
+                            on  
+                            X  
+                            such that 
+                            
+                               
+                                  《T》=〈T∩X + 〉∪{x − ∈X − 
+                                     | T∪{x + }∉ C } 
+                               
+                            
+                            for all  
+                            T∈ C 
+                            .  Let  
+                            δ  
+                            be a decision mechanism on  
+                            X .  Define a sequence  ( S 
+                            
+                               i 
+                            ),  i ⩾0,  of subsets of  
+                            X 
+                            ± ,  and a sequence  ( x 
+                            
+                               i 
+                            ),  i ⩾1,  of elements of  
+                            X  
+                            in the following way . 
+                               
+                                  1. 
+                                  
+                                     Choose any  
+                                     《 》 - closed subset  
+                                     S 0 ∈ C 
+                                     . 
+                               
+                               
+                                  2. 
+                                  
+                                     For all  
+                                     i ⩾1,  if  
+                                     π ( S 
+                                     
+                                        i −1 )≠ X  
+                                     then choose an element  
+                                     x 
+                                     
+                                        i 
+                                     ∉ π ( S 
+                                     
+                                        i −1 )  and set  
+                                     S i =《S i−1 ∪{δ(x i )}》 . 
+                               
+                            
+                            Then  
+                            S i ∈ C 
+                             
+                            for all  
+                            i ⩾0,  and there is a positive integer  
+                            n  
+                            such that  
+                            π ( S 
+                            
+                               n 
+                            )= X . 
+                      
+                      
+                         Proof 
+                         The statement is proved by induction. Let  i ⩾1, and assume that  S i−1 ∈ C 
+                             and  《 》 -closed. Then by  x 
+                            
+                               i 
+                            ∉ π ( S 
+                            
+                               i −1 ) the set  S 
+                            
+                               i −1 ∪{ δ ( x 
+                            
+                               i 
+                            )} is consistent, and thus  S i =《S i−1 ∪{δ(x i )}》∈ C 
+                             by  Proposition 3 . 
+                         Since the set  X 
+                            ±  is finite, the existence of a positive integer  n  such that  π ( S 
+                            
+                               n 
+                            )= X  follows from the fact that  S 
+                            
+                               i −1  is a proper subset of  S 
+                            
+                               i 
+                             for all  i ⩾1. □
+
+Let the closure  
+                            《 》  
+                            on  
+                            X 
+                            ±  
+                            be a consistent extension of the closure  
+                            〈 〉  
+                            on  
+                            X  
+                            such that 
+                            
+                               
+                                  《T》=〈T∩X + 〉∪{x − ∈X − 
+                                     | T∪{x + }∉ C } 
+                               
+                            
+                            for all  
+                            T∈ C 
+                            .  Let  
+                            δ  
+                            be a decision mechanism on  
+                            X .  Define a sequence  ( S 
+                            
+                               i 
+                            ),  i ⩾0,  of subsets of  
+                            X 
+                            ± ,  and a sequence  ( x 
+                            
+                               i 
+                            ),  i ⩾1,  of elements of  
+                            X  
+                            in the following way . 
+                               
+                                  1. 
+                                  
+                                     Choose any  
+                                     《 》 - closed subset  
+                                     S 0 ∈ C 
+                                     . 
+                               
+                               
+                                  2. 
+                                  
+                                     For all  
+                                     i ⩾1,  if  
+                                     π ( S 
+                                     
+                                        i −1 )≠ X  
+                                     then choose an element  
+                                     x 
+                                     
+                                        i 
+                                     ∉ π ( S 
+                                     
+                                        i −1 )  and set  
+                                     S i =《S i−1 ∪{δ(x i )}》 . 
+                               
+                            
+                            Then  
+                            S i ∈ C 
+                             
+                            for all  
+                            i ⩾0,  and there is a positive integer  
+                            n  
+                            such that  
+                            π ( S 
+                            
+                               n 
+                            )= X .
+
+Choose any  
+                                     《 》 - closed subset  
+                                     S 0 ∈ C 
+                                     .
+
+For all  
+                                     i ⩾1,  if  
+                                     π ( S 
+                                     
+                                        i −1 )≠ X  
+                                     then choose an element  
+                                     x 
+                                     
+                                        i 
+                                     ∉ π ( S 
+                                     
+                                        i −1 )  and set  
+                                     S i =《S i−1 ∪{δ(x i )}》 .
+
+The statement is proved by induction. Let  i ⩾1, and assume that  S i−1 ∈ C 
+                             and  《 》 -closed. Then by  x 
+                            
+                               i 
+                            ∉ π ( S 
+                            
+                               i −1 ) the set  S 
+                            
+                               i −1 ∪{ δ ( x 
+                            
+                               i 
+                            )} is consistent, and thus  S i =《S i−1 ∪{δ(x i )}》∈ C 
+                             by  Proposition 3 .
+
+Since the set  X 
+                            ±  is finite, the existence of a positive integer  n  such that  π ( S 
+                            
+                               n 
+                            )= X  follows from the fact that  S 
+                            
+                               i −1  is a proper subset of  S 
+                            
+                               i 
+                             for all  i ⩾1. □
+
+The basic idea of the pending status mechanism in PS-QUERY ( Cosyn & Thiéry, 2000 ) is not to draw all possible inferences, but only those that in some sense are confirmed. As we have shown, there is no way of generalizing the inference mechanism, which is captured by the extended closure  《 》 . Thus, the updating rule of the QUERY algorithm is modified to 
+                         
+                            S i =《T》 
+                               with 
+                               S i−1 ⊆T⊆《S i−1 ∪δ(x i )》. 
+                         
+                      Notice that closures are taken twice. First, we consider the closed set  《S i−1 ∪δ(x i )》  from which a subset  T  is chosen, and second we define  S i =《T》 . As an immediate consequence of  Remark 1  we obtain the following corollary to  Proposition 4 . 
+                         Corollary 1 
+                         
+                            Let the consistent extension  
+                            《 》  
+                            of the closure  
+                            〈 〉  
+                            on  
+                            X  
+                            be defined as in Proposition  4,  and let  
+                            δ  
+                            be a decision mechanism on  
+                            X .  Define a sequence  ( S 
+                            
+                               i 
+                            ),  i ⩾0,  of subsets of  
+                            X 
+                            ± ,  and a sequence  ( x 
+                            
+                               i 
+                            ),  i ⩾1,  of elements of  
+                            X  
+                            in the following way . 
+                               
+                                  1. 
+                                  
+                                     Choose any  
+                                     《 》 - closed subset  
+                                     S 0 ∈ C 
+                                     . 
+                               
+                               
+                                  2. 
+                                  
+                                     For all  
+                                     i ⩾1,  if  
+                                     π ( S 
+                                     
+                                        i −1 )≠ X  
+                                     then choose an element  
+                                     x 
+                                     
+                                        i 
+                                     ∉ π ( S 
+                                     
+                                        i −1 )  and set  
+                                     S i =《T》  
+                                     with  
+                                     S i−1 ⊆T⊆《S i−1 ∪δ(x i )》 . 
+                               
+                            
+                            Then  
+                            S 
+                            
+                               i 
+                             
+                            is  
+                            〈 〉 - consistent for all  
+                            i ⩾0.
+
+Let the consistent extension  
+                            《 》  
+                            of the closure  
+                            〈 〉  
+                            on  
+                            X  
+                            be defined as in Proposition  4,  and let  
+                            δ  
+                            be a decision mechanism on  
+                            X .  Define a sequence  ( S 
+                            
+                               i 
+                            ),  i ⩾0,  of subsets of  
+                            X 
+                            ± ,  and a sequence  ( x 
+                            
+                               i 
+                            ),  i ⩾1,  of elements of  
+                            X  
+                            in the following way . 
+                               
+                                  1. 
+                                  
+                                     Choose any  
+                                     《 》 - closed subset  
+                                     S 0 ∈ C 
+                                     . 
+                               
+                               
+                                  2. 
+                                  
+                                     For all  
+                                     i ⩾1,  if  
+                                     π ( S 
+                                     
+                                        i −1 )≠ X  
+                                     then choose an element  
+                                     x 
+                                     
+                                        i 
+                                     ∉ π ( S 
+                                     
+                                        i −1 )  and set  
+                                     S i =《T》  
+                                     with  
+                                     S i−1 ⊆T⊆《S i−1 ∪δ(x i )》 . 
+                               
+                            
+                            Then  
+                            S 
+                            
+                               i 
+                             
+                            is  
+                            〈 〉 - consistent for all  
+                            i ⩾0.
+
+Choose any  
+                                     《 》 - closed subset  
+                                     S 0 ∈ C 
+                                     .
+
+For all  
+                                     i ⩾1,  if  
+                                     π ( S 
+                                     
+                                        i −1 )≠ X  
+                                     then choose an element  
+                                     x 
+                                     
+                                        i 
+                                     ∉ π ( S 
+                                     
+                                        i −1 )  and set  
+                                     S i =《T》  
+                                     with  
+                                     S i−1 ⊆T⊆《S i−1 ∪δ(x i )》 .
+
+Notice that in the PS-QUERY procedure there need not exist a finite index  n  such that  π ( S 
+                      
+                         n 
+                      )= X , because the sequence ( S 
+                      
+                         i 
+                      ),  i ⩾0, is not strictly increasing with respect to set-inclusion.
+
+The formalization of algorithmic procedures for querying experts in the context of knowledge space theory is based on the notion of an extension of a closure. The closure constituted by associating an entail relation to a subset of accepted assertions (cf.  Cosyn & Thiéry, 2000 ) is extended to a set containing for each assertion a positive and a negative instance, representing acceptance and rejection, respectively. Imposing a natural consistency constraint ( Definition 6 ) restricts the possible form of the extended closure ( Proposition 1 ), and leads to a concept that is closely linked to consistent aggregations of information ( Proposition 2 ) as formalized by  Davey and Priestley (1990) . For a noncontradictory querying algorithm that tries to recover an entail relation, however, still another consistency property is required. The extended closures that satisfy this additional constraint are exactly those which correspond to the inference mechanism the QUERY procedure rests on ( Proposition 3 ). This result explains why the PS-QUERY procedure, which was developed by  Cosyn and Thiéry (2000)  in order to incorporate error handling, had to retain this inference mechanism.
+
+Application of the proposed framework is not limited to the querying of experts in the context of knowledge space theory. The presented results form a general basis for developing efficient algorithms that allow for consistent aggregation of information. Possible uses include procedures for discovering relationships among objects (or their attributes, respectively) within Formal Concept Analysis ( Wille, 1982 ;  Ganter & Wille, 1999 ), and Rough Set Data Analysis ( Pawlak, 1982 ;  Novotný & Novotný, 1992 ). In both approaches structures equivalent to entail relations are to be recovered (see  Düntsch and Gediga, 2001 , for details and further references). The assessment of individual semantic structures as suggested by  Heller (2000)  provides another field of application. In general, the framework may be applied to infer structures representing consistent aggregations of information whenever associating the corresponding structure to given partial information forms a closure.
+
+The author is grateful to two anonymous referees for their valuable comments and to Jean-Paul Doignon for his thoughtful suggestions as Action Editor.

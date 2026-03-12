@@ -1,0 +1,2404 @@
+10.1016/j.jmp.2020.102388
+Multinomial processing tree (MPT) models are statistical models used to estimate probabilities of latent cognitive processes from observable frequency data ( Batchelder & Riefer, 1999; Erdfelder et al., 2009 ). In order to test assumptions about psychological processes that jointly contribute to behavioral responses, MPT models were traditionally fitted to data aggregated across participants. A good model fit to the data, though, is insufficient to justify an interpretation of the model parameters in terms of the assumed psychological processes. Besides model fit, the substantive interpretation of MPT model parameters has to be validated via selective influence.
+
+In traditional MPT modeling, parameters are validated by testing whether they are selectively influenced by specific experimental manipulations ( Erdfelder et al., 2009; Hütter & Klauer, 2016 ). These experimental manipulations are discrete realizations of factors assumed to enhance or impair specific cognitive processes. In validation studies, the selective influence of an experimental manipulation on one specific model parameter is tested. In contrast, none of the remaining parameters representing other cognitive processes should be affected. Accordingly, using discrete experimental variables, convergent validity and discriminant validity of MPT model parameters are evaluated via model comparisons (e.g.,  Bayen, Murnane, & Erdfelder, 1996; Erdfelder & Buchner, 1998; Klauer & Wegener, 1998; Meiser & Bröder, 2002; Meissner & Rothermund, 2013 ).
+
+More recently, hierarchical MPT models have been developed to account for parameter heterogeneity between participants ( Klauer, 2010; Matzke, Dolan, Batchelder, & Wagenmakers, 2015; Smith & Batchelder, 2010 ). Instead of fitting MPT models using aggregate data, model parameters are estimated at the level of individuals and are assumed to follow a continuous distribution at the group level. In such hierarchical models, interindividual differences in model parameters can be tested for covariations with continuous variables. Across various substantive research areas, hierarchical MPT models are increasingly being used to investigate such covariations. For instance, researchers relied on this approach to estimate associations of memory parameters in MPT models with fluid and crystallized intelligence ( Michalkiewicz, Arden, & Erdfelder, 2018 ), associations between guessing parameters and the reliance on both stereotypes and inferred contingencies (e.g.,  Arnold, Bayen, Kuhlmann, & Vaterrodt, 2013; Ernst, Kuhlmann, & Vogel, 2019; Kuhlmann, Bayen, Meuser, & Kornadt, 2016 ), and associations between personality traits and dishonest behavior ( Heck, Thielmann, Moshagen & Hilbig, 2018 ), moral judgments ( Kroneisen & Heck, 2019 ), and environmental preferences ( Klein, Hilbig, & Heck, 2017 ). In a similar vein,  Anders, Oravecz, and Alario (2017)  and  Boehm, Steingroever, and Wagenmakers (2018)  proposed general regression frameworks for testing covariations between continuous variables and model parameters in Bayesian hierarchical cognitive models.
+
+Besides testing covariations with theoretically relevant model parameters for which a hypothesized effect is of substantive interest, however, hierarchical MPT models present a new approach to parameter validation: instead of showing selective influence via (discrete) experimental manipulations, the construct validity of parameters as valid measures of cognitive processes can be tested by analyzing the specificity of (continuous) covariations. To this end, continuous measures of psychological constructs or traits can be used which are assumed to selectively correspond to the specific cognitive process underlying a given MPT model parameter. Then, one can test for a functional dissociation in terms not only of (a) substantial stochastic associations between interindividual differences in the given MPT parameter and measures of the same construct (i.e., convergent validity), but also in terms of (b) negligible or weak stochastic associations between interindividual differences in the MPT parameter and measures of theoretically distinct constructs (i.e., discriminant validity). By testing convergent and discriminant validity, the approach allows researchers to validate the parameters of an MPT model in a nomological network ( Campbell & Fiske, 1959 ).
+
+MPT models can be flexibly tailored to various experimental paradigms. In the present paper, we use an extended version of the classical source-monitoring MPT model proposed by  Batchelder and Riefer (1990)  to disentangle memory processes and guessing processes. In source-monitoring experiments, participants have to discriminate between target items presented in a preceding study phase and new distractor items. Additionally, they have to assign items judged to be old to one out of two or more sources that have been learned during the study phase (e.g., whether words judged as old were presented in blue or red). Source-monitoring MPT models allow to disentangle and estimate three types of processes contributing to task performance in those experiments ( Bayen et al., 1996; Bröder & Meiser, 2007 ): item memory, source memory, and guessing. Extending this model to combinations of multiple sources (e.g., by presenting items in red/blue crossed with a left/right position on the screen), multidimensional source-monitoring MPT models account for memory for multiple, crossed dimensions of source information ( Meiser & Bröder, 2002 ).
+
+In research on source memory, the focus is usually on measuring memory for sources as well as memory for items in a process-pure way, that is, independently from guessing processes (e.g., guessing that a word was shown in blue in the absence of source memory). However, in MPT models, guessing parameters may not only represent perfectly random and unbiased guessing, but can instead be interpreted as indicators of expectancy-based guessing. In experimental studies, it has been shown that source-guessing parameters can reflect, for instance, learned item–source contingencies in the experimental stimuli (e.g.,  Bayen & Kuhlmann, 2011; Klauer & Wegener, 1998 ) or schemata and stereotypes associated with the items and sources ( Bayen, Nakamura, Dupuis, & Yang, 2000; Ehrenberg & Klauer, 2005; Kuhlmann et al., 2016; Wegener & Klauer, 2004 ). Likewise,  Klauer and Meiser (2000)  and  Meiser and Hewstone (2004)  interpreted source-guessing parameters as reflecting evaluative biases in assigning positive versus negative items to sources of different valence in the absence of source memory.
+
+Evaluative biases are assumed to originate in inferred item–source contingencies. Yet, the inferred contingencies do not necessarily correspond to genuine item–source contingencies in the experimental design but may reflect illusory correlations or pseudocontingencies. In general, pseudocontingencies denote contingencies that are inferred on the basis of skewed base rates or joint covariations of two variables with a third one, rather than on the basis of genuine covariation information of the two focal variables ( Fiedler & Freytag, 2004; Fiedler, Freytag, & Meiser, 2009; Fiedler, Kutzner, & Vogel, 2013; Meiser, Rummel, & Fleig, 2018 ). In source-monitoring experiments on pseudocontingencies in stereotype formation (see  Meiser & Hewstone, 2010  for an overview), positive behavioral statements and negative behavioral statements (items) are paired with individual members of two groups (sources). Usually, the base rates of (a) positive items versus negative items and (b) Source A versus Source B are skewed in the stimulus distribution (e.g., by presenting a majority of positive items and a majority of items from Source A). A pseudocontingency is observed if a contingency between the item categories and source categories is inferred on the basis of the skewed base rates, such that participants associate the more frequent item category (e.g., positive items) with the more frequent source category (e.g., Source A) and the infrequent item category (e.g., negative items) with the infrequent source category (e.g., Source B;  Meiser & Hewstone, 2004, 2006 ). Because the base rates of item types and sources do not uniquely determine the item–source contingency, however, subjectively inferred pseudocontingencies might not correspond to the genuine item–source contingency (e.g., the proportion of positive versus negative items might actually be higher for Source B than for Source A).
+
+Coming back to source memory, if the source of an item is not remembered, individuals may guess the source on the basis of the inferred (pseudo-)contingency between items and sources ( Klauer & Meiser, 2000; Meiser & Hewstone, 2004 ). The inferred pseudocontingency, which mirrors a positive covariation between frequent items and frequent sources in the example, should therefore be reflected by participants’ guessing parameters in a source-monitoring MPT model. Accordingly, biased guessing parameters are taken as evidence of inferred evaluative (pseudo-)contingencies. At the same time, inferred pseudocontingencies are not expected to be related to any other parameters of the MPT model (especially not to memory parameters). This line of reasoning highlights that, in the domain of source monitoring, the substantive interpretation not only of  memory  parameters but also of  guessing  parameters is of theoretical importance. Hence, the goal of the present research is to analyze the association of guessing parameters with direct measures of source evaluations in a pseudocontingency paradigm. To this end, hierarchical MPT models allow us to investigate the construct validity of parameters by testing covariations of interindividual differences in source-guessing parameters with interindividual differences in direct measures of inferred pseudocontingencies.
+
+In the remainder of the article, we replicate previous results on multinomial modeling of pseudocontingency inference before applying the novel approach of parameter validation with continuous covariates. First, we used the framework of hierarchical Bayesian MPT models ( Heck, Arnold & Arnold, 2018; Klauer, 2010 ) to analyze biases in source guessing based on pseudocontingency inference while taking parameter heterogeneity into account. Second, we tested the validity of source-guessing parameters by means of their selective covariations with direct, continuous measures of source evaluations. Finally, in an exploratory analysis, we investigated the associations of performance measures from a standardized cognitive assessment battery with memory parameters and guessing parameters of the hierarchical MPT model in order to further exemplify the possibilities of validating MPT model parameters in a nomological network. The joint analysis of MPT parameters and other variables measuring general cognitive capacities also illustrates how cognitive modeling in experimental psychology can profit from combining experimental data with psychometric assessment, an approach labeled  cognitive psychometrics  by William Batchelder and David Riefer ( Batchelder, 1998, 2010; Riefer, Knapp, Batchelder, Bamber, & Manifold, 2002 ).
+
+In the experiment, we investigated stereotype formation on the basis of pseudocontingency inference. The study addressed the reliance on inferred pseudocontingencies when reconstructing sources of positive and negative behavioral statements in a scenario with two artificial groups and the context factor of town of residence (see  Meiser & Hewstone, 2004 ). A first aim was to replicate the finding that source guessing is biased in a pseudocontingency paradigm with skewed base rates. Previous studies used an MPT model of source memory for two-dimensional source information ( Meiser & Bröder, 2002 ) to estimate (1) item memory for behavioral statements, (2) source memory for town of residence, (3) source memory for group membership, and (4) guessing processes from data aggregated across participants (e.g.,  Meiser & Hewstone, 2004, 2006 ). However, since MPT models were fitted to aggregate data, heterogeneity between participants might have resulted in biased parameter estimates and erroneous statistical inference (e.g.,  Klauer, 2006; Rouder et al., 2007 ). Therefore, we used a hierarchical Bayesian MPT model to account for interindividual differences in item memory, source memory, and guessing.
+
+A sample of  
+                               
+                                  N 
+                                  = 
+                                  133 
+                               
+                             participants was recruited from the University of Mannheim, from universities of applied sciences, and a secondary school in Mannheim. Participants were randomly assigned to one of two experimental conditions with or without base rate information concerning the two groups in the two towns (see below). Participants received course credit in the case of psychology students or a financial compensation of 30 EUR for completing the pseudocontingency experiment and the cognitive assessment.
+
+The data of three participants were discarded from analyses because these participants reported that German was not their first language and either showed scores smaller than 2 SD below the mean in the verbal subscale (see below) or had problems following the instructions. The remaining sample size guaranteed a statistical power of at least  
+                               
+                                  1 
+                                  − 
+                                  β 
+                                  = 
+                                  . 
+                                  90 
+                               
+                             to detect a difference in the direct evaluative ratings of the two target groups with medium effect size  
+                               
+                                  f 
+                                  = 
+                                  . 
+                                  25 
+                               
+                             and  
+                               
+                                  α 
+                                  = 
+                                  . 
+                                  05 
+                               
+                             in a conventional frequentist analysis of pseudocontingencies (e.g.  Meiser & Hewstone, 2004 ). Of the  
+                               
+                                  N 
+                                  = 
+                                  130 
+                               
+                             participants, 50% were female and mean age was 23.12 years ( 
+                               
+                                  S 
+                                  D 
+                                  = 
+                                  4 
+                                  . 
+                                  97 
+                               
+                            ). Concerning level of education, 10% of the participants reported that they were attending secondary school or held an exam from a basic or intermediate secondary school, 78% had graduated from high school, and 12% held a university degree. 66 participants were tested in the condition without base rate information, and 64 in the condition with base rate information.
+
+Experimental sessions consisted of the pseudocontingency experiment for about 30 min, a brief unrelated questionnaire for about 5 min, and a cognitive assessment for about 2.5 h. Participants were invited to take breaks between the different sections of the session and between different subscales of the cognitive assessment.
+
+The pseudocontingency experiment started with a learning phase of behavioral statements about members of two artificial groups, labeled Group A and Group B, in two artificial towns, labeled Town X and Town Y. For each participant, 24 desirable behaviors and 24 undesirable behaviors were randomly drawn from a larger pool of behaviors. The pool consisted of 76 moderately desirable and 76 moderately undesirable behaviors that showed mean ratings of ＋1.5 or above for desirable behaviors, and −1.5 or below for undesirable behaviors, on a scale from −3 to 3 in an independent pretest study ( 
+                               
+                                  N 
+                                  = 
+                                  36 
+                               
+                            ; see  Meiser, 2003  for details). Examples are “stays friendly and fair in discussions” and “becomes angry when being delayed by an elderly pedestrian”. The randomly selected behavioral statements were assigned to the groups and towns according to the stimulus distribution in  Table 1 .
+
+In the learning phase, each behavioral statement contained a male first name, group membership in Group A or Group B, town of residence Town X or Town Y, and the actual behavior. The behavioral statements were displayed for 6 s with an interstimulus interval of 1.5 s. Behavioral statements describing group members of either group in Town X were presented on the left-hand side of the computer screen and statements describing group members of either group in Town Y on the right-hand side. The order of behavioral statements was randomized per participant. Participants were instructed to read the statements carefully and to form an impression of the two groups in the two towns. The instructions did not ask participants to memorize the individual behaviors or the group and town information for a later memory test.
+
+In the stimulus distribution (see  Table 1 ), Group B shows a larger proportion of desirable behaviors than Group A within either town: In Town X, all members of Group B but only 67% of the members of Group A were described as engaging in desirable behavior. In Town Y, 33% of the members of Group B but none of the members of Group A engaged in desirable behavior. The true contingency conditional on the context factor of town of residence should thus give rise to a more positive impression of Group B. Moreover, the higher proportions of Group A and of desirable behaviors in Town X relative to Town Y imply true contingencies of town of residence with group membership and desirability. The distributions of Group A and Group B and of desirable and undesirable behaviors are skewed within each town, however, such that a pseudocontingency was expected to be inferred by the participants. The pseudocontingency should associate the frequent categories (i.e., Group A and desirable behaviors in Town X, Group B and undesirable behaviors in Town Y) and the infrequent categories (Group B and undesirable behaviors in Town X, Group A and desirable behaviors in Town Y), leading to a more positive impression of Group A thus contrasting the true contingency in the stimuli. This pseudocontingency inference should be strengthened by the covariation of the skewed distributions of Group A versus Group B and desirable versus undesirable behaviors across the context factor town of residence ( Meiser et al., 2018 ). 
+                               1 
+                             
+                            
+                               1 
+                               Given the fixed base rates of group membership and type of behavior, the stimulus distribution used here (see  Table 1 ) is the most extreme one consistent with those base rates. However, pseudocontingency inferences have also been found with less extreme stimulus distributions that did not contain zero frequencies in the stimulus distribution (cf. e.g.,  Fiedler & Freytag, 2004; Meiser et al., 2018  Experiment 3).
+
+In order to manipulate attention to the context factor and the varying base rates, explicit information concerning the base rates of the two groups within the two towns was given to half of the participants: in the experimental condition  without base rate information , participants received no a priori information about the proportions of Group A and Group B for either town. In the experimental condition  with base rate information , the instructions pointed out that in Town X, 75% of the persons belonged to Group A and 25% to Group B, whereas in Town Y, 25% of the persons belonged to Group A and 75% to Group B. The proportions of Group A and Group B for either town were also displayed throughout the learning phase in the condition with base rate information. We assumed that the explicit information on the skewed base rates of group membership may strengthen pseudocontingency inference, as alternative manipulations using a visualization of base rates via bar charts ( Meiser et al., 2018 ) or using changes of attentional focus ( Fleig, Meiser, Ettlin, & Rummel, 2017 ) have shown more pronounced pseudocontingency effects.
+
+The test phase of the pseudocontingency experiment included a rating task, a source-memory test, and frequency estimates. The order of tasks followed standard practice (e.g.  Meiser, 2003; Meiser & Hewstone, 2004 ) and avoided that numerical information from the frequency estimation task contaminated judgment and guessing processes in the trait ratings or memory test, respectively. To first assess the participants’ general impressions about the groups per town, in the rating task, participants rated Group A and Group B in Town X and Town Y on five positive and five negative trait attributes in a fixed randomized order. Trait ratings were assessed on separate 10-point rating scales (0: trait does not apply at all; 9: trait applies completely) for each of the four combinations of group and town. The ratings were averaged across the ten traits after re-coding ratings for negative trait attributes, so that larger trait scores reflect more positive judgments.
+
+In the source-memory test, participants were presented with the 48 target behaviors from the learning phase and 48 new distractor behaviors in random order. The distractor items included 24 desirable and 24 undesirable behaviors that were randomly drawn for each participant from the same pool as the target behaviors. In the memory test, participants had to decide for each behavior whether it was old (i.e., had occurred in the learning phase) or new. If a behavior was judged old, participants had to decide whether it occurred in Town X or Town Y in a second step, and whether it described a member of Group A or Group B in a third step. The individual frequencies of judging desirable and undesirable target and distractor behaviors as old and of assigning them to Town X or Town Y and to Group A or Group B provided the data for the hierarchical MPT analysis.
+
+Frequency estimates formed the final task of the pseudocontingency experiment, as here participants were shown the total number of statements about each combination of group and town in the learning phase (e.g., 18 for Group A in Town X, see  Table 1 ). Next, they had to estimate the number of undesirable behaviors for the given group within the given town. The estimated numbers of undesirable behaviors were transformed to proportions by dividing them by the total numbers of behavioral statements per group-town combination, so that higher values reflect more negative evaluations.
+
+After the pseudocontingency experiment, participants filled in a brief questionnaire that was unrelated to the experiment and were then invited to have a break before the cognitive test was administered. We used the computerized and adaptive INSBAT test battery ( Arendasy et al., 2009 ) to assess cognitive performance in the domains of fluid intelligence, quantitative reasoning, short-term and long-term memory, as well as crystallized intelligence. To assess fluid intelligence, we selected the subscales of figural inductive reasoning and verbal deductive reasoning as part of our cognitive assessment. Fluid intelligence measured by the INSBAT reflects the ability to recognize regularities or to combine information and to draw logical conclusions from them. The phenomenon of pseudocontingency inference might be traceable to this ability: pseudocontingencies are based on inferences drawn from statistical regularities (i.e., skewed base rates). In a similar vein,  Fleig et al. (2017)  demonstrated that even participants high in statistical numeracy do infer pseudocontingencies when focusing on base rates. Since pseudocontingencies are assumed to form the basis of source evaluations which in turn should be reflected in source-guessing parameters, fluid intelligence and its subscales may potentially relate to the source-guessing parameters. For the domain of quantitative reasoning, we chose the subscales of computational estimation and arithmetic competence. They capture the ability to apply mathematical skills in problem-solving (see  Arendasy et al., 2009 ). Similarly to fluid intelligence, interindividual differences in quantitative thinking might explain interindividual differences in inferring pseudocontingencies and thereby in source-guessing parameters in our experiment. Memory performance was assessed with the INSBAT subscales of verbal short-term and long-term memory. Participants’ cognitive ability to remember and recognize information could be related to memory parameters in the MPT model. Finally, subscales general knowledge and verbal fluency were assessed from the domain of crystallized intelligence. To measure general knowledge, participants had to fill out a cloze test asking to complete word definitions, whereas they had to solve anagrams in the verbal fluency task. Crystallized intelligence and its subscales were thus not included in the following analyses, because these tests appeared less relevant for experimental source memory and pseudocontingency inference. Nevertheless, we did measure those subscales in order to comprehensibly assess participants’ cognitive ability and to be able to give feedback to the individual participant on their cognitive performance as measured by the INSBAT. For our analyses we used the specific scores for each subscale as well as the total scores for each factor.
+
+We first report analyses of the rating scores and frequency estimates as direct measures of pseudocontingency inference. Next, we present the results of the hierarchical MPT analyses of source monitoring. All analyses were conducted in R ( R Core Team, 2017 ).
+
+In order to analyze mean rating scores and frequency estimates, we conducted Bayesian hypothesis tests for the 2 × 2 × 2 mixed ANOVA design with condition as between-participants factor and town of residence and group membership as within-participant factors ( Rouder, Morey, Speckman, & Province, 2012 ). For this purpose, we used the BayesFactor package ( Morey & Rouder, 2017 ). In a Bayesian ANOVA, the Bayes factor  
+                               
+                                  
+                                     B 
+                                  
+                                  
+                                     1 
+                                     , 
+                                     0 
+                                  
+                               
+                             quantifies the relative evidence for the alternative hypothesis  
+                               
+                                  
+                                     H 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                             (e.g., an ANOVA model with two main effects and no interaction) against the null hypothesis  
+                               
+                                  
+                                     H 
+                                  
+                                  
+                                     0 
+                                  
+                               
+                             (e.g., the intercept-only model). Similarly, the inverse  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        0 
+                                        , 
+                                        1 
+                                     
+                                  
+                                  = 
+                                  1 
+                                  ∕ 
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        1 
+                                        , 
+                                        0 
+                                     
+                                  
+                               
+                             quantifies the relative support for the null hypothesis. Besides the intercept-only model, we included all models comprising one or more main effects, whereas models with interactions were only included if they comprised all corresponding main effects. We compared all models to the intercept-only model (i.e., by using the option “withMain” in the BayesFactor package). In order to report the results more concisely, we additionally computed posterior probabilities for subsets of models (e.g., all models including the effect of condition) by means of model averaging ( Hoeting, Madigan, Raftery, & Volinsky, 1999 ). When assuming uniform prior probabilities over all models, the posterior probability of a single model can be calculated by dividing its Bayes factor  
+                               
+                                  
+                                     B 
+                                  
+                                  
+                                     1 
+                                     , 
+                                     0 
+                                  
+                               
+                             (i.e., the evidence compared to the intercept-only model) by the sum of Bayes factors  
+                               
+                                  
+                                     B 
+                                  
+                                  
+                                     i 
+                                     , 
+                                     0 
+                                  
+                               
+                             for all models  
+                               i 
+                             (including the intercept-only model itself, for which  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        0 
+                                        , 
+                                        0 
+                                     
+                                  
+                                  = 
+                                  1 
+                               
+                            ). The posterior probability of a subset of models can then be computed by summing the posterior probabilities of the corresponding models.
+
+The mean rating scores per combination of group and town are displayed in  Table 2 . The analyses revealed the strongest evidence for the ANOVA model including main effects of town of residence and group membership only, with a corresponding Bayes factor of  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        (group+town),null 
+                                     
+                                  
+                                  = 
+                                  6 
+                                  . 
+                                  26 
+                                  ⋅ 
+                                  1 
+                                  
+                                     
+                                        0 
+                                     
+                                     
+                                        34 
+                                     
+                                  
+                               
+                             compared to the intercept-only model (the Bayes factor comparing this model to the second-best model which additionally included their interaction was  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        (group+town),(group+town+group:town) 
+                                     
+                                  
+                                  = 
+                                  2 
+                                  . 
+                                  44 
+                               
+                            ; Bayes factors for all models are reported in  Table A.1 ). Town X was evaluated more positively than Town Y corresponding to the genuine item–source contingency between behavioral statements and town of residence in the stimulus distribution. Moreover, reflecting a pseudocontingency between behavioral statements and group membership, Group A received higher evaluative ratings than Group B. Descriptively, this effect was weaker within Town Y than within Town X. Concerning the experimental manipulation of base rate information, the prior probability of 73.7% for the subset of ANOVA models including experimental condition as an effect (i.e., 14 out of 19 models) decreased to a posterior probability of 12.7%, thus indicating no evidence for an effect of explicit base rate information during the instruction and learning phase. 
+                               2 
+                             
+                            
+                               2 
+                               The absence of an effect of the experimental manipulation in this experiment may be due to the fact that the manipulation highlighted the varying skewed base rate of only one variable (i.e., group membership), whereas other manipulations have focused on the skewed base rates of both proximal variables of a pseudocontingency inference ( Fleig et al., 2017; Meiser et al., 2018 ).
+
+The mean frequency estimates are also shown in  Table 2 . As for the rating scores, the Bayes factors favored the model including main effects for town of residence and group membership only,  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        (group+town),null 
+                                     
+                                  
+                                  = 
+                                  2 
+                                  . 
+                                  48 
+                                  ⋅ 
+                                  1 
+                                  
+                                     
+                                        0 
+                                     
+                                     
+                                        19 
+                                     
+                                  
+                               
+                             (the Bayes factor comparing this model to the second-best model that additionally included their interaction was  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        (group+town),(group+town+group:town) 
+                                     
+                                  
+                                  = 
+                                  3 
+                                  . 
+                                  87 
+                               
+                            ; Bayes factors for all models are reported in  Table A.2 ). The estimated frequencies of negative behavior for Town X were lower than for Town Y, and negative behavior was also estimated to be less frequent for members of Group A as compared to Group B. Again, descriptively, the effect of group membership was stronger in Town X than in Town Y. Although the genuine item–source contingency between behavioral statements and group membership favored Group B (see  Table 1 ), the estimated frequencies as well as the rating scores thus reflected an inferred pseudocontingency in favor of Group A. Again, there was no evidence for any effect of experimental condition: the prior probability of the subset of 14 ANOVA models including condition as a factor declined from 73.7% to a posterior probability of 17.9%.
+
+We used the MPT source-memory model for crossed source dimensions ( Meiser & Bröder, 2002 ) to separately estimate source memory for the source dimension town of residence, source memory for the source dimension group membership, and source guessing. The model specifies the probabilities of source-memory decisions by means of eight parameters (see  Fig. 1 ). The parameter  D  denotes the probability to recognize a target item as old and a distractor item as new. An item is not recognized with the complementary probability  
+                               
+                                  1 
+                                  − 
+                                  D 
+                               
+                            . If item memory fails, a participant guesses that an item is old with probability  b  or that an item is new with the complementary probability  
+                               
+                                  1 
+                                  − 
+                                  b 
+                               
+                            . The  
+                               
+                                  
+                                     d 
+                                  
+                                  
+                                     t 
+                                     o 
+                                     w 
+                                     n 
+                                  
+                               
+                             parameter measures the probability of remembering the town of residence as one source attribute of the item. If the town of residence is not remembered, with the complementary probability  
+                               
+                                  1 
+                                  − 
+                                  
+                                     
+                                        d 
+                                     
+                                     
+                                        t 
+                                        o 
+                                        w 
+                                        n 
+                                     
+                                  
+                               
+                            , participants have to guess. The parameter  
+                               
+                                  
+                                     g 
+                                  
+                                  
+                                     t 
+                                     o 
+                                     w 
+                                     n 
+                                  
+                               
+                             describes the probability of guessing Town X, whereas  
+                               
+                                  1 
+                                  − 
+                                  
+                                     
+                                        g 
+                                     
+                                     
+                                        t 
+                                        o 
+                                        w 
+                                        n 
+                                     
+                                  
+                               
+                             is the probability of guessing Town Y. If the town of residence is remembered, group membership is remembered with the probability  
+                               
+                                  
+                                     d 
+                                  
+                                  
+                                     g 
+                                     r 
+                                     o 
+                                     u 
+                                     p 
+                                  
+                               
+                            ; if source memory for town of residence fails, group membership is remembered with the probability  
+                               
+                                  
+                                     e 
+                                  
+                                  
+                                     g 
+                                     r 
+                                     o 
+                                     u 
+                                     p 
+                                  
+                               
+                            . Thus, the model reflects the assumption that the probability of remembering group membership may vary over items for which town of residence is retrieved versus not retrieved. Differences between  
+                               
+                                  
+                                     d 
+                                  
+                                  
+                                     g 
+                                     r 
+                                     o 
+                                     u 
+                                     p 
+                                  
+                               
+                             and  
+                               
+                                  
+                                     e 
+                                  
+                                  
+                                     g 
+                                     r 
+                                     o 
+                                     u 
+                                     p 
+                                  
+                               
+                             thereby reflect stochastic dependency in multidimensional source memory. The source memory parameters in the MPT model were specified in the order in which the source dimensions were prompted in the memory test (i.e., town followed by group) and thus reflected the sequence of retrieval processes required for the responses. If source memory for group membership fails, with either probability  
+                               
+                                  1 
+                                  − 
+                                  
+                                     
+                                        d 
+                                     
+                                     
+                                        g 
+                                        r 
+                                        o 
+                                        u 
+                                        p 
+                                     
+                                  
+                               
+                             or probability  
+                               
+                                  1 
+                                  − 
+                                  
+                                     
+                                        e 
+                                     
+                                     
+                                        g 
+                                        r 
+                                        o 
+                                        u 
+                                        p 
+                                     
+                                  
+                               
+                            , a behavioral statement assigned to Town X is attributed to Group A with probability  
+                               
+                                  
+                                     g 
+                                  
+                                  
+                                     | 
+                                     X 
+                                  
+                                  
+                                     g 
+                                     r 
+                                     o 
+                                     u 
+                                     p 
+                                  
+                               
+                             or to Group B with probability  
+                               
+                                  1 
+                                  − 
+                                  
+                                     
+                                        g 
+                                     
+                                     
+                                        | 
+                                        X 
+                                     
+                                     
+                                        g 
+                                        r 
+                                        o 
+                                        u 
+                                        p 
+                                     
+                                  
+                               
+                            . Likewise, a behavioral statement assigned to Town Y is attributed to Group A with probability  
+                               
+                                  
+                                     g 
+                                  
+                                  
+                                     | 
+                                     Y 
+                                  
+                                  
+                                     g 
+                                     r 
+                                     o 
+                                     u 
+                                     p 
+                                  
+                               
+                             and to Group B with probability  
+                               
+                                  1 
+                                  − 
+                                  
+                                     
+                                        g 
+                                     
+                                     
+                                        | 
+                                        Y 
+                                     
+                                     
+                                        g 
+                                        r 
+                                        o 
+                                        u 
+                                        p 
+                                     
+                                  
+                               
+                            . The specification of guessing parameters for the group assignment conditional on town assignment reflected the order of responses in the source-memory test and allowed for differential guessing tendencies that mirror the actual contingency between groups and towns in the stimuli ( Meiser, 2003; Meiser & Hewstone, 2004 ). While the parameters  
+                               D 
+                            ,  
+                               
+                                  
+                                     d 
+                                  
+                                  
+                                     t 
+                                     o 
+                                     w 
+                                     n 
+                                  
+                               
+                            ,  
+                               
+                                  
+                                     d 
+                                  
+                                  
+                                     g 
+                                     r 
+                                     o 
+                                     u 
+                                     p 
+                                  
+                               
+                            , and  
+                               
+                                  
+                                     e 
+                                  
+                                  
+                                     g 
+                                     r 
+                                     o 
+                                     u 
+                                     p 
+                                  
+                               
+                             measure genuine memory performance, the source-guessing parameters are assumed to reflect evaluative judgments on the basis of inferred (pseudo-)contingencies between behavioral statements and town of residence or group membership.
+
+As we expected the inference of a pseudocontingency between group membership and type of behavior, the assignment of positive behavioral statements to sources might differ from the assignment of negative statements when guessing is not random but informed. If the pseudocontingency is inferred and reflected in the MPT model’s guessing parameters, the probabilities  
+                               
+                                  
+                                     g 
+                                  
+                                  
+                                     | 
+                                     X 
+                                  
+                                  
+                                     g 
+                                     r 
+                                     o 
+                                     u 
+                                     p 
+                                  
+                               
+                             and  
+                               
+                                  
+                                     g 
+                                  
+                                  
+                                     | 
+                                     Y 
+                                  
+                                  
+                                     g 
+                                     r 
+                                     o 
+                                     u 
+                                     p 
+                                  
+                               
+                             of choosing Group A will be higher for positive statements than for negative statements. Moreover, the probability  
+                               
+                                  
+                                     g 
+                                  
+                                  
+                                     t 
+                                     o 
+                                     w 
+                                     n 
+                                  
+                               
+                             of guessing Town X may be influenced by the actual contingency between town of residence and desirability, such that positive behaviors are more likely to be assigned to Town X than negative behaviors. Therefore, we estimated separate sets of parameters for positive target and distractor behaviors and for negative target and distractor behaviors, respectively.
+
+Using the hierarchical latent-trait approach ( Klauer, 2010 ), all MPT parameters were modeled using random effects to account for differences between individuals. Bayesian estimation of hierarchical MPT models was conducted with the TreeBUGS package using default priors ( Heck, Arnold & Arnold, 2018 ). For the slope parameters, we  
+                               z 
+                            -standardized the predictors and assumed a normal distribution  
+                               
+                                  N 
+                                  
+                                     ( 
+                                     μ 
+                                     = 
+                                     0 
+                                     , 
+                                     
+                                     σ 
+                                     = 
+                                     
+                                        
+                                           2 
+                                        
+                                     
+                                     ∕ 
+                                     2 
+                                     ) 
+                                  
+                               
+                             as a prior distribution of each slope parameter on the latent probit scale.  Fig. 2  displays the prior predictive distribution that is implied when regressing an MPT parameter on a covariate. 
+                               3 
+                             
+                            
+                               3 
+                               We additionally ran the analyses using a normal distribution  
+                                     
+                                        N 
+                                        
+                                           ( 
+                                           μ 
+                                           = 
+                                           0 
+                                           , 
+                                           
+                                        
+                                     
+                                  
+                                  
+                                     
+                                        σ 
+                                        = 
+                                        1 
+                                        ) 
+                                     
+                                   as prior on the slope parameters. As this prior is less informative, the Bayes factors generally indicated more evidence in favor of the null hypothesis (i.e., for the absence of an effect of a covariate on an MPT parameter). Beyond these differences, the results lead to substantive conclusions identical to those reported in the main text below. Detailed results using the less informative prior can be found on OSF ( https://osf.io/a6fcz/ ).
+
+We ensured convergence of all models by visual inspection of the trace plots. Parameter convergence was evaluated by means of Gelman–Rubin statistics of  
+                               
+                                  
+                                     
+                                        R 
+                                     
+                                     
+                                        ˆ 
+                                     
+                                  
+                                  ≤ 
+                                  1 
+                                  . 
+                                  1 
+                               
+                            . 
+                               4 
+                             
+                            
+                               4 
+                               Except for a few  
+                                     ρ 
+                                   parameters (correlations between MPT model parameters), all parameters actually met the standard criterion of  
+                                     
+                                        
+                                           
+                                              R 
+                                           
+                                           
+                                              ˆ 
+                                           
+                                        
+                                        ≤ 
+                                        1 
+                                        . 
+                                        05 
+                                     
+                                  . 
+                             The model goodness of fit was assessed graphically as well as by posterior predictive  p -values. We tested the model fit to the means and covariance matrix of the observed category frequencies across participants by using the  
+                               
+                                  
+                                     T 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                             and  
+                               
+                                  
+                                     T 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                             test statistics ( Klauer, 2010 ), respectively.  
+                               
+                                  
+                                     T 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                             quantifies the discrepancy between the observed and the expected means of response frequencies, whereas  
+                               
+                                  
+                                     T 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                             relates to the discrepancy between the observed and the expected covariance matrix of individual response frequencies. Both are conceptually similar to Pearson’s  
+                               
+                                  
+                                     X 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                            . If the corresponding posterior-predictive  
+                               p 
+                            -values  
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     
+                                        
+                                           T 
+                                        
+                                        
+                                           1 
+                                        
+                                     
+                                  
+                               
+                             and  
+                               
+                                  
+                                     p 
+                                  
+                                  
+                                     
+                                        
+                                           T 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                  
+                               
+                             are close to zero, this indicates model misfit. 
+                               5 
+                             
+                            
+                               5 
+                               The aim of using posterior-predictive  
+                                     p 
+                                  -values was to reduce the number of free parameters and MPT models in order to use a model as parsimonious as possible for the analyses of main interest. However, if model selection among MPT models was of central theoretical interest, it would be preferable to compute Bayes factors, for instance, using bridge sampling for nested hierarchical MPT models ( Gronau, Wagenmakers, Heck, & Matzke, 2019 ). Below, we report Bayes Factors for testing our key theoretical questions regarding the selective influence of continuous covariates on MPT parameters.
+
+First of all, we fitted two separate hierarchical MPT models for the two experimental conditions without versus with explicit information about the base rates of Group A and Group B in either town. Model fit was adequate as indicated by  
+                               
+                                  
+                                     
+                                        p 
+                                     
+                                     
+                                        T 
+                                        1 
+                                     
+                                  
+                                  = 
+                                  0 
+                                  . 
+                                  245 
+                               
+                             and  
+                               
+                                  
+                                     
+                                        p 
+                                     
+                                     
+                                        T 
+                                        2 
+                                     
+                                  
+                                  = 
+                                  0 
+                                  . 
+                                  264 
+                               
+                             as well as  
+                               
+                                  
+                                     
+                                        p 
+                                     
+                                     
+                                        T 
+                                        1 
+                                     
+                                  
+                                  = 
+                                  0 
+                                  . 
+                                  090 
+                               
+                             and  
+                               
+                                  
+                                     
+                                        p 
+                                     
+                                     
+                                        T 
+                                        2 
+                                     
+                                  
+                                  = 
+                                  0 
+                                  . 
+                                  201 
+                               
+                            , for the condition without and with explicit base rate information, respectively. Second, as there was little support for an effect of experimental condition in the previous analyses, we fitted one single hierarchical MPT model to the whole data set, thus assuming that the means and covariances of all parameters were not affected by this manipulation. The joint model showed less adequate fit to the average observed frequencies than the two separate models,  
+                               
+                                  
+                                     
+                                        p 
+                                     
+                                     
+                                        
+                                           
+                                              T 
+                                           
+                                           
+                                              1 
+                                           
+                                        
+                                     
+                                  
+                                  = 
+                                  . 
+                                  021 
+                               
+                            , but still accounted for variances and covariances satisfactorily,  
+                               
+                                  
+                                     
+                                        p 
+                                     
+                                     
+                                        
+                                           
+                                              T 
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                     
+                                  
+                                  = 
+                                  . 
+                                  311 
+                               
+                            . In a final step, we restricted the parameters representing source memory for group membership,  
+                               
+                                  
+                                     d 
+                                  
+                                  
+                                     g 
+                                     r 
+                                     o 
+                                     u 
+                                     p 
+                                  
+                               
+                             and  
+                               
+                                  
+                                     e 
+                                  
+                                  
+                                     g 
+                                     r 
+                                     o 
+                                     u 
+                                     p 
+                                  
+                               
+                            , to be equal. Thereby, the assumption that memory for group membership may be stochastically dependent on memory for town of residence is removed to yield a more parsimonious model. Again, the  
+                               
+                                  
+                                     T 
+                                  
+                                  
+                                     1 
+                                  
+                               
+                             and  
+                               
+                                  
+                                     T 
+                                  
+                                  
+                                     2 
+                                  
+                               
+                             test statistics revealed a less adequate fit of the restricted model to means,  
+                               
+                                  
+                                     
+                                        p 
+                                     
+                                     
+                                        T 
+                                        1 
+                                     
+                                  
+                                  = 
+                                  . 
+                                  025 
+                               
+                            , than to variances and covariances,  
+                               
+                                  
+                                     
+                                        p 
+                                     
+                                     
+                                        T 
+                                        2 
+                                     
+                                  
+                                  = 
+                                  . 
+                                  322 
+                               
+                            . In light of these results, all validation analyses reported below were conducted using the restricted, more parsimonious model while controlling for effects of the experimental condition on theoretically relevant MPT model parameters. More precisely, we accounted for mean differences in the parameters by adding the discrete predictor experimental condition in the latent probit regressions for all guessing parameters (i.e.,  
+                               
+                                  
+                                     g 
+                                  
+                                  
+                                     t 
+                                     o 
+                                     w 
+                                     n 
+                                  
+                               
+                            ,  
+                               
+                                  
+                                     g 
+                                  
+                                  
+                                     | 
+                                     X 
+                                  
+                                  
+                                     g 
+                                     r 
+                                     o 
+                                     u 
+                                     p 
+                                  
+                               
+                            ,  
+                               
+                                  
+                                     g 
+                                  
+                                  
+                                     | 
+                                     Y 
+                                  
+                                  
+                                     g 
+                                     r 
+                                     o 
+                                     u 
+                                     p 
+                                  
+                               
+                            ). This allowed us to account for the reduced model fit to the observed mean frequencies as indicated by the posterior-predictive checks above, while fitting a single model to the full data set instead of separate models per condition. As we included experimental condition only as control factor, we do not report the corresponding Bayes factors.
+
+Table 3  displays the estimated parameters of the restricted hierarchical MPT model for crossed source dimensions. To compare parameter estimates for positive versus negative behavioral statements, we computed the corresponding differences in item-memory and source-memory parameters at the group level. Looking at the posterior means, memory for negative behavioral statements was, if at all, slightly higher than memory for positive behavioral statements:  
+                               
+                                  Δ 
+                                  D 
+                                  = 
+                                  − 
+                                  0 
+                                  . 
+                                  08 
+                               
+                             (with a 95% Bayesian credibility interval of  
+                               
+                                  [ 
+                                  − 
+                                  0 
+                                  . 
+                                  11 
+                                  , 
+                                  − 
+                                  0 
+                                  . 
+                                  05 
+                                  ] 
+                               
+                            ),  
+                               
+                                  Δ 
+                                  
+                                     
+                                        d 
+                                     
+                                     
+                                        t 
+                                        o 
+                                        w 
+                                        n 
+                                     
+                                  
+                                  = 
+                                  − 
+                                  0 
+                                  . 
+                                  08 
+                                  
+                                     [ 
+                                     − 
+                                     0 
+                                     . 
+                                     18 
+                                     , 
+                                     0 
+                                     . 
+                                     01 
+                                     ] 
+                                  
+                               
+                            , and  
+                               
+                                  Δ 
+                                  
+                                     
+                                        d 
+                                     
+                                     
+                                        g 
+                                        r 
+                                        o 
+                                        u 
+                                        p 
+                                     
+                                  
+                                  = 
+                                  − 
+                                  0 
+                                  . 
+                                  04 
+                                  
+                                     [ 
+                                     − 
+                                     0 
+                                     . 
+                                     10 
+                                     , 
+                                     0 
+                                     . 
+                                     02 
+                                     ] 
+                                  
+                               
+                            . Moreover,  Table 3  shows that the parameters of source memory for group membership were low thus replicating previous findings ( Meiser & Hewstone, 2004, 2006 ).
+
+The parameters of greater interest to research on pseudocontingency inference are the guessing parameters  
+                               
+                                  
+                                     g 
+                                  
+                                  
+                                     t 
+                                     o 
+                                     w 
+                                     n 
+                                  
+                               
+                            ,  
+                               
+                                  
+                                     g 
+                                  
+                                  
+                                     | 
+                                     X 
+                                  
+                                  
+                                     g 
+                                     r 
+                                     o 
+                                     u 
+                                     p 
+                                  
+                               
+                            , and  
+                               
+                                  
+                                     g 
+                                  
+                                  
+                                     | 
+                                     Y 
+                                  
+                                  
+                                     g 
+                                     r 
+                                     o 
+                                     u 
+                                     p 
+                                  
+                               
+                             as they are assumed to reflect informed guessing. If participants guessed the source of a statement at chance, guessing parameters should be at 50%. However, if the parameters are to mirror inferred non-zero item–source contingencies, they should at least differ depending on the statements’ desirability. Thus, consistent with the genuine item–source contingency between behavioral statements and town of residence in the stimulus distribution, we tested whether the probability  
+                               
+                                  
+                                     g 
+                                  
+                                  
+                                     t 
+                                     o 
+                                     w 
+                                     n 
+                                  
+                               
+                             of guessing Town X was higher for positive behavioral statements than for negative behavioral statements. Additionally, in line with a pseudocontingency between behavioral statements and group membership within each town of residence, we tested whether the probabilities  
+                               
+                                  
+                                     g 
+                                  
+                                  
+                                     | 
+                                     X 
+                                  
+                                  
+                                     g 
+                                     r 
+                                     o 
+                                     u 
+                                     p 
+                                  
+                               
+                             and  
+                               
+                                  
+                                     g 
+                                  
+                                  
+                                     | 
+                                     Y 
+                                  
+                                  
+                                     g 
+                                     r 
+                                     o 
+                                     u 
+                                     p 
+                                  
+                               
+                             of guessing Group A were higher for positive statements in comparison to negative statements. If participants instead based their source guessing on the true contingency between group membership and type of behavior within each town, they should estimate positive behaviors to be less likely for Group A than negative behaviors (i.e.,  
+                               
+                                  
+                                     g 
+                                  
+                                  
+                                     | 
+                                     X 
+                                  
+                                  
+                                     g 
+                                     r 
+                                     o 
+                                     u 
+                                     p 
+                                  
+                               
+                             and  
+                               
+                                  
+                                     g 
+                                  
+                                  
+                                     | 
+                                     Y 
+                                  
+                                  
+                                     g 
+                                     r 
+                                     o 
+                                     u 
+                                     p 
+                                  
+                               
+                             should be higher for negative statements). We computed the differences between the estimated guessing parameters for positive items and negative items at the group level. The probability of guessing Town X was higher for positive items than for negative items,  
+                               
+                                  Δ 
+                                  
+                                     
+                                        g 
+                                     
+                                     
+                                        t 
+                                        o 
+                                        w 
+                                        n 
+                                     
+                                  
+                                  = 
+                                  0 
+                                  . 
+                                  27 
+                                  
+                                  
+                                     [ 
+                                     0 
+                                     . 
+                                     20 
+                                     , 
+                                     0 
+                                     . 
+                                     34 
+                                     ] 
+                                  
+                               
+                            . Likewise, the probability of guessing Group A was higher for positive statements as compared to negative statements which were assigned to Town X,  
+                               
+                                  Δ 
+                                  
+                                     
+                                        g 
+                                     
+                                     
+                                        | 
+                                        X 
+                                     
+                                     
+                                        g 
+                                        r 
+                                        o 
+                                        u 
+                                        p 
+                                     
+                                  
+                                  = 
+                                  0 
+                                  . 
+                                  13 
+                                  
+                                  
+                                     [ 
+                                     0 
+                                     . 
+                                     03 
+                                     , 
+                                     0 
+                                     . 
+                                     23 
+                                     ] 
+                                  
+                               
+                            , and for those that were assigned to Town Y,  
+                               
+                                  Δ 
+                                  
+                                     
+                                        g 
+                                     
+                                     
+                                        | 
+                                        Y 
+                                     
+                                     
+                                        g 
+                                        r 
+                                        o 
+                                        u 
+                                        p 
+                                     
+                                  
+                                  = 
+                                  0 
+                                  . 
+                                  12 
+                                  
+                                  
+                                     [ 
+                                     0 
+                                     . 
+                                     03 
+                                     , 
+                                     0 
+                                     . 
+                                     21 
+                                     ] 
+                                  
+                               
+                            .
+
+Taken together, the direct rating scores and frequency estimates reflected a pseudocontingency effect on source evaluations: whereas judgments of towns corresponded to the genuine contingency between town of residence and behavior, the biased judgments of groups within towns indicated a reliance on the base rates of behavioral statements and group membership within each town. Evaluative judgments were in favor of Town X and in favor of Group A as compared to Town Y and Group B, respectively. Similarly, the (conditional) source-guessing parameters of the hierarchical MPT model differed depending on the desirability of the behavioral statements: replicating previous MPT analyses of aggregate data ( Meiser & Hewstone, 2004, 2006 ), positive behavioral statements were more likely attributed to Town X and Group A. The estimated guessing probabilities paralleled differences in the rating scores and frequency estimates. Therefore, the results corroborate the interpretation of the guessing parameters as reconstructive processes mirroring inferred evaluative contingencies.
+
+The framework of hierarchical MPT models allows to test this psychological interpretation. Construct validity of MPT model parameters can be tested via functional dissociations in terms of selective relations of specific model parameters with other measures of psychological constructs. So far, the MPT model for crossed source dimensions used here has been validated by fitting it to aggregate data and showing selective influences on specific model parameters. For instance,  Meiser and Bröder (2002)  reported selective effects of varying item location and item font size on the source-memory parameters  
+                         d 
+                       for location and font size, respectively.  Meiser and Hewstone (2006) , using similar stimuli as in the present experiment, demonstrated that differences between Town X and Town Y with regard to the relative frequency of desirable behaviors in the stimulus distribution were reflected in the guessing probability  
+                         
+                            
+                               g 
+                            
+                            
+                               t 
+                               o 
+                               w 
+                               n 
+                            
+                         
+                      . Furthermore, a quasi-experimental comparison between participants who inferred the true contingency between group membership and behavior versus those who inferred the pseudocontingency indicated that the guessing parameters  
+                         
+                            
+                               g 
+                            
+                            
+                               g 
+                               r 
+                               o 
+                               u 
+                               p 
+                            
+                         
+                      , too, echoed evaluations ( Meiser & Hewstone, 2004 ).
+
+To further establish the parameters’ validity, we applied the new approach of parameter validation using hierarchical MPT models. We first analyzed the relations of interindividual differences in source-guessing parameters with interindividual differences in direct measures of source evaluations. For this purpose, we computed differences in individual source evaluations. Differences in rating scores between Town X and Town Y were computed by first averaging individual rating scores across Group A and Group B per town, before subtracting rating scores for Town Y from rating scores for Town X (i.e., reflecting a main effect of town). Differences in rating scores between Group A and Group B were computed separately for Town X and for Town Y (i.e., reflecting simple effects of group for either town) according to the conditional specification of guessing parameters for group membership in the MPT model. The same three evaluative differences were calculated for the estimated proportions of negative behaviors, resulting in a total of six covariates. We fitted separate latent-trait MPT models for each covariate which was included as predictor of the memory parameters and guessing parameters. As higher rating scores indicate more positive evaluations and source-guessing parameters are assumed to reflect source evaluations, we expected interindividual differences in rating scores to have a positive effect on source-guessing probabilities for positive behavioral statements and a negative effect for source guessing of negative statements. The opposite was expected for interindividual differences in frequency estimates, since they reflect estimated proportions of negative behaviors. Put differently, differences in evaluations of Town X and Town Y should be selectively related to the guessing probabilities  
+                         
+                            g 
+                            
+                               
+                                  n 
+                               
+                               
+                                  t 
+                                  o 
+                                  w 
+                                  n 
+                               
+                            
+                         
+                       and  
+                         
+                            g 
+                            
+                               
+                                  p 
+                               
+                               
+                                  t 
+                                  o 
+                                  w 
+                                  n 
+                               
+                            
+                         
+                      . Evaluative differences between Group A and Group B in Town X should specifically predict the guessing parameters  
+                         
+                            g 
+                            
+                               
+                                  n 
+                               
+                               
+                                  | 
+                                  X 
+                               
+                               
+                                  g 
+                                  r 
+                                  o 
+                                  u 
+                                  p 
+                               
+                            
+                         
+                       and  
+                         
+                            g 
+                            
+                               
+                                  p 
+                               
+                               
+                                  | 
+                                  X 
+                               
+                               
+                                  g 
+                                  r 
+                                  o 
+                                  u 
+                                  p 
+                               
+                            
+                         
+                      , while differences between groups in Town Y should specifically predict the probabilities  
+                         
+                            g 
+                            
+                               
+                                  n 
+                               
+                               
+                                  | 
+                                  Y 
+                               
+                               
+                                  g 
+                                  r 
+                                  o 
+                                  u 
+                                  p 
+                               
+                            
+                         
+                       and  
+                         
+                            g 
+                            
+                               
+                                  p 
+                               
+                               
+                                  | 
+                                  Y 
+                               
+                               
+                                  g 
+                                  r 
+                                  o 
+                                  u 
+                                  p 
+                               
+                            
+                         
+                      . We expected no effects on item memory parameters, source-memory parameters, and the probability of guessing “old”. Moreover, we included experimental condition (i.e., whether participants were informed about base rates or not) as additional predictor for the source-guessing parameters to control for any effects of the experimental manipulation. As discussed above, this allowed us to estimate a joint model for both conditions while controlling for effects of experimental condition on the theoretically relevant guessing parameters (see Section  2.2.2 ). Posterior estimates of the guessing parameters per experimental condition and per estimated MPT model are reported in  Table 4 .
+
+Furthermore, the framework of hierarchical MPT models, in general, allows to also test parameters’ construct validities in a wider context of continuous measures of psychological constructs. Convergent validity is supported if interindividual differences in specific MPT parameters match interindividual differences in related psychological constructs, while discriminant validity is indicated by the specificity of such associations. Therefore, in a final step, we aimed at further establishing construct validity of the MPT model parameters in the context of pseudocontingency research. In exploratory analyses, we analyzed whether interindividual differences in MPT parameters are accounted for by cognitive performance measures which may reflect cognitive processes that are potentially relevant for source monitoring: memory performance, fluid intelligence, and quantitative thinking. Again, we fitted separate latent-trait MPT models for each of the eight covariates (four factors and four of their subscales) and included the factor experimental condition as additional predictor of source-guessing parameters to control for potential effects.
+
+Besides estimating the regression slopes, for all models, we computed Bayes factors quantifying the relative support for positive slope parameters, negative slope parameters, or slope parameters unequal to zero against the hypothesis of slope parameters equal to zero. The resulting Bayes factors are indicated by  
+                         
+                            
+                               B 
+                            
+                            
+                               > 
+                               , 
+                               0 
+                            
+                         
+                      ,  
+                         
+                            
+                               B 
+                            
+                            
+                               < 
+                               , 
+                               0 
+                            
+                         
+                      , and  
+                         
+                            
+                               B 
+                            
+                            
+                               ≠ 
+                               , 
+                               0 
+                            
+                         
+                      , respectively, and were computed using the Savage–Dickey ratio ( Heck, 2019; Wagenmakers, Lodewyckx, Kuriyal, & Grasman, 2010 ).
+
+Tables 5 and 6  summarize the validation results using the direct measures of source evaluation (i.e., trait ratings and frequency estimates) as predictors.  Figs. 3–5  display the relationships of trait ratings and frequency estimates with respective model parameters. In line with our prediction, we found strong evidence for the relation of differences in rating scores between towns with the guessing probabilities  
+                               
+                                  g 
+                                  
+                                     
+                                        n 
+                                     
+                                     
+                                        t 
+                                        o 
+                                        w 
+                                        n 
+                                     
+                                  
+                               
+                             and  
+                               
+                                  g 
+                                  
+                                     
+                                        p 
+                                     
+                                     
+                                        t 
+                                        o 
+                                        w 
+                                        n 
+                                     
+                                  
+                               
+                            ,  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        < 
+                                        , 
+                                        0 
+                                     
+                                  
+                                  = 
+                                  6 
+                                  . 
+                                  60 
+                                  ⋅ 
+                                  1 
+                                  
+                                     
+                                        0 
+                                     
+                                     
+                                        4 
+                                     
+                                  
+                               
+                             and  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        > 
+                                        , 
+                                        0 
+                                     
+                                  
+                                  = 
+                                  109 
+                                  . 
+                                  84 
+                               
+                            , respectively. Contrarily, the rating score differences between towns did not predict either of the other parameters as indicated by Bayes factors between  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        0 
+                                        , 
+                                        ≠ 
+                                     
+                                  
+                                  = 
+                                  2 
+                                  . 
+                                  28 
+                               
+                             and  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        0 
+                                        , 
+                                        ≠ 
+                                     
+                                  
+                                  = 
+                                  15 
+                                  . 
+                                  16 
+                               
+                            , with a median of  
+                               
+                                  M 
+                                  
+                                     
+                                        d 
+                                     
+                                     
+                                        
+                                           
+                                              B 
+                                           
+                                           
+                                              0 
+                                              , 
+                                              ≠ 
+                                           
+                                        
+                                     
+                                  
+                                  = 
+                                  6 
+                                  . 
+                                  89 
+                               
+                            . Likewise, interindividual differences in  
+                               
+                                  g 
+                                  
+                                     
+                                        n 
+                                     
+                                     
+                                        t 
+                                        o 
+                                        w 
+                                        n 
+                                     
+                                  
+                               
+                             and  
+                               
+                                  g 
+                                  
+                                     
+                                        p 
+                                     
+                                     
+                                        t 
+                                        o 
+                                        w 
+                                        n 
+                                     
+                                  
+                               
+                             were related to interindividual differences in frequency estimates of negative behaviors given towns,  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        > 
+                                        , 
+                                        0 
+                                     
+                                  
+                                  = 
+                                  26 
+                                  . 
+                                  32 
+                               
+                             and  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        < 
+                                        , 
+                                        0 
+                                     
+                                  
+                                  = 
+                                  4 
+                                  . 
+                                  38 
+                                  ⋅ 
+                                  1 
+                                  
+                                     
+                                        0 
+                                     
+                                     
+                                        3 
+                                     
+                                  
+                               
+                            , respectively. No other parameters were affected,  
+                               
+                                  1 
+                                  . 
+                                  95 
+                                  ≤ 
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        0 
+                                        , 
+                                        ≠ 
+                                     
+                                  
+                                  ≤ 
+                                  15 
+                                  . 
+                                  91 
+                               
+                            ,  
+                               
+                                  M 
+                                  
+                                     
+                                        d 
+                                     
+                                     
+                                        
+                                           
+                                              B 
+                                           
+                                           
+                                              0 
+                                              , 
+                                              ≠ 
+                                           
+                                        
+                                     
+                                  
+                                  = 
+                                  5 
+                                  . 
+                                  98 
+                               
+                            .
+
+Moreover, there was strong support for rating score differences between Group A and Group B in Town X to specifically predict the guessing parameters  
+                               
+                                  g 
+                                  
+                                     
+                                        n 
+                                     
+                                     
+                                        | 
+                                        X 
+                                     
+                                     
+                                        g 
+                                        r 
+                                        o 
+                                        u 
+                                        p 
+                                     
+                                  
+                               
+                            ,  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        < 
+                                        , 
+                                        0 
+                                     
+                                  
+                                  = 
+                                  3 
+                                  . 
+                                  71 
+                               
+                            , and  
+                               
+                                  g 
+                                  
+                                     
+                                        p 
+                                     
+                                     
+                                        | 
+                                        X 
+                                     
+                                     
+                                        g 
+                                        r 
+                                        o 
+                                        u 
+                                        p 
+                                     
+                                  
+                               
+                            ,  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        > 
+                                        , 
+                                        0 
+                                     
+                                  
+                                  = 
+                                  90 
+                                  . 
+                                  18 
+                               
+                            . All other parameters were not affected,  
+                               
+                                  1 
+                                  . 
+                                  64 
+                                  ≤ 
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        0 
+                                        , 
+                                        ≠ 
+                                     
+                                  
+                                  ≤ 
+                                  16 
+                                  . 
+                                  23 
+                               
+                            ,  
+                               
+                                  M 
+                                  
+                                     
+                                        d 
+                                     
+                                     
+                                        
+                                           
+                                              B 
+                                           
+                                           
+                                              0 
+                                              , 
+                                              ≠ 
+                                           
+                                        
+                                     
+                                  
+                                  = 
+                                  7 
+                                  . 
+                                  35 
+                               
+                            . Likewise, the difference in frequency estimates of negative behaviors between Group A and Group B in Town X only affected  
+                               
+                                  g 
+                                  
+                                     
+                                        n 
+                                     
+                                     
+                                        | 
+                                        X 
+                                     
+                                     
+                                        g 
+                                        r 
+                                        o 
+                                        u 
+                                        p 
+                                     
+                                  
+                               
+                             and  
+                               
+                                  g 
+                                  
+                                     
+                                        p 
+                                     
+                                     
+                                        | 
+                                        X 
+                                     
+                                     
+                                        g 
+                                        r 
+                                        o 
+                                        u 
+                                        p 
+                                     
+                                  
+                               
+                            ,  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        > 
+                                        , 
+                                        0 
+                                     
+                                  
+                                  = 
+                                  54 
+                                  . 
+                                  23 
+                               
+                             and  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        < 
+                                        , 
+                                        0 
+                                     
+                                  
+                                  = 
+                                  2 
+                                  . 
+                                  24 
+                                  ⋅ 
+                                  1 
+                                  
+                                     
+                                        0 
+                                     
+                                     
+                                        5 
+                                     
+                                  
+                               
+                            , respectively. Equivalent results were found for differences between Group A and Group B in Town Y: the rating score difference between Group A and Group B in Town Y selectively predicted  
+                               
+                                  g 
+                                  
+                                     
+                                        n 
+                                     
+                                     
+                                        | 
+                                        Y 
+                                     
+                                     
+                                        g 
+                                        r 
+                                        o 
+                                        u 
+                                        p 
+                                     
+                                  
+                               
+                            ,  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        < 
+                                        , 
+                                        0 
+                                     
+                                  
+                                  = 
+                                  5 
+                                  . 
+                                  11 
+                                  ⋅ 
+                                  1 
+                                  
+                                     
+                                        0 
+                                     
+                                     
+                                        3 
+                                     
+                                  
+                               
+                            , and  
+                               
+                                  g 
+                                  
+                                     
+                                        p 
+                                     
+                                     
+                                        | 
+                                        Y 
+                                     
+                                     
+                                        g 
+                                        r 
+                                        o 
+                                        u 
+                                        p 
+                                     
+                                  
+                               
+                            ,  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        > 
+                                        , 
+                                        0 
+                                     
+                                  
+                                  = 
+                                  68 
+                                  . 
+                                  34 
+                               
+                            , but no other model parameters,  
+                               
+                                  1 
+                                  . 
+                                  87 
+                                  ≤ 
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        0 
+                                        , 
+                                        ≠ 
+                                     
+                                  
+                                  ≤ 
+                                  16 
+                                  . 
+                                  31 
+                               
+                            ,  
+                               
+                                  M 
+                                  
+                                     
+                                        d 
+                                     
+                                     
+                                        
+                                           
+                                              B 
+                                           
+                                           
+                                              0 
+                                              , 
+                                              ≠ 
+                                           
+                                        
+                                     
+                                  
+                                  = 
+                                  8 
+                                  . 
+                                  44 
+                               
+                            . Finally, the difference in estimated frequencies between Group A and Group B in Town Y predicted the probability to guess Group A in Town Y for negative behaviors ( 
+                               
+                                  g 
+                                  
+                                     
+                                        n 
+                                     
+                                     
+                                        | 
+                                        Y 
+                                     
+                                     
+                                        t 
+                                        o 
+                                        w 
+                                        n 
+                                     
+                                  
+                               
+                            ),  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        > 
+                                        , 
+                                        0 
+                                     
+                                  
+                                  = 
+                                  29 
+                                  . 
+                                  00 
+                               
+                            , as well as for positive behaviors ( 
+                               
+                                  g 
+                                  
+                                     
+                                        p 
+                                     
+                                     
+                                        | 
+                                        Y 
+                                     
+                                     
+                                        t 
+                                        o 
+                                        w 
+                                        n 
+                                     
+                                  
+                               
+                            ),  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        < 
+                                        , 
+                                        0 
+                                     
+                                  
+                                  = 
+                                  12 
+                                  . 
+                                  54 
+                               
+                            . All other parameters were again not affected,  
+                               
+                                  2 
+                                  . 
+                                  40 
+                                  ≤ 
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        0 
+                                        , 
+                                        ≠ 
+                                     
+                                  
+                                  ≤ 
+                                  11 
+                                  . 
+                                  66 
+                               
+                            ,  
+                               
+                                  M 
+                                  
+                                     
+                                        d 
+                                     
+                                     
+                                        
+                                           
+                                              B 
+                                           
+                                           
+                                              0 
+                                              , 
+                                              ≠ 
+                                           
+                                        
+                                     
+                                  
+                                  = 
+                                  6 
+                                  . 
+                                  02 
+                               
+                            .
+
+Overall, the results show selective covariations of interindividual differences in (conditional) source-guessing parameters with interindividual differences in continuous measures of evaluations of either towns or groups. All remaining MPT model parameters, including other source-guessing parameters, were not affected, thus indicating not only convergent validity, but also discriminant validity. This suggests that the source-guessing parameters can indeed be interpreted as indicators of inferred evaluative contingencies.
+
+Tables 7 and 8  summarize the results of testing interindividual differences in the cognitive performance measures as predictors of differences in MPT model parameters. First, analyzing memory performance, there was only support for an effect of long-term memory on item memory for positive behavioral statements ( 
+                               
+                                  D 
+                                  p 
+                               
+                            ),  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        ≠ 
+                                        , 
+                                        0 
+                                     
+                                  
+                                  = 
+                                  5 
+                                  . 
+                                  33 
+                               
+                            , and for an effect of verbal short-term memory on the probability to remember the source dimension town of residence for negative items ( 
+                               
+                                  d 
+                                  
+                                     
+                                        n 
+                                     
+                                     
+                                        g 
+                                        r 
+                                        o 
+                                        u 
+                                        p 
+                                     
+                                  
+                               
+                            ),  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        ≠ 
+                                        , 
+                                        0 
+                                     
+                                  
+                                  = 
+                                  22 
+                                  . 
+                                  52 
+                               
+                            . All other  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        ≠ 
+                                        , 
+                                        0 
+                                     
+                                  
+                                  ≤ 
+                                  1 
+                                  . 
+                                  11 
+                               
+                             and  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        ≠ 
+                                        , 
+                                        0 
+                                     
+                                  
+                                  ≤ 
+                                  1 
+                                  . 
+                                  04 
+                               
+                             for long-term memory and verbal short-term memory, respectively, indicating no support for an influence on any other memory parameter or guessing parameter. Second, we fitted hierarchical MPT models with figural inductive reasoning scores and verbal deductive reasoning scores as well as a total score of fluid intelligence as predictors of model parameters. In our analyses, we found no evidence for an effect of figural inductive reasoning,  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        ≠ 
+                                        , 
+                                        0 
+                                     
+                                  
+                                  ≤ 
+                                  0 
+                                  . 
+                                  52 
+                               
+                            , verbal deductive reasoning,  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        ≠ 
+                                        , 
+                                        0 
+                                     
+                                  
+                                  ≤ 
+                                  1 
+                                  . 
+                                  26 
+                               
+                            , or the total score of fluid intelligence,  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        ≠ 
+                                        , 
+                                        0 
+                                     
+                                  
+                                  ≤ 
+                                  0 
+                                  . 
+                                  78 
+                               
+                            . Finally, we also found no support that quantitative thinking or its subscales predict any MPT model parameter,  
+                               
+                                  
+                                     
+                                        B 
+                                     
+                                     
+                                        ≠ 
+                                        , 
+                                        0 
+                                     
+                                  
+                                  ≤ 
+                                  0 
+                                  . 
+                                  58 
+                               
+                            .
+
+Traditionally, parameters of a multinomial processing tree (MPT) model are experimentally validated by means of discrete experimental manipulations: the selective influence of certain experimental conditions on a specific model parameter is tested by setting this parameter equal across experimental conditions. Parameter validity is then analyzed by subsequently comparing the resulting model to a model with separate parameters for each condition (e.g.,  Bayen et al., 1996 ). Alternatively or additionally, correlational analyses can be conducted based on parameter estimates that are obtained separately for each individual in a first step: selective covariations can then be assessed between the parameter estimates and measures of the assumed psychological process or other theoretically relevant constructs or behavior (e.g.,  Meissner & Rothermund, 2013 ). This two-step procedure requires, however, that model parameters are estimated at the level of individual participants with sufficient reliability which is often not feasible due to the small number of observations per participant. The rationale of selective covariations can also be applied in the recently developed framework of hierarchical MPT models that accommodate parameter heterogeneity across participants by assuming random effects for individuals.  Arnold et al. (2013) , for instance, estimated a source-monitoring model using a hierarchical beta-MPT approach ( Smith & Batchelder, 2010 ) to account for interindividual differences in model parameters. In a second step, they investigated the correlation of estimated model parameters with manifest measures of perceived item–source contingencies.
+
+Meanwhile, hierarchical MPT models ( Klauer, 2010 ) enable researchers to estimate covariations between model parameters and extraneous measures simultaneously with the MPT model parameters in a one-step procedure (for illustrations, see  Klein et al., 2017  and  Michalkiewicz et al., 2018 ). Thereby, using hierarchical MPT models even allows the assessment of convergent and discriminant parameter validity by testing specific continuous variables as selective predictors of interindividual differences in specific MPT model parameters. 
+                         6 
+                       
+                      
+                         6 
+                         With this approach, differences in model parameters between individuals are explained by the continuous variable and additional between-subjects variance. Alternatively, one could drop the random effect and assume that all of the variance in individual MPT parameters is explained by the covariates ( Coolin, Erdfelder, Bernstein, Thornton, & Thornton, 2015 ). Yet, in our case, it seemed theoretically implausible that the covariates perfectly explained interindividual differences in MPT model parameters. 
+                       By integrating cognitive modeling through MPT models and psychometric assessment of interindividual differences, the novel approach to parameter validation provides an instantiation of the perspective of “cognitive psychometrics” that was envisaged by  Batchelder (1998) . In the present article, we applied this new procedure of parameter validation to data collected in an experiment on biased stereotype formation based on pseudocontingency inferences.
+
+In the experiment, positive behavioral statements and negative behavioral statements were presented in combination with information on two source dimensions, group membership (Group A vs. Group B) and town of residence (Town X vs. Town Y). Base rates of behavioral statements and group membership were skewed and co-varied across the source dimension town of residence, which should give rise to the inference of a pseudocontingency between behavioral statements and group membership. Source evaluations were assessed by trait ratings, frequency estimates, and behavior assignments. Replicating earlier results ( Meiser & Hewstone, 2004, 2006 ), participants’ trait ratings and frequency estimates for Town X and Town Y mirrored the genuine item–source contingency as indicated by more positive evaluations of Town X. Furthermore, indicating a pseudocontingency, Group A was evaluated more positively than Group B within both towns of residence. The data on behavior assignments were analyzed with a multidimensional source-monitoring MPT model ( Meiser & Bröder, 2002 ) using the latent-trait hierarchical MPT approach ( Klauer, 2010 ) implemented in the R-package TreeBUGS ( Heck, Arnold & Arnold, 2018 ). The analyses revealed better item memory for negative items than for positive items. Moreover, not only the probability to guess Town X versus Town Y was higher for positive items as compared with negative items, but also the probability to guess Group A versus Group B, even though the genuine contingency between items and the source dimension group membership was opposite in sign.
+
+Contrary to traditional research on source monitoring, the present research mainly focused on guessing processes as opposed to memory processes: the guessing parameters are assumed to reflect evaluative biases originating in inferred item–source (pseudo-)contingencies. Thus, besides the validity of the memory parameters, the substantive interpretation of source-guessing parameters is essential. Assessing construct validity, we tested the selective relationship between direct measures of source evaluations (i.e., rating scores and frequency estimates) and corresponding guessing parameters. To this end, we included the participants’ evaluations as predictors of all hierarchical MPT model parameters. Indicating convergent validity, differences in evaluations between Town X and Town Y only accounted for differences in the probability of guessing Town X versus Town Y. Likewise, differences in evaluations between Group A and Group B per town of residence only predicted differences in the probability of guessing Group A versus Group B given the respective town. Each of the remaining guessing and memory parameters was not associated with the continuous covariates, thereby indicating discriminant validity.
+
+In a further step, we analyzed whether interindividual differences in MPT model parameters may be accounted for by interindividual differences in cognitive performance measures. Apart from long-term memory predicting item memory for negative items and short-term memory predicting source memory for town of residence of negative items, there were no effects of cognitive measures on the MPT model parameters. The results suggest that at least guessing processes based on pseudocontingency inferences are rather independent of general cognitive performance as assessed by the cognitive tests.
+
+To conclude, following William Batchelder’s idea of “cognitive psychometrics” ( Batchelder, 1998, 2010; Riefer et al., 2002 ), hierarchical MPT models provide a new approach to parameter validation through the combination of cognitive modeling in experimental psychology and the psychometric assessment of relevant constructs. Being a powerful tool in itself, MPT models thereby offer additional means of measurement validation and theory testing in a nomological network. Last but not least, assessing parameter validity with continuous measures of interindividual differences in criterion constructs may also be fruitful for gaining a better theoretical and empirical understanding of the cognitive processes and psychological phenomena that are captured by MPT parameters.
+
+This research was funded by the  Deutsche Forschungsgemeinschaft (DFG) 
+ , grants  ME 1918/2-3  and  GRK 2277  (Research Training Group “Statistical Modeling in Psychology”).
+
+See  Tables A.1 and A.2 .

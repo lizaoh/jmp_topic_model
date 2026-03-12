@@ -1,0 +1,1377 @@
+10.1016/j.jmp.2015.12.005
+Multidimensional scaling (MDS) is a long-established and widely-used statistical method for finding a spatial representation of a set of objects, based on the similarities between those objects ( Borg & Groenen, 2005; Cox & Cox, 1994; Schiffman, Reynolds, Young, & Carroll, 1981 ). MDS represents objects as points in a low-dimensional space, so that the similarity between each pair of objects corresponds to the distance between the points representing them, with more similar objects being nearer each other. Used as a statistical method, MDS has been applied throughout the natural and human sciences as a dimensionality-reduction method, providing useful representations and visualizations of the relationships between objects. In these sort of applications, the required similarities or proximities between each pair of objects are often found by automated methods, such as calculating the correlations or distances between vectors of information representing the objects. For example, the similarities of text documents can be derived from counts of the number of keywords they have in common, or the similarity between countries might be based on (standardized) differences in properties like their landmass, GDP, population, and so on.
+
+The MDS model, however, has its origins in theories of human mental representation ( Shepard, 1974 ). MDS representations have provided psychologically meaningful representations of many stimulus domains, especially low-level perceptual domains such as colors, phonemes, and simple perceptual forms ( Shepard, 1980 ).  Shepard (1987)  developed a formal theory of the key cognitive process of stimulus generalization based on MDS representations, and MDS models are widely used to represent stimuli in cognitive models of identification, categorization, and learning ( Nosofsky, 1992 ). Used as a psychological model of stimulus representation, the similarities or proximities between each pair of stimuli are usually based on human judgments of similarity. These behavioral judgments can take the form of ratings on a scale, or be derived from various decision-making tasks, such as triadic comparison ( Romney, Brewer, & Batchelder, 1993 ), or identification or confusion tasks ( Miller & Nicely, 1955 ).
+
+When MDS is used as a statistical method of dimensionality reduction, there is little conceptual scope to consider individual differences, because the similarities are calculated from known underlying quantitative descriptions. When MDS is used as a psychological model of representations, however, the question of individual differences becomes important. Different people may represent the similarities between stimuli differently, and a good model of human mental representation should account for these differences. One well-established generalization of the MDS model that include individual differences is the INDSCAL model ( Carroll & Chang, 1970; Takane, Young, & De Leeuw, 1977 ), which still assumes a single spatial representation, but allows individual differences by placing subject-specific weights on each dimension. Thus, differences in judged similarities between stimuli are explained by different people placing different emphasis on the dimensions. Another approach to allowing individual differences in MDS representations is provided by latent-mixture modeling ( Lee, 2008; Winsberg & De Soete, 1993 ), in which there are multiple spatial representations, each corresponding to a sub-group of subjects. Recently,  Bocci and Vichi (2011)  proposed a generalization of the MDS called K-INDSCAL, which effectively combines the INDSCAL and latent-mixture models of individual differences. K-INDSCAL is a  
+                         K 
+                       latent-class mixture of INDSCAL, and so includes the possibility of different spatial representations for groups of subjects, as well as dimension weights for individual subjects within each group.
+
+While the K-INDSCAL model is an important theoretical development, the implementation reported by  Bocci and Vichi (2011)  uses classical estimation methods based on least-squares optimization. For a model with the complexity and richness of K-INDSCAL, this is potentially limiting, because it does not allow for the measurement of uncertainty in inferences. Given the model allows both group-level and individual-level differences in stimulus representation, most data will be at least partly consistent with different representational possibilities, and it is important to understand what can and cannot be inferred about individual differences. The ability to handle uncertainty in a complete and coherent way is the cornerstone of the Bayesian approach to statistical inference ( Jaynes, 2003; Lindley, 1972 ). There is a modest and growing literature on Bayesian methods for MDS modeling ( Bakker & Poole, 2013; Lee, 2008; Oh & Raftery, 2001; Okada & Mayekawa, 2011; Okada & Shigemasu, 2010; Park, DeSarbo, & Liechty, 2008 ), but it has yet to be applied to the K-INDSCAL model. There is also a literature on using Bayesian methods to understand individual differences in cognitive processes related to similarity judgment, including category learning ( Bartlema, Lee, Wetzels, & Vanpaemel, 2014 ), memory ( Dennis, Lee, & Kinnell, 2008 ), and decision-making ( Lee, 2015; Scheibehenne, Rieskamp, & Wagenmakers, 2013; van Ravenzwaaij, Dutilh, & Wagenmakers, 2011 ).
+
+Accordingly, the goal of this paper is to develop, evaluate, and apply a Bayesian approach for the K-INDSCAL model, using modern computational Markov chain Monte Carlo (MCMC) methods. In the next section, the Bayesian K-INDSCAL model is formally defined, and we develop a two-step post-processing method that can be applied to MCMC samples taken from its posterior to deal with indeterminacy issues. We report the results of a small simulation study using artificially generated data to check that inferences are possible from the sorts of data typically available in psychology. We then present three applications of the proposed Bayesian method using previously considered psychological data. The three applications involve the taste of colas, images of cats, and colors of different hues, and collectively highlight the flexibility of the model to consider both group-level and individual-level differences in representation. Finally, we discuss the current contributions and future directions for the modeling approach.
+
+Our proposed Bayesian method is an extension of previous work by  Oh and Raftery (2001) . These authors developed a Bayesian approach for applying a standard MDS model to data. We develop a Bayesian approach for the K-INDSCAL extension of the standard MDS model. For this model, the data take the form of three-way observed dissimilarities between pairs of  
+                            I 
+                          stimuli judged by  
+                            H 
+                          subjects. We denote the observed proximity matrix of subject  
+                            h 
+                          as  
+                            
+                               
+                                  
+                                     Y 
+                                  
+                               
+                               
+                                  h 
+                               
+                            
+                            
+                            
+                               ( 
+                               h 
+                               = 
+                               1 
+                               , 
+                               … 
+                               , 
+                               H 
+                               ) 
+                            
+                         , where the  
+                            
+                               ( 
+                               i 
+                               , 
+                               
+                                  
+                                     i 
+                                  
+                                  
+                                     ′ 
+                                  
+                               
+                               ) 
+                            
+                         -th element,  
+                            
+                               
+                                  y 
+                               
+                               
+                                  i 
+                                  
+                                     
+                                        i 
+                                     
+                                     
+                                        ′ 
+                                     
+                                  
+                                  h 
+                               
+                            
+                         , represents the perceived dissimilarity between stimuli  
+                            i 
+                          and  
+                            
+                               
+                                  i 
+                               
+                               
+                                  ′ 
+                               
+                            
+                          judged by the subject. The model assumes that the observed dissimilarity is the sum of the true distance and measurement error:  
+                            
+                               (1) 
+                               
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        i 
+                                        
+                                           
+                                              i 
+                                           
+                                           
+                                              ′ 
+                                           
+                                        
+                                        h 
+                                     
+                                  
+                                  ∼ 
+                                  
+                                     
+                                        N 
+                                     
+                                     
+                                        
+                                           [ 
+                                           0 
+                                           , 
+                                           ∞ 
+                                           ) 
+                                        
+                                     
+                                  
+                                  
+                                     ( 
+                                     
+                                        
+                                           d 
+                                        
+                                        
+                                           i 
+                                           
+                                              
+                                                 i 
+                                              
+                                              
+                                                 ′ 
+                                              
+                                           
+                                           h 
+                                        
+                                     
+                                     , 
+                                     
+                                        
+                                           σ 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     ) 
+                                  
+                                  . 
+                               
+                            
+                          In this equation,  
+                            
+                               
+                                  N 
+                               
+                               
+                                  
+                                     [ 
+                                     0 
+                                     , 
+                                     ∞ 
+                                     ) 
+                                  
+                               
+                            
+                            
+                               ( 
+                               ⋅ 
+                               ) 
+                            
+                          represents truncated normal distribution, which is used because the observed dissimilarity does not take negative values ( Oh & Raftery, 2001 ),  
+                            
+                               
+                                  d 
+                               
+                               
+                                  i 
+                                  
+                                     
+                                        i 
+                                     
+                                     
+                                        ′ 
+                                     
+                                  
+                                  h 
+                               
+                            
+                          represents the distance between stimuli  
+                            i 
+                          and  
+                            
+                               
+                                  i 
+                               
+                               
+                                  ′ 
+                               
+                            
+                          perceived by subject  
+                            h 
+                          who belongs to class  
+                            k 
+                          ( 
+                            h 
+                            = 
+                            1 
+                            , 
+                            … 
+                            , 
+                            H 
+                            , 
+                            
+                            k 
+                            = 
+                            1 
+                            , 
+                            … 
+                            , 
+                            K 
+                            , 
+                            K 
+                            < 
+                            H 
+                         ). This membership is represented by an indicator variable  
+                            
+                               
+                                  u 
+                               
+                               
+                                  h 
+                               
+                            
+                            = 
+                            k 
+                         . The distance is given as the weighted Euclidean distance  
+                            
+                               (2) 
+                               
+                                  
+                                     
+                                        d 
+                                     
+                                     
+                                        i 
+                                        
+                                           
+                                              i 
+                                           
+                                           
+                                              ′ 
+                                           
+                                        
+                                        h 
+                                     
+                                  
+                                  = 
+                                  
+                                     
+                                        
+                                           
+                                              ∑ 
+                                           
+                                           
+                                              j 
+                                              = 
+                                              1 
+                                           
+                                           
+                                              J 
+                                           
+                                        
+                                        
+                                           
+                                              w 
+                                           
+                                           
+                                              h 
+                                              j 
+                                           
+                                        
+                                        
+                                           
+                                              
+                                                 ( 
+                                                 
+                                                    
+                                                       x 
+                                                    
+                                                    
+                                                       i 
+                                                       j 
+                                                       k 
+                                                    
+                                                 
+                                                 − 
+                                                 
+                                                    
+                                                       x 
+                                                    
+                                                    
+                                                       
+                                                          
+                                                             i 
+                                                          
+                                                          
+                                                             ′ 
+                                                          
+                                                       
+                                                       j 
+                                                       k 
+                                                    
+                                                 
+                                                 ) 
+                                              
+                                           
+                                           
+                                              2 
+                                           
+                                        
+                                     
+                                  
+                                  . 
+                               
+                            
+                          The spatial representation matrix  
+                            
+                               
+                                  
+                                     X 
+                                  
+                               
+                               
+                                  k 
+                               
+                            
+                            = 
+                            
+                               { 
+                               
+                                  
+                                     x 
+                                  
+                                  
+                                     i 
+                                     j 
+                                     k 
+                                  
+                               
+                               } 
+                            
+                            
+                            
+                               ( 
+                               k 
+                               = 
+                               1 
+                               , 
+                               … 
+                               , 
+                               K 
+                               ) 
+                            
+                         , which represents the coordinates of  
+                            I 
+                          stimuli in a  
+                            J 
+                         -dimensional space, is shared by all the subjects who belong to the same class  
+                            k 
+                         . The weight that subject  
+                            h 
+                          gives to dimension  
+                            j 
+                         ,  
+                            
+                               W 
+                            
+                            = 
+                            
+                               { 
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     h 
+                                     j 
+                                  
+                               
+                               } 
+                            
+                         , however, differs from one subject to another, representing individual differences within the class. The latent parameters  
+                            
+                               
+                                  
+                                     X 
+                                  
+                               
+                               
+                                  k 
+                               
+                            
+                         ,  
+                            
+                               W 
+                            
+                          and  
+                            
+                               u 
+                            
+                            = 
+                            
+                               { 
+                               
+                                  
+                                     u 
+                                  
+                                  
+                                     h 
+                                  
+                               
+                               } 
+                            
+                          are to be inferred from observed data using the model.
+
+As required by the Bayesian approach, we place prior distributions over all of the parameters. For the prior on  
+                            
+                               
+                                  
+                                     X 
+                                  
+                               
+                               
+                                  k 
+                               
+                            
+                          we use the normal distribution  
+                            
+                               (3) 
+                               
+                                  
+                                     
+                                        x 
+                                     
+                                     
+                                        i 
+                                        j 
+                                        k 
+                                     
+                                  
+                                  ∼ 
+                                  N 
+                                  
+                                     ( 
+                                     0 
+                                     , 
+                                     
+                                        
+                                           τ 
+                                        
+                                        
+                                           j 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     ) 
+                                  
+                                  . 
+                               
+                            
+                          For the prior on the variance parameters we use the standard assumption of an inverse gamma distribution,  
+                            
+                               
+                                  (4) 
+                                  
+                                     
+                                        
+                                           σ 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     ∼ 
+                                     I 
+                                     G 
+                                     
+                                        ( 
+                                        
+                                           
+                                              α 
+                                           
+                                           
+                                              σ 
+                                           
+                                        
+                                        , 
+                                        
+                                           
+                                              β 
+                                           
+                                           
+                                              σ 
+                                           
+                                        
+                                        ) 
+                                     
+                                     , 
+                                  
+                               
+                               
+                                  (5) 
+                                  
+                                     
+                                        
+                                           τ 
+                                        
+                                        
+                                           j 
+                                        
+                                        
+                                           2 
+                                        
+                                     
+                                     ∼ 
+                                     I 
+                                     G 
+                                     
+                                        ( 
+                                        
+                                           
+                                              α 
+                                           
+                                           
+                                              τ 
+                                           
+                                        
+                                        , 
+                                        
+                                           
+                                              β 
+                                           
+                                           
+                                              τ 
+                                           
+                                        
+                                        ) 
+                                     
+                                     . 
+                                  
+                               
+                            
+                          The hyper-parameter values,  
+                            
+                               { 
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     σ 
+                                  
+                               
+                               , 
+                               
+                                  
+                                     β 
+                                  
+                                  
+                                     σ 
+                                  
+                               
+                               , 
+                               
+                                  
+                                     α 
+                                  
+                                  
+                                     τ 
+                                  
+                               
+                               , 
+                               
+                               and 
+                               
+                               
+                                  
+                                     β 
+                                  
+                                  
+                                     τ 
+                                  
+                               
+                               } 
+                            
+                          can be set to small values to represent little prior information. In all of the modeling we report, they were set to 0.001.
+
+The individual weights  
+                            
+                               W 
+                            
+                            = 
+                            
+                               { 
+                               
+                                  
+                                     w 
+                                  
+                                  
+                                     h 
+                                     j 
+                                  
+                               
+                               } 
+                            
+                          are assumed to lie in the  
+                            J 
+                         -simplex for each subject, so that  
+                            
+                               (6) 
+                               
+                                  
+                                     
+                                        w 
+                                     
+                                     
+                                        h 
+                                        j 
+                                     
+                                  
+                                  ≥ 
+                                  0 
+                                  , 
+                                  
+                                  
+                                     
+                                        ∑ 
+                                     
+                                     
+                                        j 
+                                        = 
+                                        1 
+                                     
+                                     
+                                        J 
+                                     
+                                  
+                                  
+                                     
+                                        w 
+                                     
+                                     
+                                        h 
+                                        j 
+                                     
+                                  
+                                  = 
+                                  J 
+                                  . 
+                               
+                            
+                          For example, when  
+                            J 
+                            = 
+                            2 
+                         , if the first subject considers the first dimension to be slightly more important, this may correspond to a weight vector  
+                            
+                               
+                                  
+                                     ( 
+                                     
+                                        
+                                           w 
+                                        
+                                        
+                                           11 
+                                        
+                                     
+                                     , 
+                                     
+                                        
+                                           w 
+                                        
+                                        
+                                           12 
+                                        
+                                     
+                                     ) 
+                                  
+                               
+                               
+                                  ′ 
+                               
+                            
+                            = 
+                            
+                               
+                                  
+                                     ( 
+                                     1.1 
+                                     , 
+                                     0.9 
+                                     ) 
+                                  
+                               
+                               
+                                  ′ 
+                               
+                            
+                         , while if the second subject considers the second dimension to be much more important, this may correspond to a weight vector  
+                            
+                               
+                                  
+                                     ( 
+                                     
+                                        
+                                           w 
+                                        
+                                        
+                                           21 
+                                        
+                                     
+                                     , 
+                                     
+                                        
+                                           w 
+                                        
+                                        
+                                           22 
+                                        
+                                     
+                                     ) 
+                                  
+                               
+                               
+                                  ′ 
+                               
+                            
+                            = 
+                            
+                               
+                                  
+                                     ( 
+                                     0.5 
+                                     , 
+                                     1.5 
+                                     ) 
+                                  
+                               
+                               
+                                  ′ 
+                               
+                            
+                         . Thus, the weights indicate the relative weight for each dimension, and are unique to each individual. Our approach assumes a uniform prior on the joint distribution of weight parameters over their valid domain defined by the simplex. Importantly, this prior does not include the edges of the simplex at which dimensions are given no weight by a subject, thus eliminating the possibility of degenerate representations that could otherwise cause model identifiability issues. The prior is such that each dimension in a representation plays some role—even if very small—in representing the stimuli for each subject who uses that representation.
+
+Finally, the prior on the latent-class membership parameters is  
+                            
+                               
+                                  (7) 
+                                  
+                                     
+                                        
+                                           u 
+                                        
+                                        
+                                           h 
+                                        
+                                     
+                                     ∼ 
+                                     
+                                        Cat 
+                                     
+                                     
+                                        ( 
+                                        
+                                           θ 
+                                        
+                                        ) 
+                                     
+                                     , 
+                                  
+                               
+                               
+                                  (8) 
+                                  
+                                     
+                                        θ 
+                                     
+                                     ∼ 
+                                     
+                                        Dir 
+                                     
+                                     
+                                        ( 
+                                        K 
+                                        , 
+                                        
+                                           α 
+                                        
+                                        ) 
+                                     
+                                  
+                               
+                            
+                          where  
+                            
+                               α 
+                            
+                          is a concentration parameter set to  
+                            
+                               1 
+                            
+                         , so that equal prior probability is given to all latent-class membership probability distributions.
+
+Our Bayesian approach for applying the model to data relies on computational MCMC methods for sampling from the joint posterior distribution. We implemented the model using the free and open-source software Stan and its interface to the R computing language ( Stan Development Team, 2015a,b ). Stan applies the so-called No-U-Turn Sampler ( Hoffman & Gelman, 2014 ) to draw samples from the joint posterior distribution.
+
+The Stan code implementation of the model is provided in the  Appendix . One noteworthy feature of the implementation is that the mixture component of the model, involving the possible multiple latent representations, is achieved by explicitly building the components into the log probability density of the model, and inference about latent-class indicator parameters is achieved using a soft-max approach. These implementation features are standard for Stan, but differ a little from the statistical description of the model we have presented, and from how it might be implemented in alternative graphical modeling software such as JAGS ( Plummer, 2003 ).
+
+Drawing inferences about the model parameters from posterior samples requires addressing two different identification issues. One issue stems from the fact that the likelihood function is invariant under permutations of the class labels; this is called the “label-switching” issue ( Redner & Walker, 1984 ). The other issue stems from the fact that the weighted Euclidean distance is invariant under translation and reflection. 
+                            1 
+                         
+                         
+                            1 
+                            Note, however, that the model is not invariant under rotation, unlike the standard MDS model, because of the introduction of dimension weights.
+
+In order to deal with the label-switching issue, we used the post-hoc relabeling algorithm proposed by  Stephens (2000) . This algorithm permutes the MCMC sample of class membership so that the posterior expected Kullback–Leibler loss is minimized, and then applies the same permutation to the rest of the parameters. We used the implementation of this algorithm provided by the  label.switching  package in R ( Papastamoulis, in press ).
+
+To deal with the translation-and-reflection issue, we first set the mean of the configuration matrix  
+                            
+                               
+                                  
+                                     X 
+                                  
+                               
+                               
+                                  k 
+                               
+                            
+                          to the origin. Then we used Algorithm 1 to post-process the MCMC samples. Here,  
+                            
+                               
+                                  
+                                     X 
+                                  
+                               
+                               
+                                  k 
+                               
+                               
+                                  
+                                     ( 
+                                     s 
+                                     ) 
+                                  
+                               
+                            
+                          denotes  
+                            s 
+                         th MCMC sample ( 
+                            s 
+                            = 
+                            1 
+                            , 
+                            … 
+                            , 
+                            S 
+                         ), and  
+                            
+                               { 
+                               
+                                  
+                                     T 
+                                  
+                                  
+                                     
+                                        ( 
+                                        v 
+                                        ) 
+                                     
+                                  
+                               
+                               } 
+                            
+                          represents the set of all possible transformation of  
+                            
+                               
+                                  
+                                     X 
+                                  
+                               
+                               
+                                  k 
+                               
+                            
+                          that does not alter the weighted Euclidean distance when the weights are correspondingly transformed ( 
+                            v 
+                            = 
+                            1 
+                            , 
+                            … 
+                            , 
+                            V 
+                         ). For example, when  
+                            J 
+                            = 
+                            2 
+                         , this is a set of  
+                            V 
+                            = 
+                            8 
+                          transition matrices. In this case, the concrete forms of  
+                            
+                               
+                                  
+                                     T 
+                                  
+                               
+                               
+                                  
+                                     ( 
+                                     1 
+                                     ) 
+                                  
+                               
+                            
+                            , 
+                            
+                               
+                                  
+                                     T 
+                                  
+                               
+                               
+                                  
+                                     ( 
+                                     2 
+                                     ) 
+                                  
+                               
+                            
+                            , 
+                            
+                               
+                                  
+                                     T 
+                                  
+                               
+                               
+                                  
+                                     ( 
+                                     3 
+                                     ) 
+                                  
+                               
+                            
+                            , 
+                            … 
+                          are  
+                            
+                               ( 
+                               
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        0 
+                                     
+                                  
+                                  
+                                     
+                                        0 
+                                     
+                                     
+                                        1 
+                                     
+                                  
+                               
+                               ) 
+                            
+                            , 
+                            
+                               ( 
+                               
+                                  
+                                     
+                                        0 
+                                     
+                                     
+                                        − 
+                                        1 
+                                     
+                                  
+                                  
+                                     
+                                        1 
+                                     
+                                     
+                                        0 
+                                     
+                                  
+                               
+                               ) 
+                            
+                            
+                               ( 
+                               
+                                  
+                                     
+                                        − 
+                                        1 
+                                     
+                                     
+                                        0 
+                                     
+                                  
+                                  
+                                     
+                                        0 
+                                     
+                                     
+                                        − 
+                                        1 
+                                     
+                                  
+                               
+                               ) 
+                            
+                            , 
+                            … 
+                         , which is the set of  
+                            0 
+                            ° 
+                            , 
+                            90 
+                            ° 
+                            , 
+                            180 
+                            ° 
+                            , 
+                            270 
+                            ° 
+                         , degrees rotation matrices and their flips. When  
+                            J 
+                            = 
+                            3 
+                         ,  
+                            V 
+                            = 
+                            32 
+                         , and so on. The algorithm converges when all the translation matrix that gives the least sum-of-squared errors no longer change.
+
+The resultant sequence of  
+                            
+                               
+                                  
+                                     X 
+                                  
+                               
+                               
+                                  k 
+                               
+                               
+                                  
+                                     ( 
+                                     s 
+                                     ) 
+                                  
+                               
+                            
+                            , 
+                            
+                            s 
+                            = 
+                            1 
+                            , 
+                            … 
+                            , 
+                            S 
+                          is the post-processed posterior sample of  
+                            
+                               
+                                  
+                                     X 
+                                  
+                               
+                               
+                                  k 
+                               
+                            
+                         . In practice we set the maximum number of iterations  
+                            R 
+                          to be 50, but our experience was that, for most analyses the algorithm converged within about 20 iterations.
+
+Because the K-INDSCAL model allows for a flexible representation of both group and individual differences, it is possible that it is too complicated to permit useful inferences for the sort of experimental data typically available in psychology. To test this possibility, we conducted a small simulation study to confirm that the proposed method can be effective for realistic numbers of stimuli and subjects. The design of the simulation study was as follows. We set the size of artificial data to be  
+                         H 
+                         = 
+                         14 
+                       (subjects),  
+                         I 
+                         = 
+                         12 
+                       (stimuli),  
+                         J 
+                         = 
+                         2 
+                       (dimensions), and  
+                         K 
+                         = 
+                         2 
+                       (classes). The first 7 subjects were allocated to the first class and the other 7 subjects were allocated to the second class. The true coordinates of stimuli were randomly generated from  
+                         N 
+                         
+                            ( 
+                            0 
+                            , 
+                            
+                               
+                                  3 
+                               
+                               
+                                  2 
+                               
+                            
+                            ) 
+                         
+                       for each dimension and each class, then transformed to the weighted Euclidean distance using Eq.  (2)  with each  
+                         
+                            
+                               w 
+                            
+                            
+                               h 
+                               1 
+                            
+                         
+                       generated from  
+                         U 
+                         
+                            ( 
+                            0 
+                            , 
+                            2 
+                            ) 
+                         
+                      . Note that this means  
+                         
+                            
+                               w 
+                            
+                            
+                               h 
+                               2 
+                            
+                         
+                         = 
+                         2 
+                         − 
+                         
+                            
+                               w 
+                            
+                            
+                               h 
+                               1 
+                            
+                         
+                      . Finally, the simulated observed data were generated by Eq.  (1)  with  
+                         σ 
+                         = 
+                         0.2 
+                       noise. A total of 100 simulated data sets generated in this way were analyzed using the proposed method. Each analysis was based on 1000 MCMC samples, collected after an initial 1000 burn-in samples were discarded.
+
+The proportion of correct latent-class membership inferences for each artificial subject averaged 95%, which we view as satisfactory. The inferred coordinate location and dimension weight parameters—as estimated by their posterior means, after relabeling and post-processing—were similarly satisfactory. The correlation with the true values used to generate the artificial data was around 0.93 (with a standard deviation around 0.20) for the coordinate locations, and around 0.97 (with standard deviation around 0.15) for the dimension weights.   Kruskal’s (1964)  stress-1, which is a common classical measure of normalized squared errors in MDS, averaged around 0.06 (with standard deviation 0.07). Thus, in general, the simulation results suggest that our method can recover class memberships and spatial configurations as well as dimensional weights under realistic sample sizes and numbers of stimuli.
+
+In this section, we apply the model to analyze three previously reported data sets, dealing with the taste of colas, cat images, and colors. In all of three analyses, the number of dimensions is set to  
+                         J 
+                         = 
+                         2 
+                      , consistent with previous modeling of the same data ( Borg & Groenen, 2005; Hout, Goldinger, & Brady, 2014; Schiffman et al., 1981 ). The focus of our analyses is on the nature of group and individual differences, captured by the latent classes and individual attention weights, respectively. We manipulate the number of latent classes  
+                         K 
+                       between 1 and 4, and choose the best result in terms of posterior predictive checking and posterior membership probability. All of the analyses are based on 20,000 posterior samples, collected after 10,000 burn-in samples, and use a thinning factor of 10 (i.e., only each 10-th sample was retained during the collection phase). MCMC convergence was monitored by visual examination of the traces of the identified parameters.
+
+The first data set we consider involves similarities between cola tastes. It is one of the two data sets analyzed by  Bocci and Vichi (2011) , using classical least-squares methods, in their paper proposing the K-INDSCAL model. The raw data, consisting of similarity judgment between each of the 45 possible pairs for  
+                            I 
+                            = 
+                            10 
+                          colas, as provided by  
+                            H 
+                            = 
+                            10 
+                          different subjects, are reported by  Schiffman et al. (1981) . The ten cola brands are Diet Pepsi, RC Cola, Yukon, Dr Pepper, Shasta, Coca Cola, Diet Dr Pepper, Tab, Pepsi Cola, and Diet Rite. The experiment was conducted over a 5-day period for each subject, with 9 judgments made each day at 5-min intervals. Subjects were blindfolded throughout the experiment to eliminate visual cues. The order of stimulus-pairs presentation was randomized. The subjects rated the similarity by marking an  
+                            X 
+                          mark along the 5-inch line with “same” and “different” at each end, and the judgments were transcribed to dissimilarities on a scale from 0 to 100.
+
+In order to select the number of classes  
+                            K 
+                         , it would be desirable if the number of classes was inferred using fully Bayesian methods. The Bayes factor ( Kass & Raftery, 1995 ) is the obvious candidate, giving the evidence the similarity data provide for representational models with different numbers of classes. However, while conceptually straightforward, it is a difficult computational problem to estimate the desired Bayes factors. The tractable Savage–Dickey method ( Dickey et al., 1970; Wagenmakers, Lodewyckx, Kuriyal, & Grasman, 2010 ) cannot be used, because in a lower-dimensional MDS representation is usually not nested in a higher-dimensional representations. Other approaches for estimating Bayes factors between non-nested models, such as product space methods ( Lodewyckx et al., 2011 ), are unlikely to scale well to large number of parameters in MDS models. We are not aware of previous work in Bayesian MDS literature that successfully computes Bayes factors, and believe it remains an open research challenge. Therefore, we relied on a form of posterior predictive checking ( Rubin et al., 1984 ). For each  
+                            K 
+                            = 
+                            1 
+                            , 
+                            … 
+                            , 
+                            4 
+                          representation, posterior predictive samples of  
+                            
+                               
+                                  
+                                     
+                                        y 
+                                     
+                                     
+                                        ˆ 
+                                     
+                                  
+                               
+                               
+                                  i 
+                                  
+                                     
+                                        i 
+                                     
+                                     
+                                        ′ 
+                                     
+                                  
+                                  h 
+                               
+                            
+                          were generated, and the correlation coefficient between the observed dissimilarity and its mean posterior predicted values was calculated for each subject. The result is shown on the left of  Fig. 1 
+                         . It can be seen that the correlation is on average larger for  
+                            K 
+                            = 
+                            2 
+                          than  
+                            K 
+                            = 
+                            1 
+                         , but then increases relatively little when more classes are added. We also calculated the normalized squared error, the stress, between them. The result follows a similar inverted pattern, as shown in the right panel of  Fig. 1 . We interpret these results as suggesting that  
+                            K 
+                            = 
+                            2 
+                          classes provides an adequate representation of the data, consistent with the earlier assumptions of  Bocci and Vichi (2011) .
+
+The posterior of the latent-class parameters  
+                            
+                               
+                                  u 
+                               
+                               
+                                  h 
+                               
+                            
+                          provides near-definitive inferences about which group each subject belongs to, with the least certain inference having a posterior probability of 0.973. Six subjects—A, D, E, F, H, and I—are allocated to the first class and the remaining four subjects—B, C, G, and J—are allocated to the second class.
+
+This pattern of membership is a little different from those obtained by  Bocci and Vichi (2011) , who classified subject H as belonging to the second class. In order to compare our results with the previous ones, we conducted another posterior predictive check based on fixed class membership. That is, we compared the results when subject H is classified to both the first class and the second class, with the memberships of all other subjects remaining fixed. We calculated the root mean squared error (RMSE) and correlation between the observed dissimilarities and the posterior predictive values for subject H, under both assignments. We also calculated the WAIC, which is a predictive information criteria for Bayesian models ( Gelman, Hwang, & Vehtari, 2014; Watanabe, 2010 ), under both assignments. The RMSE was smaller (19.69 vs 21.83), the correlation was larger (0.71 vs 0.66), and the WAIC was smaller (4157.62 vs 4173.32) when subject H was assigned to the first class, consistent with the inference made by our method.
+
+The posterior spatial representations for each class is shown in  Fig. 2 
+                         . The point estimate, which is a posterior mean, of the stimuli in each classes are relatively similar to those obtained in  Bocci and Vichi (2011, Figure 9) . However there are some differences and additional insights coming from our Bayesian approach. The obvious difference is that we have distributional information about the uncertainty of the location of each stimulus, shown by the gray points. It is clear that there is more uncertainty about the stimulus locations for the second than the first class, which means we need to be more careful in interpreting the point estimates in the second class. This greater uncertainty in the second class could stem from many sources, including within-subject variability, individual differences not well captured by the model, or differences in the adequacy of a two-dimensional representation. All of these possibilities suggest avenues for improving or extending the model, and so the information about uncertainty—which is not available using previous classical methods—helps both current interpretation and future development.
+
+A second difference between the representation presented in  Fig. 2 , and that provided by  Bocci and Vichi (2011, Figure 9) , is that, for the first class, the first dimension significantly more clearly distinguishes the diet drinks (including Tab, which is a diet drink) on the left and the non-diet drinks on the right. The remaining dimensions of the representation are similarly easy to interpret. The second dimension of the first class corresponds to the degree of cherry flavor, with Dr Pepper at one end and Yukon, Coca Cola and Tab at the other end. For the second class, the representation is organized by different brands. This organizational characteristic was also observed by  Bocci and Vichi (2011) , as well as by  Wedel and DeSarbo (1998) , who analyzed the same data set using a mixture tree method.
+
+Interpreting the meanings of dimensions is especially important in INDSCAL-type MDS models, such as the K-INDSCAL model, because part of the representation of individual differences involves the different weights subjects give to the dimensions.  Fig. 3 
+                          shows the posterior means and inter-quartile ranges for the inferred individual weight parameters. It is clear that there are no large individual differences in these weights, although there is more uncertainty about the weight subjects E and F place on the first dimension. This lack of variation is psychologically interesting. It means, for example, that those subjects representing the colas in terms of diet and cherry tastes in the first class do not differ in the weight they give to these two dimensions. More fundamentally, the similar dimension weights shown in  Fig. 3  mean that the fundamental individual differences in this data set involve the different representational organizations provided by the two classes, rather than more fine-grained differences in the saliencies of dimensions within an organization.
+
+The second data set we consider involves the similarities between cat images collected by  Hout et al. (2014)  as a part of large MDS database. The stimuli were  
+                            I 
+                            = 
+                            17 
+                          images of cats which came from the “Massive Memory” database ( Brady, Konkle, Alvarez, & Oliva, 2008; Konkle, Brady, Alvarez, & Oliva, 2010 ). The similarity data were obtained from  
+                            H 
+                            = 
+                            21 
+                          subjects using a computer-based spatial arrangement method ( Goldstone, 1994 ; see also  Kriegeskorte & Mur, 2012 ), in which subjects were instructed to move the stimuli on computer screen in order to organize the space so as to represent their judgment of similarity.
+
+Fig. 4 
+                          shows the correlation and stress between observed data and the posterior predicted values for  
+                            K 
+                            = 
+                            1 
+                            , 
+                            … 
+                            , 
+                            4 
+                          latent classes. Although the results are not very clear, the correlation increases from  
+                            K 
+                            = 
+                            1 
+                          to 2 for most of the subjects, and then fluctuates between  
+                            K 
+                            = 
+                            2 
+                          to 4. The average correlation also increases rapidly from  
+                            K 
+                            = 
+                            1 
+                          to 2, before decreasing from  
+                            K 
+                            = 
+                            2 
+                          to 4. The result for stress follows a similar inverted pattern. Thus, we conclude that  
+                            K 
+                            = 
+                            2 
+                          latent classes provides a useful representation, consistent with the two-dimensional methods by which the data were collected.
+
+The posterior membership probabilities for the  
+                            K 
+                            = 
+                            2 
+                          model are almost exactly one for all the subjects, meaning they are classified as belonging to one of the two classes with near certainty. Eleven subjects are inferred to belong to the first class and the remaining ten to the second class. The posterior spatial representations for both latent classes are shown in  Fig. 5 
+                         . For the first class, the first dimension can be interpreted as representing the youth of the cats, with younger, active-looking cats on right-hand side and older, calmer cats on the left-hand side. The second dimension can be interpreted as corresponding to the colorfulness of the cats, with black, monotone cats at the top and colorful ginger cats at the bottom. The posteriors of the locations of the stimuli overlap each other, and there are no obvious clusters among them. For the second class, the first dimension corresponds to the color of the cats, with black cats on the right and ginger cats on the left. There are three major clusters of the colors along this dimension, and it is especially clear that the ginger cluster is separated from the black and white clusters. The second dimension can be interpreted as corresponding to uprightness and movement, with standing and moving cats at the top and laying calm cats at the bottom. We note that, contrary to the first class, the youth of the cats does appear to be a dimension in the second class.
+
+The posterior means and inter-quartile ranges of the individual dimension weights are shown in  Fig. 6 
+                         . For most subjects, the weight for the first dimension is much smaller than the second dimension. This means that the second dimension has greater weight in those subjects than appears in the shared representation. Only subjects L and O have approximately equal weight for both dimensions, and so only these subjects have the spatial representations shown in  Fig. 5 . To make this point concretely,  Fig. 7 
+                          shows the spatial representation for subjects B and L, found by applying their individual dimension weights to the class representation in  Fig. 5 . It is clear that even though subjects of the same class share a common spatial representation, they can have significantly different individual representations based on the different importance they attach to the dimensions.
+
+The third data set we consider involves the similarities between 10 colors with different hues but constant brightness and saturation, based on experiment reported by  Helm (1959) . The similarity data were collected based on a procedure described in detail in  Borg and Groenen (2005) , involving subjects identifying the most dissimilar colored chip from a set of three, and physically placing it to be equally psychologically different from the other two. The original experiment involved 14 subjects, but two of them replicated the experiment after a four week interval, resulting in  
+                            H 
+                            = 
+                            16 
+                         . Following previous analyses of these data, we treat these replication as separate subjects ( Borg & Groenen, 2005; Lee & Webb, 2005 ).
+
+Interestingly, for this data set, assuming  
+                            K 
+                            ≥ 
+                            2 
+                          latent classes results in posterior distributions for the indicator variables  
+                            
+                               
+                                  u 
+                               
+                               
+                                  h 
+                               
+                            
+                          corresponding to all of the subjects being assigned to the first class with near certainty. As a result, the correlation between observed data and the posterior predicted values almost does not change for  
+                            K 
+                            = 
+                            1 
+                            , 
+                            … 
+                            , 
+                            4 
+                          latent classes, as shown in  Fig. 8 
+                         . We conclude that single spatial representation  
+                            K 
+                            = 
+                            1 
+                          is a useful representation.
+
+The single inferred spatial representation is shown in  Fig. 9 
+                         , and it corresponds to the color circle or horseshoe typically found in MDS representations of color ( Lee, 2008; Shepard, 1980; Shepard & Cooper, 1992 ). The spectrum is “bent” in the two-dimensional space so that the red and purple colors at the far ends of the physical spectrum are located near each other to reflect their psychological similarity. In the representation in  Fig. 9 , the first dimension can be interpreted as corresponding to a red–green axis, while the second dimension can be interpreted as corresponding to a yellow–purple axis.
+
+The inferred dimension weights for each subject are shown in  Fig. 10 
+                         . Most subjects have greater weight on the red–green axis, and there are individual differences in the extent of this weighting. Two subjects–subject M and subject N–in contrast, are inferred to place significantly less weight on the red–green axis.
+
+The impact of these individual differences is made clear by  Fig. 11 
+                         , which shows the individual representations for subjects C and M, found by applying their dimension weights to the common spatial representation. The deuteranopia color-blindness known to apply to subject M is clear, with the theoretically expected loss of information along the red–green axis. The model represents this individual differences intuitively, in terms of a common representation with meaningful dimensions, and color deficiencies indicated by insufficient weight on the key red–green dimension. It is arguably a simpler and more effective representation of individual differences than the one considered by  Lee and Webb (2005)  for the same data, which relied on different latent classes for the color normal and color deficient subgroups of subjects. It is interesting to note that subjects K and L are also recorded as having a color deficiency, but this is not inferred by the current analysis. Whether these subjects have a different sort of color deficiency, or whether their condition is milder and so behaviorally not evident, is an interesting question for future modeling.
+
+The first contribution of our work is to demonstrate the different sorts of individual differences that can be found using a model that allows both group-level and individual-level differences. Collectively, the cola, cat, and color analyses show the potential of the K-INDSCAL model to investigate individual differences in the way people represent stimuli. The inferred model for the cola data identifies two very different ways that groups of subjects organize their representations, but shows little evidence of individual differences in dimension weights within these two qualitatively different groups. The inferred model for the cat data identifies not just two different representational organizations, but large individual differences in the weight given to the dimensions by individuals. The inferred model for the color data explains all of the individual differences associated with color-blindness in terms of dimensional attention, consistent with theory, and more simply than previous analyses that identified two different representational organizations.
+
+The second contribution of our work is to set the K-INDSCAL model within a Bayesian framework. The obvious advantage of this approach is the complete and coherent handling of uncertainty in inference, and this advantage is clear in our applications. The posterior distributions for spatial representations, dimensional weights, and latent-class memberships show how much certainty is reasonable in drawing conclusions. This makes it possible to assess psychologically important properties of spatial representations, such as whether one potential cluster of stimuli is separated from another potential cluster, or whether a dimension weight clearly indicates a subject is giving greater attention to one dimension than another. We also used more specific Bayesian capabilities when appropriate in the analyses, such as exploring the disagreement between Bayesian and classical inferences about group membership for the cola data using posterior predictive assessment conditional on the conflicting inferences. There are, however, a number of potential advantages of Bayesian inference not used in our analyses, which should be incorporated in future work. The determination of the number of latent classes, and the dimensionality of those latent classes, for example, are model selection problems that are well addressed conceptually by Bayes factors ( Kass & Raftery, 1995 ). Unfortunately, Bayes factors are difficult to approximate computationally for the models we consider, and we relied on more heuristic methods. Future work should try and solve all of the parameter inference and model selection challenges raised by models like K-INDSCAL in fully Bayesian ways. In addition, although we have argued that our modeling results produce stimulus dimensions that have natural interpretations, these interpretations were mostly subjective and post-hoc. Future work should take a more systematic and empirical approach to the development and evaluation of these interpretations. For example, Bayesian methods allow for predictions about people’s behavior in tasks that assess the meaning and salience of stimulus dimensions, such as categorization tasks that manipulate the attention given to psychologically separable dimensions ( Nosofsky, 1984; Nosofsky & Palmeri, 1996 ).
+
+We think the most important direction for future work, however, lies at the intersection of the individual differences modeling and Bayesian inference methods we have considered. One of the important possibilities that Bayesian methods afford cognitive modeling is the possibility of developing theoretically richer and more complete models ( Lee, 2011 ). These possibilities arise from the ability of Bayesian methods to make inferences naturally and scalable for more complicated models, including hierarchical and mixture models. The K-INDSCAL model is a latent-mixture model, and so the applications we have presented already make some use of Bayesian capabilities. But many further modeling extensions are worth exploring, and could be pursued within the current Bayesian approach. It would be possibly for example, to consider hierarchical structure in the dimension weights, providing a more detailed and interpretable psychological model of these individual differences. A more ambitious extension would consider incorporating models of decision making to the current models of representation. Our approach made the standard MDS modeling assumption that a matrix of similarities or proximities is the basis for inference. A more complete cognitive model, however, would provide an account of the raw behavioral data, involving the ratings or others decisions individual subjects made trial-by-trial. This sort of generative approach–attempting to model how latent representations and processes produce behavior–is well suited to Bayesian inference on probabilistic models.
+
+This work was supported in part by grants from the  Japan Society for the Promotion of Science  ( 23300310 ,  24730544 ,  25380871 ), Strategic Research Foundation Grant-aided Project for Private Universities from  MEXT Japan  (2011–2015  S1101013 ), and Researcher Abroad Program of Senshu University (2015–2016).
+
+The Stan implementation of the Bayesian K-INDSCAL model is presented below.

@@ -1,0 +1,609 @@
+10.1016/j.jmp.2010.08.013
+Bayesian statistics provides a compelling and influential framework for representing and processing information. Over the last few decades, it has become the major approach in the field of statistics, and has come to be accepted in many or most of the physical, biological and human sciences. This paper, and this special issue, are about what one particular niche within Bayesian statistics, in the form of hierarchical models, can contribute to cognitive modeling.
+
+It would be wrong to claim that there is complete agreement on exactly how Bayesian analyses should be conducted and interpreted. Like any powerful and fundamental idea, it can be conceived and formulated in a variety of ways. At the basic theoretical level, the ‘objective Bayesian’ approach expounded by  Jaynes (2003)  encourages a different style of thinking about Bayesian analysis than the ‘subjective Bayesian’ approach of  de Finetti (1974) . At the practical level of conducting Bayesian analyses, there is also a spectrum, ranging from work that closely follows the objective viewpoint (e.g.,  Gregory, 2005; Sivia, 1996 ), to work that is more agnostic or adopts a naturally subjective position (e.g.,  Congdon, 2006; Gelman, Carlin, Stern, & Rubin, 2004; Gelman & Hill, 2007 ). There are many additional subtleties and perspectives in the excellent accounts provided by  Bernado and Smith (2000) ,  Lindley (1972)  and  MacKay (2003)  and others.
+
+But Bayesian statistics is in agreement on the very basic issues. Knowledge and uncertainty about variables is represented by probability distributions, and this knowledge can be processed, updated, summarized, and otherwise manipulated using the laws of probability theory. These commitments distinguish Bayesian statistics from other competing frameworks, especially those based on frequentist views of probability, and sampling distribution approaches to handling uncertainty. What Bayesian statistics offers is a remarkably complete, coherent and intuitive method for understanding what is known, based on the assumptions being made, and the information that is available.
+
+Because Bayesian statistics provides a formal framework for making inferences, there are different ways it can be applied in cognitive modeling. One way is to use Bayesian methods as a  statistician  would, as a method for conducting standard analyses of data. Traditionally, the framework for statistical inference based on sampling distributions and null hypothesis significance testing has been used. Calls for change, noting the clear superiority of Bayesian methods, date back at least to the seminal paper of  Edwards, Lindman, and Savage (1963) , and have grown more frequent and assertive in the past few years (e.g.,  Gallistel, 2009; Kruschke, 2010a; Lee & Wagenmakers, 2005; Wagenmakers, 2007 ). It seems certain Bayesian statistics will play a progressively more central role in the way cognitive science analyzes its data.
+
+A second possibility is to apply Bayesian methods to cognitive modeling as a  theoretician  would, as a working assumption about how the mind makes inferences. This has been an influential theoretical position for the last decade or so in the cognitive sciences (e.g.,  Chater, Tenenbaum, & Yuille, 2006; Griffiths, Kemp, & Tenenbaum, 2008 ). Most existing work has focused on providing ‘rational’ accounts of psychological phenomena, pitched at the computational level within the three-level hierarchy described by  Marr (1982) . These models generally use Bayesian inference as an account of why people behave as they do, without trying to account for the mechanisms, processes or algorithms that produce the behavior, nor how those processes are implemented in neural hardware. More recently, however, there have also been attempts to apply computational sampling approaches from Bayesian statistics as a theoretical metaphors at the algorithmic and implementation levels. In this work, models are developed in which people mentally sample information (e.g.,  Sanborn, Griffiths, & Shiffrin, 2010 ). These uses of Bayesian statistics as theoretical analogies have led to impressive new models, and raised and addressed a range of important theoretical questions. As with all theoretical metaphors–including previous ones like information processing and connectionist metaphors–“Bayes in the head” constitutes a powerful theoretical perspective, but leaves room for other complementary approaches.
+
+A third way to use Bayesian statistics in cognitive science is to use them to  relate models of psychological processes to data  (e.g.,  Lee, 2008; Rouder, Lu, Speckman, Sun, & Jiang, 2005; Wetzels, Vandekerckhove, Tuerlinckx, & Wagenmakers, 2010 ). This is different from the data analysis approach, because the focus is not generic statistical models like the generalized linear model. Instead the goal is relate a detailed model of some aspect of cognition to behavioral or other observed data. One way to think of the distinction is that data analysis typically does inference on the measured dependent variables from an experimental design–measures of recall, learning, response times, and so on–whereas modeling applications typically do inference on latent psychological parameters–memory capacities, learning rates, decision criteria, and so on–that control the behavioral predictions of the model. It is also different from the use of Bayesian inference as a metaphor for the mind ( Kruschke, 2010b ). There is no requirement that the cognitive models being related to data make Bayesian assumptions. Instead, they are free to make any sort of processing claims about how cognition works. The goal is simply to use Bayesian statistical methods to evaluate the proposed model against available data.
+
+This third approach is the focus of the current special issue. We think it is an especially interesting, important, and promising approach, precisely because it deals with fully developed models of cognition, without constraints on the theoretical assumptions used to develop the models. The idea is to begin with existing theoretically grounded and empirically successful models of cognition, and embed them within a hierarchical Bayesian framework. This embedding opens a vista of potential extensions and improvements to current modeling, because it provides a capability to model the rich structure of cognition in complicated settings.
+
+In the remainder of this paper, we identify four major new capabilities offered by the hierarchical Bayesian extensions of cognitive models. We discuss each capability, focusing on how it can help theory and model development, and identifying places where they have already been applied, or could and should be applied soon.
+
+Before discussing the potential contribution hierarchical Bayesian methods can make to cognitive modeling, we need to say what we mean by ‘hierarchical Bayes’. We do that in the next section–by characterizing its complement, in the form of the currently dominant non-hierarchical modeling approach–and then discuss the advantages of the hierarchical approach.
+
+While there is consistent conceptual overlap, there does not seem to be a single formal agreed-upon definition of what makes a model “hierarchical”. Some authors give a fairly formal definition in terms of the fundamental concept of exchangeability (e.g.,  Bernado & Smith, 2000; Schervish, 1995 ), while others emphasize particularly common and useful hierarchical structures like random-effects and latent mixture models, giving a sort of definition-by-example (e.g.,  Congdon, 2006; Koop, Poirer, & Tobias, 2007 ). But, there is at least some literature that seem to regard some random-effects models as non-hierarchical (e.g.,  Rashbash & Browne, 2008 ), contradicting what other literature advocates. More generally, it is probably possible to get caught up in an unhelpful semantic argument about whether some models are hierarchical, depending on how they are parameterized and interpreted.
+
+To cut through these difficulties, we construe hierarchical models broadly, and with reference to their meaning as models of cognition. In particular, we treat as hierarchical any model that is more complicated than the simplest possible type of model shown 
+                            1 
+                         
+                         
+                            1 
+                            Throughout, we use a graphical model formalism to characterize different hierarchical modeling structures. This is a popular formalism in machine learning and, increasingly, in the cognitive sciences (e.g.,  Jordan, 2004; Koller, Friedman, Getoor, & Taskar, 2007; Shiffrin, Lee, Kim, & Wagenmakers, 2008 ). It uses a directed graph to show the relationships between unobserved (unshaded) parameters and observed (shaded) data. 
+                          in  Fig. 1 
+                         . In this model, a set of parameters  
+                            
+                               θ 
+                            
+                          generate a set of data  
+                            
+                               d 
+                            
+                          through a likelihood function  
+                            f 
+                            
+                               ( 
+                               ⋅ 
+                               ) 
+                            
+                         . While this simple non-hierarchical structure seems very limiting, it could be argued to encompass the vast majority of successful and widely-used models in the current study of cognition.
+
+As one concrete example,  Fig. 1  naturally accommodates Signal Detection Theory (SDT:  Green & Swets, 1966; Macmillan & Creelman, 1991 ), which is widely used in the modeling of memory, decision-making and reasoning (e.g.,  Heit & Rotello, 2005; Snodgrass & Corwin, 1988 ). The SDT model provides a mapping from two parameters, measuring discriminability and a response criterion or bias, to observed data in the form of hit and false-alarm counts. Formally, for model parameters giving a measure of discriminability  
+                            d 
+                          and a measure of bias  
+                            c 
+                         ,  Fig. 1  has  
+                            
+                               θ 
+                            
+                            = 
+                            
+                               ( 
+                               d 
+                               , 
+                               c 
+                               ) 
+                            
+                         . For observed data counts of  
+                            h 
+                          hits and  
+                            f 
+                          false alarms out of  
+                            s 
+                          and  
+                            n 
+                          noise trials,  Fig. 1  has  
+                            
+                               d 
+                            
+                            = 
+                            
+                               ( 
+                               h 
+                               , 
+                               f 
+                               , 
+                               s 
+                               , 
+                               n 
+                               ) 
+                            
+                         . Then for the likelihood function that formalizes SDT, we can write  
+                            
+                               d 
+                            
+                            ∼ 
+                            f 
+                            
+                               ( 
+                               
+                                  θ 
+                               
+                               ) 
+                            
+                         .
+
+As another example, a similarly simple mapping from parameters to data characterizes the Generalized Context Model (e.g.,  Nosofsky, 1986 ) of category learning, which uses psychological parameters like strength of generalization, focus of attention and response bias to model the choices made in a category learning task. As a third example, multidimensional scaling models (e.g.,  Borg & Lingoes, 1987 ) provide a mapping between latent coordinate locations representing stimuli and their observed judged pairwise similarities. As a final example, the Ratcliff diffusion model (e.g.,  Ratcliff & McKoon, 2008 ) provides a mapping from a range of parameters controlling bias, caution, evidence and a baroque menagerie of other psychological variables to the joint distribution of accuracy and response times for simple decisions. This list of cognitive models consistent with non-hierarchical mappings from parameters to data could be made quite large, and would capture many of the important contemporary models of cognition.
+
+All of these models provide worthwhile starting points for hierarchical Bayesian development. By introducing additional structure to the simple parameter-to-data relationship shown in  Fig. 1 , it is possible to extend existing successful models of memory, learning, decision-making and other basic cognitive phenomena. We now discuss a range of generic possible extensions, trying to highlight how they might contribute to an improved account of cognition.
+
+The most obvious hierarchical structure–and the one that intuitively warrants the label ‘hierarchical’–is shown in  Fig. 2 
+                         . In models with this form, the basic model parameters  
+                            
+                               θ 
+                            
+                          are themselves generated by some other process  
+                            g 
+                            
+                               ( 
+                               ⋅ 
+                               ) 
+                            
+                         , parameterized by  
+                            
+                               ψ 
+                            
+                         , which are sometimes called hyper-parameters. The impact of this extension is that it is no longer satisfactory or complete to describe how data are generated in terms of the basic parameters. In the hierarchical version, it is also theoretically important to say how these basic parameters are generated. That is, instead of just needing a theory of task performance, given by the mapping  
+                            
+                               d 
+                            
+                            ∼ 
+                            f 
+                            
+                               ( 
+                               
+                                  θ 
+                               
+                               ) 
+                            
+                         , a theory is also needed about the parameters that control task performance, given by the mapping  
+                            
+                               θ 
+                            
+                            ∼ 
+                            g 
+                            
+                               ( 
+                               
+                                  ψ 
+                               
+                               ) 
+                            
+                         . In this way, the hierarchical extension of basic non-hierarchical cognitive models has the potential to drive theorizing about the parameters–representing key psychological variables–to deeper and more fundamental levels of abstraction.
+
+Perhaps the best example of the need for this sort of structure is the need to accommodate individual differences. These are ubiquitous throughout cognition, but poorly handled by the non-hierarchical approach shown in  Fig. 1 . The non-hierarchical approach has to rely on first doing separate inference for parameters and data for each person, and then trying to say something about individual differences through post-hoc analyses. In the hierarchical approach in  Fig. 2 , the structure in individual differences is directly captured by the process  
+                            g 
+                          and its parameters  
+                            
+                               ψ 
+                            
+                         .
+
+Shiffrin et al. (2008)  provide a worked tutorial example for the case of memory retention. Here the data  
+                            
+                               d 
+                            
+                          are counts of how often memory items are recalled at different time periods, the function  
+                            f 
+                          is a memory retention function like the exponential or power function (e.g.,  Rubin & Wenzel, 1996 ), and the parameters  
+                            
+                               θ 
+                            
+                          are the starting points, decay rates, and other standard properties of those retention functions. In the hierarchical extension,  
+                            g 
+                          might be a Normal distribution, parameterized by a mean and variance in  
+                            
+                               ψ 
+                            
+                          that then describes the distribution over starting points and decay rates across individuals. This sort of model constitutes a deeper level of psychological theorizing, because it not only allows for individual differences, but imposes a model structure on those differences, and allows inference about parameters–like the group mean and variance–that characterize the individual differences.
+
+Almost all of the articles in this special issue use this approach, and its generality is clear just from these applications to models of memory ( Averell & Heathcote, 2011; Morey, 2011; Pooley, Lee, & Shankle, 2011; Pratte & Rouder, 2011 ), decision-making ( Nilsson et al., 2011; van Ravenzwaaij, Dutilh, & Wagenmakers, 2011 ), confidence ( Merkle, Smithson, & Verkuilen, 2011 ), and emotional states ( Lodewyckx, Tuerlinckx, Kuppens, Allen, & Sheeber, 2011 ). Some these papers use models that go beyond simple independent characterizations of differences in individual parameters, and begin to model the co-varying structured relationships between parameters, or their relationship to other relevant psychological variables.
+
+While individual differences provide an intuitive example, there are many other applications of the simple hierarchical structure in  Fig. 2 .  Kemp, Perfors, and Tenenbaum (2007)  use this approach in modeling of basic inductive processes in cognitive development that require learning what they term ‘overhypotheses’. Essentially, their overhypotheses are the mappings  
+                            g 
+                          that constrain the variety seen in the basic model parameters  
+                            
+                               θ 
+                            
+                         . Rather than the deeper level of abstraction accommodating individual differences, it now formalizes the constrained relationship between the different problems encountered by people. As  Kemp et al. (2007)  argue, the ability to acquire this mapping constraint is extremely powerful developmentally, because it means what is learned in one specific situation can help improve and hasten learning in related situations. Statisticians sometimes call this basic property of hierarchical models “sharing statistical strength”, and it is one of the most powerful motivations for moving beyond simple mappings of parameters to data (e.g.,  Gelman et al., 2004 ).
+
+A different sort of hierarchical model is shown in  Fig. 3 
+                         . In this model, there is only one level of abstraction, but the parameters  
+                            
+                               θ 
+                            
+                          are responsible for generating many sorts of data  
+                            
+                               
+                                  
+                                     d 
+                                  
+                               
+                               
+                                  1 
+                               
+                            
+                            , 
+                            … 
+                            
+                               
+                                  
+                                     d 
+                                  
+                               
+                               
+                                  n 
+                               
+                            
+                          through a range of different models with likelihood functions  
+                            
+                               
+                                  f 
+                               
+                               
+                                  1 
+                               
+                            
+                            , 
+                            … 
+                            , 
+                            
+                               
+                                  f 
+                               
+                               
+                                  n 
+                               
+                            
+                         . In effect, this hierarchical structure allows the same psychological variables to influence behavior on multiple tasks, through multiple cognitive processes. This sort of unification should be a basic goal for the cognitive sciences, as it is for other empirical sciences. Being able to explain a range of observed phenomena in terms of a few key variables is the hallmark of good theorizing and modeling.
+
+It is surprisingly hard, however, to find compelling examples of this approach in modeling cognition. In the study of human memory, it has long been a goal to develop a single model of multiple tasks–recognition, free recall, serial recall, and so on–by assuming different processes operate on the same basic memory system (e.g.,  Gillund & Shiffrin, 1984; Nilsson et al., 2008 ). In terms of  Fig. 3 , these unifying models would have common memory parameters represented by  
+                            
+                               θ 
+                            
+                         , and have  
+                            
+                               
+                                  f 
+                               
+                               
+                                  1 
+                               
+                            
+                          formalizing the recognition process,  
+                            
+                               
+                                  f 
+                               
+                               
+                                  2 
+                               
+                            
+                          the free recall process, and so on, with  
+                            
+                               
+                                  
+                                     d 
+                                  
+                               
+                               
+                                  1 
+                               
+                            
+                          being recognition data,  
+                            
+                               
+                                  
+                                     d 
+                                  
+                               
+                               
+                                  2 
+                               
+                            
+                          free recall data, and so on. In this special issue,  Pooley et al. (2011)  make some steps towards using hierarchical methods to model recall and recognition data simultaneously.
+
+Other areas in cognitive modeling striving for similar unification of related tasks through common psychological variables are harder to identify. Indeed, sometimes the accepted practice runs counter to the aim of unification. A good example is provided by the similarity-scaling and category learning literature (e.g.,  Kruschke, 1992; Lee & Navarro, 2002; Nosofsky, 1992 ). In this work, similarity-scaling methods like multidimensional scaling are used to derive representations of stimuli from similarity data. Once these representations are inferred, they become part of category learning models that then attempt to account for the choices people make classifying the stimuli into categories. Conceptually, then, the causal process of the scientific inference is from similarity data, to representational parameters, and then to category learning data.
+
+This is not at all what is depicted in  Fig. 3 , which shows the same parameters generating multiple data. The hierarchical structure in  Fig. 3  would argue that the same underlying mental representation of the stimuli contributes to the generation of both the observed similarity data and the observed category learning behavior. Theoretically, this causal account seems more intuitively satisfying, and the nature of the modeling it suggests is more complete, coherent, and parsimonious. Instead of two separate inference stages–for similarity-scaling parameters and then category learning parameters–a hierarchical model would do the following: It would have the similarity data as  
+                            
+                               
+                                  
+                                     d 
+                                  
+                               
+                               
+                                  1 
+                               
+                            
+                         , the category learning data as  
+                            
+                               
+                                  
+                                     d 
+                                  
+                               
+                               
+                                  2 
+                               
+                            
+                         , all of the representation and category learning parameters (e.g., the coordinate location parameters from multidimensional scaling and the attention, generalization, bias and other parameters from the Generalized Context Model) in  
+                            
+                               θ 
+                            
+                         . Then the model  
+                            
+                               
+                                  f 
+                               
+                               
+                                  1 
+                               
+                            
+                          would implement multidimensional scaling (i.e., not depend on category learning parameters), and  
+                            
+                               
+                                  f 
+                               
+                               
+                                  2 
+                               
+                            
+                          would implement the GCM, using all of the parameters. Both  
+                            
+                               
+                                  f 
+                               
+                               
+                                  1 
+                               
+                            
+                          and  
+                            
+                               
+                                  f 
+                               
+                               
+                                  2 
+                               
+                            
+                          were given Bayesian implementations by  Lee (2008) , but were never combined in this hierarchical way. Recently, however,  Zeigenfuse and Lee (2010a)  have developed hierarchical Bayesian models of feature representations and similarity data that adopt the approach in  Fig. 3 , and showed that is very effective.
+
+Fig. 4 
+                          shows a hierarchical model that allows for multiple cognitive processes to contribute to a single set of observed data. The different processes are represented by  
+                            
+                               
+                                  f 
+                               
+                               
+                                  1 
+                               
+                            
+                            , 
+                            … 
+                            , 
+                            
+                               
+                                  f 
+                               
+                               
+                                  n 
+                               
+                            
+                          and have different associated parameters  
+                            
+                               
+                                  
+                                     θ 
+                                  
+                               
+                               
+                                  1 
+                               
+                            
+                            , 
+                            … 
+                            , 
+                            
+                               
+                                  
+                                     θ 
+                                  
+                               
+                               
+                                  n 
+                               
+                            
+                         . How these processes combine to produce the observed data  
+                            
+                               d 
+                            
+                          is determined by a mixing process  
+                            h 
+                          parameterized by  
+                            
+                               z 
+                            
+                         . One possibility for combination is that  
+                            h 
+                          chooses exactly one of the processes  
+                            f 
+                         , according to probabilities given by  
+                            
+                               z 
+                            
+                         . Another possibility is that  
+                            h 
+                          mixes together all of the processes  
+                            f 
+                          according to proportions given by  
+                            
+                               z 
+                            
+                         . Of course, there are many other possibilities.
+
+The key point, in terms of modeling cognition, is that  Fig. 4  does not demand a monolithic account of all of the variation seen in observed behavior in terms of a single cognitive process, or a single set of controlling psychological variables. Instead, observations are seen naturally as a mixture of potentially different processes. This sort of assumption is needed in many domains, and is perhaps best developed in the study of accuracy and response time distributions for simple decision-making.  Ratcliff and Tuerlinckx (2002)  pioneered a mixture approach in which a monolithic account of responding, based on the Ratcliff Diffusion model, was supplemented with the possibility of contaminant trials. These contaminant trials assumed very different distributions for accuracy and response times, to help explain the variation seen in real data.
+
+More recently, this approach has been extended by  Vandekerckhove, Tuerlinckx, and Lee (2008) , using hierarchical Bayesian methods, to model a decision-making experiment as a mixture of standard trials, delayed start trials, and fast guesses. The first of these types remains modeled by the Ratcliff Diffusion model, but the remaining two have detailed process accounts of their own, characterizing the accuracy and response time properties expected for various aberrant ways participants might approach some trials. As these alternative models become progressively more sophisticated, they no longer deserve the label ‘contaminant’, but become part of a collection of cognitive processes, potentially controlled by different psychological variables, all of which are needed to explain the observed data. In these sorts of applications, the process  
+                            
+                               
+                                  f 
+                               
+                               
+                                  1 
+                               
+                            
+                          formalizes the Ratcliff Diffusion model,  
+                            
+                               
+                                  f 
+                               
+                               
+                                  2 
+                               
+                            
+                          the delayed start model, and  
+                            
+                               
+                                  f 
+                               
+                               
+                                  3 
+                               
+                            
+                          the fast guess model, with the parameters  
+                            
+                               
+                                  
+                                     θ 
+                                  
+                               
+                               
+                                  1 
+                               
+                            
+                          belonging to the diffusion model,  
+                            
+                               
+                                  
+                                     θ 
+                                  
+                               
+                               
+                                  2 
+                               
+                            
+                          the delayed start model, and  
+                            
+                               
+                                  
+                                     θ 
+                                  
+                               
+                               
+                                  3 
+                               
+                            
+                          the fast guess model. The mixing process  
+                            h 
+                          identifies the accuracy and response time data in  
+                            
+                               d 
+                            
+                          as belonging to only one of these processes at the level of a trial, as given by the index in  
+                            
+                               z 
+                            
+                          for each trial.
+
+As a modeling strategy, the use of mixtures, and the assumption of qualitatively different components, makes a lot of sense. There are some trials in any psychological experiment that just do not adhere to the interesting cognitive process that motivated the study. It should not be necessary for a cognitive model to be able account for data from these trials in order to be regarded as successful. Nor, in most cases, is it even a good idea to try and extend the model to do so. Retaining a non-hierarchical modeling approach, but complicating the basic model (through a more elaborate likelihood function  
+                            f 
+                         , or additional parameters in  
+                            
+                               θ 
+                            
+                         , or both) does not seem like the best theoretical reaction to data that do not have much to say about core aspects of intelligent human cognition. Instead, the additional complexity can come from the sort of hierarchical extension shown in  Fig. 4 , preserving the basic model, but explaining the additional observed data through other processes.  Zeigenfuse and Lee (2010b)  provide a number of example of this general approach, demonstrating, among other things, how estimates of key parameters in the substantive cognitive model of interest can be affected by the assumptions made about contaminant task behavior.
+
+Besides modeling simple decision-making, there are some other important example of multiple processes being assumed to underly data. The Topics model (e.g.,  Griffiths, Steyvers, & Tenenbaum, 2007 ) explains the generation of text documents as coming from simple word selection processes based on a mixture of different semantic topics. The mixture assumption is crucial to explain basic aspects of language like homonymy, where the same observed word can have two or more different meanings, depending upon the latent topic from which it was generated. Another recent example of mixture modeling is provided by  Lee and Sarnecka (2010) , in a developmental context. These authors showed that children’s performance on a simple task assessing knowledge of number concepts could be described as a mixture of systematically different sorts of behavior that was dependent on underlying developmental stages.
+
+Fig. 5 
+                          shows an ambitious hierarchical modeling structure that combines some of the approaches already discussed. Multiple different models, with data generating processes  
+                            
+                               
+                                  f 
+                               
+                               
+                                  1 
+                               
+                            
+                            , 
+                            … 
+                            , 
+                            
+                               
+                                  f 
+                               
+                               
+                                  n 
+                               
+                            
+                          contribute to the data  
+                            d 
+                         , according to some combination rule  
+                            h 
+                          governed by  
+                            
+                               z 
+                            
+                         . This follows our discussion of  Fig. 3 . But, in addition, the hierarchical approach in  Fig. 5  combines the various models, assuming they are generated by some processes  
+                            g 
+                          controlled by psychological variables  
+                            
+                               ψ 
+                            
+                         . This combination is much like  Fig. 4 , except that the unification is at the level of models rather than tasks. This means that the hierarchical approach in  Fig. 5  not only allows multiple models to account for observed behavior, but also provides a formal account of how those models are generated.
+
+An excellent example of this approach in cognitive modeling is provided by  Kemp and Tenenbaum (2008) . These authors considered data involving inductive inferences about how binary features belong to a set of stimuli. There are many candidate structured models for explaining these sort of exemplar-by-feature inferences, including clustering models, tree models, spatial models, and a variety of others (e.g.,  Shepard, 1980 ). Each of these models potentially involves different sorts of parameters,  
+                            
+                               
+                                  
+                                     θ 
+                                  
+                               
+                               
+                                  1 
+                               
+                            
+                            , 
+                            … 
+                            , 
+                            
+                               
+                                  
+                                     θ 
+                                  
+                               
+                               
+                                  n 
+                               
+                            
+                         , involving psychological constructs like cluster weights, tree edge lengths, spatial coordinate locations, and so on. In addition, each model requires different processes to translate its representational formalism into observed inductive behavior, necessitating the  
+                            
+                               
+                                  f 
+                               
+                               
+                                  1 
+                               
+                            
+                            , 
+                            … 
+                            , 
+                            
+                               
+                                  f 
+                               
+                               
+                                  n 
+                               
+                            
+                          for each model.
+
+The key contribution of the modeling presented by  Kemp and Tenenbaum (2008)  is to show how the different representation models can be unified by appealing to a data generating process based on graph grammars. Using some basic building blocks for assembling a graph, formalized by the process  
+                            g 
+                         , different choices of values for a controlling set of parameters  
+                            
+                               ψ 
+                            
+                          can produce cluster structures, trees, spatial grids, or a range of other rich representational possibilities. The observed inductive inferences made by people can then be given a very complete and satisfying psychological explanation, which acknowledges that different domains of knowledge are represented differently, but is able to say  how  people could learn those domain-specific representations from basic mental building blocks.
+
+Two other examples of cognitive models following basically the same hierarchical structure as  Fig. 5  are provided by  Lee (2006)  and  Lee and Vanpaemel (2008) .  Lee (2006)  considered human performance on a type of sequential decision-making task, where different models corresponded to various decision bounds that guided the observed behavior. These different decision-bound models were then unified by proposing a simple generating process for establishing a sequential set of thresholds. This over-arching generative process was based on a finite state automaton, and controlled by parameters that described the probabilities of the thresholds shifting or staying fixed over the sequence.  Lee and Vanpaemel (2008)  developed an account of category learning behavior, relying on different models of category representation spanning the range from prototype to exemplar models. They again unified these disparate models with a simple generative mechanism based on psychological variables controlling the level of mental abstraction, and the reliance on stimulus similarity, in forming category representations. It is probably reasonable to argue that these two models–unlike the  Kemp and Tenenbaum (2008)  modeling–had a common data generating process linking different representational models to the observed data, and so need only a single  
+                            f 
+                          in  Fig. 5 . But they do capture the key idea of needing very different models combining to account for the richness of human behavior, while also needing a theoretical unification of those models to provide a complete and coherent account of cognitive complexity.
+
+One current debate in cognitive modeling that can naturally understood in terms of the need for explaining how models are generated comes from the decision-making literature. Here, there is a lively debate surrounding the ‘fast and frugal’ heuristic approach advocated by Gigerenzer and others (e.g.,  Gigerenzer & Todd, 1999 ). This is a theoretically interesting and empirically successful approach to understanding human decision-making in terms of simple heuristic processes that are tuned to environmental regularities. But, authors like  Dougherty, Franco-Watkins, and Thomas (2008)  and  Newell (2005)  have argued that relying on a repository of different simple heuristics to explain decision-making begs the question as to how those heuristics are generated in the first place. This challenge is essentially one of unifying the heuristics, by appealing to more abstract cognitive abilities that are capable of tuning mental capabilities to environments. A successful theoretical resolution would likely fit within the sort of hierarchical Bayesian modeling framework presented in  Fig. 5 .
+
+Perhaps most fundamentally,  Vanpaemel (2011)  argues in this special issue that linking models hierarchically is one way to address the basic Bayesian need to specify theoretically meaningful priors. The key idea is that the prior predictive distribution of the hierarchical part of the model, which indexes different basic models, naturally constitutes a psychologically interpretable prior over those models. This is a powerful idea, running counter to a current prejudice for making priors as uninformative as possible, and deserves to be an active area of research in using hierarchical Bayesian methods to model cognition.
+
+Non-hierarchical approaches to understanding cognitive processes dominate the current landscape. The basic approach can probably fairly be caricatured as one of identifying a psychological phenomenon (e.g., generalization, memory, decision-making), finding an interesting task relating to some aspect of the phenomenon (e.g., similarity judgments, recall, two-alternative forced-choice decisions) and building a model that can fit empirical data from the task using a few psychologically meaningful parameters. This is a very reasonable way to begin building a systematic understanding of human cognition, but has serious limitations if attempts are to made to account for its full richness and complexity.
+
+Hierarchical Bayesian methods offer one way–although certainly not the only way (cf.  Cassimatis, Bello, & Langley, 2008 )–to broaden the scope of current cognitive models. This introduction has tried to identify at least four possible broadening uses of hierarchical Bayesian methods. First, they allow model development to take place at multiple levels of theoretical abstraction. Second, they allow the same psychological variables to account for behavior over sets of related tasks. Third, they permit the possibility that data from a single task are best understood as coming from a mixture of qualitatively and quantitatively different sources. And, fourth they promise to unify disparate models, and as a consequence allow the theoretically-grounded specification of priors.
+
+The papers in this special issue try to demonstrate concretely how hierarchical Bayesian structures can naturally extend current modeling. These extensions can be as theoretically straightforward as allowing for individual differences, or stimulus differences, or the interaction between different sorts of people and stimuli in modeling task behavior (e.g.,  Rouder et al., 2007; Vandekerckhove, Verheyen, & Tuerlinckx, 2010 ). They can allow for the more complete theoretical explanation of data from a single task, letting different people use different cognitive processes, or letting the same people use different processes at different times. They can force the development of better theories, by demanding that key psychological parameters and processes be identified to explain behavior on a wide range of tasks. They can force the development of new theories, answering new questions about not only what processes and parameters are involved in cognition, but also how those parameters and processes can themselves be modeled.
+
+In short, hierarchical Bayesian approaches demand our accounts of cognition become deeper and better integrated. The aim of this special issue is to provide some concrete examples of the potential of hierarchical Bayes in practice, for models ranging from memory, to category learning, to decision-making. We hope that they are useful early exemplars of what should become an important and widespread way of building and analyzing models of cognition.
