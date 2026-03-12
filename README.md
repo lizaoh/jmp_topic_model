@@ -1,6 +1,6 @@
 # JMP Topic Models
 
-To run using Binder, use this badge
+To run using Binder, right-click on this badge and open in a new tab.
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/lizaoh/jmp_topic_model/HEAD)
 
