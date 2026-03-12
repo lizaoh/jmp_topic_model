@@ -9,8 +9,9 @@ RUN apt-get update && apt-get install -y \
 
 USER ${NB_USER}
 
-RUN pip install --no-cache-dir --upgrade pip
+WORKDIR /home/jovyan
 
+RUN pip install --no-cache-dir --upgrade pip
 RUN pip install --no-cache-dir Cython numpy==1.16.2
 RUN pip install --no-cache-dir matplotlib==3.0.3
 RUN pip install --no-cache-dir --pre topicexplorer
