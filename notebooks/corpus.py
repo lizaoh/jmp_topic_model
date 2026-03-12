@@ -12,7 +12,7 @@ from collections import defaultdict
 # load in the configuration file
 from pathlib import Path
 import topicexplorer.config
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 config_file = BASE_DIR / "jmp_text_files.ini"
 config = topicexplorer.config.read(config_file)
 
