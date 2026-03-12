@@ -10,8 +10,10 @@ import os.path
 from collections import defaultdict
 
 # load in the configuration file
+from pathlib import Path
 import topicexplorer.config
-config_file = r"/Users/lizaoh/Documents/GitHub/jmp_topic_model/jmp_text_files.ini" 
+BASE_DIR = Path(__file__).resolve().parent
+config_file = BASE_DIR / "jmp_text_files.ini"
 config = topicexplorer.config.read(config_file)
 
 # load the corpus
